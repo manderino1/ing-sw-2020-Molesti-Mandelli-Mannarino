@@ -4,14 +4,12 @@ public class PlayerData {
     private String playerID;
     private Color playerColor;
     private Integer playOrder;
-    private Divinity playerDivinity;
     private Move lastMove;
 
-    public PlayerData(String playerID, Color playerColor, Integer playOrder, Divinity playerDivinity) {
+    public PlayerData(String playerID, Color playerColor, Integer playOrder) {
         this.playerID = playerID;
         this.playerColor = playerColor;
         this.playOrder = playOrder;
-        this.playerDivinity = playerDivinity;
     }
 
     public String getPlayerID() {
@@ -24,10 +22,6 @@ public class PlayerData {
 
     public Integer getPlayOrder() {
         return playOrder;
-    }
-
-    public Divinity getPlayerDivinity() {
-        return playerDivinity;
     }
 
     public Move getLastMove() {
