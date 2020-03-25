@@ -1,17 +1,18 @@
 package it.polimi.ingsw.PSP18.model;
 
 public class Cell {
-    private Building building;
+    private Integer building;
     private Worker worker;
+    private Boolean dome;
 
     public Cell() {
     }
 
-    public Building getBuilding() {
+    public Integer getBuilding() {
         return building;
     }
 
-    public void setBuilding(Building building) {
+    public void setBuilding(Integer building) {
         this.building = building;
     }
 
@@ -21,5 +22,13 @@ public class Cell {
 
     public void setWorker(Worker worker) {
         this.worker = worker;
+    }
+
+    public Boolean getDome() {
+        return dome;
+    }
+
+    public void setDome(Boolean dome) {
+        this.dome = dome;
     }
 }

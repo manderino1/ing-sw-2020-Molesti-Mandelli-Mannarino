@@ -1,9 +1,13 @@
 package it.polimi.ingsw.PSP18.controller.divinities;
 
+import it.polimi.ingsw.PSP18.controller.PlayerManager;
+
 public class Artemis implements Divinity{
     private String name;
+    private PlayerManager playerManager;
 
-    public void manageTurn() {
+    public void manageTurn(Boolean raiseForbidden) {
+
     }
 
     private void move() {
