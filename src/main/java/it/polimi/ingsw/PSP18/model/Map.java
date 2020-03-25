@@ -10,8 +10,9 @@ public class Map {
         return mapCells[x][y];
     }
 
-    public void setCell(int x, int y, Building building, Worker worker) {
+    public void setCell(int x, int y, Integer building, Worker worker, Boolean dome) {
         mapCells[x][y].setBuilding(building);
         mapCells[x][y].setWorker(worker);
+        mapCells[x][y].setDome(dome);
     }
 }

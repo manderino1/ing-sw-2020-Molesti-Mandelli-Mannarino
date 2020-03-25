@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP18.controller.divinities;
 
+import it.polimi.ingsw.PSP18.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.model.Building;
 import it.polimi.ingsw.PSP18.model.Direction;
@@ -53,38 +54,11 @@ public class Apollo implements Divinity{
 
         for (Direction dir: Direction.values()) {
             Integer building;
-           switch (dir){
-               case UP:
-                    if(playerManager.getMap().getCell(oldX, oldY + 1).getDome() || (playerManager.getMap().getCell(oldX,oldY+1).getBuilding() - playerManager.getMap().getCell(oldX,oldY).getBuilding() <= 1)){
-                        moves.add(dir);
-                    }
-                   break;
-               case DOWN:
-                   if((playerManager.getMap().getCell(oldX,oldY+1).getBuilding() != ) || playerManager.getMap().getCell(oldX,oldY+1).getBuilding() ){
-                       moves.add(dir);
-                   }
-                   break;
-               case LEFT:
-
-                   break;
-               case RIGHT:
-
-                   break;
-               case LEFTUP:
-
-                   break;
-               case RIGHTUP:
-
-                   break;
-               case LEFTDOWN:
-
-                   break;
-               case RIGHTDOWN:
-
-                   break;
-        }
-
-            moves.add(dir);
+            Integer newX = DirectionManagement.getX(oldX, dir);
+            Integer newY = DirectionManagement.getY(oldY, dir);
+            if(!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX,newY).getBuilding() - playerManager.getMap().getCell(oldX,oldY).getBuilding() <= 1)){
+                moves.add(dir);
+            }
         }
 
     }
