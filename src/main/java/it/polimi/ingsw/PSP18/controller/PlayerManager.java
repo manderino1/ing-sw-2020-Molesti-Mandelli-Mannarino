@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP18.controller;
 
+import it.polimi.ingsw.PSP18.controller.divinities.Divinity;
 import it.polimi.ingsw.PSP18.model.PlayerData;
 import it.polimi.ingsw.PSP18.model.Map;
 import it.polimi.ingsw.PSP18.model.Worker;

@@ -1,6 +1,6 @@
-package it.polimi.ingsw.PSP18.controller;
+package it.polimi.ingsw.PSP18.controller.divinities;
 
-public class Apollo implements Divinity{
+public class Pan implements Divinity{
     private String name;
 
     public void manageTurn() {
@@ -12,3 +12,4 @@ public class Apollo implements Divinity{
     private void build() {
     }
 }
+

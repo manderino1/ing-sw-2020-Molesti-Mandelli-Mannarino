@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP18.controller;
+package it.polimi.ingsw.PSP18.controller.divinities;
 
 public interface Divinity {
     void manageTurn();
