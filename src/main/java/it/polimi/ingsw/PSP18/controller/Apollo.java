@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.PSP18.controller;
 
 public class Apollo implements Divinity{
     private String name;

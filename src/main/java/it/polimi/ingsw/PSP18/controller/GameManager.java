@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.PSP18.controller;
 
 import java.util.ArrayList;
 

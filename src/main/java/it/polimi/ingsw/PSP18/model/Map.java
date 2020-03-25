@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.PSP18.model;
 
 public class Map {
     private Cell[][] mapCells = new Cell[5][5];

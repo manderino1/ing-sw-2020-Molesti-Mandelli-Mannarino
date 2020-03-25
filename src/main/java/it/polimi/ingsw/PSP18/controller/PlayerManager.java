@@ -1,8 +1,8 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.PSP18.controller;
 
-import it.polimi.ingsw.model.Map;
-import it.polimi.ingsw.model.PlayerData;
-import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.PSP18.model.PlayerData;
+import it.polimi.ingsw.PSP18.model.Map;
+import it.polimi.ingsw.PSP18.model.Worker;
 
 public class PlayerManager {
     private Map map;
