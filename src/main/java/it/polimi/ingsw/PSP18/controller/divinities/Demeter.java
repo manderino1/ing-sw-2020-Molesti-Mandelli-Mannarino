@@ -6,6 +6,10 @@ public class Demeter implements Divinity{
     private String name;
     private PlayerManager playerManager;
 
+    public String getName() {
+        return name;
+    }
+
     public void manageTurn(Boolean raiseForbidden) {
 
     }

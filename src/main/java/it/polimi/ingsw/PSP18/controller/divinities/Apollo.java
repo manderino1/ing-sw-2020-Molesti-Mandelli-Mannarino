@@ -12,11 +12,14 @@ public class Apollo implements Divinity{
     private String name;
     private PlayerManager playerManager;
 
+    public String getName() {
+        return name;
+    }
+
     /***
      *
      * @param raiseForbidden true if athena moved up one level
      */
-
     public void manageTurn(Boolean raiseForbidden) {
         /*
             TODO: eseguire controllo vittoria

@@ -7,5 +7,13 @@ public class TurnManager {
 
     public TurnManager(ArrayList<PlayerManager> player) {
         this.player = player;
+        setupTurn();
+    }
+
+    /***
+     * Called in the constructor, initializes the turn order
+     */
+    private void setupTurn() {
+
     }
 }

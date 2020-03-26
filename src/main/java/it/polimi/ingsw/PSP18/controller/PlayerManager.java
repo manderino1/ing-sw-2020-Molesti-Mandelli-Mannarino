@@ -9,7 +9,14 @@ public class PlayerManager {
     private PlayerData playerData;
     private Divinity divinity;
 
-    public PlayerManager() {
+    /***
+     * Class constructor, initializes the  and the playerData
+     * @param map the game map (unique for all players)
+     * @param playerData data of the player
+     */
+    public PlayerManager(Map map, PlayerData playerData) {
+        this.map = map;
+        this.playerData = playerData;
     }
 
     /***
@@ -43,13 +50,37 @@ public class PlayerManager {
      */
     private void updateMoveCells(Integer oldX, Integer oldY, Integer newX, Integer newY) {
         Worker destinationWorker = map.getCell(oldX, oldY+1).getWorker();
-        map.setCell(newX, newY, map.getCell(newX, newY).getBuilding(), map.getCell(oldX, oldY).getWorker(), map.getCell(newX, newY).getDome());
+        map.setCell(newX, newY, map.getCell(newX, newY).getBuilding(), map.getCell(oldX, oldY).getWorker());
         if (destinationWorker == null) {
-            map.setCell(oldX, oldY, map.getCell(oldX, oldY).getBuilding(), null, map.getCell(oldX, oldY).getDome());
+            map.setCell(oldX, oldY, map.getCell(oldX, oldY).getBuilding(), null);
         }
         else {
-            map.setCell(oldX, oldY, map.getCell(oldX, oldY).getBuilding(), destinationWorker, map.getCell(oldX, oldY).getDome());
+            map.setCell(oldX, oldY, map.getCell(oldX, oldY).getBuilding(), destinationWorker);
         }
+    }
+
+    /***
+     * Build up a floor on the selected cell or place a dome on it
+     * @param X the x coordinate of the building cell
+     * @param Y the y coordinate of the building cell
+     * @param dome true if a dome is to be built, false if a normal building is to be built
+     */
+    public void setBuild(Integer X, Integer Y, Boolean dome) {
+        if(dome) {
+            map.getCell(X, Y).setDome();
+        }
+        else {
+            map.getCell(X, Y).setBuilding(map.getCell(X, Y).getBuilding()+1);
+        }
+    }
+
+    /***
+     * Build up a floor on the selected cell
+     * @param X the x coordinate of the building cell
+     * @param Y the y coordinate of the building cell
+     */
+    public void setBuild(Integer X, Integer Y) {
+        setBuild(X, Y, false);
     }
 
     /***
@@ -58,6 +89,22 @@ public class PlayerManager {
      */
     public Map getMap() {
         return map;
+    }
+
+    /***
+     * TODO: return a copy and not the actual DATA
+     * @return a copy of the player data
+     */
+    public PlayerData getPlayerData() {
+        return playerData;
+    }
+
+    /***
+     *
+     * @return the name of the divinity
+     */
+    public String getDivinityName() {
+        return divinity.getName();
     }
 
     /***

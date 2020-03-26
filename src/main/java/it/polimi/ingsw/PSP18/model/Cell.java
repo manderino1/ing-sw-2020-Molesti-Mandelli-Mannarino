@@ -28,7 +28,11 @@ public class Cell {
         return dome;
     }
 
-    public void setDome(Boolean dome) {
-        this.dome = dome;
+    public void setDome() {
+        this.dome = true;
+    }
+
+    public void removeDome() {
+        this.dome = false;
     }
 }
