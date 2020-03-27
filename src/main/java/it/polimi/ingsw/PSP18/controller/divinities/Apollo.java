@@ -8,6 +8,10 @@ import it.polimi.ingsw.PSP18.model.Worker;
 
 import java.util.ArrayList;
 
+/*
+    TODO: nel caso che apollo si muova nella posizione di un worker avversario bisognera scambiare la posizione di questi due
+ */
+
 public class Apollo implements Divinity {
     private String name;
     private PlayerManager playerManager;
@@ -27,7 +31,7 @@ public class Apollo implements Divinity {
 
     /***
      *
-     * @param raiseForbidden
+     * @param raiseForbidden true if athena moved up one level
      */
     private Integer move(Boolean raiseForbidden) {
         /*
@@ -72,7 +76,7 @@ public class Apollo implements Divinity {
 
     /***
      *
-     * @param workerID
+     * @param workerID ID of the worker that moved in the movement phase
      */
     private void build(Integer workerID) {
 
@@ -112,9 +116,9 @@ public class Apollo implements Divinity {
 
     /***
      *
-     * @param oldX
-     * @param oldY
-     * @param raiseForbidden
+     * @param oldX the starting X coordinate of the worker
+     * @param oldY the starting Y coordinate of the worker
+     * @param raiseForbidden true if athena moved up one level
      * @return
      */
     private ArrayList<Direction> checkMovementMoves(Integer oldX, Integer oldY, Boolean raiseForbidden) {
@@ -136,12 +140,13 @@ public class Apollo implements Divinity {
                 }
             }
         }
+        return moves;
     }
 
     /***
      *
-     * @param oldX
-     * @param oldY
+     * @param oldX the starting X coordinate of the worker
+     * @param oldY the starting Y coordinate of the worker
      * @return
      */
     private ArrayList<Direction> checkBuildingMoves(Integer oldX, Integer oldY) {
@@ -152,15 +157,16 @@ public class Apollo implements Divinity {
             Integer newX = DirectionManagement.getX(oldX, dir);
             Integer newY = DirectionManagement.getY(oldY, dir);
 
-            if(!playerManager.getMap().getCell(newX, newY).getDome()){
+            if(!playerManager.getMap().getCell(newX, newY).getDome() && playerManager.getMap().getCell(newX, newY).getWorker() == null){
                 moves.add(dir);
             }
         }
+        return moves;
     }
 
     /***
      *
-     * @param raiseForbidden
+     * @param raiseForbidden true if Athena moved up one level
      * @return
      */
     private Boolean checkForVictory(Boolean raiseForbidden){
@@ -186,8 +192,8 @@ public class Apollo implements Divinity {
 
     /***
      *
-     * @param raiseForbidden
-     * @param movementPhase
+     * @param raiseForbidden true if athena moved up one level
+     * @param movementPhase true if curretnly in movement phase, false if currently in building phase
      * @return
      */
     private Boolean checkForLose(Boolean raiseForbidden, Boolean movementPhase){
@@ -210,14 +216,14 @@ public class Apollo implements Divinity {
                             return false;
                         }
                     } else{
-                        if(!playerManager.getMap().getCell(newX, newY).getDome()){
+                        if(!playerManager.getMap().getCell(newX, newY).getDome() && playerManager.getMap().getCell(newX, newY).getWorker() == null){
                             return false;
                         }
                     }
                 }
             }
-            return true;
         }
+        return true;
     }
 
 }
