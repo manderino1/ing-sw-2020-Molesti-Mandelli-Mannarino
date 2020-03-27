@@ -3,7 +3,8 @@ package it.polimi.ingsw.PSP18.controller;
 import java.util.ArrayList;
 
 public class TurnManager {
-    private ArrayList<PlayerManager> player = new ArrayList<PlayerManager>();
+    protected ArrayList<PlayerManager> player = new ArrayList<PlayerManager>();
+    protected Integer indexCurrentPlayer;
 
     public TurnManager(ArrayList<PlayerManager> player) {
         this.player = player;
@@ -15,5 +16,11 @@ public class TurnManager {
      */
     private void setupTurn() {
 
+    }
+    public void ManageTurn(){
+
+        //to do: ricezione segnale dalla view
+
+        this.player.get(indexCurrentPlayer).manageTurn(false);
     }
 }
