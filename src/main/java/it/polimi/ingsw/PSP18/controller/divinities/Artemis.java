@@ -126,7 +126,11 @@ public class Artemis implements Divinity{
             Integer newY = DirectionManagement.getY(oldY, dir);
 
             if (!raiseForbidden) {
-                if (!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(oldX, oldY).getBuilding() <= 1) && playerManager.getMap().getCell(newX, newY).getWorker() == null) {
+                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)) {
+                    moves.add(dir);
+                }
+            } else {
+                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)) {
                     moves.add(dir);
                 }
             }
@@ -148,7 +152,7 @@ public class Artemis implements Divinity{
             Integer newX = DirectionManagement.getX(oldX, dir);
             Integer newY = DirectionManagement.getY(oldY, dir);
 
-            if(!playerManager.getMap().getCell(newX, newY).getDome() && playerManager.getMap().getCell(newX, newY).getWorker() == null){
+            if(!playerManager.getGameMap().getCell(newX, newY).getDome() && playerManager.getMap().getCell(newX, newY).getWorker() == null){
                 moves.add(dir);
             }
         }
@@ -166,12 +170,8 @@ public class Artemis implements Divinity{
             Integer oldX = playerManager.getWorker(i).getX();
             Integer oldY = playerManager.getWorker(i).getY();
 
-            Integer building;
-            Integer newX = DirectionManagement.getX(oldX, dir);
-            Integer newY = DirectionManagement.getY(oldY, dir);
-
             if (!raiseForbidden) {
-                if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {
+                if (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3) {
                     return true;
                 }
             }

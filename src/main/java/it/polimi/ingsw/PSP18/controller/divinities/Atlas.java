@@ -133,6 +133,9 @@ public class Atlas implements Divinity{
             if (!raiseForbidden) {
                 if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
                     moves.add(dir);
+                } } else {
+                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)) {
+                    moves.add(dir);
                 }
             }
         }
@@ -171,12 +174,8 @@ public class Atlas implements Divinity{
             Integer oldX = playerManager.getWorker(i).getX();
             Integer oldY = playerManager.getWorker(i).getY();
 
-            Integer building;
-            Integer newX = DirectionManagement.getX(oldX, dir);
-            Integer newY = DirectionManagement.getY(oldY, dir);
-
             if (!raiseForbidden) {
-                if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {
+                if (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3) {
                     return true;
                 }
             }
