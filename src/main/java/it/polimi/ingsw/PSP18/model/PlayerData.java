@@ -27,4 +27,8 @@ public class PlayerData {
     public Move getLastMove() {
         return lastMove;
     }
+
+    public void setLastMove(Move lastMove) {
+        this.lastMove = lastMove;
+    }
 }
