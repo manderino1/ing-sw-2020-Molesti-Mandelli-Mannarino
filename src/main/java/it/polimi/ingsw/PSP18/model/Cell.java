@@ -6,6 +6,9 @@ public class Cell {
     private Boolean dome;
 
     public Cell() {
+        this.building=null;
+        this.worker=null;
+        this.dome=false;
     }
 
     public Integer getBuilding() {
