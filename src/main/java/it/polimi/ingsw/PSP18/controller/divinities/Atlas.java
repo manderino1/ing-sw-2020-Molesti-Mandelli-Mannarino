@@ -3,7 +3,6 @@ package it.polimi.ingsw.PSP18.controller.divinities;
 import it.polimi.ingsw.PSP18.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.model.Direction;
-import it.polimi.ingsw.PSP18.model.Level;
 import it.polimi.ingsw.PSP18.model.Move;
 import it.polimi.ingsw.PSP18.model.Worker;
 
@@ -12,6 +11,10 @@ import java.util.ArrayList;
 public class Atlas implements Divinity{
     private String name;
     private PlayerManager playerManager;
+
+    // TODO : REMOVE IT
+    private Direction direction;
+    private Integer workerID;
 
     public String getName() {
         return name;

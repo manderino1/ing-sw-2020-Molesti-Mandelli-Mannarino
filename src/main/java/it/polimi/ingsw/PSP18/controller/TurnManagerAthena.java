@@ -1,7 +1,5 @@
 package it.polimi.ingsw.PSP18.controller;
 
-import it.polimi.ingsw.PSP18.model.Level;
-
 import java.util.ArrayList;
 
 public class TurnManagerAthena extends TurnManager {
@@ -17,7 +15,7 @@ public class TurnManagerAthena extends TurnManager {
         //to do: ricezione segnale dalla view
 
 
-        if (this.player.get(0).getPlayerData().getLastMove().getLevel() == Level.UP) bool = true;
+        if (this.player.get(0).getPlayerData().getLastMove().getLevel() == 1) bool = true;
         else bool = false;
         this.player.get(super.indexCurrentPlayer).manageTurn(bool);
     }

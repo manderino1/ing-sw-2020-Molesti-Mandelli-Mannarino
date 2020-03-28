@@ -14,6 +14,10 @@ public class Apollo implements Divinity {
     private String name;
     private PlayerManager playerManager;
 
+    // TODO : REMOVE IT
+    private Direction direction;
+    private Integer workerID;
+
     public String getName() {
         return name;
     }
