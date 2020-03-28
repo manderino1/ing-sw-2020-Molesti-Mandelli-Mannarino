@@ -67,10 +67,10 @@ public class Minotaur implements Divinity{
                     Direction direction = ;
          */
 
-        if(playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(worker.getX(), worker.getY()).getBuilding() == 1){
+        if(playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(worker.getX(), worker.getY()).getBuilding() == 1){
             playerManager.getPlayerData().setLastMove(new Move(direction, Level.UP));
         }
-        else if(playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(worker.getX(), worker.getY()).getBuilding() == 0) {
+        else if(playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(worker.getX(), worker.getY()).getBuilding() == 0) {
             playerManager.getPlayerData().setLastMove(new Move(direction, Level.SAME));
         }
         else {
@@ -113,7 +113,7 @@ public class Minotaur implements Divinity{
             in base alla direzione passatami dalla view
             se costruisco una cupola allora aggiorno il valore del flag dome controllando che la costruzione avvenga sopra il livello 3 di una torre
          */
-        if (playerManager.getMap().getCell(newX, newY).getBuilding() == 3) {
+        if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {
             dome = true;
         }
 
@@ -137,7 +137,7 @@ public class Minotaur implements Divinity{
             Integer newY = DirectionManagement.getY(oldY, dir);
 
             if (!raiseForbidden) {
-                if (!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(oldX, oldY).getBuilding() <= 1)) {
+                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)) {
                     moves.add(dir);
                 }
             }
@@ -162,7 +162,7 @@ public class Minotaur implements Divinity{
             Integer newX = DirectionManagement.getX(oldX, dir);
             Integer newY = DirectionManagement.getY(oldY, dir);
 
-            if(!playerManager.getMap().getCell(newX, newY).getDome()){
+            if(!playerManager.getGameMap().getCell(newX, newY).getDome()){
                 moves.add(dir);
             }
         }
@@ -185,7 +185,7 @@ public class Minotaur implements Divinity{
                 Integer newY = DirectionManagement.getY(oldY, dir);
 
                 if (!raiseForbidden) {
-                    if (!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX, newY).getBuilding() == 3)) {
+                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3)) {
                         return true;
                     }
                 }
@@ -211,16 +211,16 @@ public class Minotaur implements Divinity{
                 Integer newY = DirectionManagement.getY(oldY, dir);
 
                 if (!raiseForbidden) {
-                    if (!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(oldX, oldY).getBuilding() <= 1)) {
+                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)) {
                         return false;
                     }
                 } else {
                     if(movementPhase) {
-                        if (!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(oldX, oldY).getBuilding() < 1)) {
+                        if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)) {
                             return false;
                         }
                     } else{
-                        if(!playerManager.getMap().getCell(newX, newY).getDome()){
+                        if(!playerManager.getGameMap().getCell(newX, newY).getDome()){
                             return false;
                         }
                     }

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.PSP18.model;
 
-public class Map {
+public class GameMap {
     private Cell[][] mapCells = new Cell[5][5];
 
-    public Map() {
+    public GameMap() {
     }
 
     public Cell getCell(int x, int y) {

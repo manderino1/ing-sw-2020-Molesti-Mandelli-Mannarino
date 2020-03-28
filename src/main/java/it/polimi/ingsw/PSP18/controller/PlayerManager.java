@@ -4,18 +4,18 @@ import it.polimi.ingsw.PSP18.controller.divinities.Divinity;
 import it.polimi.ingsw.PSP18.model.*;
 
 public class PlayerManager {
-    private Map map;
+    private GameMap gameMap;
     private Worker[] workers = new Worker[2];
     private PlayerData playerData;
     private Divinity divinity;
 
     /***
      * Class constructor, initializes the  and the playerData
-     * @param map the game map (unique for all players)
+     * @param gameMap the game map (unique for all players)
      * @param playerData data of the player
      */
-    public PlayerManager(Map map, PlayerData playerData) {
-        this.map = map;
+    public PlayerManager(GameMap gameMap, PlayerData playerData) {
+        this.gameMap = gameMap;
         this.playerData = playerData;
     }
 
@@ -49,13 +49,13 @@ public class PlayerManager {
      * @param newY the destination y position
      */
     private void updateMoveCells(Integer oldX, Integer oldY, Integer newX, Integer newY) {
-        Worker destinationWorker = map.getCell(oldX, oldY+1).getWorker();
-        map.setCell(newX, newY, map.getCell(newX, newY).getBuilding(), map.getCell(oldX, oldY).getWorker());
+        Worker destinationWorker = gameMap.getCell(oldX, oldY+1).getWorker();
+        gameMap.setCell(newX, newY, gameMap.getCell(newX, newY).getBuilding(), gameMap.getCell(oldX, oldY).getWorker());
         if (destinationWorker == null) {
-            map.setCell(oldX, oldY, map.getCell(oldX, oldY).getBuilding(), null);
+            gameMap.setCell(oldX, oldY, gameMap.getCell(oldX, oldY).getBuilding(), null);
         }
         else {
-            map.setCell(oldX, oldY, map.getCell(oldX, oldY).getBuilding(), destinationWorker);
+            gameMap.setCell(oldX, oldY, gameMap.getCell(oldX, oldY).getBuilding(), destinationWorker);
         }
     }
 
@@ -67,10 +67,10 @@ public class PlayerManager {
      */
     public void setBuild(Integer X, Integer Y, Boolean dome) {
         if(dome) {
-            map.getCell(X, Y).setDome();
+            gameMap.getCell(X, Y).setDome();
         }
         else {
-            map.getCell(X, Y).setBuilding(map.getCell(X, Y).getBuilding()+1);
+            gameMap.getCell(X, Y).setBuilding(gameMap.getCell(X, Y).getBuilding()+1);
         }
     }
 
@@ -87,8 +87,8 @@ public class PlayerManager {
      * TODO: return a copy and not the actual MAP
      * @return a copy of the map
      */
-    public Map getMap() {
-        return map;
+    public GameMap getGameMap() {
+        return gameMap;
     }
 
     /***

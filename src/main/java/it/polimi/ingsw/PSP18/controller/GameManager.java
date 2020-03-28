@@ -1,7 +1,7 @@
 package it.polimi.ingsw.PSP18.controller;
 
 import it.polimi.ingsw.PSP18.model.Color;
-import it.polimi.ingsw.PSP18.model.Map;
+import it.polimi.ingsw.PSP18.model.GameMap;
 import it.polimi.ingsw.PSP18.model.PlayerData;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Comparator;
 
 public class GameManager {
     private ArrayList<PlayerManager> players = new ArrayList<PlayerManager>();
-    private Map map;
+    private GameMap gameMap;
     private TurnManager turnManager;
 
     public GameManager() {
@@ -23,7 +23,7 @@ public class GameManager {
      */
     public void addPlayer(String id, Color color, Integer playOrder) {
         PlayerData playerData = new PlayerData(id, color, playOrder);
-        players.add(new PlayerManager(map, playerData));
+        players.add(new PlayerManager(gameMap, playerData));
     }
 
     /***
