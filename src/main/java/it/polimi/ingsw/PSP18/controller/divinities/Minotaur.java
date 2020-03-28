@@ -59,18 +59,6 @@ public class Minotaur implements Divinity{
                     Direction direction = ;
          */
 
-        Integer newX = DirectionManagement.getX(worker.getX(), direction);
-        Integer newY = DirectionManagement.getY(worker.getY(), direction);
-
-        if(playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(worker.getX(), worker.getY()).getBuilding() == 1){
-            playerManager.getPlayerData().setLastMove(new Move(direction, Level.UP));
-        }
-        else if(playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(worker.getX(), worker.getY()).getBuilding() == 0) {
-            playerManager.getPlayerData().setLastMove(new Move(direction, Level.SAME));
-        }
-        else {
-            playerManager.getPlayerData().setLastMove(new Move(direction, Level.DOWN));
-        }
         playerManager.setMove(worker.getX(), worker.getY(), direction);
         
         /*
@@ -188,15 +176,13 @@ public class Minotaur implements Divinity{
             Integer oldX = playerManager.getWorker(i).getX();
             Integer oldY = playerManager.getWorker(i).getY();
 
-            for (Direction dir : Direction.values()) {
-                Integer building;
-                Integer newX = DirectionManagement.getX(oldX, dir);
-                Integer newY = DirectionManagement.getY(oldY, dir);
+            Integer building;
+            Integer newX = DirectionManagement.getX(oldX, dir);
+            Integer newY = DirectionManagement.getY(oldY, dir);
 
-                if (!raiseForbidden) {
-                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3)) {
-                        return true;
-                    }
+            if (!raiseForbidden) {
+                if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {
+                    return true;
                 }
             }
         }

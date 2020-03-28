@@ -1,7 +1,12 @@
 package it.polimi.ingsw.PSP18.model;
 
+import it.polimi.ingsw.PSP18.view.MapObserver;
+
+import java.util.ArrayList;
+
 public class GameMap {
     private Cell[][] mapCells = new Cell[5][5];
+    private ArrayList<MapObserver> observers;
 
     public GameMap() {
         for (int i=0; i<5; i++){
@@ -18,5 +23,23 @@ public class GameMap {
     public void setCell(int x, int y, Integer building, Worker worker) {
         mapCells[x][y].setBuilding(building);
         mapCells[x][y].setWorker(worker);
+    }
+
+    public void attach(MapObserver observer) {
+        observers.add(observer);
+    }
+
+    public void detach(MapObserver observer) {
+        observers.remove(observer);
+    }
+
+    /***
+     * The function notifies all the observers that a change is happened in its model
+     * @param map is the game map
+     */
+    public void notifyObservers(GameMap map) {
+        for(MapObserver observer : observers) {
+            observer.update(map);
+        }
     }
 }
