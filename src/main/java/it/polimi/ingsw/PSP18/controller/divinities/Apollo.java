@@ -33,15 +33,7 @@ public class Apollo implements Divinity {
      */
     private Integer move(Boolean raiseForbidden) {
         /*
-            checking for a possible player move that can lead to victory
-         */
-        if(checkForVictory(raiseForbidden)){
-            /*
-               TODO: victory, jump to the end
-            */
-        }
-        /*
-            checking for a possible player move that can lead to victory
+            checking if the player lost
          */
         if(checkForLose(raiseForbidden, true)){
             /*
@@ -78,6 +70,16 @@ public class Apollo implements Divinity {
             playerManager.getPlayerData().setLastMove(new Move(direction, Level.DOWN));
         }
         playerManager.setMove(worker.getX(), worker.getY(), direction);
+
+        /*
+            checking for  victory
+         */
+        if(checkForVictory(raiseForbidden)){
+            /*
+               TODO: victory, jump to the end
+            */
+        }
+
         return workerID;
     }
 
