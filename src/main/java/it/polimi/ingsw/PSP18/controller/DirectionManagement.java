@@ -44,4 +44,36 @@ public class DirectionManagement {
         }
         return y;
     }
+
+    public static Direction getOppositeDirection(Direction direction) {
+        Direction dir = Direction.LEFT;
+        switch (direction) {
+            case LEFT:
+                dir = Direction.RIGHT;
+                break;
+            case RIGHT:
+                dir = Direction.LEFT;
+                break;
+            case DOWN:
+                dir = Direction.UP;
+                break;
+            case RIGHTDOWN:
+                dir = Direction.LEFTUP;
+                break;
+            case LEFTDOWN:
+                dir = Direction.RIGHTUP;
+                break;
+            case UP:
+                dir = Direction.DOWN;
+                break;
+            case LEFTUP:
+                dir = Direction.RIGHTDOWN;
+                break;
+            case RIGHTUP:
+                dir = Direction.LEFTDOWN;
+
+                break;
+        }
+        return dir;
+    }
 }

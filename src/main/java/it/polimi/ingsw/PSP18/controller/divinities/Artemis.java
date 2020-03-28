@@ -66,6 +66,35 @@ public class Artemis implements Divinity{
             */
         }
 
+        /*
+         Artemis can move twice
+         */
+
+        if(checkForLose(raiseForbidden, true)){
+            /*
+               TODO: can't move again
+            */
+            return workerID;
+        }
+
+        moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
+        moves.remove(DirectionManagement.getOppositeDirection(direction));
+
+         /*
+            TODO: qui bisogna passare alla view l'arraylist moves
+         */
+
+        /*
+            TODO: qui bisogna chiedere alla view la direzione dove voglio muovere il worker e la salvo in direction oppure se non vuole eseguire una seconda mossa restituirà null
+
+                    Direction direction = ;
+         */
+
+        if(diretction == null) {
+            return workerID;
+        }
+
+        playerManager.setMove(worker.getX(), worker.getY(), direction);
         return workerID;
     }
 
@@ -152,7 +181,7 @@ public class Artemis implements Divinity{
             Integer newX = DirectionManagement.getX(oldX, dir);
             Integer newY = DirectionManagement.getY(oldY, dir);
 
-            if(!playerManager.getGameMap().getCell(newX, newY).getDome() && playerManager.getMap().getCell(newX, newY).getWorker() == null){
+            if(!playerManager.getGameMap().getCell(newX, newY).getDome() && playerManager.getGameMap().getCell(newX, newY).getWorker() == null){
                 moves.add(dir);
             }
         }
@@ -196,16 +225,16 @@ public class Artemis implements Divinity{
                 Integer newY = DirectionManagement.getY(oldY, dir);
 
                 if (!raiseForbidden) {
-                    if (!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(oldX, oldY).getBuilding() <= 1) && playerManager.getMap().getCell(newX, newY).getWorker() == null) {
+                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
                         return false;
                     }
                 } else {
                     if(movementPhase) {
-                        if (!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(oldX, oldY).getBuilding() < 1) && playerManager.getMap().getCell(newX, newY).getWorker() == null) {
+                        if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
                             return false;
                         }
                     } else{
-                        if(!playerManager.getMap().getCell(newX, newY).getDome() && playerManager.getMap().getCell(newX, newY).getWorker() == null){
+                        if(!playerManager.getGameMap().getCell(newX, newY).getDome() && playerManager.getGameMap().getCell(newX, newY).getWorker() == null){
                             return false;
                         }
                     }
@@ -214,6 +243,7 @@ public class Artemis implements Divinity{
         }
         return true;
     }
+
 }
 
 
