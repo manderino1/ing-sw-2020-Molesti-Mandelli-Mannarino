@@ -22,10 +22,6 @@ public class Athena implements Divinity{
      * @param raiseForbidden true if athena moved up one level
      */
     public void manageTurn(Boolean raiseForbidden) {
-        /*
-        TODO: needs to return the raise forbidden flag in case of one of his workers going up a level,
-         also ask if is needed to keep the same methods structure, in the sense of the need of the boolean raiseForbidden
-         */
         Integer workerID = move(false);
         build(workerID);
     }

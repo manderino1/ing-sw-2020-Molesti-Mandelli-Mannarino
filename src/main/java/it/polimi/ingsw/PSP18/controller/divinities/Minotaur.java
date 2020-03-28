@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP18.controller.divinities;
 import it.polimi.ingsw.PSP18.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.model.Direction;
+import it.polimi.ingsw.PSP18.model.Level;
+import it.polimi.ingsw.PSP18.model.Move;
 import it.polimi.ingsw.PSP18.model.Worker;
 
 import java.util.ArrayList;
@@ -65,6 +67,15 @@ public class Minotaur implements Divinity{
                     Direction direction = ;
          */
 
+        if(playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(worker.getX(), worker.getY()).getBuilding() == 1){
+            playerManager.getPlayerData().setLastMove(new Move(direction, Level.UP));
+        }
+        else if(playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(worker.getX(), worker.getY()).getBuilding() == 0) {
+            playerManager.getPlayerData().setLastMove(new Move(direction, Level.SAME));
+        }
+        else {
+            playerManager.getPlayerData().setLastMove(new Move(direction, Level.DOWN));
+        }
         playerManager.setMove(worker.getX(), worker.getY(), direction);
         return workerID;
     }
