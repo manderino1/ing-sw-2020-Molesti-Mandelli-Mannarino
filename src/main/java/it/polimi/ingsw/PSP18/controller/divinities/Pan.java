@@ -179,7 +179,7 @@ public class Pan implements Divinity{
             Integer oldY = playerManager.getWorker(i).getY();
 
             if (!raiseForbidden) {
-                if ( (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) || (playerManager.getPlayerData().getLastMove().getLevel() == -2) ) {
+                if ( (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3) || (playerManager.getPlayerData().getLastMove().getLevel() == -2) ) {
                     return true;
                 }
             }

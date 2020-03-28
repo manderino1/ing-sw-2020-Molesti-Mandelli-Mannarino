@@ -172,6 +172,7 @@ public class Minotaur implements Divinity{
                 moves.add(dir);
             }
         }
+        return moves;
     }
 
     /***
@@ -226,8 +227,9 @@ public class Minotaur implements Divinity{
                     }
                 }
             }
-            return true;
         }
+        return true;
     }
+
 }
 
