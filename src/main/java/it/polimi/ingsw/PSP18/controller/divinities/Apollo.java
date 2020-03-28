@@ -59,6 +59,8 @@ public class Apollo implements Divinity {
 
                     Direction direction = ;
          */
+        Integer newX = DirectionManagement.getX(worker.getX(), direction);
+        Integer newY = DirectionManagement.getY(worker.getY(), direction);
 
         if(playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(worker.getX(), worker.getY()).getBuilding() == 1){
             playerManager.getPlayerData().setLastMove(new Move(direction, Level.UP));
