@@ -129,10 +129,7 @@ public class Minotaur implements Divinity{
                 if (!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(oldX, oldY).getBuilding() <= 1)) {
                     moves.add(dir);
                 }
-            } else {
-                if (!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(oldX, oldY).getBuilding() < 1)) {
-                    moves.add(dir);
-                }
+            }
             }
             /***
              * TODO : controlla che se minotauro muove in una cella occupata da un lavoratore possa spostarlo indietro di una casella

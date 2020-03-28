@@ -134,10 +134,6 @@ public class Apollo implements Divinity {
                 if (!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(oldX, oldY).getBuilding() <= 1)) {
                     moves.add(dir);
                 }
-            } else {
-                if (!playerManager.getMap().getCell(newX, newY).getDome() && (playerManager.getMap().getCell(newX, newY).getBuilding() - playerManager.getMap().getCell(oldX, oldY).getBuilding() < 1)) {
-                    moves.add(dir);
-                }
             }
         }
         return moves;
