@@ -102,7 +102,7 @@ public class Artemis implements Divinity{
             in base alla direzione passatami dalla view
             se costruisco una cupola allora aggiorno il valore del flag dome controllando che la costruzione avvenga sopra il livello 3 di una torre
          */
-        if (playerManager.getMap().getCell(newX, newY).getBuilding() == 3) {
+        if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {
             dome = true;
         }
 
@@ -126,11 +126,11 @@ public class Artemis implements Divinity{
             Integer newY = DirectionManagement.getY(oldY, dir);
 
             if (!raiseForbidden) {
-                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)) {
+                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
                     moves.add(dir);
                 }
             } else {
-                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)) {
+                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
                     moves.add(dir);
                 }
             }
