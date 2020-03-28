@@ -38,6 +38,19 @@ public class PlayerManager {
         Integer newX = DirectionManagement.getX(oldX, direction);
         Integer newY = DirectionManagement.getY(oldY, direction);
         updateMoveCells(oldX, oldY, newX, newY);
+
+        if(gameMap.getCell(newX, newY).getBuilding() - gameMap.getCell(oldX, oldY).getBuilding() == 1){
+            playerData.setLastMove(new Move(direction, 1));
+        }
+        else if(gameMap.getCell(newX, newY).getBuilding() - gameMap.getCell(oldX, oldY).getBuilding() == 0) {
+            playerData.setLastMove(new Move(direction, 0));
+        }
+        else if(gameMap.getCell(newX, newY).getBuilding() - gameMap.getCell(oldX, oldY).getBuilding() == -1) {
+            playerData.setLastMove(new Move(direction, -1));
+        }
+        else {
+            playerData.setLastMove(new Move(direction, -2));
+        }
     }
 
     /***
