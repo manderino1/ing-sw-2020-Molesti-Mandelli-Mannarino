@@ -58,7 +58,7 @@ public class Demeter implements Divinity{
                     Direction direction = ;
          */
 
-        playerManager.setMove(worker.getX(), worker.getY(), direction);
+        setMove(worker.getX(), worker.getY(), direction);
 
         if(checkForVictory(raiseForbidden)){
             /*
