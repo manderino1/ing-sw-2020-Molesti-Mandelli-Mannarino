@@ -4,7 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class TestMove {
-    // Test for checking the creation of the class
+    /***
+     * Test for checking the creation of the class
+     */
     @Test
     public void testMoveCreation() {
         Move move = new Move(Direction.UP, 0);

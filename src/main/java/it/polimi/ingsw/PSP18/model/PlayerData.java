@@ -10,7 +10,7 @@ public class PlayerData {
     private Color playerColor;
     private Integer playOrder;
     private Move lastMove;
-    private ArrayList<PlayerDataObserver> observers;
+    private ArrayList<PlayerDataObserver> observers = new ArrayList<>();
 
     public PlayerData(String playerID, Color playerColor, Integer playOrder) {
         this.playerID = playerID;
@@ -46,9 +46,9 @@ public class PlayerData {
         observers.remove(observer);
     }
 
-    public void notifyObservers(PlayerData map) {
+    public void notifyObservers() {
         for(PlayerDataObserver observer : observers) {
-            observer.update(map);
+            observer.update(this);
         }
     }
 }

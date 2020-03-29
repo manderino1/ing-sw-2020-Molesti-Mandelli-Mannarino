@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class GameMap {
     private Cell[][] mapCells = new Cell[5][5];
-    private ArrayList<MapObserver> observers;
+    private ArrayList<MapObserver> observers = new ArrayList<MapObserver>();
 
     public GameMap() {
         for (int i=0; i<5; i++){
@@ -35,11 +35,10 @@ public class GameMap {
 
     /***
      * The function notifies all the observers that a change is happened in its model
-     * @param map is the game map
      */
-    public void notifyObservers(GameMap map) {
+    public void notifyObservers() {
         for(MapObserver observer : observers) {
-            observer.update(map);
+            observer.update(mapCells);
         }
     }
 }
