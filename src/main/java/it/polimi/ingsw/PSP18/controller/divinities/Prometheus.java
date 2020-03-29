@@ -4,9 +4,7 @@ import it.polimi.ingsw.PSP18.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.model.Direction;
 import it.polimi.ingsw.PSP18.model.Worker;
-
 import java.util.ArrayList;
-import it.polimi.ingsw.PSP18.model.Direction;
 import it.polimi.ingsw.PSP18.model.Move;
 
 public class Prometheus implements Divinity{
@@ -62,7 +60,7 @@ public class Prometheus implements Divinity{
                     Direction direction = ;
          */
 
-        playerManager.setMove(worker.getX(), worker.getY(), direction);
+        setMove(worker.getX(), worker.getY(), direction);
 
         /*
             checking for  victory
@@ -101,7 +99,7 @@ public class Prometheus implements Divinity{
             return workerID;
         }
 
-        playerManager.setMove(worker.getX(), worker.getY(), direction);
+        setMove(worker.getX(), worker.getY(), direction);
         return workerID;
     }
 
