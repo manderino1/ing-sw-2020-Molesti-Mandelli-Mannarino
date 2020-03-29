@@ -29,50 +29,6 @@ public class PlayerManager {
     }
 
     /***
-     *
-     * @param oldX the old position of the worker on the x axis
-     * @param oldY the old position of the worker on the y axis
-     * @param direction the direction of the move
-     */
-    public void setMove(Integer oldX, Integer oldY, Direction direction) {
-        Integer newX = DirectionManagement.getX(oldX, direction);
-        Integer newY = DirectionManagement.getY(oldY, direction);
-        updateMoveCells(oldX, oldY, newX, newY);
-
-        if(gameMap.getCell(newX, newY).getBuilding() - gameMap.getCell(oldX, oldY).getBuilding() == 1){
-            playerData.setLastMove(new Move(direction, 1));
-        }
-        else if(gameMap.getCell(newX, newY).getBuilding() - gameMap.getCell(oldX, oldY).getBuilding() == 0) {
-            playerData.setLastMove(new Move(direction, 0));
-        }
-        else if(gameMap.getCell(newX, newY).getBuilding() - gameMap.getCell(oldX, oldY).getBuilding() == -1) {
-            playerData.setLastMove(new Move(direction, -1));
-        }
-        else {
-            playerData.setLastMove(new Move(direction, -2));
-        }
-    }
-
-    /***
-     * Set worker in a cell and remove from the source one
-     * If a worker is present in the destination cell (Apollo) switch workers
-     * @param oldX the source x position
-     * @param oldY the source y position
-     * @param newX the destination x position
-     * @param newY the destination y position
-     */
-    private void updateMoveCells(Integer oldX, Integer oldY, Integer newX, Integer newY) {
-        Worker destinationWorker = gameMap.getCell(oldX, oldY+1).getWorker();
-        gameMap.setCell(newX, newY, gameMap.getCell(newX, newY).getBuilding(), gameMap.getCell(oldX, oldY).getWorker());
-        if (destinationWorker == null) {
-            gameMap.setCell(oldX, oldY, gameMap.getCell(oldX, oldY).getBuilding(), null);
-        }
-        else {
-            gameMap.setCell(oldX, oldY, gameMap.getCell(oldX, oldY).getBuilding(), destinationWorker);
-        }
-    }
-
-    /***
      * Build up a floor on the selected cell or place a dome on it
      * @param X the x coordinate of the building cell
      * @param Y the y coordinate of the building cell

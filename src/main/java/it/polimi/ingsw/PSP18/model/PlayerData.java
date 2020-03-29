@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP18.model;
 
-import it.polimi.ingsw.PSP18.view.MapObserver;
 import it.polimi.ingsw.PSP18.view.PlayerDataObserver;
 
 import java.util.ArrayList;

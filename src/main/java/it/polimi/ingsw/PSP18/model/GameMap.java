@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class GameMap {
     private Cell[][] mapCells = new Cell[5][5];
-    private ArrayList<MapObserver> observers = new ArrayList<MapObserver>();
+    private ArrayList<MapObserver> observers = new ArrayList<>();
 
     public GameMap() {
         for (int i=0; i<5; i++){
