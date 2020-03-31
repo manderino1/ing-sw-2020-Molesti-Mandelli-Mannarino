@@ -171,7 +171,7 @@ public class Divinity {
      * @param raiseForbidden true if Athena moved up one level
      * @return
      */
-    private Boolean checkForVictory(Boolean raiseForbidden){
+    protected Boolean checkForVictory(Boolean raiseForbidden){
 
         for (int i = 0; i < 2; i++) {
             Integer oldX = playerManager.getWorker(i).getX();
