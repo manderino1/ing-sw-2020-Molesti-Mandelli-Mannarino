@@ -8,7 +8,7 @@ import it.polimi.ingsw.PSP18.model.Move;
 
 import java.util.ArrayList;
 
-public class Demeter implements Divinity{
+public class Demeter extends Divinity{
     private String name;
     private PlayerManager playerManager;
 

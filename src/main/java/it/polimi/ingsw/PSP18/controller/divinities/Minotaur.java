@@ -8,7 +8,7 @@ import it.polimi.ingsw.PSP18.model.Worker;
 
 import java.util.ArrayList;
 
-public class Minotaur implements Divinity{
+public class Minotaur extends Divinity{
     private String name;
     private PlayerManager playerManager;
 

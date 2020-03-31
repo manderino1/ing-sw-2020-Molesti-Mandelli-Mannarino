@@ -8,7 +8,7 @@ import it.polimi.ingsw.PSP18.model.Worker;
 
 import java.util.ArrayList;
 
-public class Athena implements Divinity{
+public class Athena extends Divinity {
     private String name;
     private PlayerManager playerManager;
 

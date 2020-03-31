@@ -8,7 +8,7 @@ import it.polimi.ingsw.PSP18.model.Worker;
 
 import java.util.ArrayList;
 
-public class Atlas implements Divinity{
+public class Atlas extends Divinity{
     private String name;
     private PlayerManager playerManager;
 

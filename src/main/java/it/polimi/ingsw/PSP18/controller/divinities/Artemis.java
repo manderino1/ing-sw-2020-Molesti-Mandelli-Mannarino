@@ -8,7 +8,7 @@ import it.polimi.ingsw.PSP18.model.Worker;
 
 import java.util.ArrayList;
 
-public class Artemis implements Divinity{
+public class Artemis extends Divinity {
     private String name;
     private PlayerManager playerManager;
 

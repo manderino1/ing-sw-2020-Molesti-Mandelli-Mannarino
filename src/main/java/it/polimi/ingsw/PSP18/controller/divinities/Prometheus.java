@@ -7,7 +7,7 @@ import it.polimi.ingsw.PSP18.model.Worker;
 import java.util.ArrayList;
 import it.polimi.ingsw.PSP18.model.Move;
 
-public class Prometheus implements Divinity{
+public class Prometheus extends Divinity{
     private String name;
     private PlayerManager playerManager;
 

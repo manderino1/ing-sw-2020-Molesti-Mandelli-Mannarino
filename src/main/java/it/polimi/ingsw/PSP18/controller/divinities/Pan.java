@@ -12,7 +12,7 @@ import java.util.ArrayList;
     TODO: siccome ci sono molte condizioni ricorrenti si puo usare la classe utilities al posto di direction manager, per esempio per il metodo checkEmptySpace oppure un metodo checkDome
  */
 
-public class Pan implements Divinity{
+public class Pan extends Divinity{
     private String name;
     private PlayerManager playerManager;
 

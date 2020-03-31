@@ -10,7 +10,7 @@ import java.util.ArrayList;
     TODO: nel caso che apollo si muova nella posizione di un worker avversario bisognera scambiare la posizione di questi due
  */
 
-public class Apollo implements Divinity {
+public class Apollo extends Divinity {
     private String name;
     private PlayerManager playerManager;
 

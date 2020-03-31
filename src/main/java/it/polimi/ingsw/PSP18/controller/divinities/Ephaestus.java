@@ -8,7 +8,7 @@ import it.polimi.ingsw.PSP18.model.Move;
 
 import java.util.ArrayList;
 
-public class Ephaestus implements Divinity{
+public class Ephaestus extends Divinity{
     private String name;
     private PlayerManager playerManager;
 
