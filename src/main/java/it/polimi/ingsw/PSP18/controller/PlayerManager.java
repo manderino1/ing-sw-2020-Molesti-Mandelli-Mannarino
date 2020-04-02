@@ -22,6 +22,9 @@ public class PlayerManager {
 
     private void divinityCreation(String divinityName) {
         switch(divinityName) {
+            case "Divinity":
+                divinity = new Divinity(divinityName, this);
+                break;
             case "Apollo":
                 divinity = new Apollo(divinityName, this);
                 break;
