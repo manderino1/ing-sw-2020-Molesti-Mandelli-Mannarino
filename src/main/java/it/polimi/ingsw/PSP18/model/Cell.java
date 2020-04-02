@@ -6,7 +6,7 @@ public class Cell {
     private Boolean dome;
 
     public Cell() {
-        this.building=null;
+        this.building = 0;
         this.worker=null;
         this.dome=false;
     }
