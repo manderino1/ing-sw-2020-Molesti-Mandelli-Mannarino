@@ -15,8 +15,9 @@ public class TurnManager {
      * Called in the constructor, initializes the turn order
      */
     private void setupTurn() {
-
+        indexCurrentPlayer = 0;
     }
+
     public void ManageTurn(){
 
         //to do: ricezione segnale dalla view

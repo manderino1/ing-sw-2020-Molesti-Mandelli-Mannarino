@@ -55,6 +55,21 @@ public class PlayerManager {
         }
     }
 
+    public void placeWorker(Integer x, Integer y) {
+        if(workers[0] == null) {
+            workers[0] = new Worker(x, y);
+            gameMap.setCell(x, y, gameMap.getCell(x,y).getBuilding(), workers[0]);
+            //TODO: throw exception if cell is occupied
+        }
+        else if (workers[1] == null) {
+            workers[1] = new Worker(x, y);
+            gameMap.setCell(x, y, gameMap.getCell(x,y).getBuilding(), workers[1]);
+        }
+        else {
+            //TODO: throw exception if too many workers
+        }
+    }
+
     /***
      *
      * @param workerID the index of the worker to return (0 or 1)

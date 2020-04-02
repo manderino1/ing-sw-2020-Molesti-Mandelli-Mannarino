@@ -52,4 +52,15 @@ public class TestGameManager {
         Assert.assertEquals(Integer.valueOf(1), gameManager.getPlayers().get(1).getPlayerData().getPlayOrder());
         Assert.assertEquals("Test1", gameManager.getPlayers().get(1).getPlayerData().getPlayerID());
     }
+
+    /***
+     * Test for checking the correct creation of the turn manager Athena class
+     */
+    @Test
+    public void testAthenaInit() {
+        gameManager.addPlayer("Test1", Color.RED, 1, "Athena");
+        gameManager.startMatch();
+        Assert.assertEquals(Integer.valueOf(1), gameManager.getPlayers().get(0).getPlayerData().getPlayOrder());
+        Assert.assertEquals("Test1", gameManager.getPlayers().get(0).getPlayerData().getPlayerID());
+    }
 }
