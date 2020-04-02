@@ -9,6 +9,10 @@ import it.polimi.ingsw.PSP18.model.Move;
 
 public class Prometheus extends Divinity{
 
+    public Prometheus(String name, PlayerManager playerManager) {
+        super(name, playerManager);
+    }
+
     /***
      * Prometeo prima di muovere può decidere se costruire, tale funzione è implementata da buildopt
      * @param raiseForbidden true if athena moved up one level

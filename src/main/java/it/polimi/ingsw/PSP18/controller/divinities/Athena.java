@@ -9,6 +9,10 @@ import it.polimi.ingsw.PSP18.model.Worker;
 import java.util.ArrayList;
 
 public class Athena extends Divinity {
+    public Athena(String name, PlayerManager playerManager) {
+        super(name, playerManager);
+    }
+
     /***
      * Does not check for raiseForbidden because it's always false
      * @param raiseForbidden true if athena moved up one level

@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 public class Minotaur extends Divinity{
 
+    public Minotaur(String name, PlayerManager playerManager) {
+        super(name, playerManager);
+    }
+
     /***
      * function checks if
      * @param oldX

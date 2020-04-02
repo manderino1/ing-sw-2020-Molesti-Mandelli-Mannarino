@@ -11,7 +11,11 @@ import java.util.ArrayList;
  */
 
 public class Apollo extends Divinity {
-     /***
+    public Apollo(String name, PlayerManager playerManager) {
+        super(name, playerManager);
+    }
+
+    /***
      *
      * @param oldX the starting X coordinate of the worker
      * @param oldY the starting Y coordinate of the worker

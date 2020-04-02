@@ -6,6 +6,7 @@ import it.polimi.ingsw.PSP18.model.PlayerData;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class GameManager {
     private ArrayList<PlayerManager> players = new ArrayList<PlayerManager>();
@@ -13,6 +14,7 @@ public class GameManager {
     private TurnManager turnManager;
 
     public GameManager() {
+        gameMap = new GameMap();
     }
 
     /***
@@ -21,9 +23,18 @@ public class GameManager {
      * @param color The color of the player
      * @param playOrder The order of play of the player, 0 is first
      */
-    public void addPlayer(String id, Color color, Integer playOrder) {
+    public void addPlayer(String id, Color color, Integer playOrder, String divinity) {
         PlayerData playerData = new PlayerData(id, color, playOrder);
-        players.add(new PlayerManager(gameMap, playerData));
+        players.add(new PlayerManager(gameMap, playerData, divinity));
+    }
+
+    /***
+     * Function that returns a copy of the player array
+     * TO CHECK: is this only useful for testing?
+     * @return A copy of the players array
+     */
+    public List<PlayerManager> getPlayers() {
+        return List.copyOf(players);
     }
 
     /***

@@ -14,6 +14,10 @@ import java.util.ArrayList;
 
 public class Pan extends Divinity{
 
+    public Pan(String name, PlayerManager playerManager) {
+        super(name, playerManager);
+    }
+
     /***
      *
      * @param raiseForbidden true if Athena moved up one level

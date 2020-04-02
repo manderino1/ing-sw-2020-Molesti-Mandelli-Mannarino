@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP18.controller;
 
-import it.polimi.ingsw.PSP18.controller.divinities.Divinity;
+import it.polimi.ingsw.PSP18.controller.divinities.*;
 import it.polimi.ingsw.PSP18.model.*;
 
 public class PlayerManager {
@@ -14,9 +14,42 @@ public class PlayerManager {
      * @param gameMap the game map (unique for all players)
      * @param playerData data of the player
      */
-    public PlayerManager(GameMap gameMap, PlayerData playerData) {
+    public PlayerManager(GameMap gameMap, PlayerData playerData, String divinity) {
         this.gameMap = gameMap;
         this.playerData = playerData;
+        divinityCreation(divinity);
+    }
+
+    private void divinityCreation(String divinityName) {
+        switch(divinityName) {
+            case "Apollo":
+                divinity = new Apollo(divinityName, this);
+                break;
+            case "Artemis":
+                divinity = new Artemis(divinityName, this);
+                break;
+            case "Athena":
+                divinity = new Athena(divinityName, this);
+                break;
+            case "Atlas":
+                divinity = new Atlas(divinityName, this);
+                break;
+            case "Demeter":
+                divinity = new Demeter(divinityName, this);
+                break;
+            case "Ephaestus":
+                divinity = new Ephaestus(divinityName, this);
+                break;
+            case "Minotaur":
+                divinity = new Minotaur(divinityName, this);
+                break;
+            case "Pan":
+                divinity = new Pan(divinityName, this);
+                break;
+            case "Prometheus":
+                divinity = new Prometheus(divinityName, this);
+                break;
+        }
     }
 
     /***

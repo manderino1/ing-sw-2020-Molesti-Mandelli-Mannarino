@@ -9,6 +9,10 @@ import it.polimi.ingsw.PSP18.model.Worker;
 import java.util.ArrayList;
 
 public class Atlas extends Divinity{
+    public Atlas(String name, PlayerManager playerManager) {
+        super(name, playerManager);
+    }
+
     /***
      *
      * @param workerID ID of the worker that moved in the movement phase

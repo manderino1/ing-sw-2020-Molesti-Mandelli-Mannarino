@@ -9,6 +9,10 @@ import it.polimi.ingsw.PSP18.model.Worker;
 import java.util.ArrayList;
 
 public class Artemis extends Divinity {
+    public Artemis(String name, PlayerManager playerManager) {
+        super(name, playerManager);
+    }
+
     public void manageTurn(Boolean raiseForbidden) {
         Integer workerID = move(raiseForbidden);
         build(workerID);

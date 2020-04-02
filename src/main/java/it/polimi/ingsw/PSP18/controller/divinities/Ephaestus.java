@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 public class Ephaestus extends Divinity{
 
+    public Ephaestus(String name, PlayerManager playerManager) {
+        super(name, playerManager);
+    }
+
     /***
      *
      * @param workerID ID of the worker that moved in the movement phase

@@ -29,7 +29,7 @@ public class TestDirectionManagement {
     }
 
     /***
-     * Test for checking the correct calculation of the final x into the DirectionManagement class
+     * Test for checking the correct calculation of the final y into the DirectionManagement class
      */
     @Test
     public void testGetYAllDir() {
@@ -51,7 +51,7 @@ public class TestDirectionManagement {
     }
 
     /***
-     * Test for checking the correct calculation of the final x into the DirectionManagement class
+     * Test for checking the correct calculation of the opposite direction
      */
     @Test
     public void testGetOppositeDir() {

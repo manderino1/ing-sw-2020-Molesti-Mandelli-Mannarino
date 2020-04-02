@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 public class Demeter extends Divinity{
 
+    public Demeter(String name, PlayerManager playerManager) {
+        super(name, playerManager);
+    }
+
     /***
      *
      * @param workerID ID of the worker that moved in the movement phase

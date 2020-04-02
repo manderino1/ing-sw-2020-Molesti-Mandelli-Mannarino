@@ -16,6 +16,11 @@ public class Divinity {
     protected Direction direction;
     protected Integer workerID;
 
+    public Divinity(String name, PlayerManager playerManager) {
+        this.name = name;
+        this.playerManager = playerManager;
+    }
+
     public String getName() {
         return name;
     }
