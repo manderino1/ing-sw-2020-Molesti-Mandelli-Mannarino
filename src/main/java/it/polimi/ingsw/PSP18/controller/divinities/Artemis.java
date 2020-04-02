@@ -13,11 +13,6 @@ public class Artemis extends Divinity {
         super(name, playerManager);
     }
 
-    public void manageTurn(Boolean raiseForbidden) {
-        Integer workerID = move(raiseForbidden);
-        build(workerID);
-    }
-
     /***
      *
      * @param raiseForbidden true if athena moved up one level

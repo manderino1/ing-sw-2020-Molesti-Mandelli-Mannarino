@@ -31,39 +31,38 @@ public class Minotaur extends Divinity{
             Integer newX = DirectionManagement.getX(oldX, dir);
             Integer newY = DirectionManagement.getY(oldY, dir);
 
-            boolean xIsInRange = newX + (newX - oldX) <= 5 && newX + (newX - oldX) >= 0;
-            boolean yIsInRange = newY + (newY - oldY) <= 5 && newY + (newY - oldY) >= 0;
-            if (!raiseForbidden) {
-                if (!playerManager.getGameMap().getCell(newX, newY).getDome() &&
-                        (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)) {
-                    if ((playerManager.getGameMap().getCell(newX, newY).getWorker() != null) &&
-                            xIsInRange &&
-                            yIsInRange &&
-                            !playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getDome() &&
-                            playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getWorker() == null) {
-                        moves.add(dir);
-                    }
-                    else if(playerManager.getGameMap().getCell(newX, newY).getWorker() == null){
-                        moves.add(dir);
-                    }
-                }
-            }
-            else {
-                if (!playerManager.getGameMap().getCell(newX, newY).getDome() &&
-                        (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)) {
-                    if ((playerManager.getGameMap().getCell(newX, newY).getWorker() != null) &&
-                            xIsInRange &&
-                            yIsInRange &&
-                            !playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getDome() &&
-                            playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getWorker() == null) {
-                        moves.add(dir);
-                    }
-                    else if(playerManager.getGameMap().getCell(newX, newY).getWorker() == null){
-                        moves.add(dir);
-                    }
-                }
-            }
+            if(newX != -1 && newY != -1) {
+                boolean xIsInRange = newX + (newX - oldX) <= 5 && newX + (newX - oldX) >= 0;
+                boolean yIsInRange = newY + (newY - oldY) <= 5 && newY + (newY - oldY) >= 0;
 
+                if (!raiseForbidden) {
+                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() &&
+                            (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)) {
+                        if ((playerManager.getGameMap().getCell(newX, newY).getWorker() != null) &&
+                                xIsInRange &&
+                                yIsInRange &&
+                                !playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getDome() &&
+                                playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getWorker() == null) {
+                            moves.add(dir);
+                        } else if (playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
+                            moves.add(dir);
+                        }
+                    }
+                } else {
+                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() &&
+                            (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)) {
+                        if ((playerManager.getGameMap().getCell(newX, newY).getWorker() != null) &&
+                                xIsInRange &&
+                                yIsInRange &&
+                                !playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getDome() &&
+                                playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getWorker() == null) {
+                            moves.add(dir);
+                        } else if (playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
+                            moves.add(dir);
+                        }
+                    }
+                }
+            }
         }
         return moves;
     }

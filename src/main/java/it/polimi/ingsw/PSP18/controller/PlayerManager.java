@@ -55,6 +55,7 @@ public class PlayerManager {
         }
     }
 
+    //TODO: check if somehow you can place a worker in a spot out of bounds, use checkCoordinate from DirectionManagement if needed
     public void placeWorker(Integer x, Integer y) {
         if(workers[0] == null) {
             workers[0] = new Worker(x, y);

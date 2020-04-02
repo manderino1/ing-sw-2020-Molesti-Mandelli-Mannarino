@@ -137,13 +137,15 @@ public class Divinity {
             Integer newX = DirectionManagement.getX(oldX, dir);
             Integer newY = DirectionManagement.getY(oldY, dir);
 
-            if (!raiseForbidden) {
-                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
-                    moves.add(dir);
-                }
-            } else {
-                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
-                    moves.add(dir);
+            if(newX != -1 && newY != -1) {
+                if (!raiseForbidden) {
+                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
+                        moves.add(dir);
+                    }
+                } else {
+                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
+                        moves.add(dir);
+                    }
                 }
             }
         }
@@ -164,8 +166,10 @@ public class Divinity {
             Integer newX = DirectionManagement.getX(oldX, dir);
             Integer newY = DirectionManagement.getY(oldY, dir);
 
-            if(!playerManager.getGameMap().getCell(newX, newY).getDome() && playerManager.getGameMap().getCell(newX, newY).getWorker() == null){
-                moves.add(dir);
+            if(newX != -1 && newY != -1) {
+                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
+                    moves.add(dir);
+                }
             }
         }
         return moves;
@@ -207,18 +211,20 @@ public class Divinity {
                 Integer newX = DirectionManagement.getX(oldX, dir);
                 Integer newY = DirectionManagement.getY(oldY, dir);
 
-                if (!raiseForbidden) {
-                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
-                        return false;
-                    }
-                } else {
-                    if(movementPhase) {
-                        if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
+                if(newX != -1 && newY != -1) {
+                    if (!raiseForbidden) {
+                        if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
                             return false;
                         }
-                    } else{
-                        if(!playerManager.getGameMap().getCell(newX, newY).getDome() && playerManager.getGameMap().getCell(newX, newY).getWorker() == null){
-                            return false;
+                    } else {
+                        if (movementPhase) {
+                            if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
+                                return false;
+                            }
+                        } else {
+                            if (!playerManager.getGameMap().getCell(newX, newY).getDome() && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
+                                return false;
+                            }
                         }
                     }
                 }

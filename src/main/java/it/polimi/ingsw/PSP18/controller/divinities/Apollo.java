@@ -32,13 +32,15 @@ public class Apollo extends Divinity {
             Integer newX = DirectionManagement.getX(oldX, dir);
             Integer newY = DirectionManagement.getY(oldY, dir);
 
-            if (!raiseForbidden) {
-                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)) {
-                    moves.add(dir);
-                }
-            } else {
-                if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)) {
-                    moves.add(dir);
+            if(newX != -1 && newY != -1) {
+                if (!raiseForbidden) {
+                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)) {
+                        moves.add(dir);
+                    }
+                } else {
+                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)) {
+                        moves.add(dir);
+                    }
                 }
             }
         }
