@@ -16,10 +16,9 @@ public class Demeter extends Divinity{
 
     /***
      *
-     * @param workerID ID of the worker that moved in the movement phase
      */
     @Override
-    protected void build(Integer workerID) {
+    protected void build() {
 
         if(checkForLose(true, false)){
             /*

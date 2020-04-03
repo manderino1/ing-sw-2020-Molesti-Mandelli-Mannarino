@@ -18,6 +18,14 @@ public class TurnManager {
         indexCurrentPlayer = 0;
     }
 
+    /***
+     * Called form the parser, when a signal is received to end turn switch the turn to the following player
+     */
+    public void passTurn() {
+        indexCurrentPlayer = indexCurrentPlayer + 1;
+        ManageTurn();
+    }
+
     public void ManageTurn(){
 
         //to do: ricezione segnale dalla view

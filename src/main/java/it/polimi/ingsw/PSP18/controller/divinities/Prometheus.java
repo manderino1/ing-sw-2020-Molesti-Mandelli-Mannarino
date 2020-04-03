@@ -18,7 +18,7 @@ public class Prometheus extends Divinity{
      * @param raiseForbidden true if athena moved up one level
      */
     @Override
-    protected Integer move(Boolean raiseForbidden) {
+    protected void move(Boolean raiseForbidden) {
 
         /*
             checking if the player lost
@@ -55,7 +55,7 @@ public class Prometheus extends Divinity{
         /*
             checking for  victory
          */
-        if(checkForVictory(raiseForbidden)){
+        if(checkForVictory()){
             /*
                TODO: victory, jump to the end
             */
@@ -69,7 +69,6 @@ public class Prometheus extends Divinity{
             /*
                TODO: can't move again
             */
-            return workerID;
         }
 
         moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden, buildchoice);
@@ -85,12 +84,8 @@ public class Prometheus extends Divinity{
                     Direction direction = ;
          */
 
-        if(direction == null) {
-            return workerID;
-        }
 
         setMove(worker.getX(), worker.getY(), direction);
-        return workerID;
     }
 
     /***

@@ -30,15 +30,14 @@ public class Divinity {
      * @param raiseForbidden true if athena moved up one level
      */
     public void manageTurn(Boolean raiseForbidden) {
-        Integer workerID = move(raiseForbidden);
-        build(workerID);
+        move(raiseForbidden);
     }
 
     /***
      *
      * @param raiseForbidden true if athena moved up one level
      */
-    protected Integer move(Boolean raiseForbidden) {
+    protected void move(Boolean raiseForbidden) {
         /*
             checking if the player lost
          */
@@ -48,46 +47,39 @@ public class Divinity {
             */
         }
 
-        /*
-            TODO: qui bisogna chiedere alla view quale worker si ha intenzione di muovere e lo salvo in workerID
-
-             Integer workerID = ;
-         */
-
-        Worker worker = playerManager.getWorker(workerID);
-        ArrayList<Direction> moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
+        ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
+        ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
 
          /*
-            TODO: qui bisogna passare alla view l'arraylist moves
+            TODO: qui bisogna passare al client l'arraylist moves
          */
+    }
 
-        /*
-            TODO: qui bisogna chiedere alla view la direzione dove voglio muovere il worker e la salvo in direction
-
-                    Direction direction = ;
-         */
-
+    /***
+     * Moves in the selected direction
+     * @param direction the direction of the movement
+     * @param workerID the ID of the worker that we want to move
+     */
+    protected void moveReceiver(Direction direction, Integer workerID) {
+        Worker worker = playerManager.getWorker(workerID);
+        this.workerID = workerID;
         setMove(worker.getX(), worker.getY(), direction);
 
-        /*
-            checking for  victory
-         */
-        if(checkForVictory(raiseForbidden)){
+        if(checkForVictory()){
             /*
                TODO: victory, jump to the end
             */
         }
 
-        return workerID;
+        build();
     }
 
     /***
-     *
-     * @param workerID ID of the worker that moved in the movement phase
+     * Pass to the client the array of the possible build direction moves
      */
-    protected void build(Integer workerID) {
+    protected void build() {
 
-        if(checkForLose(true, false)){
+        if (checkForLose(true, false)) {
             /*
                TODO: lost, jump to the end
             */
@@ -99,13 +91,18 @@ public class Divinity {
         /*
             TODO: qui bisogna passare alla view l'arraylist moves
          */
+    }
 
+    /***
+     * Build in the selected direction
+     * @param direction the direction of the wanted build
+     */
+    protected void buildReceiver(Direction direction) {
          /*
             TODO: qui bisogna chiedere alla view la direzione dove voglio costruire e la salvo in direction
-
-                    Direction direction = ;
          */
 
+        Worker worker = playerManager.getWorker(workerID);
         Integer newX = DirectionManagement.getX(worker.getX(), direction);
         Integer newY = DirectionManagement.getY(worker.getY(), direction);
         Boolean dome = false;
@@ -177,19 +174,16 @@ public class Divinity {
 
     /***
      *
-     * @param raiseForbidden true if Athena moved up one level
      * @return
      */
-    protected Boolean checkForVictory(Boolean raiseForbidden){
+    protected Boolean checkForVictory(){
 
         for (int i = 0; i < 2; i++) {
             Integer oldX = playerManager.getWorker(i).getX();
             Integer oldY = playerManager.getWorker(i).getY();
 
-            if (!raiseForbidden) {
-                if (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3) {
-                    return true;
-                }
+            if (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3) {
+                return true;
             }
         }
         return false;

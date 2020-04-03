@@ -16,24 +16,17 @@ public class Pan extends Divinity{
 
     /***
      *
-     * @param raiseForbidden true if Athena moved up one level
-     * @return
+     * @return true if he has won
      */
     @Override
-    protected Boolean checkForVictory(Boolean raiseForbidden){
+    protected Boolean checkForVictory(){
 
         for (int i = 0; i < 2; i++) {
             Integer oldX = playerManager.getWorker(i).getX();
             Integer oldY = playerManager.getWorker(i).getY();
 
-            if (!raiseForbidden) {
-                if ( (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3) || (playerManager.getPlayerData().getLastMove().getLevel() == -2) ) {
-                    return true;
-                }
-            } else {
-                if (playerManager.getPlayerData().getLastMove().getLevel() == -2) {
-                    return true;
-                }
+            if ( (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3) || (playerManager.getPlayerData().getLastMove().getLevel() == -2) ) {
+                return true;
             }
         }
         return false;
