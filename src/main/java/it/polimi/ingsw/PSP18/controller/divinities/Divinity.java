@@ -13,8 +13,8 @@ public class Divinity {
     protected PlayerManager playerManager;
 
     // TODO : REMOVE IT
-    protected Direction direction;
-    protected Integer workerID;
+    protected Direction direction = Direction.UP;
+    protected Integer workerID = 0;
 
     public Divinity(String name, PlayerManager playerManager) {
         this.name = name;

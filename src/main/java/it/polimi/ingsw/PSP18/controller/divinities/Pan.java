@@ -8,10 +8,6 @@ import it.polimi.ingsw.PSP18.model.Worker;
 
 import java.util.ArrayList;
 
-/*
-    TODO: siccome ci sono molte condizioni ricorrenti si puo usare la classe utilities al posto di direction manager, per esempio per il metodo checkEmptySpace oppure un metodo checkDome
- */
-
 public class Pan extends Divinity{
 
     public Pan(String name, PlayerManager playerManager) {
@@ -32,6 +28,10 @@ public class Pan extends Divinity{
 
             if (!raiseForbidden) {
                 if ( (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3) || (playerManager.getPlayerData().getLastMove().getLevel() == -2) ) {
+                    return true;
+                }
+            } else {
+                if (playerManager.getPlayerData().getLastMove().getLevel() == -2) {
                     return true;
                 }
             }
