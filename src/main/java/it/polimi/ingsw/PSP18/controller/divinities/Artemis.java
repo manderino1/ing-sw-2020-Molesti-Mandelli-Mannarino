@@ -3,20 +3,17 @@ package it.polimi.ingsw.PSP18.controller.divinities;
 import it.polimi.ingsw.PSP18.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.model.Direction;
-import it.polimi.ingsw.PSP18.model.Move;
 import it.polimi.ingsw.PSP18.model.Worker;
 
 import java.util.ArrayList;
 
 public class Artemis extends Divinity {
+    boolean raiseForbidden, firstMove;
+
     public Artemis(String name, PlayerManager playerManager) {
         super(name, playerManager);
     }
 
-    /***
-     *
-     * @param raiseForbidden true if athena moved up one level
-     */
     @Override
     protected void move(Boolean raiseForbidden) {
         /*
@@ -28,39 +25,36 @@ public class Artemis extends Divinity {
             */
         }
 
-        /*
-            TODO: qui bisogna chiedere alla view quale worker si ha intenzione di muovere e lo salvo in workerID
-
-             Integer workerID = ;
-         */
-
-        Worker worker = playerManager.getWorker(workerID);
-        ArrayList<Direction> moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
+        ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
+        ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
 
          /*
-            TODO: qui bisogna passare alla view l'arraylist moves
+            TODO: qui bisogna passare al client l'arraylist moves
          */
 
-        /*
-            TODO: qui bisogna chiedere alla view la direzione dove voglio muovere il worker e la salvo in direction
+         this.raiseForbidden = raiseForbidden;
+         this.firstMove = true;
+    }
 
-                    Direction direction = ;
-         */
+    /***
+     *
+     */
+    @Override
+    protected void moveReceiver(Direction direction, Integer workerID) {
+        if(direction == null) { // If he doesn't want to move
+            build();
+            return;
+        }
 
+        Worker worker = playerManager.getWorker(workerID);
+        this.workerID = workerID;
         setMove(worker.getX(), worker.getY(), direction);
 
-        /*
-            checking for  victory
-         */
         if(checkForVictory()){
             /*
                TODO: victory, jump to the end
             */
         }
-
-        /*
-         Artemis can move twice
-         */
 
         if(checkForLose(raiseForbidden, true)){
             /*
@@ -68,21 +62,18 @@ public class Artemis extends Divinity {
             */
         }
 
-        moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
-        moves.remove(DirectionManagement.getOppositeDirection(direction));
+        if(firstMove) {
+            ArrayList<Direction> moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
+            moves.remove(DirectionManagement.getOppositeDirection(direction));
+            firstMove = false;
 
-         /*
-            TODO: qui bisogna passare alla view l'arraylist moves
-         */
-
-        /*
-            TODO: qui bisogna chiedere alla view la direzione dove voglio muovere il worker e la salvo in direction oppure se non vuole eseguire una seconda mossa restituirà null
-
-                    Direction direction = ;
-         */
-
-
-        setMove(worker.getX(), worker.getY(), direction);
+            /*
+            TODO: qui bisogna passare al client l'arraylist moves
+             */
+        }
+        else {
+            build();
+        }
     }
 }
 
