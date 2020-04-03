@@ -24,7 +24,7 @@ public class TestCell {
     public void testCellWorker() {
         Cell cell = new Cell();
         Worker worker = new Worker(2,1);
-        Assert.assertEquals(null, cell.getWorker());
+        Assert.assertNull(cell.getWorker());
         cell.setWorker(worker);
         Assert.assertEquals(worker, cell.getWorker());
     }
@@ -35,7 +35,7 @@ public class TestCell {
     @Test
     public void testCellBuilding() {
         Cell cell = new Cell();
-        Assert.assertEquals(null, cell.getBuilding());
+        Assert.assertEquals(Integer.valueOf(0), cell.getBuilding());
         cell.setBuilding(1);
         Assert.assertEquals(Integer.valueOf(1), cell.getBuilding());
     }
