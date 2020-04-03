@@ -5,94 +5,54 @@ import it.polimi.ingsw.PSP18.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.model.Direction;
 import it.polimi.ingsw.PSP18.model.Worker;
 import java.util.ArrayList;
-import it.polimi.ingsw.PSP18.model.Move;
 
 public class Prometheus extends Divinity{
+    boolean buildChoice, firstBuild;
 
     public Prometheus(String name, PlayerManager playerManager) {
         super(name, playerManager);
     }
 
     /***
-     * Prometeo prima di muovere può decidere se costruire, tale funzione è implementata da buildopt
+     *
      * @param raiseForbidden true if athena moved up one level
      */
-    @Override
-    protected void move(Boolean raiseForbidden) {
-
+    public void manageTurn(Boolean raiseForbidden) {
+        this.raiseForbidden = raiseForbidden;
         /*
-            checking if the player lost
+            TODO: richiedi al giocatore quale worker usare
          */
+    }
+
+    private void workerSelect(Integer workerID) {
+        this.workerID = workerID;
+    }
+
+    /***
+     * Prometeo prima di muovere può decidere se costruire, tale funzione è implementata da buildopt
+     */
+    @Override
+    protected void move() {
         if(checkForLose(raiseForbidden, true)){
             /*
                TODO: lost, jump to the end
             */
         }
 
-        /*
-            TODO: qui bisogna chiedere alla view quale worker si ha intenzione di muovere e lo salvo in workerID
-
-             Integer workerID = ;
-         */
-
         Worker worker = playerManager.getWorker(workerID);
-        Boolean buildchoice=buildopt(workerID);
-
-        ArrayList<Direction> moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden, buildchoice);
-
-         /*
-            TODO: qui bisogna passare alla view l'arraylist moves
-         */
-
-        /*
-            TODO: qui bisogna chiedere alla view la direzione dove voglio muovere il worker e la salvo in direction
-
-                    Direction direction = ;
-         */
-
-        setMove(worker.getX(), worker.getY(), direction);
-
-        /*
-            checking for  victory
-         */
-        if(checkForVictory()){
-            /*
-               TODO: victory, jump to the end
-            */
-        }
-
-        /*
-         Artemis can move twice
-         */
-
-        if(checkForLose(raiseForbidden, true)){
-            /*
-               TODO: can't move again
-            */
-        }
-
-        moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden, buildchoice);
-        moves.remove(DirectionManagement.getOppositeDirection(direction));
+        ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden, buildChoice);
+        ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden, buildChoice);
 
          /*
             TODO: qui bisogna passare alla view l'arraylist moves
          */
-
-        /*
-            TODO: qui bisogna chiedere alla view la direzione dove voglio muovere il worker e la salvo in direction oppure se non vuole eseguire una seconda mossa restituirà null
-
-                    Direction direction = ;
-         */
-
-
-        setMove(worker.getX(), worker.getY(), direction);
     }
 
     /***
      *
-     * @param workerID ID of the worker that moved in the movement phase
      */
-    private Boolean buildopt(Integer workerID) {
+    @Override
+    protected void build() {
 
         if(checkForLose(true, false)){
             /*
@@ -106,13 +66,17 @@ public class Prometheus extends Divinity{
         /*
             TODO: qui bisogna passare alla view l'arraylist moves
          */
+    }
 
-         /*
+    @Override
+    protected void buildReceiver(Direction direction) {
+        /*
             TODO: qui bisogna chiedere alla view la direzione dove voglio costruire e la salvo in direction e se il giocatore non vuole costruire salva null in direction
 
                     Direction direction = ;
          */
         if (direction!=null) {
+            Worker worker = playerManager.getWorker(workerID);
             Integer newX = DirectionManagement.getX(worker.getX(), direction);
             Integer newY = DirectionManagement.getY(worker.getY(), direction);
             Boolean dome = false;
@@ -125,10 +89,12 @@ public class Prometheus extends Divinity{
                 dome = true;
             }
             playerManager.setBuild(newX, newY, dome);
-            return true;
+            buildChoice = true;
+            if(firstBuild) move();
         }
-        else{
-            return false;
+        else {
+            buildChoice = false;
+            move();
         }
     }
 

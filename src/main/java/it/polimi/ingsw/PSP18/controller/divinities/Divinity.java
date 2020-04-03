@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Divinity {
     protected String name;
     protected PlayerManager playerManager;
+    protected boolean raiseForbidden;
 
     // TODO : REMOVE IT
     protected Direction direction = Direction.UP;
@@ -30,14 +31,14 @@ public class Divinity {
      * @param raiseForbidden true if athena moved up one level
      */
     public void manageTurn(Boolean raiseForbidden) {
-        move(raiseForbidden);
+        this.raiseForbidden = raiseForbidden;
+        move();
     }
 
     /***
      *
-     * @param raiseForbidden true if athena moved up one level
      */
-    protected void move(Boolean raiseForbidden) {
+    protected void move() {
         /*
             checking if the player lost
          */

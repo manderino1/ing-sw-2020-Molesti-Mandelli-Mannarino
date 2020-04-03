@@ -15,7 +15,7 @@ public class Artemis extends Divinity {
     }
 
     @Override
-    protected void move(Boolean raiseForbidden) {
+    protected void move() {
         /*
             checking if the player lost
          */
