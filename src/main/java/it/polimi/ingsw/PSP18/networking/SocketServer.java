@@ -1,24 +1,31 @@
 package it.polimi.ingsw.PSP18.networking;
 
+import it.polimi.ingsw.PSP18.controller.GameManager;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class SocketServer {
-    final int PORT = 9002;
+public class SocketServer extends Thread {
+    private final int PORT = 9002;
+    private GameManager gameManager;
+    private boolean listening = true;
+    private ServerSocket serverSocket = null;
 
-    ServerSocket serverSocket = null;
-
-    public SocketServer() {
-        Socket socket = null;
+    public SocketServer(GameManager gameManager) {
+        this.gameManager = gameManager;
 
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        while (true) {
+    public void run() {
+        Socket socket = null;
+
+        while (listening) {
             if (serverSocket != null) {
                 try {
                     socket = serverSocket.accept();
@@ -27,7 +34,9 @@ public class SocketServer {
                 }
             }
             // new thread for a client
-            new SocketThread(socket).start();
+            SocketThread newThread = new SocketThread(socket);
+            newThread.start();
+            gameManager.addConnectedPlayer(socket);
         }
     }
 }

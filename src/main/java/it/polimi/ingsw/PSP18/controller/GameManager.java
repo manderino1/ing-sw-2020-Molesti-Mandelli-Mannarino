@@ -3,7 +3,9 @@ package it.polimi.ingsw.PSP18.controller;
 import it.polimi.ingsw.PSP18.model.Color;
 import it.polimi.ingsw.PSP18.model.GameMap;
 import it.polimi.ingsw.PSP18.model.PlayerData;
+import it.polimi.ingsw.PSP18.networking.SocketServer;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,9 +14,13 @@ public class GameManager {
     private ArrayList<PlayerManager> players = new ArrayList<PlayerManager>();
     private GameMap gameMap;
     private TurnManager turnManager;
+    private SocketServer socketServer;
+    private ArrayList<Socket> connectedPlayers = new ArrayList<Socket>();
 
     public GameManager() {
         gameMap = new GameMap();
+        socketServer = new SocketServer(this);
+        socketServer.start();
     }
 
     /***
@@ -55,5 +61,21 @@ public class GameManager {
         }
         // If Athena is not found create a standard turn manager
         turnManager = new TurnManager(players);
+    }
+
+    /***
+     * Adding the socket of the new connection to the list of the players
+     * @param socket the reference to the socket for communicating with the client
+     */
+    public void addConnectedPlayer(Socket socket) {
+        if(connectedPlayers.size() == 1) {
+            connectedPlayers.add(socket);
+            //TODO: mostra al client la possibilitá di iniziare la partita
+        }
+        else if (connectedPlayers.size() == 2) {
+            connectedPlayers.add(socket);
+            //TODO: mostra al client la possibilitá di iniziare la partita
+        }
+        // If there are already 3 players do nothing, you can only start the match
     }
 }
