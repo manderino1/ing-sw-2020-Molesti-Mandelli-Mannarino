@@ -9,6 +9,7 @@ import it.polimi.ingsw.PSP18.model.Move;
 import java.util.ArrayList;
 
 public class Ephaestus extends Divinity{
+    boolean firstBuild;
 
     public Ephaestus(String name, PlayerManager playerManager) {
         super(name, playerManager);
@@ -19,8 +20,7 @@ public class Ephaestus extends Divinity{
      */
     @Override
     protected void build() {
-
-        if(checkForLose(true, false)){
+        if (checkForLose(true, false)) {
             /*
                TODO: lost, jump to the end
             */
@@ -33,12 +33,19 @@ public class Ephaestus extends Divinity{
             TODO: qui bisogna passare alla view l'arraylist moves
          */
 
-         /*
-            TODO: qui bisogna chiedere alla view la direzione dove voglio costruire e la salvo in direction
+        firstBuild = true;
+    }
 
-                    Direction direction = ;
-         */
+    /***
+     * Build in the selected direction
+     * @param direction the direction of the wanted build
+     */
+    protected void buildReceiver(Direction direction) {
+        if (direction == null) { // If he doesn't want to move
+            return;
+        }
 
+        Worker worker = playerManager.getWorker(workerID);
         Integer newX = DirectionManagement.getX(worker.getX(), direction);
         Integer newY = DirectionManagement.getY(worker.getY(), direction);
         Boolean dome = false;
@@ -53,35 +60,15 @@ public class Ephaestus extends Divinity{
 
         playerManager.setBuild(newX, newY, dome);
 
-        // checking if she can build again
+        if (firstBuild && playerManager.getGameMap().getCell(newX, newY).getBuilding() != 3) {
+            ArrayList<Direction> moves = new ArrayList<Direction>();
+            moves.add(direction);
+            firstBuild = false;
 
-        if(checkForLose(true, false) || playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {
             /*
-               TODO: Can't build again run to the end of turn
-            */
+            TODO: qui bisogna passare al client l'arraylist moves
+             */
         }
-
-        moves = new ArrayList<Direction>();
-        moves.add(direction);
-
-        /*
-            TODO: qui bisogna passare alla view l'arraylist moves
-         */
-
-         /*
-            TODO: qui bisogna chiedere alla view la direzione dove voglio costruire e la salvo in direction, se non vuole costruire ancora verrà restituito null in direction
-
-                    Direction direction = ;
-         */
-
-         if(direction == null){
-             // TODO: player doesn't want to build another block, so end turn
-         }
-
-        dome = false;
-
-        playerManager.setBuild(newX, newY, dome);
-
     }
 }
 
