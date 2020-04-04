@@ -1,11 +1,13 @@
 package it.polimi.ingsw.PSP18.controller;
 
+import it.polimi.ingsw.PSP18.model.Match;
+
 import java.util.ArrayList;
 
 public class TurnManagerAthena extends TurnManager {
     public boolean bool;
-    public TurnManagerAthena(ArrayList<PlayerManager> player) {
-        super(player);
+    public TurnManagerAthena(Match match) {
+        super(match);
     }
     //public void getLastMove(player) {
     //}

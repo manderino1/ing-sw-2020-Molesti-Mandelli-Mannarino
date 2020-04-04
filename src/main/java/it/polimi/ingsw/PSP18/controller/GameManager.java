@@ -1,9 +1,8 @@
 package it.polimi.ingsw.PSP18.controller;
 
 import it.polimi.ingsw.PSP18.model.Color;
-import it.polimi.ingsw.PSP18.model.GameMap;
+import it.polimi.ingsw.PSP18.model.Match;
 import it.polimi.ingsw.PSP18.model.PlayerData;
-import it.polimi.ingsw.PSP18.networking.SocketServer;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -11,22 +10,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public class GameManager {
-    private ArrayList<PlayerManager> players = new ArrayList<PlayerManager>();
-    private GameMap gameMap;
     private TurnManager turnManager;
-    private SocketServer socketServer;
+    private Match match;
     private ArrayList<Socket> connectedPlayers = new ArrayList<Socket>();
 
     public GameManager() {
-        gameMap = new GameMap();
-    }
-
-    public SocketServer getSocketServer() {
-        return socketServer;
-    }
-
-    public void setSocketServer(SocketServer socketServer) {
-        this.socketServer = socketServer;
+        match = new Match();
     }
 
     /***
@@ -37,16 +26,7 @@ public class GameManager {
      */
     public void addPlayer(String id, Color color, Integer playOrder, String divinity) {
         PlayerData playerData = new PlayerData(id, color, playOrder);
-        players.add(new PlayerManager(gameMap, playerData, divinity));
-    }
-
-    /***
-     * Function that returns a copy of the player array
-     * TO CHECK: is this only useful for testing?
-     * @return A copy of the players array
-     */
-    public List<PlayerManager> getPlayers() {
-        return List.copyOf(players);
+        match.addPlayer(new PlayerManager(match, playerData, divinity));
     }
 
     /***
@@ -56,17 +36,17 @@ public class GameManager {
      */
     public void startMatch() {
         // Sort players by order
-        players.sort(Comparator.comparingInt(o -> o.getPlayerData().getPlayOrder()));
+        match.getPlayerManagers().sort(Comparator.comparingInt(o -> o.getPlayerData().getPlayOrder()));
 
         // Search for Athena
-        for (PlayerManager player : players) {
+        for (PlayerManager player : match.getPlayerManagers()) {
             if(player.getDivinityName().equals("Athena")) {
-                turnManager = new TurnManagerAthena(players);
+                turnManager = new TurnManagerAthena(match);
                 return;
             }
         }
         // If Athena is not found create a standard turn manager
-        turnManager = new TurnManager(players);
+        turnManager = new TurnManager(match);
     }
 
     /***

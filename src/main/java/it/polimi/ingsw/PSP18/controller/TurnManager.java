@@ -1,12 +1,14 @@
 package it.polimi.ingsw.PSP18.controller;
 
+import it.polimi.ingsw.PSP18.model.Match;
+
 import java.util.ArrayList;
 
 public class TurnManager {
     protected ArrayList<PlayerManager> player = new ArrayList<PlayerManager>();
     protected Integer indexCurrentPlayer;
 
-    public TurnManager(ArrayList<PlayerManager> player) {
+    public TurnManager(Match match) {
         this.player = player;
         setupTurn();
     }
