@@ -135,4 +135,11 @@ public class PlayerManager {
     public void manageTurn(boolean raiseForbidden) {
         divinity.manageTurn(raiseForbidden);
     }
+
+    /***
+     * @return the divinity reference
+     */
+    public Divinity getDivinity() {
+        return divinity;
+    }
 }

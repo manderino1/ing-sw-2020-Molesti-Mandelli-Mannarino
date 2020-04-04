@@ -69,7 +69,7 @@ public class Prometheus extends Divinity{
     }
 
     @Override
-    protected void buildReceiver(Direction direction) {
+    public void buildReceiver(Direction direction) {
         /*
             TODO: qui bisogna chiedere alla view la direzione dove voglio costruire e la salvo in direction e se il giocatore non vuole costruire salva null in direction
 

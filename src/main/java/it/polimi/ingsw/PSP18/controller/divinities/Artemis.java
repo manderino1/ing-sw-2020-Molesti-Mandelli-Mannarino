@@ -40,7 +40,7 @@ public class Artemis extends Divinity {
      *
      */
     @Override
-    protected void moveReceiver(Direction direction, Integer workerID) {
+    public void moveReceiver(Direction direction, Integer workerID) {
         if(direction == null) { // If he doesn't want to move
             build();
             return;

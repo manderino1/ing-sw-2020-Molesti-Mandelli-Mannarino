@@ -12,7 +12,7 @@ public class Atlas extends Divinity{
         super(name, playerManager);
     }
 
-    protected void buildReceiver(Direction direction, Boolean dome) {
+    public void buildReceiver(Direction direction, Boolean dome) {
          /*
             TODO: qui bisogna chiedere alla view la direzione dove voglio costruire e la salvo in direction
          */

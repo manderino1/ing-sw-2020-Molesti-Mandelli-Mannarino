@@ -40,7 +40,7 @@ public class Ephaestus extends Divinity{
      * Build in the selected direction
      * @param direction the direction of the wanted build
      */
-    protected void buildReceiver(Direction direction) {
+    public void buildReceiver(Direction direction) {
         if (direction == null) { // If he doesn't want to move
             return;
         }

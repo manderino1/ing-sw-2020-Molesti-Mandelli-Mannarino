@@ -61,7 +61,7 @@ public class Divinity {
      * @param direction the direction of the movement
      * @param workerID the ID of the worker that we want to move
      */
-    protected void moveReceiver(Direction direction, Integer workerID) {
+    public void moveReceiver(Direction direction, Integer workerID) {
         Worker worker = playerManager.getWorker(workerID);
         this.workerID = workerID;
         setMove(worker.getX(), worker.getY(), direction);
@@ -98,7 +98,7 @@ public class Divinity {
      * Build in the selected direction
      * @param direction the direction of the wanted build
      */
-    protected void buildReceiver(Direction direction) {
+    public void buildReceiver(Direction direction) {
          /*
             TODO: qui bisogna chiedere alla view la direzione dove voglio costruire e la salvo in direction
          */
