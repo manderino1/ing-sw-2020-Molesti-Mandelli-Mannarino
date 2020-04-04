@@ -66,5 +66,28 @@ public class Minotaur extends Divinity{
         }
         return moves;
     }
+
+    /***
+     * Set worker in a cell and remove from the source one
+     * If a worker is present in the destination cell (Apollo) switch workers
+     * @param oldX the source x position
+     * @param oldY the source y position
+     * @param newX the destination x position
+     * @param newY the destination y position
+     */
+    @Override
+    protected void updateMoveCells(Integer oldX, Integer oldY, Integer newX, Integer newY) {
+        Worker destinationWorker = playerManager.getGameMap().getCell(newX, newY).getWorker();
+        playerManager.getGameMap().setCell(newX, newY, playerManager.getGameMap().getCell(newX, newY).getBuilding(), playerManager.getGameMap().getCell(oldX, oldY).getWorker());
+        playerManager.getGameMap().getCell(newX, newY).getWorker().setPosition(newX, newY);
+        if(destinationWorker == null) {
+            playerManager.getGameMap().setCell(oldX, oldY, playerManager.getGameMap().getCell(oldX, oldY).getBuilding(), null);
+        }
+        else {
+            playerManager.getGameMap().setCell(oldX, oldY, playerManager.getGameMap().getCell(oldX, oldY).getBuilding(), null);
+            playerManager.getGameMap().setCell(newX + (newX - oldX), newY + (newY - oldY), playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getBuilding(), destinationWorker);
+            playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getWorker().setPosition(newX + (newX - oldX), newY + (newY - oldY));
+        }
+    }
 }
 
