@@ -96,11 +96,13 @@ public class Apollo extends Divinity {
     protected void updateMoveCells(Integer oldX, Integer oldY, Integer newX, Integer newY) {
         Worker destinationWorker = playerManager.getGameMap().getCell(newX, newY).getWorker();
         playerManager.getGameMap().setCell(newX, newY, playerManager.getGameMap().getCell(newX, newY).getBuilding(), playerManager.getGameMap().getCell(oldX, oldY).getWorker());
+        playerManager.getGameMap().getCell(newX, newY).getWorker().setPosition(newX, newY);
         if(destinationWorker == null) {
             playerManager.getGameMap().setCell(oldX, oldY, playerManager.getGameMap().getCell(oldX, oldY).getBuilding(), null);
         }
         else {
             playerManager.getGameMap().setCell(oldX, oldY, playerManager.getGameMap().getCell(oldX, oldY).getBuilding(), destinationWorker);
+            playerManager.getGameMap().getCell(oldX, oldY).getWorker().setPosition(oldX, oldY);
         }
     }
 }

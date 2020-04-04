@@ -264,5 +264,6 @@ public class Divinity {
     protected void updateMoveCells(Integer oldX, Integer oldY, Integer newX, Integer newY) {
         playerManager.getGameMap().setCell(newX, newY, playerManager.getGameMap().getCell(newX, newY).getBuilding(), playerManager.getGameMap().getCell(oldX, oldY).getWorker());
         playerManager.getGameMap().setCell(oldX, oldY, playerManager.getGameMap().getCell(oldX, oldY).getBuilding(), null);
+        playerManager.getGameMap().getCell(newX, newY).getWorker().setPosition(newX, newY);
     }
 }
