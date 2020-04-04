@@ -29,6 +29,9 @@ public class SocketThread extends Thread {
         while (true) {
             try {
                 String line = input.readLine();    // reads a line of text
+                if(line != null) {
+                    System.out.println(line);
+                }
                 // TODO: elabora input
             } catch (IOException e) {
                 e.printStackTrace();

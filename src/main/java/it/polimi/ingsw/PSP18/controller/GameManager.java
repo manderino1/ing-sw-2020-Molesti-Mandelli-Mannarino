@@ -19,8 +19,14 @@ public class GameManager {
 
     public GameManager() {
         gameMap = new GameMap();
-        socketServer = new SocketServer(this);
-        socketServer.start();
+    }
+
+    public SocketServer getSocketServer() {
+        return socketServer;
+    }
+
+    public void setSocketServer(SocketServer socketServer) {
+        this.socketServer = socketServer;
     }
 
     /***
@@ -68,11 +74,10 @@ public class GameManager {
      * @param socket the reference to the socket for communicating with the client
      */
     public void addConnectedPlayer(Socket socket) {
-        if(connectedPlayers.size() == 1) {
+        if(connectedPlayers.size() == 0) {
             connectedPlayers.add(socket);
-            //TODO: mostra al client la possibilitá di iniziare la partita
         }
-        else if (connectedPlayers.size() == 2) {
+        else if (connectedPlayers.size() == 1 || connectedPlayers.size() == 2) {
             connectedPlayers.add(socket);
             //TODO: mostra al client la possibilitá di iniziare la partita
         }
