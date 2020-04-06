@@ -12,6 +12,9 @@ public class SocketThread extends Thread {
         this.socket = clientSocket;
     }
 
+    /***
+     * Open the thread and setup the in/out buffers
+     */
     public void run()
     {
         try
@@ -50,9 +53,8 @@ public class SocketThread extends Thread {
 
     /**
      * Close the socket connection
-     * @param message the message to send
      */
-    private void closeConnection(String message) {
+    private void closeConnection() {
         try {
             socket.close();
         } catch (IOException e) {

@@ -22,6 +22,9 @@ public class SocketServer extends Thread {
         }
     }
 
+    /***
+     * Wait for a new connection, start the socket thread and give the object reference to the model
+     */
     public void run() {
         Socket socket = null;
 

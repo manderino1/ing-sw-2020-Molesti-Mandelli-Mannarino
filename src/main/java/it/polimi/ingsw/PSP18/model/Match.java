@@ -49,14 +49,35 @@ public class Match {
         this.socketServer = socketServer;
     }
 
+    /***
+     * Add a player to the players list
+     * @param player the playermanager player reference
+     */
     public void addPlayer(PlayerManager player){
         playerManagers.add(player);
     }
 
+    /***
+     * Add a socket to the sockets list
+     * @param socket the socket reference
+     */
     public void addSocket(Socket socket){
         sockets.add(socket);
     }
 
+    public PlayerManager getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(PlayerManager currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    /***
+     * Map a socket to its player
+     * @param player the playermanager reference
+     * @param socket the socket related to the player reference
+     */
     private void mapping(PlayerManager player, Socket socket){
         hashMap.put(socket, player);
         addPlayer(player);
