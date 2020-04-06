@@ -12,7 +12,6 @@ import java.util.List;
 public class GameManager {
     private TurnManager turnManager;
     private Match match;
-    private ArrayList<Socket> connectedPlayers = new ArrayList<Socket>();
 
     public GameManager() {
         match = new Match();
@@ -47,20 +46,5 @@ public class GameManager {
         }
         // If Athena is not found create a standard turn manager
         turnManager = new TurnManager(match);
-    }
-
-    /***
-     * Adding the socket of the new connection to the list of the players
-     * @param socket the reference to the socket for communicating with the client
-     */
-    public void addConnectedPlayer(Socket socket) {
-        if(connectedPlayers.size() == 0) {
-            connectedPlayers.add(socket);
-        }
-        else if (connectedPlayers.size() == 1 || connectedPlayers.size() == 2) {
-            connectedPlayers.add(socket);
-            //TODO: mostra al client la possibilitá di iniziare la partita
-        }
-        // If there are already 3 players do nothing, you can only start the match
     }
 }

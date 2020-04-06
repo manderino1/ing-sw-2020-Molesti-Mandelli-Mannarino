@@ -5,11 +5,11 @@ import it.polimi.ingsw.PSP18.model.Match;
 import java.util.ArrayList;
 
 public class TurnManager {
-    protected ArrayList<PlayerManager> player = new ArrayList<PlayerManager>();
+    protected Match match;
     protected Integer indexCurrentPlayer;
 
     public TurnManager(Match match) {
-        this.player = player;
+        this.match = match;
         setupTurn();
     }
 
@@ -25,13 +25,17 @@ public class TurnManager {
      */
     public void passTurn() {
         indexCurrentPlayer = indexCurrentPlayer + 1;
-        ManageTurn();
+        if(indexCurrentPlayer == match.getPlayerManagers().size()) {
+            indexCurrentPlayer = 0;
+        }
+        manageTurn();
     }
 
-    public void ManageTurn(){
-
-        //to do: ricezione segnale dalla view
-
-        this.player.get(indexCurrentPlayer).manageTurn(false);
+    /***
+     * When the following turn starts call the manage turn function
+     * from the correct player manager
+     */
+    public void manageTurn(){
+        this.match.getPlayerManagers().get(indexCurrentPlayer).manageTurn(false);
     }
 }

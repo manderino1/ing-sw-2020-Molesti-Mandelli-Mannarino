@@ -21,6 +21,10 @@ public class PlayerManager {
         divinityCreation(divinity);
     }
 
+    /***
+     * Called from the constructor, create a divinity of the correct type given by the player
+     * @param divinityName string representing the name of the divinity to be created
+     */
     private void divinityCreation(String divinityName) {
         switch(divinityName) {
             case "Divinity":
@@ -56,6 +60,12 @@ public class PlayerManager {
         }
     }
 
+    /***
+     * After creating the player, place a worker in the given position
+     * do nothing if there are already 2 workers placed
+     * @param x the x coordinate in the map of the worker to be placed
+     * @param y the y coordinate in the map of the worker to be placed
+     */
     //TODO: check if somehow you can place a worker in a spot out of bounds, use checkCoordinate from DirectionManagement if needed
     public void placeWorker(Integer x, Integer y) {
         if(workers[0] == null) {
@@ -73,9 +83,9 @@ public class PlayerManager {
     }
 
     /***
-     *
+     * Get a worker from the model with the given id
      * @param workerID the index of the worker to return (0 or 1)
-     * @return a copy of the selected worker
+     * @return the selected worker
      */
     public Worker getWorker(Integer workerID) {
         return new Worker(workers[workerID].getX(), workers[workerID].getY());
@@ -106,7 +116,6 @@ public class PlayerManager {
     }
 
     /***
-     * TODO: return a copy and not the actual MAP
      * @return a copy of the map
      */
     public GameMap getGameMap() {
@@ -114,8 +123,7 @@ public class PlayerManager {
     }
 
     /***
-     * TODO: return a copy and not the actual DATA
-     * @return a copy of the player data
+     * @return the player data object
      */
     public PlayerData getPlayerData() {
         return playerData;
@@ -130,7 +138,7 @@ public class PlayerManager {
     }
 
     /***
-     *
+     * Call the relative function into the specific player divinity controller
      * @param raiseForbidden true if Athena moved up and so you cannot move up in the turn
      */
     public void manageTurn(boolean raiseForbidden) {
@@ -138,7 +146,7 @@ public class PlayerManager {
     }
 
     /***
-     * @return the divinity reference
+     * @return the divinity object reference
      */
     public Divinity getDivinity() {
         return divinity;

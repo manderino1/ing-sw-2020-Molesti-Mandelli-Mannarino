@@ -9,16 +9,20 @@ public class TurnManagerAthena extends TurnManager {
     public TurnManagerAthena(Match match) {
         super(match);
     }
-    //public void getLastMove(player) {
-    //}
+
+    /***
+     * When the following turn starts call the manage turn function
+     * bool is true if athena moved up last turn
+     */
     @Override
-    public void ManageTurn(){
-
-        //to do: ricezione segnale dalla view
-
-
-        if (this.player.get(0).getPlayerData().getLastMove().getLevel() == 1) bool = true;
-        else bool = false;
-        this.player.get(super.indexCurrentPlayer).manageTurn(bool);
+    public void manageTurn(){
+        int indexPreviousPlayer;
+        if(indexCurrentPlayer == 0) {
+            indexPreviousPlayer = match.getPlayerManagers().size() - 1;
+        } else {
+            indexPreviousPlayer = indexCurrentPlayer - 1;
+        }
+        bool = (match.getPlayerManagers().get(indexPreviousPlayer).getPlayerData().getLastMove().getLevel() == 1) && (match.getPlayerManagers().get(indexPreviousPlayer).getDivinityName().equals("Athena"));
+        match.getPlayerManagers().get(indexCurrentPlayer).manageTurn(bool);
     }
 }
