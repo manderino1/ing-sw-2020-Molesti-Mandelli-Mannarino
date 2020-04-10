@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.model;
 
 import it.polimi.ingsw.PSP18.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.networking.SocketServer;
+import it.polimi.ingsw.PSP18.view.MatchObserver;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -15,7 +16,11 @@ public class Match {
     private PlayerManager currentPlayer;
     private MatchStatus matchStatus;
     private GameMap gameMap;
+    private ArrayList<MatchObserver> observers = new ArrayList<>();
 
+    /***
+     * Match constructor, initializes the arrayLists and the game map
+     */
     public Match(){
         playerManagers = new ArrayList<PlayerManager>();
         sockets = new ArrayList<Socket>();
@@ -25,28 +30,44 @@ public class Match {
         gameMap = new GameMap();
     }
 
+    /***
+     * Returns the game map
+     * @return the game map, unique for all players
+     */
     public GameMap getGameMap() {
         return gameMap;
     }
 
+    /***
+     * Return the list of the player managers into the match
+     * @return the player managers list
+     */
     public ArrayList<PlayerManager> getPlayerManagers() {
         return playerManagers;
     }
 
+    /***
+     * Return the list of the sockets paired to the connected clients into the match
+     * @return the list of sockets
+     */
     public ArrayList<Socket> getSockets() {
         return sockets;
     }
 
+    /***
+     * Return the state of the match, there are some pre-defined states as enum in MatchStatus class
+     * @return the match state
+     */
     public MatchStatus getMatchStatus() {
         return matchStatus;
     }
 
+    /***
+     * Set the state of the match in pre-defined states as described in MatchStatus class
+     * @param matchStatus the new state of the match
+     */
     public void setMatchStatus(MatchStatus matchStatus) {
         this.matchStatus = matchStatus;
-    }
-
-    public void setSocketServer(SocketServer socketServer) {
-        this.socketServer = socketServer;
     }
 
     /***
@@ -65,10 +86,18 @@ public class Match {
         sockets.add(socket);
     }
 
+    /***
+     * Get the current playing player
+     * @return che current player playing the turn
+     */
     public PlayerManager getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /***
+     * Set the new current player at the turn change
+     * @param currentPlayer the new currently playing player
+     */
     public void setCurrentPlayer(PlayerManager currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
@@ -82,5 +111,30 @@ public class Match {
         hashMap.put(socket, player);
         addPlayer(player);
         addSocket(socket);
+    }
+
+    /***
+     * Attach a new observer into the observers list
+     * @param observer the new observer reference
+     */
+    public void attach(MatchObserver observer) {
+        observers.add(observer);
+    }
+
+    /***
+     * Detach the observer from the observers list
+     * @param observer the observer to remove
+     */
+    public void detach(MatchObserver observer) {
+        observers.remove(observer);
+    }
+
+    /***
+     * The function notifies all the observers that a change is happened in its model
+     */
+    public void notifyObservers() {
+        for(MatchObserver observer : observers) {
+            observer.update(this);
+        }
     }
 }
