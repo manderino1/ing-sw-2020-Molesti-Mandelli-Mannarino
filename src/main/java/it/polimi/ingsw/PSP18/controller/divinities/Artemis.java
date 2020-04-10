@@ -15,6 +15,9 @@ public class Artemis extends Divinity {
     }
 
     @Override
+    /***
+     *
+     */
     protected void move() {
         /*
             checking if the player lost
@@ -38,6 +41,8 @@ public class Artemis extends Divinity {
 
     /***
      *
+     * @param direction the direction of the movement
+     * @param workerID the ID of the worker that we want to move
      */
     @Override
     public void moveReceiver(Direction direction, Integer workerID) {

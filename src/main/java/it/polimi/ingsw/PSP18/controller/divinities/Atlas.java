@@ -12,6 +12,11 @@ public class Atlas extends Divinity{
         super(name, playerManager);
     }
 
+    /***
+     * This method is called after the method "move"
+     * @param direction
+     * @param dome
+     */
     public void buildReceiver(Direction direction, Boolean dome) {
          /*
             TODO: qui bisogna chiedere alla view la direzione dove voglio costruire e la salvo in direction

@@ -24,12 +24,16 @@ public class Prometheus extends Divinity{
          */
     }
 
+    /***
+     *
+     * @param workerID
+     */
     private void workerSelect(Integer workerID) {
         this.workerID = workerID;
     }
 
     /***
-     * Prometeo prima di muovere può decidere se costruire, tale funzione è implementata da buildopt
+     * Prometheus can decide to build before moving, this function is implemented in buildOpt
      */
     @Override
     protected void move() {

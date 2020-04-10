@@ -17,11 +17,20 @@ public class Divinity {
     protected Direction direction = Direction.UP;
     protected Integer workerID = 0;
 
+    /***
+     * Class constructor
+     * @param name name of the divinity
+     * @param playerManager player manager that has this divinity
+     */
     public Divinity(String name, PlayerManager playerManager) {
         this.name = name;
         this.playerManager = playerManager;
     }
 
+    /***
+     *
+     * @return name of the divinity in use
+     */
     public String getName() {
         return name;
     }
@@ -36,7 +45,7 @@ public class Divinity {
     }
 
     /***
-     *
+     *  First part of the movement phase
      */
     protected void move() {
         /*
@@ -174,7 +183,7 @@ public class Divinity {
     }
 
     /***
-     *
+     *  Checks if the player has won
      * @return
      */
     protected Boolean checkForVictory(){
@@ -191,7 +200,7 @@ public class Divinity {
     }
 
     /***
-     *
+     *  Checks if the player has lost
      * @param raiseForbidden true if athena moved up one level
      * @param movementPhase true if curretnly in movement phase, false if currently in building phase
      * @return
@@ -229,7 +238,7 @@ public class Divinity {
     }
 
     /***
-     *
+     *  Set the last move in the player data class in the model package
      * @param oldX the old position of the worker on the x axis
      * @param oldY the old position of the worker on the y axis
      * @param direction the direction of the move
