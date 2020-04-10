@@ -39,7 +39,7 @@ public class SocketServer extends Thread {
             // new thread for a client
             SocketThread newThread = new SocketThread(socket, match);
             newThread.start();
-            match.addSocket(socket);
+            match.addSocket(newThread);
         }
     }
 }

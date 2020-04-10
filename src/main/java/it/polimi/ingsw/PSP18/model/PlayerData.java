@@ -13,8 +13,8 @@ public class PlayerData {
 
     /***
      * PlayerDatq constructor method
-     * @param playerID
-     * @param playerColor
+     * @param playerID the id of the player
+     * @param playerColor the color of the player
      * @param playOrder player turn order
      */
     public PlayerData(String playerID, Color playerColor, Integer playOrder) {
@@ -57,23 +57,25 @@ public class PlayerData {
 
     /***
      * Sets player move as last move
-     * @param lastMove
+     * @param lastMove direction and level of the move
      */
     public void setLastMove(Move lastMove) {
         this.lastMove = lastMove;
+        notifyObservers();
     }
 
     /***
      * Adds an observer
-     * @param observer
+     * @param observer the new observer reference
      */
     public void attach(PlayerDataObserver observer) {
         observers.add(observer);
+        notifyObservers();
     }
 
     /***
      * Removes the observer
-     * @param observer
+     * @param observer the observer to be removed reference
      */
     public void detach(PlayerDataObserver observer) {
         observers.remove(observer);

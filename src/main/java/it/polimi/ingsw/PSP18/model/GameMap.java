@@ -39,6 +39,7 @@ public class GameMap {
     public void setCell(int x, int y, Integer building, Worker worker) {
         mapCells[x][y].setBuilding(building);
         mapCells[x][y].setWorker(worker);
+        notifyObservers();
     }
 
     /***
@@ -47,6 +48,7 @@ public class GameMap {
      */
     public void attach(MapObserver observer) {
         observers.add(observer);
+        notifyObservers();
     }
 
     /***
