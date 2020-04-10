@@ -1,5 +1,13 @@
 package it.polimi.ingsw.PSP18.view.messages.toclient;
 
 public enum ClientMessageType {
-    GAME_MAP_UPDATE
+    GAME_MAP_UPDATE,
+    PLAYER_DATA_UPDATE,
+    MOVE_LIST,
+    BUILD_LIST,
+    MATCH_WON,
+    MATCH_LOST,
+    START_MATCH,
+    READY,
+    DIVINITY_LIST
 }
