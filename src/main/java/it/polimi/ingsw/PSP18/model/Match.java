@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP18.model;
 
 import it.polimi.ingsw.PSP18.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.controller.TurnManager;
 import it.polimi.ingsw.PSP18.networking.SocketServer;
 import it.polimi.ingsw.PSP18.view.MatchObserver;
 
@@ -10,6 +11,7 @@ import java.util.HashMap;
 
 public class Match {
     private ArrayList<PlayerManager> playerManagers;
+    private TurnManager turnManager;
     private ArrayList<Socket> sockets;
     private SocketServer socketServer;
     private HashMap<Socket, PlayerManager> hashMap;
@@ -100,6 +102,22 @@ public class Match {
      */
     public void setCurrentPlayer(PlayerManager currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    /***
+     * Get the turn manager
+     * @return the turn manager reference
+     */
+    public TurnManager getTurnManager() {
+        return turnManager;
+    }
+
+    /***
+     * Set the new turn manager
+     * @param turnManager the turn manager reference
+     */
+    public void setTurnManager(TurnManager turnManager) {
+        this.turnManager = turnManager;
     }
 
     /***

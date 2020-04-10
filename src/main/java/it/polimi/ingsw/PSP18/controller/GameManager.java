@@ -10,7 +10,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class GameManager {
-    private TurnManager turnManager;
     private Match match;
 
     public GameManager() {
@@ -40,11 +39,11 @@ public class GameManager {
         // Search for Athena
         for (PlayerManager player : match.getPlayerManagers()) {
             if(player.getDivinityName().equals("Athena")) {
-                turnManager = new TurnManagerAthena(match);
+                match.setTurnManager(new TurnManagerAthena(match));
                 return;
             }
         }
         // If Athena is not found create a standard turn manager
-        turnManager = new TurnManager(match);
+        match.setTurnManager(new TurnManager(match));
     }
 }
