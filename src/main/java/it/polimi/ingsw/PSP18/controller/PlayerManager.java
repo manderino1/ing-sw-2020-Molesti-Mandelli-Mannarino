@@ -15,17 +15,16 @@ public class PlayerManager {
      * @param playerData data of the player
      * @param divinity the name of the choosen divinity
      */
-    public PlayerManager(Match match, PlayerData playerData, String divinity) {
+    public PlayerManager(Match match, PlayerData playerData) {
         this.match = match;
         this.playerData = playerData;
-        divinityCreation(divinity);
     }
 
     /***
      * Called from the constructor, create a divinity of the correct type given by the player
      * @param divinityName string representing the name of the divinity to be created
      */
-    private void divinityCreation(String divinityName) {
+    public void divinityCreation(String divinityName) {
         switch(divinityName) {
             case "Divinity":
                 divinity = new Divinity(divinityName, this);

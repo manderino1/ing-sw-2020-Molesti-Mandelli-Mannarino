@@ -3,9 +3,11 @@ package it.polimi.ingsw.PSP18.networking;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.PSP18.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.model.Match;
-import it.polimi.ingsw.PSP18.view.messages.toserver.ServerMessageType;
-import it.polimi.ingsw.PSP18.view.messages.toserver.MoveReceiver;
+import it.polimi.ingsw.PSP18.model.PlayerData;
+import it.polimi.ingsw.PSP18.view.messages.toclient.ClientAbstractMessage;
+import it.polimi.ingsw.PSP18.view.messages.toserver.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -82,6 +84,29 @@ public class SocketThread extends Thread {
             case MOVE_RECEIVER:
                 MoveReceiver moveReceiver = gson.fromJson(jsonObj, MoveReceiver.class);
                 match.getCurrentPlayer().getDivinity().moveReceiver(moveReceiver.getDirection(), moveReceiver.getWorkerID());
+                break;
+            case BUILD_RECEIVER:
+                BuildReceiver buildReceiver = gson.fromJson(jsonObj, BuildReceiver.class);
+                match.getCurrentPlayer().getDivinity().buildReceiver(buildReceiver.getDirection());
+                break;
+            case PLAYER_DATA_RECEIVER:
+                PlayerDataReceiver playerDataReceiver = gson.fromJson(jsonObj, PlayerDataReceiver.class);
+                PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerDataReceiver.getPlayerColor(), playerDataReceiver.getPlayOrder());
+                match.addPlayer(new PlayerManager(match, playerData));
+                //TODO: Match hashmap socket-player
+                break;
+            case DIVINITY_RECEIVER:
+                DivinityReceiver divinityReceiver = gson.fromJson(jsonObj, DivinityReceiver.class);
+                match.getCurrentPlayer().divinityCreation(divinityReceiver.getDivinity());
+                break;
+            case ENDTURN_RECEIVER:
+                EndTurnReceiver endTurnReceiver = gson.fromJson(jsonObj, EndTurnReceiver.class);
+                match.getTurnManager().passTurn();
         }
+    }
+
+    public void sendMessage(ClientAbstractMessage msg) {
+        Gson gson = new Gson();
+        output.println(gson.toJson(msg));
     }
 }

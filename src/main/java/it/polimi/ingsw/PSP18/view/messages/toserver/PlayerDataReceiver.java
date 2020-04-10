@@ -2,7 +2,7 @@ package it.polimi.ingsw.PSP18.view.messages.toserver;
 
 import it.polimi.ingsw.PSP18.model.Color;
 
-public class PlayerDataReciver extends ServerAbstractMessage {
+public class PlayerDataReceiver extends ServerAbstractMessage {
     private String playerID;
     private Color playerColor;
     private Integer playOrder;
@@ -13,7 +13,7 @@ public class PlayerDataReciver extends ServerAbstractMessage {
      * @param playerColor Player color
      * @param playOrder Player turn order
      */
-    public PlayerDataReciver(String playerID, Color playerColor, Integer playOrder) {
+    public PlayerDataReceiver(String playerID, Color playerColor, Integer playOrder) {
         this.type = ServerMessageType.PLAYER_DATA_RECEIVER;
         this.playerID = playerID;
         this.playerColor = playerColor;

@@ -3,30 +3,30 @@ package it.polimi.ingsw.PSP18.model;
 import it.polimi.ingsw.PSP18.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.controller.TurnManager;
 import it.polimi.ingsw.PSP18.networking.SocketServer;
-import it.polimi.ingsw.PSP18.view.MatchObserver;
+import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.view.MapObserver;
+import it.polimi.ingsw.PSP18.view.PlayerDataObserver;
 
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Match {
     private ArrayList<PlayerManager> playerManagers;
     private TurnManager turnManager;
-    private ArrayList<Socket> sockets;
+    private ArrayList<SocketThread> sockets;
     private SocketServer socketServer;
-    private HashMap<Socket, PlayerManager> hashMap;
+    private HashMap<SocketThread, PlayerManager> hashMap;
     private PlayerManager currentPlayer;
     private MatchStatus matchStatus;
     private GameMap gameMap;
-    private ArrayList<MatchObserver> observers = new ArrayList<>();
 
     /***
      * Match constructor, initializes the arrayLists and the game map
      */
     public Match(){
         playerManagers = new ArrayList<PlayerManager>();
-        sockets = new ArrayList<Socket>();
-        hashMap = new HashMap<Socket, PlayerManager>();
+        sockets = new ArrayList<SocketThread>();
+        hashMap = new HashMap<SocketThread, PlayerManager>();
         socketServer = new SocketServer(this);
         socketServer.start(); // Wait for connections
         gameMap = new GameMap();
@@ -52,7 +52,7 @@ public class Match {
      * Return the list of the sockets paired to the connected clients into the match
      * @return the list of sockets
      */
-    public ArrayList<Socket> getSockets() {
+    public ArrayList<SocketThread> getSockets() {
         return sockets;
     }
 
@@ -81,11 +81,16 @@ public class Match {
     }
 
     /***
-     * Add a socket to the sockets list
+     * Add a socket to the sockets list and register the observers
+     * related to the socket and client connection
      * @param socket the socket reference
      */
-    public void addSocket(Socket socket){
+    public void addSocket(SocketThread socket){
         sockets.add(socket);
+        gameMap.attach(new MapObserver(socket));
+        for(PlayerManager player : playerManagers) {
+            player.getPlayerData().attach(new PlayerDataObserver(socket));
+        }
     }
 
     /***
@@ -125,34 +130,9 @@ public class Match {
      * @param player the playermanager reference
      * @param socket the socket related to the player reference
      */
-    private void mapping(PlayerManager player, Socket socket){
+    private void mapping(PlayerManager player, SocketThread socket){
         hashMap.put(socket, player);
         addPlayer(player);
         addSocket(socket);
-    }
-
-    /***
-     * Attach a new observer into the observers list
-     * @param observer the new observer reference
-     */
-    public void attach(MatchObserver observer) {
-        observers.add(observer);
-    }
-
-    /***
-     * Detach the observer from the observers list
-     * @param observer the observer to remove
-     */
-    public void detach(MatchObserver observer) {
-        observers.remove(observer);
-    }
-
-    /***
-     * The function notifies all the observers that a change is happened in its model
-     */
-    public void notifyObservers() {
-        for(MatchObserver observer : observers) {
-            observer.update(this);
-        }
     }
 }
