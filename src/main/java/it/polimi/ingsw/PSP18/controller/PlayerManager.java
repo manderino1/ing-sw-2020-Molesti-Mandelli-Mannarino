@@ -13,11 +13,22 @@ public class PlayerManager {
      * Class constructor, initializes the  and the playerData
      * @param match the match reference (unique for all players)
      * @param playerData data of the player
-     * @param divinity the name of the choosen divinity
      */
     public PlayerManager(Match match, PlayerData playerData) {
         this.match = match;
         this.playerData = playerData;
+    }
+
+    /***
+     * Class constructor, initializes the  and the playerData
+     * @param match the match reference (unique for all players)
+     * @param playerData data of the player
+     * @param divinity the name of the choosen divinity
+     */
+    public PlayerManager(Match match, PlayerData playerData, String divinity) {
+        this.match = match;
+        this.playerData = playerData;
+        divinityCreation(divinity);
     }
 
     /***

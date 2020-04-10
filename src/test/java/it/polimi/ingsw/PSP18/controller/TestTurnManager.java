@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.controller;
 
 import it.polimi.ingsw.PSP18.model.Color;
 import it.polimi.ingsw.PSP18.model.GameMap;
+import it.polimi.ingsw.PSP18.model.Match;
 import it.polimi.ingsw.PSP18.model.PlayerData;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,36 +22,16 @@ public class TestTurnManager {
      * Test for checking the correct creation of the turn manager class
      */
     @Test
-    public void testTurnInit() {
-        gameManager.addPlayer("Test1", Color.RED, 0, "Apollo");
-        gameManager.addPlayer("Test2", Color.GREEN, 1, "Apollo");
-        gameManager.startMatch();
-    }
-
-    /***
-     * Test for checking the correct creation of the turn manager class
-     */
-    @Test
-    public void testTurnInitAthena() {
-        gameManager.addPlayer("Test1", Color.RED, 0, "Apollo");
-        gameManager.addPlayer("Test2", Color.GREEN, 1, "Athena");
-        gameManager.startMatch();
-    }
-
-    /***
-     * Test for checking the correct creation of the turn manager class
-     */
-    @Test
     public void testManageTurn() {
-        ArrayList<PlayerManager> players = new ArrayList<PlayerManager>();
-        players.add(new PlayerManager(new GameMap(), new PlayerData("Test1", Color.RED, 0), "Divinity"));
-        players.add(new PlayerManager(new GameMap(), new PlayerData("Test2", Color.GREEN, 1), "Divinity"));
-        players.get(0).placeWorker(0, 0);
-        players.get(0).placeWorker(1, 0);
-        players.get(1).placeWorker(0, 1);
-        players.get(1).placeWorker(1, 1);
-        TurnManager turnManager = new TurnManager(players);
-        turnManager.ManageTurn();
+        Match match = new Match();
+        match.addPlayer(new PlayerManager(new Match(), new PlayerData("Test1", Color.RED, 0), "Divinity"));
+        match.addPlayer(new PlayerManager(new Match(), new PlayerData("Test2", Color.GREEN, 1), "Divinity"));
+        match.getPlayerManagers().get(0).placeWorker(0, 0);
+        match.getPlayerManagers().get(0).placeWorker(1, 0);
+        match.getPlayerManagers().get(1).placeWorker(0, 1);
+        match.getPlayerManagers().get(1).placeWorker(1, 1);
+        TurnManager turnManager = new TurnManager(match);
+        turnManager.manageTurn();
     }
 
     /***
@@ -58,14 +39,14 @@ public class TestTurnManager {
      */
     @Test
     public void testManageTurnAthena() {
-        ArrayList<PlayerManager> players = new ArrayList<PlayerManager>();
-        players.add(new PlayerManager(new GameMap(), new PlayerData("Test1", Color.RED, 0), "Divinity"));
-        players.add(new PlayerManager(new GameMap(), new PlayerData("Test2", Color.GREEN, 1), "Divinity"));
-        players.get(0).placeWorker(0, 0);
-        players.get(0).placeWorker(1, 0);
-        players.get(1).placeWorker(0, 1);
-        players.get(1).placeWorker(1, 1);
-        TurnManager turnManager = new TurnManager(players);
-        turnManager.ManageTurn();
+        Match match = new Match();
+        match.addPlayer(new PlayerManager(new Match(), new PlayerData("Test1", Color.RED, 0), "Divinity"));
+        match.addPlayer(new PlayerManager(new Match(), new PlayerData("Test2", Color.GREEN, 1), "Divinity"));
+        match.getPlayerManagers().get(0).placeWorker(0, 0);
+        match.getPlayerManagers().get(0).placeWorker(1, 0);
+        match.getPlayerManagers().get(1).placeWorker(0, 1);
+        match.getPlayerManagers().get(1).placeWorker(1, 1);
+        TurnManager turnManager = new TurnManager(match);
+        turnManager.manageTurn();
     }
 }

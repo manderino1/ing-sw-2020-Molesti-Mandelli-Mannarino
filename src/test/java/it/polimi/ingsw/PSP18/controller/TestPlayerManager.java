@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.controller;
 
 import it.polimi.ingsw.PSP18.model.Color;
 import it.polimi.ingsw.PSP18.model.GameMap;
+import it.polimi.ingsw.PSP18.model.Match;
 import it.polimi.ingsw.PSP18.model.PlayerData;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,7 +13,7 @@ public class TestPlayerManager {
 
     @Before
     public void createPlayerManager() {
-        playerManager = new PlayerManager(new GameMap(), new PlayerData("Test1", Color.RED, 0), "Divinity");
+        playerManager = new PlayerManager(new Match(), new PlayerData("Test1", Color.RED, 0), "Divinity");
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
     }

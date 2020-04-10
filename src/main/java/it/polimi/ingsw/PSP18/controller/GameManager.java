@@ -35,4 +35,8 @@ public class GameManager {
         // If Athena is not found create a standard turn manager
         match.setTurnManager(new TurnManager(match));
     }
+
+    public Match getMatch() {
+        return match;
+    }
 }
