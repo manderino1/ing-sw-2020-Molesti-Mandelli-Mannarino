@@ -1,8 +1,8 @@
-package it.polimi.ingsw.PSP18.view.messages;
+package it.polimi.ingsw.PSP18.view.messages.toserver;
 
 import it.polimi.ingsw.PSP18.model.Direction;
 
-public class MoveReceiver extends  AbstractMessage {
+public class MoveReceiver extends ServerAbstractMessage {
     private Direction direction;
     private Integer workerID;
 
@@ -12,6 +12,7 @@ public class MoveReceiver extends  AbstractMessage {
      * @param workerID the id of the worker, 0 or 1
      */
     public MoveReceiver(Direction direction, Integer workerID) {
+        this.type = ServerMessageType.MOVE_RECEIVER;
         this.direction = direction;
         this.workerID = workerID;
     }

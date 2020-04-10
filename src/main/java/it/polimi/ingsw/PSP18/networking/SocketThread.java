@@ -4,12 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.PSP18.model.Match;
-import it.polimi.ingsw.PSP18.view.messages.MessageType;
-import it.polimi.ingsw.PSP18.view.messages.MoveReceiver;
+import it.polimi.ingsw.PSP18.view.messages.toserver.ServerMessageType;
+import it.polimi.ingsw.PSP18.view.messages.toserver.MoveReceiver;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.logging.Level;
 
 public class SocketThread extends Thread {
     Socket socket;
@@ -77,7 +76,7 @@ public class SocketThread extends Thread {
         JsonObject jsonObj = JsonParser.parseString(msg).getAsJsonObject();
         String msgTopicString = jsonObj.get("type").getAsString();
 
-        MessageType type = MessageType.valueOf(msgTopicString);
+        ServerMessageType type = ServerMessageType.valueOf(msgTopicString);
 
         switch(type) {
             case MOVE_RECEIVER:
