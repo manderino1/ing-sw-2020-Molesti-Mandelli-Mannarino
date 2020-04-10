@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.view;
 
 import it.polimi.ingsw.PSP18.model.PlayerData;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.view.messages.toclient.PlayerDataUpdate;
 
 public class PlayerDataObserver {
     private SocketThread socket;
@@ -11,6 +12,6 @@ public class PlayerDataObserver {
     }
 
     public void update(PlayerData playerData) {
-        // TODO: Implement update function
+        socket.sendMessage(new PlayerDataUpdate(playerData));
     }
 }
