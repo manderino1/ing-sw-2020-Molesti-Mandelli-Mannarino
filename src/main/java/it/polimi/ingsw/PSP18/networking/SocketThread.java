@@ -1,15 +1,25 @@
 package it.polimi.ingsw.PSP18.networking;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import it.polimi.ingsw.PSP18.model.Match;
+import it.polimi.ingsw.PSP18.view.messages.MessageType;
+import it.polimi.ingsw.PSP18.view.messages.MoveReceiver;
+
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Level;
 
 public class SocketThread extends Thread {
     Socket socket;
     BufferedReader input;
     PrintWriter output;
+    Match match;
 
-    public SocketThread(Socket clientSocket) {
+    public SocketThread(Socket clientSocket, Match match) {
         this.socket = clientSocket;
+        this.match = match;
     }
 
     /***
@@ -33,7 +43,7 @@ public class SocketThread extends Thread {
             try {
                 String line = input.readLine();    // reads a line of text
                 if(line != null) {
-                    System.out.println(line);
+                    messageParse(line);
                 }
                 // TODO: elabora input
             } catch (IOException e) {
@@ -59,6 +69,20 @@ public class SocketThread extends Thread {
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void messageParse(String msg) {
+        Gson gson = new Gson();
+        JsonObject jsonObj = JsonParser.parseString(msg).getAsJsonObject();
+        String msgTopicString = jsonObj.get("type").getAsString();
+
+        MessageType type = MessageType.valueOf(msgTopicString);
+
+        switch(type) {
+            case MOVE_RECEIVER:
+                MoveReceiver moveReceiver = gson.fromJson(jsonObj, MoveReceiver.class);
+                match.getCurrentPlayer().getDivinity().moveReceiver(moveReceiver.getDirection(), moveReceiver.getWorkerID());
         }
     }
 }

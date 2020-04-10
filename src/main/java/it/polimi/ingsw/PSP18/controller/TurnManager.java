@@ -28,6 +28,7 @@ public class TurnManager {
         if(indexCurrentPlayer == match.getPlayerManagers().size()) {
             indexCurrentPlayer = 0;
         }
+        match.setCurrentPlayer(match.getPlayerManagers().get(indexCurrentPlayer));
         manageTurn();
     }
 
