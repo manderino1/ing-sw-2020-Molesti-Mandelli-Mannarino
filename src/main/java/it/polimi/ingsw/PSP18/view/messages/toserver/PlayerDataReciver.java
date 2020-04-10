@@ -14,7 +14,7 @@ public class PlayerDataReciver extends ServerAbstractMessage {
      * @param playOrder Player turn order
      */
     public PlayerDataReciver(String playerID, Color playerColor, Integer playOrder) {
-        this.type = ServerMessageType.PLAYER_DATA_RECIVER;
+        this.type = ServerMessageType.PLAYER_DATA_RECEIVER;
         this.playerID = playerID;
         this.playerColor = playerColor;
         this.playOrder = playOrder;
