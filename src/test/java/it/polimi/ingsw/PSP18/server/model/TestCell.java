@@ -23,7 +23,7 @@ public class TestCell {
     @Test
     public void testCellWorker() {
         Cell cell = new Cell();
-        Worker worker = new Worker(2,1);
+        Worker worker = new Worker(2,1, 0, new PlayerData("Test", Color.BLUE, 0));
         Assert.assertNull(cell.getWorker());
         cell.setWorker(worker);
         Assert.assertEquals(worker, cell.getWorker());

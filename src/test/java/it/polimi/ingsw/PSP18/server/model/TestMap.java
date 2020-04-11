@@ -23,7 +23,7 @@ public class TestMap {
     @Test
     public void testCellEdit() {
         GameMap map = new GameMap();
-        map.setCell(0,0, 0, new Worker(0,0));
+        map.setCell(0,0, 0, new Worker(0,0,0, new PlayerData("Test", Color.BLUE, 0)));
         Assert.assertEquals(Integer.valueOf(0), map.getCell(0,0).getBuilding());
         Assert.assertEquals(Integer.valueOf(0), map.getCell(0,0).getWorker().getX());
         Assert.assertEquals(Integer.valueOf(0), map.getCell(0,0).getWorker().getY());
