@@ -11,13 +11,13 @@ import java.net.UnknownHostException;
 public class Launcher {
 
     private final int PORT = 9002;
-    private final InetAddress HOST = InetAddress.getLocalHost();
+    private InetAddress host ;
 
-    Launcher() throws IOException {
+    public void Launcher() throws IOException {
         ViewUpdate cliviewupdate = new CliViewUpdate();
 
-
-        Socket clientsocket = new Socket(HOST, PORT);
+        host = InetAddress.getLocalHost();
+        Socket clientsocket = new Socket(host, PORT);
 
         SocketClient NewThread = new SocketClient (clientsocket, cliviewupdate);
         NewThread.start();
