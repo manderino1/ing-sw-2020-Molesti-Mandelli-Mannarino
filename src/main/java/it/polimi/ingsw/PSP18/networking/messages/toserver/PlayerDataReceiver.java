@@ -1,6 +1,6 @@
-package it.polimi.ingsw.PSP18.view.messages.toserver;
+package it.polimi.ingsw.PSP18.networking.messages.toserver;
 
-import it.polimi.ingsw.PSP18.model.Color;
+import it.polimi.ingsw.PSP18.server.model.Color;
 
 public class PlayerDataReceiver extends ServerAbstractMessage {
     private String playerID;

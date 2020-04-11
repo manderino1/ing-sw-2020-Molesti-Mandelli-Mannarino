@@ -1,6 +1,6 @@
-package it.polimi.ingsw.PSP18.view.messages.toclient;
+package it.polimi.ingsw.PSP18.networking.messages.toclient;
 
-import it.polimi.ingsw.PSP18.model.PlayerData;
+import it.polimi.ingsw.PSP18.server.model.PlayerData;
 
 public class PlayerDataUpdate extends ClientAbstractMessage {
     private PlayerData playerData;

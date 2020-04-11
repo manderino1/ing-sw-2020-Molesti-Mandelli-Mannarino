@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP18.view.messages.toserver;
+package it.polimi.ingsw.PSP18.networking.messages.toserver;
 
 public enum ServerMessageType {
     MOVE_RECEIVER,

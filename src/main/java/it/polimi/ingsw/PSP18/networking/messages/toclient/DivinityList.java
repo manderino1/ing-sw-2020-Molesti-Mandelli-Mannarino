@@ -1,6 +1,6 @@
-package it.polimi.ingsw.PSP18.view.messages.toclient;
+package it.polimi.ingsw.PSP18.networking.messages.toclient;
 
-import it.polimi.ingsw.PSP18.controller.divinities.Divinity;
+import it.polimi.ingsw.PSP18.server.controller.divinities.Divinity;
 
 import java.util.ArrayList;
 

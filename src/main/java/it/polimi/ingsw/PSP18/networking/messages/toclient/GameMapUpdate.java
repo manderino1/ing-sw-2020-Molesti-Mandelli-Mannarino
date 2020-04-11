@@ -1,6 +1,6 @@
-package it.polimi.ingsw.PSP18.view.messages.toclient;
+package it.polimi.ingsw.PSP18.networking.messages.toclient;
 
-import it.polimi.ingsw.PSP18.model.Cell;
+import it.polimi.ingsw.PSP18.server.model.Cell;
 
 public class GameMapUpdate extends  ClientAbstractMessage {
     private Cell[][] gameMap;

@@ -1,6 +1,6 @@
-package it.polimi.ingsw.PSP18.view.messages.toserver;
+package it.polimi.ingsw.PSP18.networking.messages.toserver;
 
-import it.polimi.ingsw.PSP18.model.Direction;
+import it.polimi.ingsw.PSP18.server.model.Direction;
 
 public class BuildReceiver extends ServerAbstractMessage {
     private Direction direction;

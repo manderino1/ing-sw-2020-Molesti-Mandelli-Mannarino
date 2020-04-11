@@ -1,6 +1,4 @@
-package it.polimi.ingsw.PSP18.view.messages.toserver;
-
-import it.polimi.ingsw.PSP18.model.Direction;
+package it.polimi.ingsw.PSP18.networking.messages.toserver;
 
 public class DivinityReceiver extends ServerAbstractMessage {
 

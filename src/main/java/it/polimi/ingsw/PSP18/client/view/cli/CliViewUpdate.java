@@ -1,8 +1,8 @@
 package it.polimi.ingsw.PSP18.client.view.cli;
 
-import it.polimi.ingsw.PSP18.client.view.View;
+import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 
-public class CliView extends View {
+public class CliViewUpdate extends ViewUpdate {
     @Override
     public void updateMap() {
 
