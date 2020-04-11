@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.ServerAbstractMessage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -112,7 +113,7 @@ public class SocketClient extends Thread {
         }
     }
 
-    public void sendMessage(ClientAbstractMessage msg) {
+    public void sendMessage(ServerAbstractMessage msg) {
         Gson gson = new Gson();
         output.println(gson.toJson(msg));
     }
