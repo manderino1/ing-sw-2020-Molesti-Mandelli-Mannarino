@@ -2,6 +2,8 @@ package it.polimi.ingsw.PSP18.client.view.cli;
 
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.DivinityReceiver;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.BuildReceiver;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.EndTurnReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PlayerDataReceiver;
 import it.polimi.ingsw.PSP18.server.model.Color;
@@ -21,33 +23,38 @@ public class InputParser {
         } else if (worker.equals("2")){
             workerID = 1;
         }
+        socket.sendMessage(new MoveReceiver(stringToDirection(move), workerID));
+    }
 
-        switch (move) {
+    public void selectBuild(String move) {
+        socket.sendMessage(new BuildReceiver(stringToDirection(move)));
+    }
+
+    public void endTurnSignal() {
+        socket.sendMessage(new EndTurnReceiver());
+    }
+
+    private Direction stringToDirection(String dir) {
+        dir = dir.toUpperCase();
+        switch (dir) {
             case "UP":
-                socket.sendMessage(new MoveReceiver(Direction.UP, workerID));
-                break;
+                return Direction.UP;
             case "DOWN":
-                socket.sendMessage(new MoveReceiver(Direction.DOWN, workerID));
-                break;
+                return Direction.DOWN;
             case "LEFT":
-                socket.sendMessage(new MoveReceiver(Direction.LEFT, workerID));
-                break;
+                return Direction.LEFT;
             case "RIGHT":
-                socket.sendMessage(new MoveReceiver(Direction.RIGHT, workerID));
-                break;
+                return Direction.RIGHT;
             case "UP-LEFT":
-                socket.sendMessage(new MoveReceiver(Direction.LEFTUP, workerID));
-                break;
+                return Direction.LEFTUP;
             case "UP-RIGHT":
-                socket.sendMessage(new MoveReceiver(Direction.RIGHTUP, workerID));
-                break;
-            case "DOWN_LEFT":
-                socket.sendMessage(new MoveReceiver(Direction.LEFTDOWN, workerID));
-                break;
-            case "DOWN_RIGHT":
-                socket.sendMessage(new MoveReceiver(Direction.RIGHTDOWN, workerID));
-                break;
+                return Direction.RIGHTUP;
+            case "DOWN-LEFT":
+                return Direction.LEFTDOWN;
+            case "DOWN-RIGHT":
+                return Direction.RIGHTDOWN;
         }
+        return null; // Never reach this point
     }
     public void selectDivinity(String divinity) {
 

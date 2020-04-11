@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientAbstractMessage;
@@ -91,7 +92,15 @@ public class SocketThread extends Thread {
                 break;
             case PLAYER_DATA_RECEIVER:
                 PlayerDataReceiver playerDataReceiver = gson.fromJson(jsonObj, PlayerDataReceiver.class);
-                PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerDataReceiver.getPlayerColor(), playerDataReceiver.getPlayOrder());
+                Color playerColor = Color.RED;
+                if(match.getPlayerManagers().size() == 0) {
+                    playerColor = Color.RED;
+                } else if (match.getPlayerManagers().size() == 1) {
+                    playerColor = Color.BLUE;
+                } else if(match.getPlayerManagers().size() == 2) {
+                    playerColor = Color.GREEN;
+                }
+                PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerColor, match.getPlayerManagers().size());
                 match.addPlayer(new PlayerManager(match, playerData));
                 //TODO: Match hashmap socket-player
                 break;
