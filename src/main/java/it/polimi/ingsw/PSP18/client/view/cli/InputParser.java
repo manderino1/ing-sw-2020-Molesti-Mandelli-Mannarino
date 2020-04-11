@@ -54,20 +54,10 @@ public class InputParser {
         socket.sendMessage(new DivinityReceiver(divinity));
 
     }
-    public void selectPlayerData(String playerID, String playerColor) {
+    public void selectPlayerData(String playerID) {
 
-        playerColor.toUpperCase();
 
-        switch (playerColor) {
-            case "BLUE":
-                socket.sendMessage(new PlayerDataReceiver(playerID, Color.BLUE));
-                break;
-            case "RED":
-                socket.sendMessage(new PlayerDataReceiver(playerID, Color.RED));
-                break;
-            case "GREEN":
-                socket.sendMessage(new PlayerDataReceiver(playerID, Color.GREEN));
-                break;
-        }
+        socket.sendMessage(new PlayerDataReceiver(playerID));
+
     }
 }
