@@ -3,11 +3,11 @@ package it.polimi.ingsw.PSP18.networking;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import it.polimi.ingsw.PSP18.controller.PlayerManager;
-import it.polimi.ingsw.PSP18.model.Match;
-import it.polimi.ingsw.PSP18.model.PlayerData;
-import it.polimi.ingsw.PSP18.view.messages.toclient.ClientAbstractMessage;
-import it.polimi.ingsw.PSP18.view.messages.toserver.*;
+import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.server.model.Match;
+import it.polimi.ingsw.PSP18.server.model.PlayerData;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientAbstractMessage;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
 
 import java.io.*;
 import java.net.Socket;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP18.networking;
 
-import it.polimi.ingsw.PSP18.model.Match;
+import it.polimi.ingsw.PSP18.server.model.Match;
 
 import java.io.IOException;
 import java.net.ServerSocket;
