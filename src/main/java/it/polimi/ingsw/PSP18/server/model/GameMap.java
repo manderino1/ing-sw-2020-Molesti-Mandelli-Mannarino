@@ -20,6 +20,14 @@ public class GameMap {
     }
 
     /***
+     * Return map cells
+     * @return
+     */
+    public Cell[][] getMapCells() {
+        return mapCells;
+    }
+
+    /***
      * Get a chosen cell from the game map matrix
      * @param x the x coordinate of the cell
      * @param y the y coordinate of the cell
