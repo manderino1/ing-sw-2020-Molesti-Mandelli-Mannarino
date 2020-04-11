@@ -11,9 +11,8 @@ public class PlayerDataReceiver extends ServerAbstractMessage {
      * Constructor method for the PlaeyerDataReciver class
      * @param playerID string that rappresents the player id
      * @param playerColor Player color
-     * @param playOrder Player turn order
      */
-    public PlayerDataReceiver(String playerID, Color playerColor, Integer playOrder) {
+    public PlayerDataReceiver(String playerID, Color playerColor) {
         this.type = ServerMessageType.PLAYER_DATA_RECEIVER;
         this.playerID = playerID;
         this.playerColor = playerColor;
@@ -34,13 +33,5 @@ public class PlayerDataReceiver extends ServerAbstractMessage {
      */
     public Color getPlayerColor() {
         return playerColor;
-    }
-
-    /***
-     * Return player turn order
-     * * @return player turn order
-     */
-    public Integer getPlayOrder() {
-        return playOrder;
     }
 }

@@ -1,7 +1,10 @@
 package it.polimi.ingsw.PSP18.client.view.cli;
 
 import it.polimi.ingsw.PSP18.networking.SocketClient;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.DivinityReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.PlayerDataReceiver;
+import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 
 public class InputParser {
@@ -43,6 +46,27 @@ public class InputParser {
                 break;
             case "DOWN_RIGHT":
                 socket.sendMessage(new MoveReceiver(Direction.RIGHTDOWN, workerID));
+                break;
+        }
+    }
+    public void selectDivinity(String divinity) {
+
+        socket.sendMessage(new DivinityReceiver(divinity));
+
+    }
+    public void selectPlayerData(String playerID, String playerColor) {
+
+        playerColor.toUpperCase();
+
+        switch (playerColor) {
+            case "BLUE":
+                socket.sendMessage(new PlayerDataReceiver(playerID, Color.BLUE));
+                break;
+            case "RED":
+                socket.sendMessage(new PlayerDataReceiver(playerID, Color.RED));
+                break;
+            case "GREEN":
+                socket.sendMessage(new PlayerDataReceiver(playerID, Color.GREEN));
                 break;
         }
     }
