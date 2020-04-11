@@ -3,18 +3,18 @@ package it.polimi.ingsw.PSP18.server.model;
 public class Worker {
     private Integer x, y;
     private Integer ID;
-    private PlayerData player;
+    private Color playerColor;
 
     /***
      * Worker constructor method
      * @param x x worker coordinate
      * @param y y worker coordinate
      */
-    public Worker(Integer x, Integer y, Integer id, PlayerData player) {
+    public Worker(Integer x, Integer y, Integer id, Color playerColor) {
         this.x = x;
         this.y = y;
         this.ID = id;
-        this.player = player;
+        this.playerColor = playerColor;
     }
 
     /***
@@ -55,7 +55,7 @@ public class Worker {
      * Returns the playerData of the player
      * @return the player data reference
      */
-    public PlayerData getPlayer() {
-        return player;
+    public Color getPlayerColor() {
+        return playerColor;
     }
 }

@@ -85,6 +85,7 @@ public class SocketClient extends Thread {
         switch(type) {
             case GAME_MAP_UPDATE:
                 GameMapUpdate gameMapUpdate = gson.fromJson(jsonObj, GameMapUpdate.class);
+                viewUpdate.updateMap(gameMapUpdate);
                 break;
             case PLAYER_DATA_UPDATE:
                 PlayerDataUpdate playerDataUpdate = gson.fromJson(jsonObj, PlayerDataUpdate.class);

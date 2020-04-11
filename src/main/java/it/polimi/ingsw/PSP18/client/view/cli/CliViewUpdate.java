@@ -15,7 +15,7 @@ public class CliViewUpdate extends ViewUpdate {
             for (int j = 0; j < 5; j++) {
                 if (j > 0) {
                     if (gameMapUpdate.getGameMap()[i][j].getWorker() != null) {
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayer().getPlayerColor() == Color.RED) {
+                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.RED) {
                             if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
                                 System.out.print("|");
                                 System.out.print(CliColor.ANSI_RED + "w1");
@@ -26,7 +26,7 @@ public class CliViewUpdate extends ViewUpdate {
                                 System.out.print(CliColor.RESET + "-");
                             }
                         }
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayer().getPlayerColor() == Color.GREEN) {
+                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.GREEN) {
                             if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
                                 System.out.print("|");
                                 System.out.print(CliColor.ANSI_GREEN + "w1");
@@ -37,7 +37,7 @@ public class CliViewUpdate extends ViewUpdate {
                                 System.out.print(CliColor.RESET + "-");
                             }
                         }
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayer().getPlayerColor() == Color.BLUE) {
+                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.BLUE) {
                             if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
                                 System.out.print("|");
                                 System.out.print(CliColor.ANSI_BLUE + "w1");
@@ -71,7 +71,7 @@ public class CliViewUpdate extends ViewUpdate {
 
                 } else {
                     if (gameMapUpdate.getGameMap()[i][j].getWorker() != null) {
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayer().getPlayerColor() == Color.RED) {
+                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.RED) {
                             if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
                                 System.out.print("|");
                                 System.out.print(CliColor.ANSI_RED + "w1");
@@ -82,7 +82,7 @@ public class CliViewUpdate extends ViewUpdate {
                                 System.out.print(CliColor.RESET + "-");
                             }
                         }
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayer().getPlayerColor() == Color.GREEN) {
+                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.GREEN) {
                             if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
                                 System.out.print("|");
                                 System.out.print(CliColor.ANSI_GREEN + "w1");
@@ -93,7 +93,7 @@ public class CliViewUpdate extends ViewUpdate {
                                 System.out.print(CliColor.RESET + "-");
                             }
                         }
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayer().getPlayerColor() == Color.BLUE) {
+                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.BLUE) {
                             if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
                                 System.out.print("|");
                                 System.out.print(CliColor.ANSI_BLUE + "w1");

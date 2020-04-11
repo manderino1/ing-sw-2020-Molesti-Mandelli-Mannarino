@@ -79,12 +79,12 @@ public class PlayerManager {
     //TODO: check if somehow you can place a worker in a spot out of bounds, use checkCoordinate from DirectionManagement if needed
     public void placeWorker(Integer x, Integer y) {
         if(workers[0] == null) {
-            workers[0] = new Worker(x, y, 0, playerData);
+            workers[0] = new Worker(x, y, 0, playerData.getPlayerColor());
             match.getGameMap().setCell(x, y, match.getGameMap().getCell(x,y).getBuilding(), workers[0]);
             //TODO: throw exception if cell is occupied
         }
         else if (workers[1] == null) {
-            workers[1] = new Worker(x, y, 1, playerData);
+            workers[1] = new Worker(x, y, 1, playerData.getPlayerColor());
             match.getGameMap().setCell(x, y, match.getGameMap().getCell(x,y).getBuilding(), workers[1]);
         }
         else {
@@ -98,7 +98,7 @@ public class PlayerManager {
      * @return the selected worker
      */
     public Worker getWorker(Integer workerID) {
-        return new Worker(workers[workerID].getX(), workers[workerID].getY(), workerID, playerData);
+        return new Worker(workers[workerID].getX(), workers[workerID].getY(), workerID, playerData.getPlayerColor());
     }
 
     /***

@@ -13,14 +13,17 @@ public class Launcher {
     private final int PORT = 9002;
     private InetAddress host ;
 
-    public void Launcher() throws IOException {
-        ViewUpdate cliviewupdate = new CliViewUpdate();
+    public Launcher() {
+        ViewUpdate cliViewUpdate = new CliViewUpdate();
 
-        host = InetAddress.getLocalHost();
-        Socket clientsocket = new Socket(host, PORT);
-
-        SocketClient NewThread = new SocketClient (clientsocket, cliviewupdate);
-        NewThread.start();
+        try {
+            host = InetAddress.getLocalHost();
+            Socket clientSocket = new Socket(host, PORT);
+            SocketClient NewThread = new SocketClient (clientSocket, cliViewUpdate);
+            NewThread.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

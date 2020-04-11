@@ -9,7 +9,7 @@ public class TestWorker {
      */
     @Test
     public void testWorkerCreation() {
-        Worker worker = new Worker(2,1, 0, new PlayerData("Test", Color.BLUE, 0));
+        Worker worker = new Worker(2,1, 0, Color.RED);
         Assert.assertEquals(Integer.valueOf(2), worker.getX());
         Assert.assertEquals(Integer.valueOf(1), worker.getY());
     }
@@ -19,7 +19,7 @@ public class TestWorker {
      */
     @Test
     public void testSetWorkerPosition() {
-        Worker worker = new Worker(2,1, 0, new PlayerData("Test", Color.BLUE, 0));
+        Worker worker = new Worker(2,1, 0, Color.RED);
         worker.setPosition(2,2);
         Assert.assertEquals(Integer.valueOf(2), worker.getX());
         Assert.assertEquals(Integer.valueOf(2), worker.getY());
