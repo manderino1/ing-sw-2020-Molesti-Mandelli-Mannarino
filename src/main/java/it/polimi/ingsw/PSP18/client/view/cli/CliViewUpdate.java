@@ -1,12 +1,13 @@
 package it.polimi.ingsw.PSP18.client.view.cli;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.DivinityReceiver;
+import it.polimi.ingsw.PSP18.server.controller.divinities.Divinity;
 import it.polimi.ingsw.PSP18.server.model.*;
 
 import java.io.IOException;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
+
 import it.polimi.ingsw.PSP18.server.model.*;
 
 import java.util.ArrayList;
@@ -200,4 +201,31 @@ public class CliViewUpdate extends ViewUpdate {
             System.out.println(CliColor.RESET);
         }
     }
+
+    @Override
+    public void selectNick() throws IOException {
+        String playerID = console.readLine();
+        inputParser.selectPlayerData(playerID);
+    }
+
+    @Override
+    public void selectDivinity(DivinityList divinityList) throws IOException {
+        ArrayList<String> divinities = divinityList.getDivinities();
+        for (String string : divinities) {
+            System.out.println(string);
+        }
+        String divinityChosen = console.readLine();
+        inputParser.selectDivinity(divinityChosen);
+    }
+
+    @Override
+    public void buildUpdate(BuildList buildList) throws IOException {
+        System.out.println("Pick a building move from below:");
+        for (Direction dir : buildList.getBuildlist()) {
+            System.out.println(dir);
+        }
+        String chosenMove = console.readLine();
+        inputParser.selectBuild(chosenMove);
+    }
+
 }

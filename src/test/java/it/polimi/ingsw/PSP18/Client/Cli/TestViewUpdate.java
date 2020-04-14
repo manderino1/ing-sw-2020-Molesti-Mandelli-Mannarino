@@ -21,9 +21,6 @@ public class TestViewUpdate {
         PlayerManager playerManager2 = new PlayerManager(match, playerData2);
         PlayerManager playerManager3 = new PlayerManager(match, playerData3);
 
-
-
-
         CliViewUpdate cliViewUpdate = new CliViewUpdate();
 
         match.addPlayer(playerManager1);
