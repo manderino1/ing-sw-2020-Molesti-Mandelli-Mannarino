@@ -102,7 +102,6 @@ public class SocketThread extends Thread {
                 }
                 PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerColor, match.getPlayerManagers().size());
                 match.addPlayer(new PlayerManager(match, playerData), this);
-                //TODO: Match hashmap socket-player
                 break;
             case DIVINITY_RECEIVER:
                 DivinityReceiver divinityReceiver = gson.fromJson(jsonObj, DivinityReceiver.class);

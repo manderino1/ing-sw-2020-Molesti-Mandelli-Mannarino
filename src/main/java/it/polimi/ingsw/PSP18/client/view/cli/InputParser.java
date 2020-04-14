@@ -1,11 +1,7 @@
 package it.polimi.ingsw.PSP18.client.view.cli;
 
 import it.polimi.ingsw.PSP18.networking.SocketClient;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.DivinityReceiver;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.BuildReceiver;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.EndTurnReceiver;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.PlayerDataReceiver;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 
 public class InputParser {
@@ -62,5 +58,9 @@ public class InputParser {
 
     public void selectPlayerData(String playerID) {
         socket.sendMessage(new PlayerDataReceiver(playerID));
+    }
+
+    public void selectReady() {
+        socket.sendMessage(new ReadyReceiver());
     }
 }
