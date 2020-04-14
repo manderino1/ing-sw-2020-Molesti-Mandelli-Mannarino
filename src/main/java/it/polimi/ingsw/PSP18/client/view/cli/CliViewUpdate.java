@@ -250,4 +250,45 @@ public class CliViewUpdate extends ViewUpdate {
         inputParser.selectBuild(chosenMove);
     }
 
+    @Override
+    public void matchLostUpdate(MatchLost matchLost) {
+
+        for (PlayerData playerData : playerDataArrayList) {
+            if (matchLost.getMatchLost().equals(playerData.getPlayerID())) {
+                System.out.println("Sorry ");
+                if (playerData.getPlayerColor() == Color.RED) {
+                    System.out.print(CliColor.ANSI_RED + "" + playerData.getPlayerID());
+                }
+                if (playerData.getPlayerColor() == Color.BLUE) {
+                    System.out.print(CliColor.ANSI_BLUE + "" + playerData.getPlayerID());
+                }
+                if (playerData.getPlayerColor() == Color.GREEN) {
+                    System.out.print(CliColor.ANSI_GREEN + "" + playerData.getPlayerID());
+                }
+                System.out.print(", you have lost!");
+                playerDataArrayList.remove(playerData);
+            }
+        }
+    }
+
+    @Override
+    public void matchWonUpdate(MatchWon matchWon) {
+        for (PlayerData playerData : playerDataArrayList) {
+            if (matchWon.getMatchWon().equals(playerData.getPlayerID())) {
+                System.out.println("Congratulations ");
+                if (playerData.getPlayerColor() == Color.RED) {
+                    System.out.print(CliColor.ANSI_RED + "" + playerData.getPlayerID());
+                }
+                if (playerData.getPlayerColor() == Color.BLUE) {
+                    System.out.print(CliColor.ANSI_BLUE + "" + playerData.getPlayerID());
+                }
+                if (playerData.getPlayerColor() == Color.GREEN) {
+                    System.out.print(CliColor.ANSI_GREEN + "" + playerData.getPlayerID());
+                }
+                System.out.print(", you have won!");
+            }
+        }
+    }
+
+
 }

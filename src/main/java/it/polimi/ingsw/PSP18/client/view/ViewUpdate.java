@@ -12,4 +12,6 @@ public abstract class ViewUpdate {
     public abstract void selectNick() throws IOException;
     public abstract void selectDivinity(DivinityList divinityList) throws IOException;
     public abstract void buildUpdate(BuildList buildList) throws IOException;
+    public abstract void matchLostUpdate(MatchLost matchLost);
+    public abstract void matchWonUpdate(MatchWon matchWon);
 }

@@ -7,17 +7,14 @@ import java.util.ArrayList;
 public class BuildList extends ClientAbstractMessage{
 
     private ArrayList<Direction> buildlist;
-    private Integer workerID;
 
     /***
      * constructor of BuildList
      * @param buildlist
-     * @param workerID
      */
-    public BuildList(ArrayList<Direction> buildlist, Integer workerID){
+    public BuildList(ArrayList<Direction> buildlist){
         this.type=ClientMessageType.BUILD_LIST;
         this.buildlist= buildlist;
-        this.workerID = workerID;
     }
 
     /***
@@ -27,7 +24,5 @@ public class BuildList extends ClientAbstractMessage{
     public ArrayList<Direction> getBuildlist() {
         return buildlist;
     }
-
-    public Integer getWorkerID() { return workerID; }
 
 }
