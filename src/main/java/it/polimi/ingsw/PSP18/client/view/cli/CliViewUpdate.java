@@ -22,27 +22,49 @@ public class CliViewUpdate extends ViewUpdate {
     public void moveUpdate(MoveList movelist) throws IOException {
 
         Boolean moving = true;
-        System.out.println("Which Worker do you want to move? 1 or 2");
-        String chosenWorker = console.readLine();
-        switch (chosenWorker) {
-            case "1":
-                while (moving) {
+        while (moving) {
+            String chosenMove = new String();
+            System.out.println("Which Worker do you want to move? 1 or 2");
+            String chosenWorker = console.readLine();
+            switch (chosenWorker) {
+
+                case "1":
                     System.out.println("Available moves:");
+
                     for (Direction dir : movelist.getMoveList1()) {
                         System.out.println(dir);
                     }
                     System.out.println("Pick a Move from above");
-                    String chosenMove = console.readLine();
+                    chosenMove = console.readLine();
 
-                            for (Direction dir : movelist.getMoveList1()) {
-                                if (dir.toString().equals("UP") {
-                                    InputParser.selectmove
-                                            moving = false;
-                                }
-                            }
+                    for (Direction dir : movelist.getMoveList1()) {
+                        if (dir.toString().equals(chosenMove)) {
+                            InputParser.selectMove(chosenWorker, chosenMove);
+                            moving = false;
+
+                        }
 
                     }
-                }
+
+                case "2":
+                    System.out.println("Available moves:");
+
+                    for (Direction dir : movelist.getMoveList2()) {
+                        System.out.println(dir);
+                    }
+                    System.out.println("Pick a Move from above");
+                    chosenMove = console.readLine();
+
+                    for (Direction dir : movelist.getMoveList2()) {
+                        if (dir.toString().equals(chosenMove)) {
+                            InputParser.selectMove(chosenWorker, chosenMove);
+                            moving = false;
+
+                        }
+
+                    }
+
+            }
         }
     }
 
