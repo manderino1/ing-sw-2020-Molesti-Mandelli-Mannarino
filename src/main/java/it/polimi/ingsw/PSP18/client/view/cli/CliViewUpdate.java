@@ -21,16 +21,29 @@ public class CliViewUpdate extends ViewUpdate {
     public void moveUpdate(MoveList movelist) throws IOException {
 
         Boolean moving = true;
-        while(moving){
-            System.out.println("Pick a move from below:");
-            for (Direction dir : movelist.getMoveList()) {
-                System.out.println(dir);
-            }
-            String chosenMove = console.readLine();
+        System.out.println("Which Worker do you want to move? 1 or 2");
+        String chosenWorker = console.readLine();
+        switch (chosenWorker) {
+            case "1":
+                while (moving) {
+                    System.out.println("Available moves:");
+                    for (Direction dir : movelist.getMoveList1()) {
+                        System.out.println(dir);
+                    }
+                    System.out.println("Pick a Move from above");
+                    String chosenMove = console.readLine();
 
+                            for (Direction dir : movelist.getMoveList1()) {
+                                if (dir.toString().equals("UP") {
+                                    InputParser.selectmove
+                                            moving = false;
+                                }
+                            }
+
+                    }
+                }
         }
     }
-
 
     @Override
     public void updateMap(GameMapUpdate gameMapUpdate) {
