@@ -23,6 +23,11 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     @Override
+    public void startMatch(StartMatch startMatch){
+        System.out.println("All players are ready. Game on!");
+    }
+
+    @Override
     public void moveUpdate(MoveList movelist) throws IOException {
 
         Boolean moving = true;
