@@ -6,11 +6,16 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.server.model.*;
 
 import java.io.IOException;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
+import it.polimi.ingsw.PSP18.server.model.*;
+
+import java.util.ArrayList;
 
 public class CliViewUpdate extends ViewUpdate {
 
-    InputParser inputParser= new InputParser(/*passare socket qui*/);
+    private InputParser inputParser= new InputParser(/*passare socket qui*/);
     java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+    private ArrayList<PlayerData> playerDataArrayList = new ArrayList<PlayerData>();
 
     @Override
     public void moveUpdate(MoveList movelist) throws IOException {
@@ -25,6 +30,7 @@ public class CliViewUpdate extends ViewUpdate {
 
         }
     }
+
 
     @Override
     public void updateMap(GameMapUpdate gameMapUpdate) {
@@ -138,5 +144,47 @@ public class CliViewUpdate extends ViewUpdate {
         }
     }
 
+    @Override
+    public void updatePlayerData(PlayerDataUpdate playerDataUpdate) {
+        if (playerDataArrayList == null) {
+            playerDataArrayList.add(playerDataUpdate.getPlayerData());
+        }
 
+        if (!playerDataArrayList.contains(playerDataUpdate.getPlayerData()) ){
+            playerDataArrayList.add(playerDataUpdate.getPlayerData());
+        }
+
+        if(playerDataUpdate.getPlayerData().getPlayerColor() == Color.RED) {
+            System.out.println(CliColor.ANSI_RED + "Nickname: " + playerDataUpdate.getPlayerData().getPlayerID());
+            System.out.println("Play order: " + playerDataUpdate.getPlayerData().getPlayOrder());
+            if (playerDataUpdate.getPlayerData().getDivinity() == null) {
+                System.out.println("Divinity: null");
+            } else {
+                System.out.println("Divinity: " + playerDataUpdate.getPlayerData().getDivinity());
+            }
+            System.out.println(CliColor.RESET);
+        }
+
+        if(playerDataUpdate.getPlayerData().getPlayerColor() == Color.GREEN) {
+            System.out.println(CliColor.ANSI_GREEN + "Nickname: " + playerDataUpdate.getPlayerData().getPlayerID());
+            System.out.println("Play order: " + playerDataUpdate.getPlayerData().getPlayOrder());
+            if (playerDataUpdate.getPlayerData().getDivinity() == null) {
+                System.out.println("Divinity: null");
+            } else {
+                System.out.println("Divinity: " + playerDataUpdate.getPlayerData().getDivinity());
+            }
+            System.out.println(CliColor.RESET);
+        }
+
+        if(playerDataUpdate.getPlayerData().getPlayerColor() == Color.BLUE) {
+            System.out.println(CliColor.ANSI_BLUE + "Nickname: " + playerDataUpdate.getPlayerData().getPlayerID());
+            System.out.println("Play order: " + playerDataUpdate.getPlayerData().getPlayOrder());
+            if (playerDataUpdate.getPlayerData().getDivinity() == null) {
+                System.out.println("Divinity: null");
+            } else {
+                System.out.println("Divinity: " + playerDataUpdate.getPlayerData().getDivinity());
+            }
+            System.out.println(CliColor.RESET);
+        }
+    }
 }
