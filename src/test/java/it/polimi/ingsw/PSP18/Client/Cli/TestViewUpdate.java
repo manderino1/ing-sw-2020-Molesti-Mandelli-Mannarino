@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.Client.Cli;
 
 import it.polimi.ingsw.PSP18.client.view.cli.CliViewUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
 import it.polimi.ingsw.PSP18.server.view.MapObserver;
@@ -35,5 +36,23 @@ public class TestViewUpdate {
 
         GameMapUpdate gameMapUpdate = new GameMapUpdate(match.getGameMap().getMapCells());
         cliViewUpdate.updateMap(gameMapUpdate);
+    }
+
+    @Test
+    public void TestUpdatePlayerData(){
+        PlayerData playerData1 = new PlayerData("ottavio", Color.RED, 0);
+        PlayerData playerData2 = new PlayerData("marco", Color.GREEN, 1);
+        PlayerData playerData3 = new PlayerData("mole", Color.BLUE, 2);
+        playerData1.setDivinity("Apollo");
+
+        PlayerDataUpdate playerDataUpdate1 = new PlayerDataUpdate(playerData1);
+        PlayerDataUpdate playerDataUpdate2 = new PlayerDataUpdate(playerData2);
+        PlayerDataUpdate playerDataUpdate3 = new PlayerDataUpdate(playerData3);
+
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate();
+        cliViewUpdate.updatePlayerData(playerDataUpdate1);
+        cliViewUpdate.updatePlayerData(playerDataUpdate2);
+        cliViewUpdate.updatePlayerData(playerDataUpdate3);
     }
 }
