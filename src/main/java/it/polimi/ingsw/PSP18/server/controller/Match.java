@@ -110,10 +110,6 @@ public class Match {
      */
     public void addSocket(SocketThread socket){
         sockets.add(socket);
-        gameMap.attach(new MapObserver(socket));
-        for(PlayerManager player : playerManagers) {
-            player.getPlayerData().attach(new PlayerDataObserver(socket));
-        }
         socket.sendMessage(new WaitingNick());
     }
 
@@ -187,6 +183,14 @@ public class Match {
     private void startMatch() {
         // Sort players by order
         playerManagers.sort(Comparator.comparingInt(o -> o.getPlayerData().getPlayOrder()));
+
+        // Set observers
+        for(SocketThread socket : sockets) {
+            gameMap.attach(new MapObserver(socket));
+            for(PlayerManager player : playerManagers) {
+                player.getPlayerData().attach(new PlayerDataObserver(socket));
+            }
+        }
 
         // Search for Athena
         for (PlayerManager player : playerManagers) {

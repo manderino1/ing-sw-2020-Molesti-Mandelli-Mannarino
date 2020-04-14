@@ -34,6 +34,7 @@ public class SocketThread extends Thread {
             // Init buffers
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
+            match.addSocket(this);
         }
         catch(IOException e)
         {

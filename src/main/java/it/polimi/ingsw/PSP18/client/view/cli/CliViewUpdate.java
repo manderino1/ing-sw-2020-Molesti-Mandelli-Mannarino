@@ -46,7 +46,9 @@ public class CliViewUpdate extends ViewUpdate {
                         waiting = false;
                         break;
                     }
-                    System.out.println("Entry incorrect, enter 1 or 2");
+                    if(waiting) {
+                        System.out.println("Entry incorrect, enter 1 or 2");
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -286,7 +288,9 @@ public class CliViewUpdate extends ViewUpdate {
                         break;
                     }
                 }
-                System.out.println("Name incorrect, retry:");
+                if(waiting) {
+                    System.out.println("Name incorrect, retry:");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -311,7 +315,9 @@ public class CliViewUpdate extends ViewUpdate {
                         break;
                     }
                 }
-                System.out.println("Direction incorrect, retry:");
+                if(waiting) {
+                    System.out.println("Direction incorrect, retry:");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
