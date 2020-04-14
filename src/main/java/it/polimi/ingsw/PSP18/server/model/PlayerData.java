@@ -10,7 +10,7 @@ public class PlayerData {
     private Integer playOrder;
     private Move lastMove;
     private String divinity;
-    private Boolean isReady;
+    private Boolean isReady = false;
     private ArrayList<PlayerDataObserver> observers = new ArrayList<>();
 
     /***

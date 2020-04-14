@@ -30,23 +30,34 @@ public class CliViewUpdate extends ViewUpdate {
     @Override
     public void moveUpdate(MoveList movelist) {
 
-        Boolean moving = true;
+        boolean moving = true;
+
+
         while (moving) {
-            String chosenMove = new String();
+            String chosenMove = "";
             System.out.println("Which Worker do you want to move? 1 or 2");
             String chosenWorker = null;
-            try {
-                chosenWorker = console.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            switch (chosenWorker) {
+            boolean waiting = true;
 
+            while(waiting) { // TODO: CHECK WARNING
+                try {
+                    chosenWorker = console.readLine();
+                    if(chosenWorker.equals("1") || chosenWorker.equals("2")) {
+                        waiting = false;
+                        break;
+                    }
+                    System.out.println("Entry incorrect, enter 1 or 2");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            switch (chosenWorker) {
                 case "1":
                     System.out.println("Available moves:");
 
                     for (Direction dir : movelist.getMoveList1()) {
-                        System.out.println(dir);
+                        System.out.println(dir.toString());
                     }
                     System.out.println("Pick a Move from above");
                     try {
@@ -56,12 +67,11 @@ public class CliViewUpdate extends ViewUpdate {
                     }
 
                     for (Direction dir : movelist.getMoveList1()) {
-                        if (dir.toString().equals(chosenMove)) {
+                        if (dir.toString().equals(chosenMove.toUpperCase())) {
                             inputParser.selectMove(chosenWorker, chosenMove);
                             moving = false;
-
+                            break;
                         }
-
                     }
 
                 case "2":
@@ -78,10 +88,10 @@ public class CliViewUpdate extends ViewUpdate {
                     }
 
                     for (Direction dir : movelist.getMoveList2()) {
-                        if (dir.toString().equals(chosenMove)) {
+                        if (dir.toString().equals(chosenMove.toUpperCase())) {
                             inputParser.selectMove(chosenWorker, chosenMove);
                             moving = false;
-
+                            break;
                         }
 
                     }
@@ -248,6 +258,7 @@ public class CliViewUpdate extends ViewUpdate {
 
     @Override
     public void selectNick() {
+        System.out.println("Select a nickname:");
         String playerID = null;
         try {
             playerID = console.readLine();
@@ -259,15 +270,26 @@ public class CliViewUpdate extends ViewUpdate {
 
     @Override
     public void selectDivinity(DivinityList divinityList) {
+        System.out.println("Select a divinity from the following list");
         ArrayList<String> divinities = divinityList.getDivinities();
         for (String string : divinities) {
             System.out.println(string);
         }
         String divinityChosen = null;
-        try {
-            divinityChosen = console.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
+        boolean waiting = true;
+        while(waiting) {
+            try {
+                divinityChosen = console.readLine();
+                for(String divinity : divinities) {
+                    if (divinityChosen.toUpperCase().equals(divinity.toUpperCase())) {
+                        waiting = false;
+                        break;
+                    }
+                }
+                System.out.println("Name incorrect, retry:");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         inputParser.selectDivinity(divinityChosen);
     }
@@ -276,13 +298,23 @@ public class CliViewUpdate extends ViewUpdate {
     public void buildUpdate(BuildList buildList) {
         System.out.println("Pick a building move from below:");
         for (Direction dir : buildList.getBuildlist()) {
-            System.out.println(dir);
+            System.out.println(dir.toString());
         }
         String chosenMove = null;
-        try {
-            chosenMove = console.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
+        boolean waiting = true;
+        while(waiting) {
+            try {
+                chosenMove = console.readLine();
+                for(Direction dir : buildList.getBuildlist()) {
+                    if (dir.toString().toUpperCase().equals(chosenMove.toUpperCase())) {
+                        waiting = false;
+                        break;
+                    }
+                }
+                System.out.println("Direction incorrect, retry:");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         inputParser.selectBuild(chosenMove);
     }
@@ -329,14 +361,17 @@ public class CliViewUpdate extends ViewUpdate {
 
     @Override
     public void matchReadyUpdate(MatchReady matchReady) {
-        Boolean waiting = true;
-        while (waiting == true) {
+        boolean waiting = true;
+        System.out.println("Write READY when you are ready");
+        while (waiting) {
             try {
                 String ready = console.readLine();
+                if(ready.toUpperCase().equals("READY")) {
+                    waiting = false;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            waiting = false;
         }
         inputParser.selectReady();
     }
