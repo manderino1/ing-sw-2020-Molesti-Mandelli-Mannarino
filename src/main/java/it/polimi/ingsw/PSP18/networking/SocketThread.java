@@ -102,7 +102,7 @@ public class SocketThread extends Thread {
                     playerColor = Color.GREEN;
                 }
                 PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerColor, match.getPlayerManagers().size());
-                match.addPlayer(new PlayerManager(match, playerData));
+                match.addPlayer(new PlayerManager(match, playerData), this);
                 //TODO: Match hashmap socket-player
                 break;
             case DIVINITY_RECEIVER:

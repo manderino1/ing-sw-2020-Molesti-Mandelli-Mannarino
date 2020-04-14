@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP18.server.model;
 
+import it.polimi.ingsw.PSP18.networking.SocketClient;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.WaitingNick;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.controller.TurnManager;
 import it.polimi.ingsw.PSP18.networking.SocketServer;
@@ -15,7 +17,7 @@ public class Match {
     private TurnManager turnManager;
     private ArrayList<SocketThread> sockets;
     private SocketServer socketServer;
-    private HashMap<SocketThread, PlayerManager> hashMap;
+    private HashMap<PlayerManager, SocketThread> playerSocketMap;
     private PlayerManager currentPlayer;
     private MatchStatus matchStatus;
     private GameMap gameMap;
@@ -26,7 +28,7 @@ public class Match {
     public Match(){
         playerManagers = new ArrayList<PlayerManager>();
         sockets = new ArrayList<SocketThread>();
-        hashMap = new HashMap<SocketThread, PlayerManager>();
+        playerSocketMap = new HashMap<PlayerManager, SocketThread>();
         socketServer = new SocketServer(this);
         socketServer.start(); // Wait for connections
         gameMap = new GameMap();
@@ -76,8 +78,15 @@ public class Match {
      * Add a player to the players list
      * @param player the playermanager player reference
      */
-    public void addPlayer(PlayerManager player){
+    public void addPlayer(PlayerManager player, SocketThread socket){
+        for(PlayerManager playerPresent : playerManagers) {
+            if(player.getPlayerData().getPlayerID().equals(playerPresent.getPlayerData().getPlayerID())) {
+                socket.sendMessage(new WaitingNick());
+                return;
+            }
+        }
         playerManagers.add(player);
+        playerSocketMap.put(player, socket);
     }
 
     /***
@@ -91,6 +100,7 @@ public class Match {
         for(PlayerManager player : playerManagers) {
             player.getPlayerData().attach(new PlayerDataObserver(socket));
         }
+        socket.sendMessage(new WaitingNick());
     }
 
     /***
@@ -123,16 +133,5 @@ public class Match {
      */
     public void setTurnManager(TurnManager turnManager) {
         this.turnManager = turnManager;
-    }
-
-    /***
-     * Map a socket to its player
-     * @param player the playermanager reference
-     * @param socket the socket related to the player reference
-     */
-    private void mapping(PlayerManager player, SocketThread socket){
-        hashMap.put(socket, player);
-        addPlayer(player);
-        addSocket(socket);
     }
 }
