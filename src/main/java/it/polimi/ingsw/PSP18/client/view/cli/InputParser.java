@@ -6,7 +6,6 @@ import it.polimi.ingsw.PSP18.networking.messages.toserver.BuildReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.EndTurnReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PlayerDataReceiver;
-import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 
 public class InputParser {
@@ -56,15 +55,12 @@ public class InputParser {
         }
         return null; // Never reach this point
     }
+
     public void selectDivinity(String divinity) {
-
         socket.sendMessage(new DivinityReceiver(divinity));
-
     }
+
     public void selectPlayerData(String playerID) {
-
-
         socket.sendMessage(new PlayerDataReceiver(playerID));
-
     }
 }

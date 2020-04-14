@@ -1,16 +1,20 @@
-package it.polimi.ingsw.PSP18.server.model;
+package it.polimi.ingsw.PSP18.server.controller;
 
 import it.polimi.ingsw.PSP18.networking.SocketClient;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.DivinityList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchReady;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.WaitingNick;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.controller.TurnManager;
 import it.polimi.ingsw.PSP18.networking.SocketServer;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.server.controller.TurnManagerAthena;
+import it.polimi.ingsw.PSP18.server.model.GameMap;
+import it.polimi.ingsw.PSP18.server.model.MatchStatus;
 import it.polimi.ingsw.PSP18.server.view.MapObserver;
 import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class Match {
     private ArrayList<PlayerManager> playerManagers;
@@ -18,9 +22,12 @@ public class Match {
     private ArrayList<SocketThread> sockets;
     private SocketServer socketServer;
     private HashMap<PlayerManager, SocketThread> playerSocketMap;
+    private HashMap<SocketThread, PlayerManager> socketPlayerMap;
     private PlayerManager currentPlayer;
     private MatchStatus matchStatus;
     private GameMap gameMap;
+    private ArrayList<String> divinitySelection = new ArrayList<String>();
+    private Integer divinitySelectionIndex = 0;
 
     /***
      * Match constructor, initializes the arrayLists and the game map
@@ -29,6 +36,7 @@ public class Match {
         playerManagers = new ArrayList<PlayerManager>();
         sockets = new ArrayList<SocketThread>();
         playerSocketMap = new HashMap<PlayerManager, SocketThread>();
+        socketPlayerMap = new HashMap<SocketThread, PlayerManager>();
         socketServer = new SocketServer(this);
         socketServer.start(); // Wait for connections
         gameMap = new GameMap();
@@ -87,6 +95,12 @@ public class Match {
         }
         playerManagers.add(player);
         playerSocketMap.put(player, socket);
+        socketPlayerMap.put(socket, player);
+        if(playerManagers.size() >= 2) { // Ask to every connected player to write if ready
+            for(PlayerManager playerPresent : playerManagers) {
+                playerSocketMap.get(playerPresent).sendMessage(new MatchReady());
+            }
+        }
     }
 
     /***
@@ -120,7 +134,7 @@ public class Match {
     }
 
     /***
-     * Get the turn manager
+     * Get the turn manager reference
      * @return the turn manager reference
      */
     public TurnManager getTurnManager() {
@@ -128,10 +142,61 @@ public class Match {
     }
 
     /***
-     * Set the new turn manager
-     * @param turnManager the turn manager reference
+     * Wait for all the players to be ready and then start the divinity selection phase
+     * @param socket the reference to the socket
      */
-    public void setTurnManager(TurnManager turnManager) {
-        this.turnManager = turnManager;
+    public void readyManagement(SocketThread socket) {
+        socketPlayerMap.get(socket).getPlayerData().setReady();
+        for(PlayerManager player : playerManagers) {
+            if(!player.getPlayerData().getReady()) {
+                return;
+            }
+        }
+        // If i manage to arrive here all the players are ready, i can start the divinity selection phase
+        matchStatus = MatchStatus.DIVINITIES_SELECTION;
+        String[] divinities = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Ephaestus", "Minotaur", "Pan", "Prometheus"};
+        Collections.shuffle(Arrays.asList(divinities));
+        divinitySelection.addAll(Arrays.asList(divinities).subList(0, playerManagers.size() + 1));
+        playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
+        divinitySelectionIndex++;
+    }
+
+    /***
+     * Create the divinity of the player that decided which divinity to use
+     * If there are no more players that have to choose the divinity start the match
+     * If there are other players, ask the next to choose the divinity
+     * @param socket the socket reference, used to get the correct player
+     * @param divinity string that represent the divinity to be created
+     */
+    public void divinityCreation(SocketThread socket, String divinity) {
+        socketPlayerMap.get(socket).divinityCreation(divinity);
+        if(divinitySelectionIndex == playerManagers.size()) {
+            startMatch();
+        } else {
+            divinitySelection.remove(divinity);
+            playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
+            divinitySelectionIndex++;
+        }
+    }
+
+    /***
+     * Start the match by ordering players and creating the turn manager
+     * Has to be called after the creation of players
+     * If Athena is in the match create its special turn manager
+     */
+    private void startMatch() {
+        // Sort players by order
+        playerManagers.sort(Comparator.comparingInt(o -> o.getPlayerData().getPlayOrder()));
+
+        // Search for Athena
+        for (PlayerManager player : playerManagers) {
+            if(player.getDivinityName().equals("Athena")) {
+                turnManager = new TurnManagerAthena(this);
+                return;
+            }
+        }
+        // If Athena is not found create a standard turn manager
+        matchStatus = MatchStatus.MATCH_STARTED;
+        turnManager = new TurnManager(this);
     }
 }

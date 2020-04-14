@@ -3,10 +3,9 @@ package it.polimi.ingsw.PSP18.networking;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
-import it.polimi.ingsw.PSP18.server.model.Match;
+import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientAbstractMessage;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
@@ -107,11 +106,14 @@ public class SocketThread extends Thread {
                 break;
             case DIVINITY_RECEIVER:
                 DivinityReceiver divinityReceiver = gson.fromJson(jsonObj, DivinityReceiver.class);
-                match.getCurrentPlayer().divinityCreation(divinityReceiver.getDivinity());
+                match.divinityCreation(this, divinityReceiver.getDivinity());
                 break;
             case ENDTURN_RECEIVER:
                 EndTurnReceiver endTurnReceiver = gson.fromJson(jsonObj, EndTurnReceiver.class);
                 match.getTurnManager().passTurn();
+            case READY_RECEIVER:
+                ReadyReceiver readyReceiver = gson.fromJson(jsonObj, ReadyReceiver.class);
+                match.readyManagement(this);
         }
     }
 

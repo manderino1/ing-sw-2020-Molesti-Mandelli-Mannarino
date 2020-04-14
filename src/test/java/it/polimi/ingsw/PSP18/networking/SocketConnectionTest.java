@@ -3,11 +3,12 @@ package it.polimi.ingsw.PSP18.networking;
 import it.polimi.ingsw.PSP18.client.view.Launcher;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
-import it.polimi.ingsw.PSP18.server.model.Match;
+import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.Socket;
 
 public class SocketConnectionTest {
     @Test
@@ -23,11 +24,11 @@ public class SocketConnectionTest {
         PlayerManager playerManager2 = new PlayerManager(match, playerData2);
         PlayerManager playerManager3 = new PlayerManager(match, playerData3);
 
-        match.addPlayer(playerManager1);
+        match.addPlayer(playerManager1, new SocketThread(new Socket(), match));
         playerManager1.placeWorker(2,1);
-        match.addPlayer(playerManager2);
+        match.addPlayer(playerManager2, new SocketThread(new Socket(), match));
         playerManager2.placeWorker(3,2);
-        match.addPlayer(playerManager3);
+        match.addPlayer(playerManager3, new SocketThread(new Socket(), match));
         playerManager3.placeWorker(4,1);
         playerManager3.placeWorker(3,1);
 

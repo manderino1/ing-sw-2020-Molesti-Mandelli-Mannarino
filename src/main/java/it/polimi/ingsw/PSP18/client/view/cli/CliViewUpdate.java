@@ -14,9 +14,13 @@ import java.util.ArrayList;
 
 public class CliViewUpdate extends ViewUpdate {
 
-    private InputParser inputParser= new InputParser(/*passare socket qui*/);
+    private InputParser inputParser;
     java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
     private ArrayList<PlayerData> playerDataArrayList = new ArrayList<PlayerData>();
+
+    public void setInputParser(InputParser inputParser) {
+        this.inputParser = inputParser;
+    }
 
     @Override
     public void moveUpdate(MoveList movelist) throws IOException {
@@ -39,7 +43,7 @@ public class CliViewUpdate extends ViewUpdate {
 
                     for (Direction dir : movelist.getMoveList1()) {
                         if (dir.toString().equals(chosenMove)) {
-                            InputParser.selectMove(chosenWorker, chosenMove);
+                            inputParser.selectMove(chosenWorker, chosenMove);
                             moving = false;
 
                         }
@@ -57,7 +61,7 @@ public class CliViewUpdate extends ViewUpdate {
 
                     for (Direction dir : movelist.getMoveList2()) {
                         if (dir.toString().equals(chosenMove)) {
-                            InputParser.selectMove(chosenWorker, chosenMove);
+                            inputParser.selectMove(chosenWorker, chosenMove);
                             moving = false;
 
                         }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.PSP18.server.controller;
 
-import it.polimi.ingsw.PSP18.server.model.Match;
-
 public class TurnManager {
     protected Match match;
     protected Integer indexCurrentPlayer;

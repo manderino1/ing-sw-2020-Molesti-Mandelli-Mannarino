@@ -1,7 +1,6 @@
 package it.polimi.ingsw.PSP18.server.controller;
 
 import it.polimi.ingsw.PSP18.server.model.Color;
-import it.polimi.ingsw.PSP18.server.model.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import org.junit.Assert;
 import org.junit.Before;

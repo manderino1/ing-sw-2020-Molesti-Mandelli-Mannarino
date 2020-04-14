@@ -1,12 +1,15 @@
 package it.polimi.ingsw.PSP18.Client.Cli;
 
 import it.polimi.ingsw.PSP18.client.view.cli.CliViewUpdate;
+import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
+import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
-import it.polimi.ingsw.PSP18.server.view.MapObserver;
 import org.junit.Test;
+
+import java.net.Socket;
 
 public class TestViewUpdate {
 
@@ -23,11 +26,11 @@ public class TestViewUpdate {
 
         CliViewUpdate cliViewUpdate = new CliViewUpdate();
 
-        match.addPlayer(playerManager1);
+        match.addPlayer(playerManager1, new SocketThread(new Socket(), match));
         playerManager1.placeWorker(2,1);
-        match.addPlayer(playerManager2);
+        match.addPlayer(playerManager2, new SocketThread(new Socket(), match));
         playerManager2.placeWorker(3,2);
-        match.addPlayer(playerManager3);
+        match.addPlayer(playerManager3, new SocketThread(new Socket(), match));
         playerManager3.placeWorker(4,1);
         playerManager3.placeWorker(3,1);
 

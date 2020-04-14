@@ -10,6 +10,7 @@ public class PlayerData {
     private Integer playOrder;
     private Move lastMove;
     private String divinity;
+    private Boolean isReady;
     private ArrayList<PlayerDataObserver> observers = new ArrayList<>();
 
     /***
@@ -81,6 +82,21 @@ public class PlayerData {
     public void setDivinity(String divinity) {
         this.divinity = divinity;
         notifyObservers();
+    }
+
+    /***
+     * Set the player as ready
+     */
+    public void setReady() {
+        isReady = true;
+    }
+
+    /***
+     * Get the player state
+     * @return the player state, true if ready
+     */
+    public Boolean getReady() {
+        return isReady;
     }
 
     /***

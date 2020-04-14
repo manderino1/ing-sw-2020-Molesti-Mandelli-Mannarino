@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP18.client.view;
 
 import it.polimi.ingsw.PSP18.client.view.cli.CliViewUpdate;
+import it.polimi.ingsw.PSP18.client.view.cli.InputParser;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 
 import java.io.IOException;
@@ -14,13 +15,14 @@ public class Launcher {
     private InetAddress host ;
 
     public Launcher() {
-        ViewUpdate cliViewUpdate = new CliViewUpdate();
+        CliViewUpdate cliViewUpdate = new CliViewUpdate();
 
         try {
             host = InetAddress.getLocalHost();
-            Socket clientSocket = new Socket(host, PORT);
-            SocketClient NewThread = new SocketClient (clientSocket, cliViewUpdate);
-            NewThread.start();
+            Socket socket = new Socket(host, PORT);
+            SocketClient socketClient = new SocketClient (socket, cliViewUpdate);
+            cliViewUpdate.setInputParser(new InputParser(socketClient));
+            socketClient.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
