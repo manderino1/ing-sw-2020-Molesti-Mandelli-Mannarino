@@ -9,6 +9,7 @@ public class PlayerData {
     private Color playerColor;
     private Integer playOrder;
     private Move lastMove;
+    private String divinity;
     private ArrayList<PlayerDataObserver> observers = new ArrayList<>();
 
     /***
@@ -61,6 +62,24 @@ public class PlayerData {
      */
     public void setLastMove(Move lastMove) {
         this.lastMove = lastMove;
+        notifyObservers();
+    }
+
+
+    /***
+     * Get the divinity of the player as string
+     * @return the divinity of the player in game, null if not chosen
+     */
+    public String getDivinity() {
+        return divinity;
+    }
+
+    /***
+     * Set the player divinity
+     * @param divinity the name of the divinity to be set
+     */
+    public void setDivinity(String divinity) {
+        this.divinity = divinity;
         notifyObservers();
     }
 
