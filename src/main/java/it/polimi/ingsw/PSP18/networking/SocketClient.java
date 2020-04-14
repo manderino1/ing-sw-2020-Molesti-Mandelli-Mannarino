@@ -93,27 +93,35 @@ public class SocketClient extends Thread {
                 break;
             case MATCH_WON:
                 MatchWon matchWon = gson.fromJson(jsonObj, MatchWon.class);
+                viewUpdate.matchWonUpdate(matchWon);
                 break;
             case MATCH_LOST:
                 MatchLost matchLost = gson.fromJson(jsonObj, MatchLost.class);
+                viewUpdate.matchLostUpdate(matchLost);
                 break;
             case MOVE_LIST:
                 MoveList moveList = gson.fromJson(jsonObj, MoveList.class);
+                viewUpdate.moveUpdate(moveList);
                 break;
             case BUILD_LIST:
                 BuildList buildList = gson.fromJson(jsonObj, BuildList.class);
+                viewUpdate.buildUpdate(buildList);
                 break;
             case START_MATCH:
                 StartMatch startMatch = gson.fromJson(jsonObj, StartMatch.class);
+                viewUpdate.startMatch(startMatch);
                 break;
             case DIVINITY_LIST:
                 DivinityList divinityList = gson.fromJson(jsonObj, DivinityList.class);
+                viewUpdate.selectDivinity(divinityList);
                 break;
             case READY:
                 MatchReady matchReady = gson.fromJson(jsonObj, MatchReady.class);
+                viewUpdate.matchReadyUpdate(matchReady);
                 break;
             case WAITING_NICK:
                 WaitingNick waitingNick = gson.fromJson(jsonObj, WaitingNick.class);
+                viewUpdate.selectNick();
         }
     }
 

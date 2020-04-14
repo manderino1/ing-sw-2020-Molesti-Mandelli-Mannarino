@@ -28,13 +28,18 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     @Override
-    public void moveUpdate(MoveList movelist) throws IOException {
+    public void moveUpdate(MoveList movelist) {
 
         Boolean moving = true;
         while (moving) {
             String chosenMove = new String();
             System.out.println("Which Worker do you want to move? 1 or 2");
-            String chosenWorker = console.readLine();
+            String chosenWorker = null;
+            try {
+                chosenWorker = console.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             switch (chosenWorker) {
 
                 case "1":
@@ -44,7 +49,11 @@ public class CliViewUpdate extends ViewUpdate {
                         System.out.println(dir);
                     }
                     System.out.println("Pick a Move from above");
-                    chosenMove = console.readLine();
+                    try {
+                        chosenMove = console.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     for (Direction dir : movelist.getMoveList1()) {
                         if (dir.toString().equals(chosenMove)) {
@@ -62,7 +71,11 @@ public class CliViewUpdate extends ViewUpdate {
                         System.out.println(dir);
                     }
                     System.out.println("Pick a Move from above");
-                    chosenMove = console.readLine();
+                    try {
+                        chosenMove = console.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     for (Direction dir : movelist.getMoveList2()) {
                         if (dir.toString().equals(chosenMove)) {
@@ -234,28 +247,43 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     @Override
-    public void selectNick() throws IOException {
-        String playerID = console.readLine();
+    public void selectNick() {
+        String playerID = null;
+        try {
+            playerID = console.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         inputParser.selectPlayerData(playerID);
     }
 
     @Override
-    public void selectDivinity(DivinityList divinityList) throws IOException {
+    public void selectDivinity(DivinityList divinityList) {
         ArrayList<String> divinities = divinityList.getDivinities();
         for (String string : divinities) {
             System.out.println(string);
         }
-        String divinityChosen = console.readLine();
+        String divinityChosen = null;
+        try {
+            divinityChosen = console.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         inputParser.selectDivinity(divinityChosen);
     }
 
     @Override
-    public void buildUpdate(BuildList buildList) throws IOException {
+    public void buildUpdate(BuildList buildList) {
         System.out.println("Pick a building move from below:");
         for (Direction dir : buildList.getBuildlist()) {
             System.out.println(dir);
         }
-        String chosenMove = console.readLine();
+        String chosenMove = null;
+        try {
+            chosenMove = console.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         inputParser.selectBuild(chosenMove);
     }
 
@@ -300,10 +328,14 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     @Override
-    public void matchReadyUpdate(MatchReady matchReady) throws IOException {
+    public void matchReadyUpdate(MatchReady matchReady) {
         Boolean waiting = true;
         while (waiting == true) {
-            String ready = console.readLine();
+            try {
+                String ready = console.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             waiting = false;
         }
         inputParser.selectReady();
