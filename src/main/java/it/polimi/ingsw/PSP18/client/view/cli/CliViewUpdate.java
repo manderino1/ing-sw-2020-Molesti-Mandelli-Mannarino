@@ -294,5 +294,13 @@ public class CliViewUpdate extends ViewUpdate {
         }
     }
 
-
+    @Override
+    public void matchReadyUpdate(MatchReady matchReady) throws IOException {
+        Boolean waiting = true;
+        while (waiting == true) {
+            String ready = console.readLine();
+            waiting = false;
+        }
+        inputParser.selectReady();
+    }
 }
