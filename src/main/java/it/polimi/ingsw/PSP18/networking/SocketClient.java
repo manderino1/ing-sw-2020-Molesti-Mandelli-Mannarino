@@ -89,6 +89,7 @@ public class SocketClient extends Thread {
                 break;
             case PLAYER_DATA_UPDATE:
                 PlayerDataUpdate playerDataUpdate = gson.fromJson(jsonObj, PlayerDataUpdate.class);
+                viewUpdate.updatePlayerData(playerDataUpdate);
                 break;
             case MATCH_WON:
                 MatchWon matchWon = gson.fromJson(jsonObj, MatchWon.class);

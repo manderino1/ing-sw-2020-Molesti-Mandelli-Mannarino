@@ -68,6 +68,7 @@ public class PlayerManager {
                 divinity = new Prometheus(divinityName, this);
                 break;
         }
+        playerData.setDivinity(divinityName);
     }
 
     /***
