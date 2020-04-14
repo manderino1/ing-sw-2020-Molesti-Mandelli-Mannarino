@@ -2,12 +2,30 @@ package it.polimi.ingsw.PSP18.client.view.cli;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
-import it.polimi.ingsw.PSP18.server.model.Cell;
-import it.polimi.ingsw.PSP18.server.model.Color;
-import it.polimi.ingsw.PSP18.server.model.GameMap;
-import it.polimi.ingsw.PSP18.server.model.Worker;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
+import it.polimi.ingsw.PSP18.server.model.*;
+
+import java.io.IOException;
 
 public class CliViewUpdate extends ViewUpdate {
+
+    InputParser inputParser= new InputParser(/*passare socket qui*/);
+    java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+
+    @Override
+    public void moveUpdate(MoveList movelist) throws IOException {
+
+        Boolean moving = true;
+        while(moving){
+            System.out.println("Pick a move from below:");
+            for (Direction dir : movelist.getMoveList()) {
+                System.out.println(dir);
+            }
+            String chosenMove = console.readLine();
+
+        }
+    }
+
     @Override
     public void updateMap(GameMapUpdate gameMapUpdate) {
 
@@ -119,4 +137,6 @@ public class CliViewUpdate extends ViewUpdate {
             }
         }
     }
+
+
 }
