@@ -63,4 +63,8 @@ public class InputParser {
     public void selectReady() {
         socket.sendMessage(new ReadyReceiver());
     }
+
+    public void selectWorkers(Integer x1, Integer y1, Integer x2, Integer y2) {
+        socket.sendMessage(new WorkerReceiver(x1, y1, x2, y2));
+    }
 }
