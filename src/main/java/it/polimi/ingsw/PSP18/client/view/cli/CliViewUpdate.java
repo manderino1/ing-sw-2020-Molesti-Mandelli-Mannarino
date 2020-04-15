@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class CliViewUpdate extends ViewUpdate {
 
+    private Cell[][] lastMap;
     private InputParser inputParser;
     java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
     private ArrayList<PlayerData> playerDataArrayList = new ArrayList<PlayerData>();
@@ -25,6 +26,33 @@ public class CliViewUpdate extends ViewUpdate {
     @Override
     public void startMatch(StartMatch startMatch){
         System.out.println("All players are ready. Game on!");
+    }
+
+    @Override
+    public void setWorker(PlaceReady placeReady) throws IOException {
+
+        Integer x1;
+        Integer y1;
+        do {
+            System.out.println("Chose your first worker coordinates:");
+
+            String W1 = console.readLine();
+
+            x1 = Character.getNumericValue(W1.charAt(0)) - 10;
+            y1 = Character.getNumericValue(W1.charAt(1));
+        } while (lastMap[x1][y1].getWorker()!=null);
+
+        Integer x2;
+        Integer y2;
+        do {
+            System.out.println("Chose your second worker coordinates:");
+
+            String W2 = console.readLine();
+
+            x2 = Character.getNumericValue(W2.charAt(0)) - 10;
+            y2 = Character.getNumericValue(W2.charAt(1));
+        } while (lastMap[x2][y2].getWorker()!=null);
+        inputParser.selectWorkers(x1, y1, x2, y2);
     }
 
     @Override
@@ -104,6 +132,8 @@ public class CliViewUpdate extends ViewUpdate {
 
     @Override
     public void updateMap(GameMapUpdate gameMapUpdate) {
+
+        lastMap= gameMapUpdate.getGameMap();
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
