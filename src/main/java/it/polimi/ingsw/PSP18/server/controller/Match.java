@@ -3,7 +3,9 @@ package it.polimi.ingsw.PSP18.server.controller;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.DivinityList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchReady;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.PlaceReady;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.WaitingNick;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.WorkerReceiver;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.controller.TurnManager;
 import it.polimi.ingsw.PSP18.networking.SocketServer;
@@ -28,6 +30,7 @@ public class Match {
     private GameMap gameMap;
     private ArrayList<String> divinitySelection = new ArrayList<String>();
     private Integer divinitySelectionIndex = 0;
+    private Integer workerPlacementIndex = 0;
 
     /***
      * Match constructor, initializes the arrayLists and the game map
@@ -167,11 +170,23 @@ public class Match {
     public void divinityCreation(SocketThread socket, String divinity) {
         socketPlayerMap.get(socket).divinityCreation(divinity);
         if(divinitySelectionIndex == playerManagers.size()) {
-            startMatch();
+            playerSocketMap.get(playerManagers.get(workerPlacementIndex)).sendMessage(new PlaceReady());
+            workerPlacementIndex++;
         } else {
             divinitySelection.remove(divinity);
             playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
             divinitySelectionIndex++;
+        }
+    }
+
+    public void workerPlacement(SocketThread socket, WorkerReceiver workers) {
+        socketPlayerMap.get(socket).placeWorker(workers.getX1(), workers.getY1());
+        socketPlayerMap.get(socket).placeWorker(workers.getX2(), workers.getY2());
+        if(workerPlacementIndex == playerManagers.size()) {
+            startMatch();
+        } else {
+            playerSocketMap.get(playerManagers.get(workerPlacementIndex)).sendMessage(new PlaceReady());
+            workerPlacementIndex++;
         }
     }
 
