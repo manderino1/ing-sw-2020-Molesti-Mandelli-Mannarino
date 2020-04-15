@@ -14,6 +14,9 @@ public class Launcher {
     private final int PORT = 9002;
     private InetAddress host ;
 
+    /***
+     * Contructor of Launcher. Creates the socket and start the thread
+     */
     public Launcher() {
         CliViewUpdate cliViewUpdate = new CliViewUpdate();
 

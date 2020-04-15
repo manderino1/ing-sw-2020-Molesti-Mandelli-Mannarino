@@ -19,15 +19,27 @@ public class CliViewUpdate extends ViewUpdate {
     java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
     private ArrayList<PlayerData> playerDataArrayList = new ArrayList<PlayerData>();
 
+    /***
+     * sets the input parser
+     * @param inputParser the class that sends the message to the server
+     */
     public void setInputParser(InputParser inputParser) {
         this.inputParser = inputParser;
     }
 
+    /***
+     * shows at screen that all players are ready
+     * @param startMatch the message from the server that all players are ready
+     */
     @Override
     public void startMatch(StartMatch startMatch){
         System.out.println("All players are ready. Game on!");
     }
 
+    /***
+     * ask to the player where his workers should be placed
+     * @param placeReady the message from the server that says the player needs to place his workers
+     */
     @Override
     public void setWorker(PlaceReady placeReady) {
 
@@ -89,6 +101,10 @@ public class CliViewUpdate extends ViewUpdate {
         inputParser.selectWorkers(x1, y1, x2, y2);
     }
 
+    /***
+     * ask to the player which worker needs to be move and where
+     * @param movelist the message that says that the player needs to move
+     */
     @Override
     public void moveUpdate(MoveList movelist) {
 
@@ -164,6 +180,10 @@ public class CliViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * shows at screen the game map
+     * @param gameMapUpdate the message that contains the game map
+     */
     @Override
     public void updateMap(GameMapUpdate gameMapUpdate) {
 
@@ -279,6 +299,10 @@ public class CliViewUpdate extends ViewUpdate {
         System.out.println(" a     b     c     d     e  ");
     }
 
+    /***
+     * the message that ask the player to insert his data
+     * @param playerDataUpdate the message that asks for the player's data
+     */
     @Override
     public void updatePlayerData(PlayerDataUpdate playerDataUpdate) {
         if (playerDataArrayList == null) {
@@ -323,6 +347,9 @@ public class CliViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * asks the player for a nickname
+     */
     @Override
     public void selectNick() {
         System.out.println("Select a nickname:");
@@ -335,6 +362,10 @@ public class CliViewUpdate extends ViewUpdate {
         inputParser.selectPlayerData(playerID);
     }
 
+    /***
+     * asks the player to chose his divinity
+     * @param divinityList the message that asks for the player divinity
+     */
     @Override
     public void selectDivinity(DivinityList divinityList) {
         System.out.println("Select a divinity from the following list");
@@ -363,6 +394,10 @@ public class CliViewUpdate extends ViewUpdate {
         inputParser.selectDivinity(divinityChosen.substring(0, 1).toUpperCase() + divinityChosen.toLowerCase().substring(1));
     }
 
+    /***
+     * aks the player where he wants to move
+     * @param buildList the message that asks for the player move
+     */
     @Override
     public void buildUpdate(BuildList buildList) {
         System.out.println("Pick a building move from below:");
@@ -390,6 +425,10 @@ public class CliViewUpdate extends ViewUpdate {
         inputParser.selectBuild(chosenMove);
     }
 
+    /***
+     * notify the player that he has lost
+     * @param matchLost the message that notify the player that he has lost
+     */
     @Override
     public void matchLostUpdate(MatchLost matchLost) {
 
@@ -411,6 +450,10 @@ public class CliViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * notify the player that he has won
+     * @param matchWon the message that notify the player that he has won
+     */
     @Override
     public void matchWonUpdate(MatchWon matchWon) {
         for (PlayerData playerData : playerDataArrayList) {
@@ -430,6 +473,10 @@ public class CliViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * asks the player when they are ready
+     * @param matchReady the message that asks if players are ready
+     */
     @Override
     public void matchReadyUpdate(MatchReady matchReady) {
         boolean waiting = true;
