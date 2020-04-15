@@ -20,7 +20,7 @@ public class Apollo extends Divinity {
      * @param oldX the starting X coordinate of the worker
      * @param oldY the starting Y coordinate of the worker
      * @param raiseForbidden true if athena moved up one level
-     * @return
+     * @return the list of possible move directions
      */
     @Override
     protected ArrayList<Direction> checkMovementMoves(Integer oldX, Integer oldY, Boolean raiseForbidden) {
@@ -51,7 +51,7 @@ public class Apollo extends Divinity {
      *
      * @param raiseForbidden true if athena moved up one level
      * @param movementPhase true if curretnly in movement phase, false if currently in building phase
-     * @return
+     * @return true if the player has lost
      */
     @Override
     protected Boolean checkForLose(Boolean raiseForbidden, Boolean movementPhase){

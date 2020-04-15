@@ -1,5 +1,9 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
+import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchLost;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchWon;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -14,33 +18,32 @@ public class Artemis extends Divinity {
         super(name, playerManager);
     }
 
-    @Override
     /***
-     *
+     *  First part of the movement phase
      */
+    @Override
     protected void move() {
         /*
             checking if the player lost
          */
         if(checkForLose(raiseForbidden, true)){
-            /*
-               TODO: lost, jump to the end
-            */
+            for(SocketThread socket : playerManager.getMatch().getSockets()) {
+                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
+                playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
+                // TODO: remove workers from board and check index
+            }
         }
 
         ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
         ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
 
-         /*
-            TODO: qui bisogna passare al client l'arraylist moves
-         */
+        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
 
-         this.raiseForbidden = raiseForbidden;
-         this.firstMove = true;
+        this.firstMove = true;
     }
 
     /***
-     *
+     * Moves in the selected direction
      * @param direction the direction of the movement
      * @param workerID the ID of the worker that we want to move
      */
@@ -56,15 +59,18 @@ public class Artemis extends Divinity {
         setMove(worker.getX(), worker.getY(), direction);
 
         if(checkForVictory()){
-            /*
-               TODO: victory, jump to the end
-            */
+            for(SocketThread socket : playerManager.getMatch().getSockets()) {
+                socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));
+                // TODO: end the match
+            }
         }
 
         if(checkForLose(raiseForbidden, true)){
-            /*
-               TODO: can't move again
-            */
+            for(SocketThread socket : playerManager.getMatch().getSockets()) {
+                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
+                playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
+                // TODO: remove workers from board and check index
+            }
         }
 
         if(firstMove) {
