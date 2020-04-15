@@ -17,5 +17,7 @@ public abstract class ViewUpdate {
     public abstract void startMatch(StartMatch startMatch);
     public abstract void matchReadyUpdate(MatchReady matchReady);
     public abstract void setWorker(PlaceReady placeReady);
-    public abstract void PrometheusBuildListUpdate(PrometheusBuildList prometheusBuildList);
+    public abstract void prometheusBuildListUpdate(PrometheusBuildList prometheusBuildList);
+    public abstract void singleMoveUpdate(SingleMoveList singleMoveList);
+    public abstract void buildListFlagUpdate(BuildListFlag buildListFlag);
 }

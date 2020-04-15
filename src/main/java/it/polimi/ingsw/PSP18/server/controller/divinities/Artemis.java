@@ -1,9 +1,7 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import it.polimi.ingsw.PSP18.networking.SocketThread;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchLost;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchWon;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -23,9 +21,7 @@ public class Artemis extends Divinity {
      */
     @Override
     protected void move() {
-        /*
-            checking if the player lost
-         */
+        //checking if the player lost
         if(checkForLose(raiseForbidden, true)){
             for(SocketThread socket : playerManager.getMatch().getSockets()) {
                 socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
@@ -44,7 +40,6 @@ public class Artemis extends Divinity {
         ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
 
         playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
-
         this.firstMove = true;
     }
 
@@ -89,10 +84,7 @@ public class Artemis extends Divinity {
             ArrayList<Direction> moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
             moves.remove(DirectionManagement.getOppositeDirection(direction));
             firstMove = false;
-
-            /*
-            TODO: qui bisogna passare al client l'arraylist moves
-             */
+            playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID));
         }
         else {
             build();

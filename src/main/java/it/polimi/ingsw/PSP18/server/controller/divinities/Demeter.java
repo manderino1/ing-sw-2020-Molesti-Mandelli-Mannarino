@@ -2,7 +2,9 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildListFlag;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchLost;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.SingleMoveList;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -68,10 +70,7 @@ public class Demeter extends Divinity {
             ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
             moves.remove(direction);
             firstBuild = false;
-
-            /*
-            TODO: qui bisogna passare al client l'arraylist moves
-             */
+            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));
         }
     }
 }

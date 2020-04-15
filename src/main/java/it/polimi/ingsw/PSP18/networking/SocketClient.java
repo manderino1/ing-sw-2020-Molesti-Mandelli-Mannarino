@@ -126,6 +126,19 @@ public class SocketClient extends Thread {
             case PLACE_READY:
                 PlaceReady placeReady = gson.fromJson(jsonObj, PlaceReady.class);
                 viewUpdate.setWorker(placeReady);
+                break;
+            case PROMETHEUS_BUILD_LIST:
+                PrometheusBuildList prometheusBuildList = gson.fromJson(jsonObj, PrometheusBuildList.class);
+                viewUpdate.prometheusBuildListUpdate(prometheusBuildList);
+                break;
+            case SINGLE_MOVE_LIST:
+                SingleMoveList singleMoveList = gson.fromJson(jsonObj, SingleMoveList.class);
+                viewUpdate.singleMoveUpdate(singleMoveList);
+                break;
+            case BUILD_LIST_FLAG:
+                BuildListFlag buildListFlag = gson.fromJson(jsonObj, BuildListFlag.class);
+                viewUpdate.buildListFlagUpdate(buildListFlag);
+                break;
         }
     }
 

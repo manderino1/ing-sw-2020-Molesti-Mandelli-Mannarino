@@ -6,26 +6,15 @@ import java.util.ArrayList;
 
 public class BuildListFlag extends ClientAbstractMessage{
 
-    private Boolean flag;
     private ArrayList<Direction> buildlist;
 
     /***
      * constructor of BuildList
      * @param buildlist
-     * @param flag
      */
-    public BuildListFlag(ArrayList<Direction> buildlist, Boolean flag){
-        this.type = ClientMessageType.BUILD_LIST;
+    public BuildListFlag(ArrayList<Direction> buildlist){
+        this.type = ClientMessageType.BUILD_LIST_FLAG;
         this.buildlist= buildlist;
-        this.flag=flag;
-    }
-
-    /***
-     * returns the flag
-     * @return flag
-     */
-    public Boolean getFlag() {
-        return flag;
     }
 
     /***

@@ -6,14 +6,17 @@ import java.util.ArrayList;
 
 public class SingleMoveList extends ClientAbstractMessage {
     private ArrayList<Direction> moveList;
+    private Integer workerID;
 
     /***
      * Constructor to initialize the available moves direction list
      * @param moveList the list of possible moves for worker #1
+     * @param workerID the worker ID
      */
-    public SingleMoveList(ArrayList<Direction> moveList) {
+    public SingleMoveList(ArrayList<Direction> moveList, Integer workerID) {
         this.type = ClientMessageType.SINGLE_MOVE_LIST;
         this.moveList = moveList;
+        this.workerID = workerID;
     }
 
     /***
@@ -24,4 +27,11 @@ public class SingleMoveList extends ClientAbstractMessage {
         return moveList;
     }
 
+    /***
+     * Returns the worker ID
+     * @return the worker ID
+     */
+    public Integer getWorkerID() {
+        return workerID;
+    }
 }

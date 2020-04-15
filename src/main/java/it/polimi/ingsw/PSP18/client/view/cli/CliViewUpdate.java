@@ -458,7 +458,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * notify the player that he has won
+     * Notify the player that he has won
      * @param matchWon the message that notify the player that he has won
      */
     @Override
@@ -481,7 +481,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * asks the player when they are ready
+     * Asks the player when they are ready
      * @param matchReady the message that asks if players are ready
      */
     @Override
@@ -501,8 +501,12 @@ public class CliViewUpdate extends ViewUpdate {
         inputParser.selectReady();
     }
 
+    /***
+     * In case prometheus wants to build before the movement
+     * @param prometheusBuildList contains two sets of possible moves one for each worker
+     */
     @Override
-    public void PrometheusBuildListUpdate(PrometheusBuildList prometheusBuildList) {
+    public void prometheusBuildListUpdate(PrometheusBuildList prometheusBuildList) {
         String chosenBuild = "";
         System.out.println("Available moves for worker 1:");
 
@@ -532,4 +536,83 @@ public class CliViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * In case the player already moved and his hero can move again
+     * @param singleMoveList a set of possible moves
+     */
+    @Override
+    public void singleMoveUpdate(SingleMoveList singleMoveList) {
+        System.out.println("Would you like to move again? If so, where?");
+        String chosenMove = "";
+
+        String workerID = "";
+        if(singleMoveList.getWorkerID() == 0) {
+            workerID = "1";
+        } else if(singleMoveList.getWorkerID() == 1) {
+            workerID = "2";
+        }
+
+        System.out.println("Available moves:");
+        for (Direction dir : singleMoveList.getMoveList()) {
+            System.out.println(dir.toString());
+        }
+        System.out.println("Pick a Move from above");
+
+        try {
+            if (console.readLine().toUpperCase().equals("NO")) {
+                inputParser.selectMove(workerID, null);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            chosenMove = console.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (Direction dir : singleMoveList.getMoveList()) {
+            if (dir.toString().equals(chosenMove.toUpperCase())) {
+                inputParser.selectMove(workerID, chosenMove);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void buildListFlagUpdate(BuildListFlag buildListFlag) {
+        System.out.println("Would you like to build again? If so where?");
+        System.out.println("Say 'no' or pick a building move from below:");
+        for (Direction dir : buildListFlag.getBuildlist()) {
+            System.out.println(dir.toString());
+        }
+
+        try {
+            if (console.readLine().toUpperCase().equals("NO")) {
+                inputParser.selectBuild("NO");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        boolean waiting = true;
+        String chosenMove = "";
+        while(waiting) {
+            try {
+                chosenMove = console.readLine();
+                for(Direction dir : buildListFlag.getBuildlist()) {
+                    if (dir.toString().toUpperCase().equals(chosenMove.toUpperCase())) {
+                        waiting = false;
+                        break;
+                    }
+                }
+                if(waiting) {
+                    System.out.println("Direction incorrect, retry:");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        inputParser.selectBuild(chosenMove);
+    }
 }
