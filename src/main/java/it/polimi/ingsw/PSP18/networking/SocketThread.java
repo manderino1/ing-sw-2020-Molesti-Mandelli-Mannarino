@@ -111,9 +111,11 @@ public class SocketThread extends Thread {
             case ENDTURN_RECEIVER:
                 EndTurnReceiver endTurnReceiver = gson.fromJson(jsonObj, EndTurnReceiver.class);
                 match.getTurnManager().passTurn();
+                break;
             case READY_RECEIVER:
                 ReadyReceiver readyReceiver = gson.fromJson(jsonObj, ReadyReceiver.class);
                 match.readyManagement(this);
+                break;
             case WORKER_RECEIVER:
                 WorkerReceiver workerReceiver = gson.fromJson(jsonObj, WorkerReceiver.class);
                 match.workerPlacement(this, workerReceiver);

@@ -29,28 +29,62 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     @Override
-    public void setWorker(PlaceReady placeReady) throws IOException {
+    public void setWorker(PlaceReady placeReady) {
 
-        Integer x1;
-        Integer y1;
+        int x1;
+        int y1;
+        boolean waiting = true;
+
         do {
             System.out.println("Chose your first worker coordinates:");
 
-            String W1 = console.readLine();
+            String W1 = "A1";
+            while(waiting) {
+                try {
+                    W1 = console.readLine();
+                    if(W1.toUpperCase().charAt(0) >= 'A' && W1.toUpperCase().charAt(0) <= 'E') {
+                        if(W1.toUpperCase().charAt(1) >= '0' && W1.toUpperCase().charAt(1) <= '4') {
+                            waiting = false;
+                        }
+                    }
+                    if(waiting) {
+                        System.out.println("Input incorrect, retry");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
-            x1 = Character.getNumericValue(W1.charAt(0)) - 10;
-            y1 = Character.getNumericValue(W1.charAt(1));
+
+            x1 = Character.getNumericValue(W1.toUpperCase().charAt(0)) - 10; // TODO: Controllare se é sempre vero
+            y1 = Character.getNumericValue(W1.toUpperCase().charAt(1));
         } while (lastMap[x1][y1].getWorker()!=null);
 
-        Integer x2;
-        Integer y2;
+        int x2;
+        int y2;
         do {
             System.out.println("Chose your second worker coordinates:");
 
-            String W2 = console.readLine();
+            String W2 = "A1";
+            waiting = true;
+            while(waiting) {
+                try {
+                    W2 = console.readLine();
+                    if(W2.toUpperCase().charAt(0) >= 'A' && W2.toUpperCase().charAt(0) <= 'E') {
+                        if(W2.toUpperCase().charAt(1) >= '0' && W2.toUpperCase().charAt(1) <= '4') {
+                            waiting = false;
+                        }
+                    }
+                    if(waiting) {
+                        System.out.println("Input incorrect, retry");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
-            x2 = Character.getNumericValue(W2.charAt(0)) - 10;
-            y2 = Character.getNumericValue(W2.charAt(1));
+            x2 = Character.getNumericValue(W2.toUpperCase().charAt(0)) - 10;
+            y2 = Character.getNumericValue(W2.toUpperCase().charAt(1));
         } while (lastMap[x2][y2].getWorker()!=null);
         inputParser.selectWorkers(x1, y1, x2, y2);
     }
@@ -326,7 +360,7 @@ public class CliViewUpdate extends ViewUpdate {
                 e.printStackTrace();
             }
         }
-        inputParser.selectDivinity(divinityChosen);
+        inputParser.selectDivinity(divinityChosen.substring(0, 1).toUpperCase() + divinityChosen.toLowerCase().substring(1));
     }
 
     @Override

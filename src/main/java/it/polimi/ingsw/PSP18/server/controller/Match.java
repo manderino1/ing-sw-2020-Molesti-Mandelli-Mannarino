@@ -170,6 +170,16 @@ public class Match {
     public void divinityCreation(SocketThread socket, String divinity) {
         socketPlayerMap.get(socket).divinityCreation(divinity);
         if(divinitySelectionIndex == playerManagers.size()) {
+            // Set observers
+            // TODO: move in separate function
+            for(SocketThread sock : sockets) {
+                gameMap.attach(new MapObserver(sock));
+                /*
+                for(PlayerManager player : playerManagers) {
+                    player.getPlayerData().attach(new PlayerDataObserver(sock));
+                */
+            }
+
             playerSocketMap.get(playerManagers.get(workerPlacementIndex)).sendMessage(new PlaceReady());
             workerPlacementIndex++;
         } else {
@@ -198,14 +208,6 @@ public class Match {
     private void startMatch() {
         // Sort players by order
         playerManagers.sort(Comparator.comparingInt(o -> o.getPlayerData().getPlayOrder()));
-
-        // Set observers
-        for(SocketThread socket : sockets) {
-            gameMap.attach(new MapObserver(socket));
-            for(PlayerManager player : playerManagers) {
-                player.getPlayerData().attach(new PlayerDataObserver(socket));
-            }
-        }
 
         // Search for Athena
         for (PlayerManager player : playerManagers) {
