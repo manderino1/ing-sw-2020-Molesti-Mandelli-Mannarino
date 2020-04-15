@@ -9,7 +9,7 @@ public class Pan extends Divinity{
     }
 
     /***
-     *
+     * Checks if the player has won
      * @return true if he has won
      */
     @Override

@@ -493,4 +493,36 @@ public class CliViewUpdate extends ViewUpdate {
         }
         inputParser.selectReady();
     }
+
+    @Override
+    public void PrometheusBuildListUpdate(PrometheusBuildList prometheusBuildList) {
+        String chosenBuild = "";
+        System.out.println("Available moves for worker 1:");
+
+        for (Direction dir : prometheusBuildList.getBuildlist1()) {
+            System.out.println(dir.toString());
+        }
+
+        System.out.println("Available moves for worker 2:");
+
+        for (Direction dir : prometheusBuildList.getBuildlist2()) {
+            System.out.println(dir.toString());
+        }
+
+        System.out.println("Would you like to build? If so worker 1 or 2?");
+        try {
+            chosenBuild = console.readLine();
+            if (chosenBuild.equals("1")) {
+                inputParser.selectPrometheus(0);
+            } else if (chosenBuild.equals("2")) {
+                inputParser.selectPrometheus(1);
+            } else {
+                inputParser.selectPrometheus(null);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

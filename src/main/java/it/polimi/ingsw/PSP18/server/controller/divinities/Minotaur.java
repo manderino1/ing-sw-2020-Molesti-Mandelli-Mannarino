@@ -14,7 +14,7 @@ public class Minotaur extends Divinity{
     }
 
     /***
-     * function checks if
+     * function checks the possible moves
      * @param oldX
      * @param oldY
      * @param raiseForbidden

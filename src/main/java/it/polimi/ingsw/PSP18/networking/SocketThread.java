@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.server.controller.divinities.Prometheus;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
@@ -119,6 +120,13 @@ public class SocketThread extends Thread {
             case WORKER_RECEIVER:
                 WorkerReceiver workerReceiver = gson.fromJson(jsonObj, WorkerReceiver.class);
                 match.workerPlacement(this, workerReceiver);
+                break;
+            case PROMETHEUS_BUILD_RECEIVER:
+                PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(jsonObj, PrometheusBuildReceiver.class);
+                if(match.getCurrentPlayer().getDivinity() instanceof Prometheus) {
+                    ((Prometheus) match.getCurrentPlayer().getDivinity()).receiveWorker(prometheusBuildReceiver);
+                }
+                break;
         }
     }
 

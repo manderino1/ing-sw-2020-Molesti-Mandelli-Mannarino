@@ -11,5 +11,7 @@ public enum ClientMessageType {
     READY,
     DIVINITY_LIST,
     WAITING_NICK,
-    PLACE_READY
+    PLACE_READY,
+    SINGLE_MOVE_LIST,
+    PROMETHEUS_BUILD_LIST
 }

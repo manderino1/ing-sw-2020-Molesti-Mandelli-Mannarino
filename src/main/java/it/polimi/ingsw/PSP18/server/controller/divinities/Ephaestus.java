@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
+import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchLost;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -15,22 +18,22 @@ public class Ephaestus extends Divinity{
     }
 
     /***
-     *
+     * Method used to build
      */
     @Override
     protected void build() {
         if (checkForLose(true, false)) {
-            /*
-               TODO: lost, jump to the end
-            */
+            for(SocketThread socket : playerManager.getMatch().getSockets()) {
+                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
+                playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
+                // TODO: remove workers from board and check index
+            }
         }
 
         Worker worker = playerManager.getWorker(workerID);
         ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
 
-        /*
-            TODO: qui bisogna passare alla view l'arraylist moves
-         */
+        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
 
         firstBuild = true;
     }
@@ -47,12 +50,9 @@ public class Ephaestus extends Divinity{
         Worker worker = playerManager.getWorker(workerID);
         Integer newX = DirectionManagement.getX(worker.getX(), direction);
         Integer newY = DirectionManagement.getY(worker.getY(), direction);
-        Boolean dome = false;
+        boolean dome = false;
 
-        /*
-            in base alla direzione passatami dalla view
-            se costruisco una cupola allora aggiorno il valore del flag dome controllando che la costruzione avvenga sopra il livello 3 di una torre
-         */
+        // If the height of the building cell is 3 a dome has to be placed
         if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {
             dome = true;
         }
@@ -60,7 +60,7 @@ public class Ephaestus extends Divinity{
         playerManager.setBuild(newX, newY, dome);
 
         if (firstBuild && playerManager.getGameMap().getCell(newX, newY).getBuilding() != 3) {
-            ArrayList<Direction> moves = new ArrayList<Direction>();
+            ArrayList<Direction> moves = new ArrayList<>();
             moves.add(direction);
             firstBuild = false;
 
