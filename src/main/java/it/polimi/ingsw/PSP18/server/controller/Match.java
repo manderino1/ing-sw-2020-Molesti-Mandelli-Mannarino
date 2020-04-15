@@ -177,6 +177,7 @@ public class Match {
                 /*
                 for(PlayerManager player : playerManagers) {
                     player.getPlayerData().attach(new PlayerDataObserver(sock));
+                }
                 */
             }
 

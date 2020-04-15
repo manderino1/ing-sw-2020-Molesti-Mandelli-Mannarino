@@ -17,7 +17,7 @@ public class CliViewUpdate extends ViewUpdate {
     private Cell[][] lastMap;
     private InputParser inputParser;
     java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
-    private ArrayList<PlayerData> playerDataArrayList = new ArrayList<PlayerData>();
+    private ArrayList<PlayerData> playerDataArrayList = new ArrayList<>();
 
     /***
      * sets the input parser
@@ -296,7 +296,7 @@ public class CliViewUpdate extends ViewUpdate {
 
             }
         }
-        System.out.println(" a     b     c     d     e  ");
+        System.out.println(" a    b    c    d    e  ");
     }
 
     /***
@@ -305,7 +305,7 @@ public class CliViewUpdate extends ViewUpdate {
      */
     @Override
     public void updatePlayerData(PlayerDataUpdate playerDataUpdate) {
-        if (playerDataArrayList == null) {
+        if (playerDataArrayList.size() == 0) {
             playerDataArrayList.add(playerDataUpdate.getPlayerData());
         }
 

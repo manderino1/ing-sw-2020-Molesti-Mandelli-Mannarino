@@ -14,6 +14,7 @@ public class TurnManager {
      */
     private void setupTurn() {
         indexCurrentPlayer = 0;
+        match.setCurrentPlayer(match.getPlayerManagers().get(indexCurrentPlayer));
         manageTurn(); // Start the match
     }
 
