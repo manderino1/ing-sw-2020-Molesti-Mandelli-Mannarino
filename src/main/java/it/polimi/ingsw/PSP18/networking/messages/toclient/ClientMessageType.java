@@ -10,5 +10,6 @@ public enum ClientMessageType {
     START_MATCH,
     READY,
     DIVINITY_LIST,
-    WAITING_NICK
+    WAITING_NICK,
+    PLACE_READY
 }

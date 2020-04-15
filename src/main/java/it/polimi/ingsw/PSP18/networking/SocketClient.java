@@ -122,6 +122,8 @@ public class SocketClient extends Thread {
             case WAITING_NICK:
                 WaitingNick waitingNick = gson.fromJson(jsonObj, WaitingNick.class);
                 viewUpdate.selectNick();
+            case PLACE_READY:
+                PlaceReady placeReady = gson.fromJson(jsonObj, PlaceReady.class);
         }
     }
 

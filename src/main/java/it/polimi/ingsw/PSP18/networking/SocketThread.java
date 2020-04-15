@@ -114,6 +114,8 @@ public class SocketThread extends Thread {
             case READY_RECEIVER:
                 ReadyReceiver readyReceiver = gson.fromJson(jsonObj, ReadyReceiver.class);
                 match.readyManagement(this);
+            case WORKER_RECEIVER:
+                WorkerReceiver workerReceiver = gson.fromJson(jsonObj, WorkerReceiver.class);
         }
     }
 
