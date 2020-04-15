@@ -174,7 +174,7 @@ public class CliViewUpdate extends ViewUpdate {
                         }
 
                     } else {
-                        System.out.print("|  -");
+                        System.out.print(i + " |  -");
                     }
 
                     if (j == 4) {
@@ -242,6 +242,7 @@ public class CliViewUpdate extends ViewUpdate {
 
             }
         }
+        System.out.println(" a     b     c     d     e  ");
     }
 
     @Override
