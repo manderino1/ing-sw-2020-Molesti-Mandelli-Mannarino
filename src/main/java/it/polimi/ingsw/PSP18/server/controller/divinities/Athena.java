@@ -13,7 +13,7 @@ public class Athena extends Divinity {
      * Does not check for raiseForbidden because it's always false
      * @param raiseForbidden true if athena moved up one level
      * @param movementPhase true if curretnly in movement phase, false if currently in building phase
-     * @return
+     * @return true if has lost
      */
     @Override
     protected Boolean checkForLose(Boolean raiseForbidden, Boolean movementPhase){

@@ -12,13 +12,11 @@ public class Atlas extends Divinity{
 
     /***
      * This method is called after the method "move"
-     * @param direction
-     * @param dome
+     * @param direction the direction of the movement
+     * @param dome true if a dome has to be placed
      */
     public void buildReceiver(Direction direction, Boolean dome) {
-         /*
-            TODO: qui bisogna chiedere alla view la direzione dove voglio costruire e la salvo in direction
-         */
+         // TODO: Farsi passare la dome
 
         Worker worker = playerManager.getWorker(workerID);
         Integer newX = DirectionManagement.getX(worker.getX(), direction);
