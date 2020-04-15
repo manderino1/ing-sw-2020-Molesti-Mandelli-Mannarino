@@ -162,4 +162,12 @@ public class PlayerManager {
     public Divinity getDivinity() {
         return divinity;
     }
+
+    /***
+     * Returns the match reference
+     * @return match reference
+     */
+    public Match getMatch() {
+        return match;
+    }
 }

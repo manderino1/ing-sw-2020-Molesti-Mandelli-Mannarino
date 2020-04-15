@@ -14,6 +14,7 @@ public class TurnManager {
      */
     private void setupTurn() {
         indexCurrentPlayer = 0;
+        manageTurn(); // Start the match
     }
 
     /***

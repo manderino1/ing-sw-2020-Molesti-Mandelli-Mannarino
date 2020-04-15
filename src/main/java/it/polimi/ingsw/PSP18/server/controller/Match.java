@@ -218,4 +218,8 @@ public class Match {
         matchStatus = MatchStatus.MATCH_STARTED;
         turnManager = new TurnManager(this);
     }
+
+    public SocketThread getCurrentSocket() {
+        return playerSocketMap.get(currentPlayer);
+    }
 }

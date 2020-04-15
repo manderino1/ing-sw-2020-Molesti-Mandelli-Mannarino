@@ -1,5 +1,10 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
+import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchLost;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchWon;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -48,21 +53,19 @@ public class Divinity {
      *  First part of the movement phase
      */
     protected void move() {
-        /*
-            checking if the player lost
-         */
+        // Check if the player has lost
         if(checkForLose(raiseForbidden, true)){
-            /*
-               TODO: lost, jump to the end
-            */
+            for(SocketThread socket : playerManager.getMatch().getSockets()) {
+                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
+                playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
+                // TODO: remove workers from board and check index
+            }
         }
 
         ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
         ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
 
-         /*
-            TODO: qui bisogna passare al client l'arraylist moves
-         */
+        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
     }
 
     /***
@@ -76,9 +79,10 @@ public class Divinity {
         setMove(worker.getX(), worker.getY(), direction);
 
         if(checkForVictory()){
-            /*
-               TODO: victory, jump to the end
-            */
+            for(SocketThread socket : playerManager.getMatch().getSockets()) {
+                socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));
+                // TODO: end the match
+            }
         }
 
         build();
@@ -90,17 +94,17 @@ public class Divinity {
     protected void build() {
 
         if (checkForLose(true, false)) {
-            /*
-               TODO: lost, jump to the end
-            */
+            for(SocketThread socket : playerManager.getMatch().getSockets()) {
+                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
+                playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
+                // TODO: remove workers from board and check index
+            }
         }
 
         Worker worker = playerManager.getWorker(workerID);
         ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
 
-        /*
-            TODO: qui bisogna passare alla view l'arraylist moves
-         */
+        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
     }
 
     /***
@@ -108,19 +112,12 @@ public class Divinity {
      * @param direction the direction of the wanted build
      */
     public void buildReceiver(Direction direction) {
-         /*
-            TODO: qui bisogna chiedere alla view la direzione dove voglio costruire e la salvo in direction
-         */
-
         Worker worker = playerManager.getWorker(workerID);
         Integer newX = DirectionManagement.getX(worker.getX(), direction);
         Integer newY = DirectionManagement.getY(worker.getY(), direction);
-        Boolean dome = false;
+        boolean dome = false;
 
-        /*
-            in base alla direzione passatami dalla view
-            se costruisco una cupola allora aggiorno il valore del flag dome controllando che la costruzione avvenga sopra il livello 3 di una torre
-         */
+        // If the height of the building cell is 3 a dome has to be placed
         if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {
             dome = true;
         }
@@ -133,14 +130,13 @@ public class Divinity {
      * @param oldX the starting X coordinate of the worker
      * @param oldY the starting Y coordinate of the worker
      * @param raiseForbidden true if athena moved up one level
-     * @return
+     * @return the list of possible moves
      */
     protected ArrayList<Direction> checkMovementMoves(Integer oldX, Integer oldY, Boolean raiseForbidden) {
 
-        ArrayList<Direction> moves = new ArrayList<Direction>();
+        ArrayList<Direction> moves = new ArrayList<>();
 
         for (Direction dir : Direction.values()) {
-            Integer building;
             Integer newX = DirectionManagement.getX(oldX, dir);
             Integer newY = DirectionManagement.getY(oldY, dir);
 
@@ -163,13 +159,12 @@ public class Divinity {
      *
      * @param oldX the starting X coordinate of the worker
      * @param oldY the starting Y coordinate of the worker
-     * @return
+     * @return the list of possible moves
      */
     protected ArrayList<Direction> checkBuildingMoves(Integer oldX, Integer oldY) {
-        ArrayList<Direction> moves = new ArrayList<Direction>();
+        ArrayList<Direction> moves = new ArrayList<>();
 
         for (Direction dir : Direction.values()) {
-            Integer building;
             Integer newX = DirectionManagement.getX(oldX, dir);
             Integer newY = DirectionManagement.getY(oldY, dir);
 
@@ -184,7 +179,7 @@ public class Divinity {
 
     /***
      *  Checks if the player has won
-     * @return
+     * @return true if the player has won
      */
     protected Boolean checkForVictory(){
 
@@ -203,7 +198,7 @@ public class Divinity {
      *  Checks if the player has lost
      * @param raiseForbidden true if athena moved up one level
      * @param movementPhase true if curretnly in movement phase, false if currently in building phase
-     * @return
+     * @return true if the player has lost
      */
     protected Boolean checkForLose(Boolean raiseForbidden, Boolean movementPhase){
         for (int i = 0; i < 2; i++) {
@@ -211,7 +206,6 @@ public class Divinity {
             Integer oldY = playerManager.getWorker(i).getY();
 
             for (Direction dir : Direction.values()) {
-                Integer building;
                 Integer newX = DirectionManagement.getX(oldX, dir);
                 Integer newY = DirectionManagement.getY(oldY, dir);
 
