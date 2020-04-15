@@ -305,45 +305,52 @@ public class CliViewUpdate extends ViewUpdate {
      */
     @Override
     public void updatePlayerData(PlayerDataUpdate playerDataUpdate) {
-        if (playerDataArrayList.size() == 0) {
-            playerDataArrayList.add(playerDataUpdate.getPlayerData());
-        }
-
-        if (!playerDataArrayList.contains(playerDataUpdate.getPlayerData()) ){
-            playerDataArrayList.add(playerDataUpdate.getPlayerData());
-        }
-
-        if(playerDataUpdate.getPlayerData().getPlayerColor() == Color.RED) {
-            System.out.println(CliColor.ANSI_RED + "Nickname: " + playerDataUpdate.getPlayerData().getPlayerID());
-            System.out.println("Play order: " + playerDataUpdate.getPlayerData().getPlayOrder());
-            if (playerDataUpdate.getPlayerData().getDivinity() == null) {
-                System.out.println("Divinity: null");
-            } else {
-                System.out.println("Divinity: " + playerDataUpdate.getPlayerData().getDivinity());
+        boolean present = false;
+        for(PlayerData player : playerDataArrayList) {
+            if (player.getPlayerID().equals(playerDataUpdate.getPlayerID())) {
+                present = true;
+                break;
             }
-            System.out.println(CliColor.RESET);
+        }
+        if(!present) {
+            PlayerData playerData = new PlayerData(playerDataUpdate.getPlayerID(), playerDataUpdate.getPlayerColor(), playerDataUpdate.getPlayOrder());
+            playerData.setDivinity(playerDataUpdate.getDivinity());
+            playerDataArrayList.add(playerData);
         }
 
-        if(playerDataUpdate.getPlayerData().getPlayerColor() == Color.GREEN) {
-            System.out.println(CliColor.ANSI_GREEN + "Nickname: " + playerDataUpdate.getPlayerData().getPlayerID());
-            System.out.println("Play order: " + playerDataUpdate.getPlayerData().getPlayOrder());
-            if (playerDataUpdate.getPlayerData().getDivinity() == null) {
-                System.out.println("Divinity: null");
-            } else {
-                System.out.println("Divinity: " + playerDataUpdate.getPlayerData().getDivinity());
+        for(PlayerData player : playerDataArrayList) {
+            if(player.getPlayerColor() == Color.RED) {
+                System.out.println(CliColor.ANSI_RED + "Nickname: " + player.getPlayerID());
+                System.out.println("Play order: " + player.getPlayOrder());
+                if (player.getDivinity() == null) {
+                    System.out.println("Divinity: null");
+                } else {
+                    System.out.println("Divinity: " + player.getDivinity());
+                }
+                System.out.println(CliColor.RESET);
             }
-            System.out.println(CliColor.RESET);
-        }
 
-        if(playerDataUpdate.getPlayerData().getPlayerColor() == Color.BLUE) {
-            System.out.println(CliColor.ANSI_BLUE + "Nickname: " + playerDataUpdate.getPlayerData().getPlayerID());
-            System.out.println("Play order: " + playerDataUpdate.getPlayerData().getPlayOrder());
-            if (playerDataUpdate.getPlayerData().getDivinity() == null) {
-                System.out.println("Divinity: null");
-            } else {
-                System.out.println("Divinity: " + playerDataUpdate.getPlayerData().getDivinity());
+            if(player.getPlayerColor() == Color.GREEN) {
+                System.out.println(CliColor.ANSI_GREEN + "Nickname: " + player.getPlayerID());
+                System.out.println("Play order: " + player.getPlayOrder());
+                if (player.getDivinity() == null) {
+                    System.out.println("Divinity: null");
+                } else {
+                    System.out.println("Divinity: " + player.getDivinity());
+                }
+                System.out.println(CliColor.RESET);
             }
-            System.out.println(CliColor.RESET);
+
+            if(player.getPlayerColor() == Color.BLUE) {
+                System.out.println(CliColor.ANSI_BLUE + "Nickname: " + player.getPlayerID());
+                System.out.println("Play order: " + player.getPlayOrder());
+                if (player.getDivinity() == null) {
+                    System.out.println("Divinity: null");
+                } else {
+                    System.out.println("Divinity: " + player.getDivinity());
+                }
+                System.out.println(CliColor.RESET);
+            }
         }
     }
 

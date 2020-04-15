@@ -174,11 +174,9 @@ public class Match {
             // TODO: move in separate function
             for(SocketThread sock : sockets) {
                 gameMap.attach(new MapObserver(sock));
-                /*
                 for(PlayerManager player : playerManagers) {
                     player.getPlayerData().attach(new PlayerDataObserver(sock));
                 }
-                */
             }
 
             playerSocketMap.get(playerManagers.get(workerPlacementIndex)).sendMessage(new PlaceReady());
