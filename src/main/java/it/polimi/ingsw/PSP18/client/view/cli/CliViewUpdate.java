@@ -174,15 +174,15 @@ public class CliViewUpdate extends ViewUpdate {
                         }
 
                     } else {
-                        System.out.print(i + " |  -");
+                        System.out.print(" |  -");
                     }
 
                     if (j == 4) {
                         if (gameMapUpdate.getGameMap()[i][j].getDome()) {
-                            System.out.println("D|");
+                            System.out.println("D|" + i);
                         } else {
                             Integer b = gameMapUpdate.getGameMap()[i][j].getBuilding();
-                            System.out.println(b + "|");
+                            System.out.println(b + "|" + i);
                         }
                     } else {
                         if (gameMapUpdate.getGameMap()[i][j].getDome()) {
