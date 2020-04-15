@@ -56,8 +56,8 @@ public class CliViewUpdate extends ViewUpdate {
             }
 
 
-            x1 = Character.getNumericValue(W1.toUpperCase().charAt(0)) - 10; // TODO: Controllare se é sempre vero
-            y1 = Character.getNumericValue(W1.toUpperCase().charAt(1));
+            y1 = Character.getNumericValue(W1.toUpperCase().charAt(0)) - 10; // TODO: Controllare se é sempre vero
+            x1 = Character.getNumericValue(W1.toUpperCase().charAt(1));
         } while (lastMap[x1][y1].getWorker()!=null);
 
         int x2;
@@ -83,8 +83,8 @@ public class CliViewUpdate extends ViewUpdate {
                 }
             }
 
-            x2 = Character.getNumericValue(W2.toUpperCase().charAt(0)) - 10;
-            y2 = Character.getNumericValue(W2.toUpperCase().charAt(1));
+            y2 = Character.getNumericValue(W2.toUpperCase().charAt(0)) - 10;
+            x2 = Character.getNumericValue(W2.toUpperCase().charAt(1));
         } while (lastMap[x2][y2].getWorker()!=null);
         inputParser.selectWorkers(x1, y1, x2, y2);
     }
@@ -208,15 +208,15 @@ public class CliViewUpdate extends ViewUpdate {
                         }
 
                     } else {
-                        System.out.print(" |  -");
+                        System.out.print("|  -");
                     }
 
                     if (j == 4) {
                         if (gameMapUpdate.getGameMap()[i][j].getDome()) {
-                            System.out.println("D|" + i);
+                            System.out.println("D| " + i);
                         } else {
                             Integer b = gameMapUpdate.getGameMap()[i][j].getBuilding();
-                            System.out.println(b + "|" + i);
+                            System.out.println(b + "| " + i);
                         }
                     } else {
                         if (gameMapUpdate.getGameMap()[i][j].getDome()) {
