@@ -6,10 +6,6 @@ import it.polimi.ingsw.PSP18.server.model.*;
 
 import java.util.ArrayList;
 
-/*
-    TODO: nel caso che apollo si muova nella posizione di un worker avversario bisognera scambiare la posizione di questi due
- */
-
 public class Apollo extends Divinity {
     public Apollo(String name, PlayerManager playerManager) {
         super(name, playerManager);
