@@ -68,8 +68,8 @@ public class CliViewUpdate extends ViewUpdate {
             }
 
 
-            y1 = Character.getNumericValue(W1.toUpperCase().charAt(0)) - 10; // TODO: Controllare se é sempre vero
-            x1 = Character.getNumericValue(W1.toUpperCase().charAt(1));
+            x1 = Character.getNumericValue(W1.toUpperCase().charAt(0)) - 10; // TODO: Controllare se é sempre vero
+            y1 = Character.getNumericValue(W1.toUpperCase().charAt(1));
         } while (lastMap[x1][y1].getWorker()!=null);
 
         int x2;
@@ -95,8 +95,8 @@ public class CliViewUpdate extends ViewUpdate {
                 }
             }
 
-            y2 = Character.getNumericValue(W2.toUpperCase().charAt(0)) - 10;
-            x2 = Character.getNumericValue(W2.toUpperCase().charAt(1));
+            x2 = Character.getNumericValue(W2.toUpperCase().charAt(0)) - 10;
+            y2 = Character.getNumericValue(W2.toUpperCase().charAt(1));
         } while (lastMap[x2][y2].getWorker()!=null);
         inputParser.selectWorkers(x1, y1, x2, y2);
     }
@@ -189,9 +189,9 @@ public class CliViewUpdate extends ViewUpdate {
 
         lastMap= gameMapUpdate.getGameMap();
 
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (j > 0) {
+        for (int j = 0; j < 5; j++) {
+            for (int i = 0; i < 5; i++) {
+                if (i > 0) {
                     if (gameMapUpdate.getGameMap()[i][j].getWorker() != null) {
                         if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.RED) {
                             if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
@@ -231,12 +231,12 @@ public class CliViewUpdate extends ViewUpdate {
                         System.out.print("|  -");
                     }
 
-                    if (j == 4) {
+                    if (i == 4) {
                         if (gameMapUpdate.getGameMap()[i][j].getDome()) {
-                            System.out.println("D| " + i);
+                            System.out.println("D| " + j);
                         } else {
                             Integer b = gameMapUpdate.getGameMap()[i][j].getBuilding();
-                            System.out.println(b + "| " + i);
+                            System.out.println(b + "| " + j);
                         }
                     } else {
                         if (gameMapUpdate.getGameMap()[i][j].getDome()) {
