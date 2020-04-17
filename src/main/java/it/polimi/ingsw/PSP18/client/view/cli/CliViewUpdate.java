@@ -615,4 +615,27 @@ public class CliViewUpdate extends ViewUpdate {
         }
         inputParser.selectBuild(chosenMove);
     }
+
+    @Override
+    public void endTurn(EndTurnAvaiable endTurnAvaiable) {
+        String endStr = "";
+        boolean waiting = true;
+
+        System.out.println("Write END to end the turn");
+        while(waiting) {
+            try {
+                endStr = console.readLine();
+                if(endStr.toUpperCase().equals("END")) {
+                    waiting = false;
+                    break;
+                }
+                if(!waiting) {
+                    System.out.println("Input incorrect, retry");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        inputParser.endTurnSignal();
+    }
 }

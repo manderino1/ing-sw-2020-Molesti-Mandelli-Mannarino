@@ -1,10 +1,7 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import it.polimi.ingsw.PSP18.networking.SocketThread;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchLost;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchWon;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -135,6 +132,7 @@ public class Divinity {
         }
 
         playerManager.setBuild(newX, newY, dome);
+        playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
     }
 
     /***

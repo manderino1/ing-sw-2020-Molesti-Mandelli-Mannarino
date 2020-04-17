@@ -14,5 +14,6 @@ public enum ClientMessageType {
     PLACE_READY,
     SINGLE_MOVE_LIST,
     PROMETHEUS_BUILD_LIST,
-    BUILD_LIST_FLAG
+    BUILD_LIST_FLAG,
+    END_TURN
 }

@@ -4,11 +4,11 @@ public enum Direction {
     LEFT("LEFT"),
     LEFTUP("LEFTUP"),
     LEFTDOWN("LEFTDOWN"),
-    RIGHT("LEFTDOWN"),
-    RIGHTUP("LEFTDOWN"),
-    RIGHTDOWN("LEFTDOWN"),
-    UP("LEFTDOWN"),
-    DOWN("LEFTDOWN");
+    RIGHT("RIGHT"),
+    RIGHTUP("RIGHTUP"),
+    RIGHTDOWN("RIGHTDOWN"),
+    UP("UP"),
+    DOWN("DOWN");
 
     private final String name;
 

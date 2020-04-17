@@ -113,7 +113,7 @@ public class PlayerManager {
             match.getGameMap().getCell(X, Y).setDome();
         }
         else {
-            match.getGameMap().getCell(X, Y).setBuilding(match.getGameMap().getCell(X, Y).getBuilding()+1);
+            match.getGameMap().setCell(X, Y, match.getGameMap().getCell(X, Y).getBuilding()+1, match.getGameMap().getCell(X, Y).getWorker());
         }
     }
 

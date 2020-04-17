@@ -139,6 +139,9 @@ public class SocketClient extends Thread {
                 BuildListFlag buildListFlag = gson.fromJson(jsonObj, BuildListFlag.class);
                 viewUpdate.buildListFlagUpdate(buildListFlag);
                 break;
+            case END_TURN:
+                EndTurnAvaiable endTurnAvaiable = gson.fromJson(jsonObj, EndTurnAvaiable.class);
+                viewUpdate.endTurn(endTurnAvaiable);
         }
     }
 

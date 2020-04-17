@@ -37,12 +37,12 @@ public class DirectionManagement {
                 case DOWN:
                 case RIGHTDOWN:
                 case LEFTDOWN:
-                    y = sourceY - 1;
+                    y = sourceY + 1;
                     break;
                 case UP:
                 case LEFTUP:
                 case RIGHTUP:
-                    y = sourceY + 1;
+                    y = sourceY - 1;
                     break;
             }
         }
@@ -82,7 +82,7 @@ public class DirectionManagement {
     }
 
     public static Boolean checkCoordinate(Integer x){
-        if (x < 5 && x >= 0){
+        if (x < 4 && x >= 0){
             return true;
         } else {
             return false;
