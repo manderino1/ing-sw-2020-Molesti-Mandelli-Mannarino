@@ -132,50 +132,46 @@ public class CliViewUpdate extends ViewUpdate {
                 }
             }
 
-            switch (chosenWorker) {
-                case "1":
-                    System.out.println("Available moves:");
+            if(chosenWorker.equals("1")) {
+                System.out.println("Available moves:");
 
-                    for (Direction dir : movelist.getMoveList1()) {
-                        System.out.println(dir.toString());
+                for (Direction dir : movelist.getMoveList1()) {
+                    System.out.println(dir.toString());
+                }
+                System.out.println("Pick a Move from above");
+                try {
+                    chosenMove = console.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                for (Direction dir : movelist.getMoveList1()) {
+                    if (dir.toString().equals(chosenMove.toUpperCase())) {
+                        inputParser.selectMove(chosenWorker, chosenMove);
+                        return;
                     }
-                    System.out.println("Pick a Move from above");
-                    try {
-                        chosenMove = console.readLine();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                }
+            }
+
+            if(chosenWorker.equals("2")) {
+                System.out.println("Available moves:");
+
+                for (Direction dir : movelist.getMoveList2()) {
+                    System.out.println(dir);
+                }
+                System.out.println("Pick a Move from above");
+                try {
+                    chosenMove = console.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                for (Direction dir : movelist.getMoveList2()) {
+                    if (dir.toString().equals(chosenMove.toUpperCase())) {
+                        inputParser.selectMove(chosenWorker, chosenMove);
+                        return;
                     }
-
-                    for (Direction dir : movelist.getMoveList1()) {
-                        if (dir.toString().equals(chosenMove.toUpperCase())) {
-                            inputParser.selectMove(chosenWorker, chosenMove);
-                            moving = false;
-                            break;
-                        }
-                    }
-
-                case "2":
-                    System.out.println("Available moves:");
-
-                    for (Direction dir : movelist.getMoveList2()) {
-                        System.out.println(dir);
-                    }
-                    System.out.println("Pick a Move from above");
-                    try {
-                        chosenMove = console.readLine();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    for (Direction dir : movelist.getMoveList2()) {
-                        if (dir.toString().equals(chosenMove.toUpperCase())) {
-                            inputParser.selectMove(chosenWorker, chosenMove);
-                            moving = false;
-                            break;
-                        }
-
-                    }
-
+                }
             }
         }
     }

@@ -40,13 +40,13 @@ public class InputParser {
                 return Direction.LEFT;
             case "RIGHT":
                 return Direction.RIGHT;
-            case "UP-LEFT":
+            case "LEFTUP":
                 return Direction.LEFTUP;
-            case "UP-RIGHT":
+            case "RIGHTUP":
                 return Direction.RIGHTUP;
-            case "DOWN-LEFT":
+            case "LEFTDOWN":
                 return Direction.LEFTDOWN;
-            case "DOWN-RIGHT":
+            case "RIGHTDOWN":
                 return Direction.RIGHTDOWN;
         }
         return null; // Never reach this point
