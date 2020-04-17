@@ -68,7 +68,7 @@ public class SocketThread extends Thread {
     /**
      * Close the socket connection
      */
-    private void closeConnection() {
+    public void closeConnection() {
         try {
             socket.close();
         } catch (IOException e) {

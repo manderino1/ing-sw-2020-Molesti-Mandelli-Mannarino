@@ -84,8 +84,9 @@ public class Divinity {
         if(checkForVictory()){
             for(SocketThread socket : playerManager.getMatch().getSockets()) {
                 socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));
-                // TODO: end the match
             }
+            playerManager.getMatch().endMatch();
+            return;
         }
 
         build();

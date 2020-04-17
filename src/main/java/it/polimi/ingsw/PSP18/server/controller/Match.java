@@ -223,4 +223,12 @@ public class Match {
     public SocketThread getCurrentSocket() {
         return playerSocketMap.get(currentPlayer);
     }
+
+    public void endMatch() {
+        matchStatus = MatchStatus.MATCH_ENDED;
+        // Detach observers from map
+        for(SocketThread sock : sockets) {
+            sock.closeConnection();
+        }
+    }
 }
