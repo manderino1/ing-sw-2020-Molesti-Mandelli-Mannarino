@@ -302,16 +302,18 @@ public class CliViewUpdate extends ViewUpdate {
     @Override
     public void updatePlayerData(PlayerDataUpdate playerDataUpdate) {
         boolean present = false;
-        for(PlayerData player : playerDataArrayList) {
-            if (player.getPlayerID().equals(playerDataUpdate.getPlayerID())) {
-                present = true;
-                break;
+        if(playerDataUpdate != null) {
+            for(PlayerData player : playerDataArrayList) {
+                if (player.getPlayerID().equals(playerDataUpdate.getPlayerID())) {
+                    present = true;
+                    break;
+                }
             }
-        }
-        if(!present) {
-            PlayerData playerData = new PlayerData(playerDataUpdate.getPlayerID(), playerDataUpdate.getPlayerColor(), playerDataUpdate.getPlayOrder());
-            playerData.setDivinity(playerDataUpdate.getDivinity());
-            playerDataArrayList.add(playerData);
+            if(!present) {
+                PlayerData playerData = new PlayerData(playerDataUpdate.getPlayerID(), playerDataUpdate.getPlayerColor(), playerDataUpdate.getPlayOrder());
+                playerData.setDivinity(playerDataUpdate.getDivinity());
+                playerDataArrayList.add(playerData);
+            }
         }
 
         for(PlayerData player : playerDataArrayList) {
@@ -322,6 +324,9 @@ public class CliViewUpdate extends ViewUpdate {
                     System.out.println("Divinity: null");
                 } else {
                     System.out.println("Divinity: " + player.getDivinity());
+                }
+                if(player.getLost()) {
+                    System.out.println("THIS PLAYER HAS LOST");
                 }
                 System.out.println(CliColor.RESET);
             }
@@ -334,6 +339,9 @@ public class CliViewUpdate extends ViewUpdate {
                 } else {
                     System.out.println("Divinity: " + player.getDivinity());
                 }
+                if(player.getLost()) {
+                    System.out.println("THIS PLAYER HAS LOST");
+                }
                 System.out.println(CliColor.RESET);
             }
 
@@ -344,6 +352,9 @@ public class CliViewUpdate extends ViewUpdate {
                     System.out.println("Divinity: null");
                 } else {
                     System.out.println("Divinity: " + player.getDivinity());
+                }
+                if(player.getLost()) {
+                    System.out.println("THIS PLAYER HAS LOST");
                 }
                 System.out.println(CliColor.RESET);
             }
@@ -437,7 +448,6 @@ public class CliViewUpdate extends ViewUpdate {
 
         for (PlayerData playerData : playerDataArrayList) {
             if (matchLost.getMatchLost().equals(playerData.getPlayerID())) {
-                System.out.println("Sorry ");
                 if (playerData.getPlayerColor() == Color.RED) {
                     System.out.print(CliColor.ANSI_RED + "" + playerData.getPlayerID());
                 }
@@ -447,8 +457,9 @@ public class CliViewUpdate extends ViewUpdate {
                 if (playerData.getPlayerColor() == Color.GREEN) {
                     System.out.print(CliColor.ANSI_GREEN + "" + playerData.getPlayerID());
                 }
-                System.out.print(", you have lost!");
-                playerDataArrayList.remove(playerData);
+                System.out.println(" has lost!");
+                playerData.setLost();
+                updatePlayerData(null);
             }
         }
     }

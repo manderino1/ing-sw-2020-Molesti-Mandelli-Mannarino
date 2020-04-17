@@ -11,6 +11,7 @@ public class PlayerData {
     private Move lastMove;
     private String divinity;
     private Boolean isReady = false;
+    private Boolean hasLost = false;
     private ArrayList<PlayerDataObserver> observers = new ArrayList<>();
 
     /***
@@ -123,5 +124,20 @@ public class PlayerData {
         for(PlayerDataObserver observer : observers) {
             observer.update(this);
         }
+    }
+
+    /***
+     * True if the player has lost
+     * @return lost value
+     */
+    public Boolean getLost() {
+        return hasLost;
+    }
+
+    /***
+     * Set the value as true, the player has lost the match
+     */
+    public void setLost() {
+        this.hasLost = true;
     }
 }
