@@ -51,7 +51,7 @@ public class Divinity {
      */
     protected void move() {
         // Check if the player has lost
-        if (checkForLose(true, false)) {
+        if (checkForLose(raiseForbidden, true)) {
             for(SocketThread socket : playerManager.getMatch().getSockets()) {
                 socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
             }
@@ -104,7 +104,7 @@ public class Divinity {
      */
     protected void build() {
 
-        if (checkForLose(true, false)) {
+        if (checkForLose(raiseForbidden, false)) {
             for(SocketThread socket : playerManager.getMatch().getSockets()) {
                 socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
             }
