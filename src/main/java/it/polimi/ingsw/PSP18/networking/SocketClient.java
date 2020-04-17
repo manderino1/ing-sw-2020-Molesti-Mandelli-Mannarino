@@ -142,9 +142,11 @@ public class SocketClient extends Thread {
             case END_TURN:
                 EndTurnAvaiable endTurnAvaiable = gson.fromJson(jsonObj, EndTurnAvaiable.class);
                 viewUpdate.endTurn(endTurnAvaiable);
+                break;
             case ATLAS_BUILD_LIST:
                 AtlasBuildList atlasBuildList = gson.fromJson(jsonObj, AtlasBuildList.class);
                 viewUpdate.atlasBuildUpdate(atlasBuildList);
+                break;
         }
     }
 
