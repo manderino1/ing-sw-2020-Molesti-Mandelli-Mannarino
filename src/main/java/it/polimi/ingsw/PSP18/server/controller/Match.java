@@ -99,10 +99,12 @@ public class Match {
         playerManagers.add(player);
         playerSocketMap.put(player, socket);
         socketPlayerMap.put(socket, player);
-        if(playerManagers.size() >= 2) { // Ask to every connected player to write if ready
+        if(playerManagers.size() == 2) { // Ask to every connected player to write if ready
             for(PlayerManager playerPresent : playerManagers) {
                 playerSocketMap.get(playerPresent).sendMessage(new MatchReady());
             }
+        } else if (playerManagers.size() == 3) {
+            sockets.get(2).sendMessage(new MatchReady());
         }
     }
 
@@ -155,7 +157,7 @@ public class Match {
         matchStatus = MatchStatus.DIVINITIES_SELECTION;
         String[] divinities = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Ephaestus", "Minotaur", "Pan", "Prometheus"};
         Collections.shuffle(Arrays.asList(divinities));
-        divinitySelection.addAll(Arrays.asList(divinities).subList(0, playerManagers.size() + 1));
+        divinitySelection.addAll(Arrays.asList(divinities).subList(0, playerManagers.size()));
         playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
         divinitySelectionIndex++;
     }
