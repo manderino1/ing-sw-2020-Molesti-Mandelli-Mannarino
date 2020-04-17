@@ -3,7 +3,7 @@ package it.polimi.ingsw.PSP18.networking.messages.toserver;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 
 public class BuildReceiver extends ServerAbstractMessage {
-    private Direction direction;
+    protected Direction direction;
 
     /***
      * Constructor for MoveReceiver object initializing all the attributes

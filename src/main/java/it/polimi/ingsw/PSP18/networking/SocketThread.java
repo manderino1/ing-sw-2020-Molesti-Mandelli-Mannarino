@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.server.controller.divinities.Atlas;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Prometheus;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.controller.Match;
@@ -125,6 +126,12 @@ public class SocketThread extends Thread {
                 PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(jsonObj, PrometheusBuildReceiver.class);
                 if(match.getCurrentPlayer().getDivinity() instanceof Prometheus) {
                     ((Prometheus) match.getCurrentPlayer().getDivinity()).receiveWorker(prometheusBuildReceiver);
+                }
+                break;
+            case ATLAS_BUILD_RECEIVER:
+                AtlasBuildReceiver atlasBuildReceiver = gson.fromJson(jsonObj, AtlasBuildReceiver.class);
+                if(match.getCurrentPlayer().getDivinity() instanceof Atlas) {
+                    ((Atlas) match.getCurrentPlayer().getDivinity()).buildReceiver(atlasBuildReceiver.getDirection(), atlasBuildReceiver.isDome());
                 }
                 break;
         }

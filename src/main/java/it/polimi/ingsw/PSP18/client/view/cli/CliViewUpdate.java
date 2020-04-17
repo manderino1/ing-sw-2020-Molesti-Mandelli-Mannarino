@@ -2,14 +2,8 @@ package it.polimi.ingsw.PSP18.client.view.cli;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.DivinityReceiver;
-import it.polimi.ingsw.PSP18.server.controller.divinities.Divinity;
 import it.polimi.ingsw.PSP18.server.model.*;
-
 import java.io.IOException;
-
-import it.polimi.ingsw.PSP18.server.model.*;
-
 import java.util.ArrayList;
 
 public class CliViewUpdate extends ViewUpdate {
@@ -117,7 +111,7 @@ public class CliViewUpdate extends ViewUpdate {
             String chosenWorker = null;
             boolean waiting = true;
 
-            while(waiting) { // TODO: CHECK WARNING
+            while(waiting) {
                 try {
                     chosenWorker = console.readLine();
                     if(chosenWorker.equals("1") || chosenWorker.equals("2")) {
@@ -514,7 +508,7 @@ public class CliViewUpdate extends ViewUpdate {
      */
     @Override
     public void prometheusBuildListUpdate(PrometheusBuildList prometheusBuildList) {
-        String chosenBuild = "";
+        String chosenBuild;
         System.out.println("Available moves for worker 1:");
 
         for (Direction dir : prometheusBuildList.getBuildlist1()) {
@@ -540,6 +534,52 @@ public class CliViewUpdate extends ViewUpdate {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void atlasBuildUpdate(AtlasBuildList atlasBuildList) {
+        System.out.println("Pick a building move from below:");
+        for (Direction dir : atlasBuildList.getBuildlist()) {
+            System.out.println(dir.toString());
+        }
+        String chosenMove = null;
+        boolean waiting = true;
+        while(waiting) {
+            try {
+                chosenMove = console.readLine();
+                for(Direction dir : atlasBuildList.getBuildlist()) {
+                    if (dir.toString().toUpperCase().equals(chosenMove.toUpperCase())) {
+                        waiting = false;
+                        break;
+                    }
+                }
+                if(waiting) {
+                    System.out.println("Direction incorrect, retry:");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("Do you want to build a dome here? Yes or no?");
+        String domeSelection;
+        waiting = true;
+        while(waiting) {
+            try {
+                domeSelection = console.readLine();
+                if(domeSelection.toUpperCase().equals("YES")) {
+                    inputParser.atlasBuild(chosenMove, true);
+                    waiting = false;
+                } else if (domeSelection.toUpperCase().equals("NO")) {
+                    inputParser.atlasBuild(chosenMove, false);
+                    waiting = false;
+                }
+                if(waiting) {
+                    System.out.println("Write yes or no, retry:");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -625,7 +665,7 @@ public class CliViewUpdate extends ViewUpdate {
 
     @Override
     public void endTurn(EndTurnAvaiable endTurnAvaiable) {
-        String endStr = "";
+        String endStr;
         boolean waiting = true;
 
         System.out.println("Write END to end the turn");

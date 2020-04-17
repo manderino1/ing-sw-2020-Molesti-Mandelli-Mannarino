@@ -15,5 +15,6 @@ public enum ClientMessageType {
     SINGLE_MOVE_LIST,
     PROMETHEUS_BUILD_LIST,
     BUILD_LIST_FLAG,
-    END_TURN
+    END_TURN,
+    ATLAS_BUILD_LIST
 }

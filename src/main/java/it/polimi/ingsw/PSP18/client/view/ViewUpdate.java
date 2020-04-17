@@ -21,4 +21,5 @@ public abstract class ViewUpdate {
     public abstract void singleMoveUpdate(SingleMoveList singleMoveList);
     public abstract void buildListFlagUpdate(BuildListFlag buildListFlag);
     public abstract void endTurn(EndTurnAvaiable endTurnAvaiable);
+    public abstract void atlasBuildUpdate(AtlasBuildList atlasBuildList);
 }

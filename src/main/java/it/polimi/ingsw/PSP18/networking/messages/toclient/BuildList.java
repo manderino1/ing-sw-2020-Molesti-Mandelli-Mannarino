@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class BuildList extends ClientAbstractMessage{
 
-    private ArrayList<Direction> buildlist;
+    protected ArrayList<Direction> buildlist;
 
     /***
      * constructor of BuildList

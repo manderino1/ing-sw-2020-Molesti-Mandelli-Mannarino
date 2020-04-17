@@ -71,4 +71,8 @@ public class InputParser {
     public void selectPrometheus(Integer workerID){
         socket.sendMessage(new PrometheusBuildReceiver(workerID));
     }
+
+    public void atlasBuild(String move, boolean dome) {
+        socket.sendMessage(new AtlasBuildReceiver(stringToDirection(move), dome));
+    }
 }
