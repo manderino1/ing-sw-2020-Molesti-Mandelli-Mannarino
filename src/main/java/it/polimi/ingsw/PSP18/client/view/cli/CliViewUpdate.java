@@ -42,6 +42,7 @@ public class CliViewUpdate extends ViewUpdate {
         boolean waiting = true;
 
         do {
+            waiting = true;
             System.out.println("Chose your first worker coordinates:");
 
             String W1 = "A1";
@@ -91,7 +92,7 @@ public class CliViewUpdate extends ViewUpdate {
 
             x2 = Character.getNumericValue(W2.toUpperCase().charAt(0)) - 10;
             y2 = Character.getNumericValue(W2.toUpperCase().charAt(1));
-        } while (lastMap[x2][y2].getWorker()!=null);
+        } while (lastMap[x2][y2].getWorker()!=null || ((x2 == x1) && (y2 == y1)));
         inputParser.selectWorkers(x1, y1, x2, y2);
     }
 
@@ -167,6 +168,7 @@ public class CliViewUpdate extends ViewUpdate {
                     }
                 }
             }
+            System.out.println("Entry incorrect, retry");
         }
     }
 
@@ -494,6 +496,9 @@ public class CliViewUpdate extends ViewUpdate {
                 String ready = console.readLine();
                 if(ready.toUpperCase().equals("READY")) {
                     waiting = false;
+                }
+                if(waiting){
+                    System.out.println("Incorrect answer, write ready");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
