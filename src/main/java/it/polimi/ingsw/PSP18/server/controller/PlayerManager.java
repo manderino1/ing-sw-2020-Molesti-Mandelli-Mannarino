@@ -110,7 +110,7 @@ public class PlayerManager {
      */
     public void setBuild(Integer X, Integer Y, Boolean dome) {
         if(dome) {
-            match.getGameMap().getCell(X, Y).setDome();
+            match.getGameMap().setDome(X, Y);
         }
         else {
             match.getGameMap().setCell(X, Y, match.getGameMap().getCell(X, Y).getBuilding()+1, match.getGameMap().getCell(X, Y).getWorker());

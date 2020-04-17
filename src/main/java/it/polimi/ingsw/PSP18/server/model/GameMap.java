@@ -51,6 +51,16 @@ public class GameMap {
     }
 
     /***
+     * Place a dome into the selected cell
+     * @param x the x coordinate of the cell to modify
+     * @param y the y coordinate of the cell to modify
+     */
+    public void setDome(int x, int y) {
+        mapCells[x][y].setDome();
+        notifyObservers();
+    }
+
+    /***
      * Attach a new observer into the observers list
      * @param observer the new observer reference
      */
