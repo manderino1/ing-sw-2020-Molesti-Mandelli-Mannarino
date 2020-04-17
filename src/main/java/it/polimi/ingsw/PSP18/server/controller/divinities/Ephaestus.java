@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchLost;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchWon;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -22,17 +23,24 @@ public class Ephaestus extends Divinity{
      */
     @Override
     protected void build() {
-        if (checkForLose(true, false)) {
+        if (checkForLose(raiseForbidden , false)) {
             for(SocketThread socket : playerManager.getMatch().getSockets()) {
                 socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
-                playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
+            }
 
-                Integer x1 = playerManager.getWorker(0).getX();
-                Integer y1 = playerManager.getWorker(0).getY();
-                Integer x2 = playerManager.getWorker(1).getX();
-                Integer y2 = playerManager.getWorker(1).getY();
-                playerManager.getGameMap().setCell(x1, y1, playerManager.getGameMap().getCell( x1, y1).getBuilding(), null);
-                playerManager.getGameMap().setCell(x2, y2, playerManager.getGameMap().getCell( x2, y2).getBuilding(), null);
+            playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
+
+            Integer x1 = playerManager.getWorker(0).getX();
+            Integer y1 = playerManager.getWorker(0).getY();
+            Integer x2 = playerManager.getWorker(1).getX();
+            Integer y2 = playerManager.getWorker(1).getY();
+            playerManager.getGameMap().setCell(x1, y1, playerManager.getGameMap().getCell( x1, y1).getBuilding(), null);
+            playerManager.getGameMap().setCell(x2, y2, playerManager.getGameMap().getCell( x2, y2).getBuilding(), null);
+
+            if(playerManager.getMatch().getPlayerManagers().size() == 1) {
+                for(SocketThread socket : playerManager.getMatch().getSockets()) {
+                    socket.sendMessage(new MatchWon(playerManager.getMatch().getPlayerManagers().get(0).getPlayerData().getPlayerID()));
+                }
             }
         }
 
