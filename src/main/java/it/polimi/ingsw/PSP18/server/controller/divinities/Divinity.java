@@ -52,24 +52,7 @@ public class Divinity {
     protected void move() {
         // Check if the player has lost
         if (checkForLose(raiseForbidden, true)) {
-            for(SocketThread socket : playerManager.getMatch().getSockets()) {
-                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
-            }
-
-            playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
-
-            Integer x1 = playerManager.getWorker(0).getX();
-            Integer y1 = playerManager.getWorker(0).getY();
-            Integer x2 = playerManager.getWorker(1).getX();
-            Integer y2 = playerManager.getWorker(1).getY();
-            playerManager.getGameMap().setCell(x1, y1, playerManager.getGameMap().getCell( x1, y1).getBuilding(), null);
-            playerManager.getGameMap().setCell(x2, y2, playerManager.getGameMap().getCell( x2, y2).getBuilding(), null);
-
-            if(playerManager.getMatch().getPlayerManagers().size() == 1) {
-                for(SocketThread socket : playerManager.getMatch().getSockets()) {
-                    socket.sendMessage(new MatchWon(playerManager.getMatch().getPlayerManagers().get(0).getPlayerData().getPlayerID()));
-                }
-            }
+            manageLoss();
         }
 
         ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
@@ -105,24 +88,7 @@ public class Divinity {
     protected void build() {
 
         if (checkForLose(raiseForbidden, false)) {
-            for(SocketThread socket : playerManager.getMatch().getSockets()) {
-                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
-            }
-
-            playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
-
-            Integer x1 = playerManager.getWorker(0).getX();
-            Integer y1 = playerManager.getWorker(0).getY();
-            Integer x2 = playerManager.getWorker(1).getX();
-            Integer y2 = playerManager.getWorker(1).getY();
-            playerManager.getGameMap().setCell(x1, y1, playerManager.getGameMap().getCell( x1, y1).getBuilding(), null);
-            playerManager.getGameMap().setCell(x2, y2, playerManager.getGameMap().getCell( x2, y2).getBuilding(), null);
-
-            if(playerManager.getMatch().getPlayerManagers().size() == 1) {
-                for(SocketThread socket : playerManager.getMatch().getSockets()) {
-                    socket.sendMessage(new MatchWon(playerManager.getMatch().getPlayerManagers().get(0).getPlayerData().getPlayerID()));
-                }
-            }
+            manageLoss();
         }
 
         Worker worker = playerManager.getWorker(workerID);
@@ -293,5 +259,31 @@ public class Divinity {
         playerManager.getGameMap().setCell(newX, newY, playerManager.getGameMap().getCell(newX, newY).getBuilding(), playerManager.getGameMap().getCell(oldX, oldY).getWorker());
         playerManager.getGameMap().setCell(oldX, oldY, playerManager.getGameMap().getCell(oldX, oldY).getBuilding(), null);
         playerManager.getGameMap().getCell(newX, newY).getWorker().setPosition(newX, newY);
+    }
+
+    /***
+     * Send the match loss message to all players and remove workers, skip the player turn
+     */
+    protected void manageLoss() {
+        for(SocketThread socket : playerManager.getMatch().getSockets()) {
+            socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
+        }
+
+        playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
+
+        Integer x1 = playerManager.getWorker(0).getX();
+        Integer y1 = playerManager.getWorker(0).getY();
+        Integer x2 = playerManager.getWorker(1).getX();
+        Integer y2 = playerManager.getWorker(1).getY();
+        playerManager.getGameMap().setCell(x1, y1, playerManager.getGameMap().getCell( x1, y1).getBuilding(), null);
+        playerManager.getGameMap().setCell(x2, y2, playerManager.getGameMap().getCell( x2, y2).getBuilding(), null);
+
+        if(playerManager.getMatch().getPlayerManagers().size() == 1) {
+            for(SocketThread socket : playerManager.getMatch().getSockets()) {
+                socket.sendMessage(new MatchWon(playerManager.getMatch().getPlayerManagers().get(0).getPlayerData().getPlayerID()));
+            }
+        }
+
+        playerManager.getMatch().getTurnManager().passTurn();
     }
 }

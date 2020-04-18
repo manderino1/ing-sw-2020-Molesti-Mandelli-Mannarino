@@ -81,7 +81,6 @@ public class SocketClient extends Thread {
 
         ClientMessageType type = ClientMessageType.valueOf(msgTopicString);
 
-        //TODO: add function calls
         switch(type) {
             case GAME_MAP_UPDATE:
                 GameMapUpdate gameMapUpdate = gson.fromJson(jsonObj, GameMapUpdate.class);

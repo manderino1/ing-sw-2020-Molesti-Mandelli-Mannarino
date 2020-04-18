@@ -22,7 +22,9 @@ public class TurnManager {
      * Called form the parser, when a signal is received to end turn switch the turn to the following player
      */
     public void passTurn() {
-        indexCurrentPlayer = indexCurrentPlayer + 1;
+        if(match.getPlayerManagers().contains(match.getCurrentPlayer())) {
+            indexCurrentPlayer = indexCurrentPlayer + 1;
+        }
         if(indexCurrentPlayer == match.getPlayerManagers().size()) {
             indexCurrentPlayer = 0;
         }
