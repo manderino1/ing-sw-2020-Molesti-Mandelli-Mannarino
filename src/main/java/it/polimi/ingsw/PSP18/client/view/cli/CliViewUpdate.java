@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP18.client.view.cli;
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.model.*;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -10,8 +12,27 @@ public class CliViewUpdate extends ViewUpdate {
 
     private Cell[][] lastMap;
     private InputParser inputParser;
-    java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+    private java.io.BufferedReader console;
     private ArrayList<PlayerData> playerDataArrayList = new ArrayList<>();
+
+    /***
+     * Used for testing, can redirect the console input
+     * @param console a bufferedreader with inputstream to send
+     */
+    public CliViewUpdate(BufferedReader console) {
+        if(console == null) {
+            this.console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+        } else {
+            this.console = console;
+        }
+    }
+
+    /***
+     * Standard constructor, just init the console variable
+     */
+    public CliViewUpdate() {
+        this.console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+    }
 
     /***
      * sets the input parser

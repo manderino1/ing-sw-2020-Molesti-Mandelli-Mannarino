@@ -1,40 +1,91 @@
 package it.polimi.ingsw.PSP18.client.view.cli;
 
-import it.polimi.ingsw.PSP18.client.view.Launcher;
-import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.PlaceReady;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
-import it.polimi.ingsw.PSP18.server.controller.Match;
-import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TestViewUpdate {
-    Match match = new Match();
-    private Launcher launcher;
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    private InputStream systemIn = System.in;
+    private PrintStream systemOut = System.out;
+    private ByteArrayOutputStream socketOutContent = new ByteArrayOutputStream();
+    private InputStream socketInContent = new InputStream() {
+        @Override
+        public int read() {
+            return -1;  // end of stream
+        }
+    };
+    private ByteArrayOutputStream outContent;
+    private ByteArrayOutputStream errContent;
+    private Socket socket;
     private GameMap map = new GameMap();
 
-
     @Before
-    public void createLauncher() {
-        launcher = new Launcher();
+    public void socketMock() {
+        socketOutContent = new ByteArrayOutputStream();
+
+        // Create mock sockets
+        socket = mock(Socket.class);
+        try {
+            when(socket.getOutputStream()).thenReturn(socketOutContent);
+            when(socket.getInputStream()).thenReturn(socketInContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        outContent = new ByteArrayOutputStream();
+        errContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
     }
 
+
+    @Test
+    public void testMoveUpdate() {
+        ArrayList<Direction> list1 = new ArrayList<>();
+        list1.add(Direction.UP);
+        ArrayList<Direction> list2 = new ArrayList<>();
+        list2.add(Direction.DOWN);
+        MoveList moveList = new MoveList(list1, list2);
+
+        ByteArrayInputStream testIn = new ByteArrayInputStream("3\n1\ntest\n1\nUP\n".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        cliViewUpdate.moveUpdate(moveList);
+        Assert.assertEquals("{\"direction\":\"UP\",\"workerID\":0,\"type\":\"MOVE_RECEIVER\"}\r\n", socketOutContent.toString());
+
+        socketOutContent.reset();
+        testIn = new ByteArrayInputStream("2\ntest\n2\nDOWN\n".getBytes());
+        cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+        cliViewUpdate.moveUpdate(moveList);
+        Assert.assertEquals("{\"direction\":\"DOWN\",\"workerID\":1,\"type\":\"MOVE_RECEIVER\"}\r\n", socketOutContent.toString());
+    }
+
     @Test
     public void testUpdateMap() {
-         launcher.getCliViewUpdate().updateMap(new GameMapUpdate(map.getMapCells()));
+        CliViewUpdate cliViewUpdate = new CliViewUpdate();
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        cliViewUpdate.updateMap(new GameMapUpdate(map.getMapCells()));
         Assert.assertEquals("|  -0|  -0|  -0|  -0|  -0| 0\r\n" +
                 "|  -0|  -0|  -0|  -0|  -0| 1\r\n" +
                 "|  -0|  -0|  -0|  -0|  -0| 2\r\n" +
@@ -60,7 +111,7 @@ public class TestViewUpdate {
         map.setCell(0,1,2, new Worker(2, 2 , 1, Color.BLUE));
         map.setCell(0,2,2, new Worker(2, 2 , 1, Color.GREEN));
 
-        launcher.getCliViewUpdate().updateMap(new GameMapUpdate(map.getMapCells()));
+        cliViewUpdate.updateMap(new GameMapUpdate(map.getMapCells()));
         Assert.assertEquals("|\u001B[32mw2\u001B[0m-1|\u001B[31mw1\u001B[0m-2|  -0|  -0|\u001B[34mw1\u001B[0m-1| 0\r\n" +
                 "|\u001B[34mw2\u001B[0m-2|  -0|  -0|  -0|  -0| 1\r\n" +
                 "|\u001B[32mw2\u001B[0m-2|\u001B[32mw2\u001B[0m-1|\u001B[31mw2\u001B[0m-2|  -0|  -0| 2\r\n" +
@@ -79,7 +130,7 @@ public class TestViewUpdate {
         map.getCell(0,4).setDome();
         map.getCell(3,3).setDome();
 
-        launcher.getCliViewUpdate().updateMap(new GameMapUpdate(map.getMapCells()));
+        cliViewUpdate.updateMap(new GameMapUpdate(map.getMapCells()));
         Assert.assertEquals("|\u001B[32mw2\u001B[0m-D|\u001B[31mw1\u001B[0m-2|  -0|  -0|\u001B[34mw1\u001B[0m-D| 0\r\n" +
                 "|\u001B[34mw1\u001B[0m-2|  -0|  -0|  -0|  -0| 1\r\n" +
                 "|\u001B[32mw1\u001B[0m-2|\u001B[32mw2\u001B[0m-1|\u001B[31mw2\u001B[0m-2|  -0|  -0| 2\r\n" +
@@ -90,10 +141,15 @@ public class TestViewUpdate {
 
     @Test
     public void testPlayerDataUpdate() {
+        CliViewUpdate cliViewUpdate = new CliViewUpdate();
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
         PlayerData playerData = new PlayerData("test", Color.RED, 0);
         playerData.setDivinity("Apollo");
 
-        launcher.getCliViewUpdate().updatePlayerData(new PlayerDataUpdate(playerData));
+        cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
         Assert.assertEquals("\u001B[31mNickname: test\r\n" +
                 "Play order: 0\r\n" +
                 "Divinity: Apollo\r\n" +
@@ -103,7 +159,7 @@ public class TestViewUpdate {
 
         playerData = new PlayerData("a", Color.GREEN, 0);
         playerData.setDivinity(null);
-        launcher.getCliViewUpdate().updatePlayerData(new PlayerDataUpdate(playerData));
+        cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
         Assert.assertEquals("\u001B[31mNickname: test\r\n" +
                 "Play order: 0\r\n" +
                 "Divinity: Apollo\r\n" +
@@ -116,7 +172,7 @@ public class TestViewUpdate {
         outContent.reset();
 
         playerData = new PlayerData("as", Color.BLUE, 0);
-        launcher.getCliViewUpdate().updatePlayerData(new PlayerDataUpdate(playerData));
+        cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
         Assert.assertEquals("\u001B[31mNickname: test\r\n" +
                 "Play order: 0\r\n" +
                 "Divinity: Apollo\r\n" +
@@ -133,7 +189,7 @@ public class TestViewUpdate {
         outContent.reset();
 
         playerData = new PlayerData("test", Color.RED, 0);
-        launcher.getCliViewUpdate().updatePlayerData(new PlayerDataUpdate(playerData));
+        cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
         Assert.assertEquals("\u001B[31mNickname: test\r\n" +
                 "Play order: 0\r\n" +
                 "Divinity: Apollo\r\n" +
@@ -149,5 +205,11 @@ public class TestViewUpdate {
 
         outContent.reset();
 
+    }
+
+    @After
+    public void restoreStreams() {
+        System.setIn(systemIn);
+        System.setOut(systemOut);
     }
 }
