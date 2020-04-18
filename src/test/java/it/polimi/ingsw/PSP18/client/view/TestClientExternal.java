@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP18.client;
+package it.polimi.ingsw.PSP18.client.view;
 
 import it.polimi.ingsw.PSP18.client.view.Launcher;
 import it.polimi.ingsw.PSP18.server.controller.Match;

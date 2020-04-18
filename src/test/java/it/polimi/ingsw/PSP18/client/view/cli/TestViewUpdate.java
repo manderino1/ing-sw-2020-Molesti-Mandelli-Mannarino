@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP18.client.cli;
+package it.polimi.ingsw.PSP18.client.view.cli;
 
 import it.polimi.ingsw.PSP18.client.view.Launcher;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
@@ -35,6 +35,7 @@ public class TestViewUpdate {
                 "|  -0|  -0|  -0|  -0|  -0| 4\r\n" +
                 " a    b    c    d    e  \r\n", outContent.toString());
     }
+
 
     @Test
     public void testPlayerDataUpdate() {
