@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import it.polimi.ingsw.PSP18.networking.messages.toclient.AtlasBuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.EndTurnAvaiable;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -46,6 +47,7 @@ public class Atlas extends Divinity{
         }
 
         playerManager.setBuild(newX, newY, dome);
+        playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
     }
 }
 
