@@ -99,7 +99,7 @@ public class PlayerManager {
      * @return the selected worker
      */
     public Worker getWorker(Integer workerID) {
-        return new Worker(workers[workerID].getX(), workers[workerID].getY(), workerID, playerData.getPlayerColor());
+        return workers[workerID];
     }
 
     /***
