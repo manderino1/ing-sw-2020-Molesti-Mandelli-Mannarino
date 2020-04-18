@@ -594,7 +594,7 @@ public class CliViewUpdate extends ViewUpdate {
      */
     @Override
     public void singleMoveUpdate(SingleMoveList singleMoveList) {
-        System.out.println("Would you like to move again? If so, where?");
+        System.out.println("Would you like to move again?");
         String chosenMove = "";
 
         String workerID = "";
@@ -608,26 +608,40 @@ public class CliViewUpdate extends ViewUpdate {
         for (Direction dir : singleMoveList.getMoveList()) {
             System.out.println(dir.toString());
         }
-        System.out.println("Pick a Move from above");
 
-        try {
-            if (console.readLine().toUpperCase().equals("NO")) {
-                inputParser.selectMove(workerID, null);
+        System.out.println("Write YES or NO:");
+        boolean waiting = true;
+        while(waiting) {
+            try {
+                String reply = console.readLine();
+                if (reply.toUpperCase().equals("NO")) {
+                    inputParser.selectMove(workerID, null);
+                    return;
+                } else if(reply.toUpperCase().equals("YES")) {
+                    waiting = false;
+                }
+                if(waiting) {
+                    System.out.println("Incorrect reply, write YES or NO:");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
-        try {
-            chosenMove = console.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        for (Direction dir : singleMoveList.getMoveList()) {
-            if (dir.toString().equals(chosenMove.toUpperCase())) {
-                inputParser.selectMove(workerID, chosenMove);
-                break;
+        System.out.println("Pick a Move from above");
+        while(true) {
+            try {
+                chosenMove = console.readLine();
+                for (Direction dir : singleMoveList.getMoveList()) {
+                    if (dir.toString().equals(chosenMove.toUpperCase())) {
+                        inputParser.selectMove(workerID, chosenMove);
+                        return;
+                    }
+                }
+                System.out.println("Incorrect reply, choose a direction from above:");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
