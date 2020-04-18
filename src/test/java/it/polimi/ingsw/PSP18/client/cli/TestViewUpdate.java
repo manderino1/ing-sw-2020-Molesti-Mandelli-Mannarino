@@ -1,12 +1,9 @@
-package it.polimi.ingsw.PSP18.Client.Cli;
+package it.polimi.ingsw.PSP18.client.cli;
 
 import it.polimi.ingsw.PSP18.client.view.Launcher;
-import it.polimi.ingsw.PSP18.client.view.cli.CliViewUpdate;
-import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
 import it.polimi.ingsw.PSP18.server.controller.Match;
-import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,9 +11,9 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.net.Socket;
 
 public class TestViewUpdate {
+    Match match = new Match();
     private Launcher launcher;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
