@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
+import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
@@ -9,33 +10,28 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestApollo {
-
-    private GameMap map;
-    private PlayerManager playerManager;
-    @Before
+public class TestApollo extends TestDivinity {
+    @Override
     public void createPlayerManager() {
-        playerManager = new PlayerManager(new Match(), new PlayerData("Test1", Color.RED, 0), "Apollo");
-
+        Match match = new Match(true);
+        SocketThread socketThread = new SocketThread(socket, match);
+        socketThread.start();
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        match.addSocket(socketThread);
+        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Apollo");
+        match.addPlayer(playerManager, socketThread);
     }
 
     /***
-     * testing CheckMovementMoves
+     * Testing the GetName method
      */
-    @Test
-    public void TestGetName(){
-        Divinity apollo = new Apollo("Apollo", playerManager);
-        Assert.assertEquals(playerManager.getDivinityName(), apollo.getName());
-    }
-    @Test
-    public void testManageTurn() {
-        playerManager.placeWorker(2,1);
-        playerManager.placeWorker(3,2);
-        playerManager.manageTurn(false);
-        playerManager.manageTurn(true);
-        /*
-        TODO: In order to have a more complete test we need to generate some buildings and some workers
-         */
-        //TODO: still gives nullpointerex with getWorker method
+    @Override
+    public void testGetName() {
+        Divinity divinity = new Divinity("Apollo", playerManager);
+        Assert.assertEquals(playerManager.getDivinityName(), divinity.getName());
     }
 }

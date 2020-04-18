@@ -47,6 +47,25 @@ public class Match {
     }
 
     /***
+     * For debug only, open the server on a randomized port
+     * @param debug true if you want to enable it
+     */
+    public Match(boolean debug) {
+        playerManagers = new ArrayList<PlayerManager>();
+        sockets = new ArrayList<SocketThread>();
+        playerSocketMap = new HashMap<PlayerManager, SocketThread>();
+        socketPlayerMap = new HashMap<SocketThread, PlayerManager>();
+        if(debug) {
+            socketServer = new SocketServer(this, true);
+        } else {
+            socketServer = new SocketServer(this, false);
+        }
+        socketServer.start(); // Wait for connections
+        gameMap = new GameMap();
+        matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
+    }
+
+    /***
      * Returns the game map
      * @return the game map, unique for all players
      */

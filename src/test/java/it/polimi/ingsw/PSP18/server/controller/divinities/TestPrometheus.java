@@ -13,7 +13,7 @@ public class TestPrometheus {
     private GameMap map;
     private PlayerManager playerManager;
     @Before
-    public void createPlayerManager() {playerManager = new PlayerManager(new Match(), new PlayerData("Test1", Color.RED, 0), "Prometheus");}
+    public void createPlayerManager() {playerManager = new PlayerManager(new Match(true), new PlayerData("Test1", Color.RED, 0), "Prometheus");}
 
     /***
      * Testing the GetName method

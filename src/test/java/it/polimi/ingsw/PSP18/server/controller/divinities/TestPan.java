@@ -10,7 +10,7 @@ import org.junit.Test;
 public class TestPan {
     private PlayerManager playerManager;
     @Before
-    public void createPlayerManager() {playerManager = new PlayerManager(new Match(), new PlayerData("Test1", Color.RED, 0), "Pan");}
+    public void createPlayerManager() {playerManager = new PlayerManager(new Match(true), new PlayerData("Test1", Color.RED, 0), "Pan");}
 
     @Test
     public void TestPanConstructor(){
