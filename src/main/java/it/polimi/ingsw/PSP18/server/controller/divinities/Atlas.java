@@ -1,13 +1,30 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
+import it.polimi.ingsw.PSP18.networking.messages.toclient.AtlasBuildList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 
+import java.util.ArrayList;
+
 public class Atlas extends Divinity{
     public Atlas(String name, PlayerManager playerManager) {
         super(name, playerManager);
+    }
+
+    @Override
+    protected void build() {
+        Worker worker = playerManager.getWorker(workerID);
+        ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
+
+        if (moves.size() == 0) {
+            manageLoss();
+            return;
+        }
+
+        playerManager.getMatch().getCurrentSocket().sendMessage(new AtlasBuildList(moves));
     }
 
     /***
@@ -16,8 +33,6 @@ public class Atlas extends Divinity{
      * @param dome true if a dome has to be placed
      */
     public void buildReceiver(Direction direction, Boolean dome) {
-         // TODO: Farsi passare la dome
-
         Worker worker = playerManager.getWorker(workerID);
         Integer newX = DirectionManagement.getX(worker.getX(), direction);
         Integer newY = DirectionManagement.getY(worker.getY(), direction);
