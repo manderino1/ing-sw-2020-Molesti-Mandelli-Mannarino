@@ -1,13 +1,11 @@
 package it.polimi.ingsw.PSP18.Client;
 
 import it.polimi.ingsw.PSP18.client.view.Launcher;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import org.junit.Test;
 
-public class LauncherTest {
+public class TestClientExternal {
     @Test
-    public void launcherCreation() {
-        Match match = new Match();
+    public void launcherTest() {
         Launcher launcher = new Launcher();
     }
 }

@@ -43,6 +43,7 @@ public class Match {
         socketServer = new SocketServer(this);
         socketServer.start(); // Wait for connections
         gameMap = new GameMap();
+        matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
     }
 
     /***
@@ -103,6 +104,7 @@ public class Match {
             for(PlayerManager playerPresent : playerManagers) {
                 playerSocketMap.get(playerPresent).sendMessage(new MatchReady());
             }
+            matchStatus = MatchStatus.WAITING_FOR_DATA;
         } else if (playerManagers.size() == 3) {
             sockets.get(2).sendMessage(new MatchReady());
         }
@@ -170,7 +172,7 @@ public class Match {
      * @param divinity string that represent the divinity to be created
      */
     public void divinityCreation(SocketThread socket, String divinity) {
-        socketPlayerMap.get(socket).divinityCreation("Divinity"); // use to change divinity
+        socketPlayerMap.get(socket).divinityCreation(divinity); // use to change divinity
         if(divinitySelectionIndex == playerManagers.size()) {
             // Set observers
             // TODO: move in separate function
@@ -181,6 +183,7 @@ public class Match {
                 }
             }
 
+            matchStatus = MatchStatus.WORKER_SETUP;
             playerSocketMap.get(playerManagers.get(workerPlacementIndex)).sendMessage(new PlaceReady());
             workerPlacementIndex++;
         } else {
