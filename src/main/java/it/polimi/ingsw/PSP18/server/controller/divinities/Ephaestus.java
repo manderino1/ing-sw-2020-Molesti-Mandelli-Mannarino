@@ -28,6 +28,7 @@ public class Ephaestus extends Divinity{
 
         if (moves.size() == 0) {
             manageLoss();
+            return;
         }
 
         playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));

@@ -53,6 +53,7 @@ public class Prometheus extends Divinity{
         // Check if the player has lost
         if (movesWorker1.size() == 0 && movesWorker2.size() == 0) {
             manageLoss();
+            return;
         }
 
         playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
@@ -68,6 +69,7 @@ public class Prometheus extends Divinity{
 
         if (moves.size() == 0) {
             manageLoss();
+            return;
         }
 
         playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
