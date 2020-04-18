@@ -51,7 +51,7 @@ public class TestDivinity {
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
         try {
-            Thread.sleep(50);
+            Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

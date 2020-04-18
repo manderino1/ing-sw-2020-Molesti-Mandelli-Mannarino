@@ -1,0 +1,220 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Prometheus</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.controller.divinities</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Prometheus (it.polimi.ingsw.PSP18.server.controller.divinities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Prometheus</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 55)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.controller.divinities;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.networking.SocketThread;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toserver.PrometheusBuildReceiver;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Direction;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Worker;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public class Prometheus extends Divinity{
+<i>13</i>&nbsp;    boolean buildChoice, firstBuild;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    public Prometheus(String name, PlayerManager playerManager) {
+<b class="nc"><i>16</i>&nbsp;        super(name, playerManager);</b>
+<b class="nc"><i>17</i>&nbsp;    }</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /***
+<i>20</i>&nbsp;     *
+<i>21</i>&nbsp;     * @param raiseForbidden true if athena moved up one level
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    public void manageTurn(Boolean raiseForbidden) {
+<b class="nc"><i>24</i>&nbsp;        this.raiseForbidden = raiseForbidden;</b>
+<b class="nc"><i>25</i>&nbsp;        ArrayList&lt;Direction&gt; moves1 = checkBuildingMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY());</b>
+<b class="nc"><i>26</i>&nbsp;        ArrayList&lt;Direction&gt; moves2 = checkBuildingMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY());</b>
+<b class="nc"><i>27</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new PrometheusBuildList(moves1, moves2));</b>
+<b class="nc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /***
+<i>31</i>&nbsp;     * Receive the worker id that will build and move
+<i>32</i>&nbsp;     * @param prometheusBuildReceiver the worker id chosen to build and move
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    public void receiveWorker(PrometheusBuildReceiver prometheusBuildReceiver) {
+<b class="nc"><i>35</i>&nbsp;        this.workerID = prometheusBuildReceiver.getChosenWorkerID();</b>
+<b class="nc"><i>36</i>&nbsp;        if (prometheusBuildReceiver.getChosenWorkerID() == null) {</b>
+<b class="nc"><i>37</i>&nbsp;            firstBuild = false;</b>
+<b class="nc"><i>38</i>&nbsp;            move();</b>
+<i>39</i>&nbsp;        } else {
+<b class="nc"><i>40</i>&nbsp;            firstBuild = true;</b>
+<b class="nc"><i>41</i>&nbsp;            build();</b>
+<i>42</i>&nbsp;        }
+<b class="nc"><i>43</i>&nbsp;    }</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /***
+<i>46</i>&nbsp;     * Prometheus can decide to build before moving, this function is implemented in buildOpt
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    @Override
+<i>49</i>&nbsp;    protected void move() {
+<b class="nc"><i>50</i>&nbsp;        ArrayList&lt;Direction&gt; movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden, buildChoice);</b>
+<b class="nc"><i>51</i>&nbsp;        ArrayList&lt;Direction&gt; movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden, buildChoice);</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;        // Check if the player has lost
+<b class="nc"><i>54</i>&nbsp;        if (movesWorker1.size() == 0 &amp;&amp; movesWorker2.size() == 0) {</b>
+<b class="nc"><i>55</i>&nbsp;            manageLoss();</b>
+<b class="nc"><i>56</i>&nbsp;            return;</b>
+<i>57</i>&nbsp;        }
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));</b>
+<b class="nc"><i>60</i>&nbsp;    }</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    /***
+<i>63</i>&nbsp;     * Method used to build
+<i>64</i>&nbsp;     */
+<i>65</i>&nbsp;    @Override
+<i>66</i>&nbsp;    protected void build() {
+<b class="nc"><i>67</i>&nbsp;        Worker worker = playerManager.getWorker(workerID);</b>
+<b class="nc"><i>68</i>&nbsp;        ArrayList&lt;Direction&gt; moves = checkBuildingMoves(worker.getX(), worker.getY());</b>
+<i>69</i>&nbsp;
+<b class="nc"><i>70</i>&nbsp;        if (moves.size() == 0) {</b>
+<b class="nc"><i>71</i>&nbsp;            manageLoss();</b>
+<b class="nc"><i>72</i>&nbsp;            return;</b>
+<i>73</i>&nbsp;        }
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));</b>
+<b class="nc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /***
+<i>79</i>&nbsp;     * Method used to build
+<i>80</i>&nbsp;     * @param direction the direction of the wanted build
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    @Override
+<i>83</i>&nbsp;    public void buildReceiver(Direction direction) {
+<b class="nc"><i>84</i>&nbsp;        if (direction!=null) {</b>
+<b class="nc"><i>85</i>&nbsp;            Worker worker = playerManager.getWorker(workerID);</b>
+<b class="nc"><i>86</i>&nbsp;            Integer newX = DirectionManagement.getX(worker.getX(), direction);</b>
+<b class="nc"><i>87</i>&nbsp;            Integer newY = DirectionManagement.getY(worker.getY(), direction);</b>
+<b class="nc"><i>88</i>&nbsp;            boolean dome = false;</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;            // If the height of the building cell is 3 a dome has to be placed
+<b class="nc"><i>91</i>&nbsp;            if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {</b>
+<b class="nc"><i>92</i>&nbsp;                dome = true;</b>
+<i>93</i>&nbsp;            }
+<b class="nc"><i>94</i>&nbsp;            playerManager.setBuild(newX, newY, dome);</b>
+<b class="nc"><i>95</i>&nbsp;            buildChoice = true;</b>
+<b class="nc"><i>96</i>&nbsp;            if(firstBuild){</b>
+<b class="nc"><i>97</i>&nbsp;                firstBuild = false;</b>
+<b class="nc"><i>98</i>&nbsp;                move();</b>
+<i>99</i>&nbsp;            }
+<b class="nc"><i>100</i>&nbsp;        }</b>
+<i>101</i>&nbsp;        else {
+<b class="nc"><i>102</i>&nbsp;            buildChoice = false;</b>
+<b class="nc"><i>103</i>&nbsp;            move();</b>
+<i>104</i>&nbsp;        }
+<b class="nc"><i>105</i>&nbsp;    }</b>
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    /***
+<i>108</i>&nbsp;     * Checks all the possible moves
+<i>109</i>&nbsp;     * @param oldX the starting X coordinate of the worker
+<i>110</i>&nbsp;     * @param oldY the starting Y coordinate of the worker
+<i>111</i>&nbsp;     * @param raiseForbidden true if athena moved up one level
+<i>112</i>&nbsp;     * @return all the possible moves
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    private ArrayList&lt;Direction&gt; checkMovementMoves(Integer oldX, Integer oldY, Boolean raiseForbidden, Boolean buildchoice) {
+<i>115</i>&nbsp;
+<b class="nc"><i>116</i>&nbsp;        ArrayList&lt;Direction&gt; moves = new ArrayList&lt;&gt;();</b>
+<i>117</i>&nbsp;
+<b class="nc"><i>118</i>&nbsp;        for (Direction dir : Direction.values()) {</b>
+<b class="nc"><i>119</i>&nbsp;            Integer newX = DirectionManagement.getX(oldX, dir);</b>
+<b class="nc"><i>120</i>&nbsp;            Integer newY = DirectionManagement.getY(oldY, dir);</b>
+<i>121</i>&nbsp;
+<b class="nc"><i>122</i>&nbsp;            if(newX != -1 &amp;&amp; newY != -1) {</b>
+<b class="nc"><i>123</i>&nbsp;                if (!raiseForbidden &amp;&amp; !buildchoice) {</b>
+<b class="nc"><i>124</i>&nbsp;                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() &amp;&amp; (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() &lt;= 1) &amp;&amp; playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {</b>
+<b class="nc"><i>125</i>&nbsp;                        moves.add(dir);</b>
+<i>126</i>&nbsp;                    }
+<i>127</i>&nbsp;                } else {
+<b class="nc"><i>128</i>&nbsp;                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() &amp;&amp; (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() &lt; 1) &amp;&amp; playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {</b>
+<b class="nc"><i>129</i>&nbsp;                        moves.add(dir);</b>
+<i>130</i>&nbsp;                    }
+<i>131</i>&nbsp;                }
+<i>132</i>&nbsp;            }
+<i>133</i>&nbsp;        }
+<b class="nc"><i>134</i>&nbsp;        return moves;</b>
+<i>135</i>&nbsp;    }
+<i>136</i>&nbsp;}
+<i>137</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-18 18:03</div>
+</div>
+</body>
+</html>

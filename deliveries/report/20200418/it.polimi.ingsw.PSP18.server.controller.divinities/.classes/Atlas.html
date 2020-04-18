@@ -1,0 +1,136 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Atlas</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.controller.divinities</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Atlas (it.polimi.ingsw.PSP18.server.controller.divinities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Atlas</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (1/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    11,8%
+  </span>
+  <span class="absValue">
+    (2/ 17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.controller.divinities;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.AtlasBuildList;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.EndTurnAvaiable;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Direction;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Worker;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.util.ArrayList;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;public class Atlas extends Divinity{
+<i>14</i>&nbsp;    public Atlas(String name, PlayerManager playerManager) {
+<b class="fc"><i>15</i>&nbsp;        super(name, playerManager);</b>
+<b class="fc"><i>16</i>&nbsp;    }</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @Override
+<i>19</i>&nbsp;    protected void build() {
+<b class="nc"><i>20</i>&nbsp;        Worker worker = playerManager.getWorker(workerID);</b>
+<b class="nc"><i>21</i>&nbsp;        ArrayList&lt;Direction&gt; moves = checkBuildingMoves(worker.getX(), worker.getY());</b>
+<i>22</i>&nbsp;
+<b class="nc"><i>23</i>&nbsp;        if (moves.size() == 0) {</b>
+<b class="nc"><i>24</i>&nbsp;            manageLoss();</b>
+<b class="nc"><i>25</i>&nbsp;            return;</b>
+<i>26</i>&nbsp;        }
+<i>27</i>&nbsp;
+<b class="nc"><i>28</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new AtlasBuildList(moves));</b>
+<b class="nc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /***
+<i>32</i>&nbsp;     * This method is called after the method &quot;move&quot;
+<i>33</i>&nbsp;     * @param direction the direction of the movement
+<i>34</i>&nbsp;     * @param dome true if a dome has to be placed
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    public void buildReceiver(Direction direction, Boolean dome) {
+<b class="nc"><i>37</i>&nbsp;        Worker worker = playerManager.getWorker(workerID);</b>
+<b class="nc"><i>38</i>&nbsp;        Integer newX = DirectionManagement.getX(worker.getX(), direction);</b>
+<b class="nc"><i>39</i>&nbsp;        Integer newY = DirectionManagement.getY(worker.getY(), direction);</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;        /*
+<i>42</i>&nbsp;            in base alla direzione passatami dalla view
+<i>43</i>&nbsp;            se costruisco una cupola allora aggiorno il valore del flag dome controllando che la costruzione avvenga sopra il livello 3 di una torre
+<i>44</i>&nbsp;         */
+<b class="nc"><i>45</i>&nbsp;        if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {</b>
+<b class="nc"><i>46</i>&nbsp;            dome = true;</b>
+<i>47</i>&nbsp;        }
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;        playerManager.setBuild(newX, newY, dome);</b>
+<b class="nc"><i>50</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
+<b class="nc"><i>51</i>&nbsp;    }</b>
+<i>52</i>&nbsp;}
+<i>53</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-18 18:03</div>
+</div>
+</body>
+</html>

@@ -53,7 +53,7 @@ public class TestTurnManager {
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
         try {
-            Thread.sleep(50);
+            Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -76,7 +76,7 @@ public class TestTurnManager {
         SocketThread socketThread1 = new SocketThread(socket, match);
         socketThread1.start();
         try {
-            Thread.sleep(50);
+            Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -85,7 +85,7 @@ public class TestTurnManager {
         SocketThread socketThread2 = new SocketThread(socket, match);
         socketThread2.start();
         try {
-            Thread.sleep(50);
+            Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
