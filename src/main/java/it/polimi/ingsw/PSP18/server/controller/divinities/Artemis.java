@@ -21,13 +21,13 @@ public class Artemis extends Divinity {
      */
     @Override
     protected void move() {
-        //checking if the player lost
-        if(checkForLose(raiseForbidden, true)){
-            manageLoss();
-        }
-
         ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
         ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
+
+        // Check if the player has lost
+        if (movesWorker1.size() == 0 && movesWorker2.size() == 0) {
+            manageLoss();
+        }
 
         playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
         this.firstMove = true;
@@ -56,23 +56,14 @@ public class Artemis extends Divinity {
             }
         }
 
-        if(checkForLose(raiseForbidden, true)){
-            for(SocketThread socket : playerManager.getMatch().getSockets()) {
-                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
-                playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
-
-                Integer x1 = playerManager.getWorker(0).getX();
-                Integer y1 = playerManager.getWorker(0).getY();
-                Integer x2 = playerManager.getWorker(1).getX();
-                Integer y2 = playerManager.getWorker(1).getY();
-                playerManager.getGameMap().setCell(x1, y1, playerManager.getGameMap().getCell( x1, y1).getBuilding(), null);
-                playerManager.getGameMap().setCell(x2, y2, playerManager.getGameMap().getCell( x2, y2).getBuilding(), null);
-            }
-        }
-
         if(firstMove) {
             ArrayList<Direction> moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
             moves.remove(DirectionManagement.getOppositeDirection(direction));
+
+            if (moves.size() == 0) {
+                manageLoss();
+            }
+
             firstMove = false;
             playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID));
         }

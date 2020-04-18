@@ -21,13 +21,12 @@ public class Demeter extends Divinity {
      */
     @Override
     protected void build() {
-
-        if (checkForLose(raiseForbidden, false)) {
-            manageLoss();
-        }
-
         Worker worker = playerManager.getWorker(workerID);
         ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
+
+        if (moves.size() == 0) {
+            manageLoss();
+        }
 
         playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
 

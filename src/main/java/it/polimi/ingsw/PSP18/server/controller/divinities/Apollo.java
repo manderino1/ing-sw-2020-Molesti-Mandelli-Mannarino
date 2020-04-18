@@ -49,43 +49,6 @@ public class Apollo extends Divinity {
     }
 
     /***
-     *
-     * @param raiseForbidden true if athena moved up one level
-     * @param movementPhase true if curretnly in movement phase, false if currently in building phase
-     * @return true if the player has lost
-     */
-    @Override
-    protected Boolean checkForLose(Boolean raiseForbidden, Boolean movementPhase){
-        for (int i = 0; i < 2; i++) {
-            Integer oldX = playerManager.getWorker(i).getX();
-            Integer oldY = playerManager.getWorker(i).getY();
-
-            for (Direction dir : Direction.values()) {
-                Integer newX = DirectionManagement.getX(oldX, dir);
-                Integer newY = DirectionManagement.getY(oldY, dir);
-                if(newX != -1 && newY != -1) {
-                    if (!raiseForbidden) {
-                        if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)) {
-                            return false;
-                        }
-                    } else {
-                        if(movementPhase) {
-                            if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)) {
-                                return false;
-                            }
-                        } else{
-                            if(!playerManager.getGameMap().getCell(newX, newY).getDome() && playerManager.getGameMap().getCell(newX, newY).getWorker() == null){
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    /***
      * Set worker in a cell and remove from the source one
      * If a worker is present in the destination cell (Apollo) switch workers
      * @param oldX the source x position

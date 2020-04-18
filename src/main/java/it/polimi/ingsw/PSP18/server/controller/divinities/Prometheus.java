@@ -47,12 +47,13 @@ public class Prometheus extends Divinity{
      */
     @Override
     protected void move() {
-        if(checkForLose(raiseForbidden, true)){
-            manageLoss();
-        }
-
         ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden, buildChoice);
         ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden, buildChoice);
+
+        // Check if the player has lost
+        if (movesWorker1.size() == 0 && movesWorker2.size() == 0) {
+            manageLoss();
+        }
 
         playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
     }
@@ -62,13 +63,12 @@ public class Prometheus extends Divinity{
      */
     @Override
     protected void build() {
-
-        if(checkForLose(raiseForbidden, false)){
-            manageLoss();
-        }
-
         Worker worker = playerManager.getWorker(workerID);
         ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
+
+        if (moves.size() == 0) {
+            manageLoss();
+        }
 
         playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
     }

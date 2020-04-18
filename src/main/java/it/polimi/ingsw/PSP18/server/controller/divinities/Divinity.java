@@ -50,13 +50,13 @@ public class Divinity {
      *  First part of the movement phase
      */
     protected void move() {
-        // Check if the player has lost
-        if (checkForLose(raiseForbidden, true)) {
-            manageLoss();
-        }
-
         ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
         ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
+
+        // Check if the player has lost
+        if (movesWorker1.size() == 0 && movesWorker2.size() == 0) {
+            manageLoss();
+        }
 
         playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
     }
@@ -86,13 +86,12 @@ public class Divinity {
      * Pass to the client the array of the possible build direction moves
      */
     protected void build() {
-
-        if (checkForLose(raiseForbidden, false)) {
-            manageLoss();
-        }
-
         Worker worker = playerManager.getWorker(workerID);
         ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
+
+        if (moves.size() == 0) {
+            manageLoss();
+        }
 
         playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
     }
@@ -183,43 +182,6 @@ public class Divinity {
             }
         }
         return false;
-    }
-
-    /***
-     *  Checks if the player has lost
-     * @param raiseForbidden true if athena moved up one level
-     * @param movementPhase true if curretnly in movement phase, false if currently in building phase
-     * @return true if the player has lost
-     */
-    protected Boolean checkForLose(Boolean raiseForbidden, Boolean movementPhase){
-        for (int i = 0; i < 2; i++) {
-            Integer oldX = playerManager.getWorker(i).getX();
-            Integer oldY = playerManager.getWorker(i).getY();
-
-            for (Direction dir : Direction.values()) {
-                Integer newX = DirectionManagement.getX(oldX, dir);
-                Integer newY = DirectionManagement.getY(oldY, dir);
-
-                if(newX != -1 && newY != -1) {
-                    if (!raiseForbidden) {
-                        if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
-                            return false;
-                        }
-                    } else {
-                        if (movementPhase) {
-                            if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
-                                return false;
-                            }
-                        } else {
-                            if (!playerManager.getGameMap().getCell(newX, newY).getDome() && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return true;
     }
 
     /***
