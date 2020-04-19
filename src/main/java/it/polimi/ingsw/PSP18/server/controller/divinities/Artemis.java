@@ -50,7 +50,7 @@ public class Artemis extends Divinity {
         this.workerID = workerID;
         setMove(worker.getX(), worker.getY(), direction);
 
-        if(checkForVictory()){
+        if(checkForVictory(workerID)){
             for(SocketThread socket : playerManager.getMatch().getSockets()) {
                 socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));
                 // TODO: end the match

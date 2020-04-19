@@ -72,7 +72,7 @@ public class Divinity {
         this.workerID = workerID;
         setMove(worker.getX(), worker.getY(), direction);
 
-        if(checkForVictory()){
+        if(checkForVictory(workerID)){
             for(SocketThread socket : playerManager.getMatch().getSockets()) {
                 socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));
             }
@@ -173,15 +173,13 @@ public class Divinity {
      *  Checks if the player has won
      * @return true if the player has won
      */
-    protected Boolean checkForVictory(){
+    protected Boolean checkForVictory(int workerID){
 
-        for (int i = 0; i < 2; i++) {
-            Integer oldX = playerManager.getWorker(i).getX();
-            Integer oldY = playerManager.getWorker(i).getY();
+        Integer oldX = playerManager.getWorker(workerID).getX();
+        Integer oldY = playerManager.getWorker(workerID).getY();
 
-            if (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3) {
-                return true;
-            }
+        if (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3 && playerManager.getPlayerData().getLastMove().getLevel() >= 1) {
+            return true;
         }
         return false;
     }

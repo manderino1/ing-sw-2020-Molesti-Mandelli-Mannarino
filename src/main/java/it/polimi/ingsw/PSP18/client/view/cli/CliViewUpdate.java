@@ -70,8 +70,8 @@ public class CliViewUpdate extends ViewUpdate {
             while(waiting) {
                 try {
                     W1 = console.readLine();
-                    if(W1.toUpperCase().charAt(0) >= 'A' && W1.toUpperCase().charAt(0) <= 'E') {
-                        if(W1.toUpperCase().charAt(1) >= '0' && W1.toUpperCase().charAt(1) <= '4') {
+                    if(W1.length()>0 && W1.toUpperCase().charAt(0) >= 'A' && W1.toUpperCase().charAt(0) <= 'E') {
+                        if(W1.length()>1 && W1.toUpperCase().charAt(1) >= '0' && W1.toUpperCase().charAt(1) <= '4') {
                             waiting = false;
                         }
                     }
@@ -98,8 +98,8 @@ public class CliViewUpdate extends ViewUpdate {
             while(waiting) {
                 try {
                     W2 = console.readLine();
-                    if(W2.toUpperCase().charAt(0) >= 'A' && W2.toUpperCase().charAt(0) <= 'E') {
-                        if(W2.toUpperCase().charAt(1) >= '0' && W2.toUpperCase().charAt(1) <= '4') {
+                    if(W2.length()>0 && W2.toUpperCase().charAt(0) >= 'A' && W2.toUpperCase().charAt(0) <= 'E') {
+                        if(W2.length()>1 && W2.toUpperCase().charAt(1) >= '0' && W2.toUpperCase().charAt(1) <= '4') {
                             waiting = false;
                         }
                     }

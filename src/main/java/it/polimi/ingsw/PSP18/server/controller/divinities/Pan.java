@@ -13,15 +13,13 @@ public class Pan extends Divinity{
      * @return true if he has won
      */
     @Override
-    protected Boolean checkForVictory(){
+    protected Boolean checkForVictory(int workerID){
 
-        for (int i = 0; i < 2; i++) {
-            Integer oldX = playerManager.getWorker(i).getX();
-            Integer oldY = playerManager.getWorker(i).getY();
+        Integer oldX = playerManager.getWorker(workerID).getX();
+        Integer oldY = playerManager.getWorker(workerID).getY();
 
-            if ( (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3) || (playerManager.getPlayerData().getLastMove().getLevel() == -2) ) {
-                return true;
-            }
+        if ( (playerManager.getGameMap().getCell(oldX, oldY).getBuilding() == 3 && playerManager.getPlayerData().getLastMove().getLevel() >= 1) || (playerManager.getPlayerData().getLastMove().getLevel() <= -2) ) {
+            return true;
         }
         return false;
     }
