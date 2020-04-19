@@ -10,7 +10,7 @@ import it.polimi.ingsw.PSP18.server.model.Worker;
 import java.util.ArrayList;
 
 public class Prometheus extends Divinity{
-    boolean buildChoice, firstBuild;
+    boolean firstBuild;
 
     public Prometheus(String name, PlayerManager playerManager) {
         super(name, playerManager);
@@ -47,8 +47,8 @@ public class Prometheus extends Divinity{
      */
     @Override
     protected void move() {
-        ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden, buildChoice);
-        ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden, buildChoice);
+        ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden, firstBuild);
+        ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden, firstBuild);
 
         // Check if the player has lost
         if (movesWorker1.size() == 0 && movesWorker2.size() == 0) {
@@ -56,7 +56,17 @@ public class Prometheus extends Divinity{
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
+        if(firstBuild) {
+            firstBuild = false;
+            if(workerID == 0) {
+                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker1, workerID, false));
+            }
+            if(workerID == 1) {
+                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker2, workerID, false));
+            }
+        } else {
+            playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
+        }
     }
 
     /***
@@ -81,30 +91,22 @@ public class Prometheus extends Divinity{
      */
     @Override
     public void buildReceiver(Direction direction) {
-        if (direction!=null) {
-            Worker worker = playerManager.getWorker(workerID);
-            Integer newX = DirectionManagement.getX(worker.getX(), direction);
-            Integer newY = DirectionManagement.getY(worker.getY(), direction);
-            boolean dome = false;
+        Worker worker = playerManager.getWorker(workerID);
+        Integer newX = DirectionManagement.getX(worker.getX(), direction);
+        Integer newY = DirectionManagement.getY(worker.getY(), direction);
+        boolean dome = false;
 
-            // If the height of the building cell is 3 a dome has to be placed
-            if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {
-                dome = true;
-            }
-            playerManager.setBuild(newX, newY, dome);
+        // If the height of the building cell is 3 a dome has to be placed
+        if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {
+            dome = true;
+        }
+        playerManager.setBuild(newX, newY, dome);
 
-            if(firstBuild){
-                firstBuild = false;
-                move();
-            }
-            else{
-                firstBuild= true;
-                playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
-            }
+        if(firstBuild){
+            move();
         }
         else {
-            move();
-            firstBuild=false;
+            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
         }
     }
 
@@ -113,9 +115,10 @@ public class Prometheus extends Divinity{
      * @param oldX the starting X coordinate of the worker
      * @param oldY the starting Y coordinate of the worker
      * @param raiseForbidden true if athena moved up one level
+     * @param buildChoice true if
      * @return all the possible moves
      */
-    private ArrayList<Direction> checkMovementMoves(Integer oldX, Integer oldY, Boolean raiseForbidden, Boolean buildchoice) {
+    private ArrayList<Direction> checkMovementMoves(Integer oldX, Integer oldY, Boolean raiseForbidden, Boolean buildChoice) {
 
         ArrayList<Direction> moves = new ArrayList<>();
 
@@ -124,7 +127,7 @@ public class Prometheus extends Divinity{
             Integer newY = DirectionManagement.getY(oldY, dir);
 
             if(newX != -1 && newY != -1) {
-                if (!raiseForbidden && !buildchoice) {
+                if (!raiseForbidden && !buildChoice) {
                     if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1) && playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {
                         moves.add(dir);
                     }

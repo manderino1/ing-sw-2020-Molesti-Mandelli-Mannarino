@@ -67,7 +67,7 @@ public class Artemis extends Divinity {
             }
 
             firstMove = false;
-            playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID));
+            playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID, true));
         }
         else {
             build();

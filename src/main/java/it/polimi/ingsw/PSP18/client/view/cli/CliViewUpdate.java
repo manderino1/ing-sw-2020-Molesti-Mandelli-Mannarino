@@ -535,31 +535,36 @@ public class CliViewUpdate extends ViewUpdate {
     @Override
     public void prometheusBuildListUpdate(PrometheusBuildList prometheusBuildList) {
         String chosenBuild;
-        System.out.println("Available moves for worker 1:");
+        System.out.println("Available build directions for worker 1:");
 
         for (Direction dir : prometheusBuildList.getBuildlist1()) {
             System.out.println(dir.toString());
         }
 
-        System.out.println("Available moves for worker 2:");
+        System.out.println("Available build directions for worker 2:");
 
         for (Direction dir : prometheusBuildList.getBuildlist2()) {
             System.out.println(dir.toString());
         }
 
         System.out.println("Would you like to build? If so worker 1 or 2? Chose between 1,2 or NO");
-        try {
-            chosenBuild = console.readLine();
-            if (chosenBuild.equals("1")) {
-                inputParser.selectPrometheus(0);
-            } else if (chosenBuild.equals("2")) {
-                inputParser.selectPrometheus(1);
-            } else if(chosenBuild.toUpperCase().equals("NO")){
-                inputParser.selectPrometheus(null);
+        while (true) {
+            try {
+                chosenBuild = console.readLine();
+                if (chosenBuild.equals("1")) {
+                    inputParser.selectPrometheus(0);
+                    return;
+                } else if (chosenBuild.equals("2")) {
+                    inputParser.selectPrometheus(1);
+                    return;
+                } else if(chosenBuild.toUpperCase().equals("NO")){
+                    inputParser.selectPrometheus(null);
+                    return;
+                }
+                System.out.println("Incorrect answer, write 1, 2 or NO");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -615,7 +620,6 @@ public class CliViewUpdate extends ViewUpdate {
      */
     @Override
     public void singleMoveUpdate(SingleMoveList singleMoveList) {
-        System.out.println("Would you like to move again?");
         String chosenMove = "";
 
         String workerID = "";
@@ -625,28 +629,32 @@ public class CliViewUpdate extends ViewUpdate {
             workerID = "2";
         }
 
+        if(singleMoveList.isOptional()) {
+            System.out.println("Would you like to move again with worker " + workerID);
+
+            System.out.println("Write YES or NO:");
+            boolean waiting = true;
+            while(waiting) {
+                try {
+                    String reply = console.readLine();
+                    if (reply.toUpperCase().equals("NO")) {
+                        inputParser.selectMove(workerID, null);
+                        return;
+                    } else if(reply.toUpperCase().equals("YES")) {
+                        waiting = false;
+                    }
+                    if(waiting) {
+                        System.out.println("Incorrect reply, write YES or NO:");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         System.out.println("Available moves:");
         for (Direction dir : singleMoveList.getMoveList()) {
             System.out.println(dir.toString());
-        }
-
-        System.out.println("Write YES or NO:");
-        boolean waiting = true;
-        while(waiting) {
-            try {
-                String reply = console.readLine();
-                if (reply.toUpperCase().equals("NO")) {
-                    inputParser.selectMove(workerID, null);
-                    return;
-                } else if(reply.toUpperCase().equals("YES")) {
-                    waiting = false;
-                }
-                if(waiting) {
-                    System.out.println("Incorrect reply, write YES or NO:");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
 
