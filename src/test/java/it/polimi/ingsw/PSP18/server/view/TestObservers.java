@@ -51,11 +51,6 @@ public class TestObservers {
         Match match = new Match(true);
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
-        try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         MapObserver mapObserver = new MapObserver(socketThread);
 
         map.attach(mapObserver);
@@ -73,11 +68,6 @@ public class TestObservers {
         Match match = new Match(true);
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
-        try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         PlayerDataObserver playerObserver = new PlayerDataObserver(socketThread);
 
         playerData.attach(playerObserver);

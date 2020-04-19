@@ -52,11 +52,6 @@ public class TestTurnManager {
         Match match = new Match();
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
-        try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread);
         match.addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread);
         match.getPlayerManagers().get(0).placeWorker(0, 0);
@@ -75,20 +70,10 @@ public class TestTurnManager {
         Match match = new Match(true);
         SocketThread socketThread1 = new SocketThread(socket, match);
         socketThread1.start();
-        try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         match.addSocket(socketThread1);
         match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread1);
         SocketThread socketThread2 = new SocketThread(socket, match);
         socketThread2.start();
-        try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         match.addSocket(socketThread2);
         match.addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread2);
         match.getPlayerManagers().get(0).placeWorker(0, 0);

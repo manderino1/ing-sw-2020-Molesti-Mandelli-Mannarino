@@ -16,11 +16,6 @@ public class TestAtlas extends TestDivinity {
         Match match = new Match(true);
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
-        try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         match.addSocket(socketThread);
         playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Atlas");
         match.addPlayer(playerManager, socketThread);
