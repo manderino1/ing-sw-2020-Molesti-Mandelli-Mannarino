@@ -31,7 +31,7 @@ public class InputParser {
     }
 
     private Direction stringToDirection(String dir) {
-        if(dir == null) {
+        if(dir == null || dir == "NO") {
             return null;
         }
         dir = dir.toUpperCase();

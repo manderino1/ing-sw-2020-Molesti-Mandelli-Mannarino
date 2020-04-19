@@ -669,38 +669,36 @@ public class CliViewUpdate extends ViewUpdate {
 
     @Override
     public void buildListFlagUpdate(BuildListFlag buildListFlag) {
+
         System.out.println("Would you like to build again? If so where?");
         System.out.println("Say 'no' or pick a building move from below:");
         for (Direction dir : buildListFlag.getBuildlist()) {
             System.out.println(dir.toString());
         }
-
-        try {
-            if (console.readLine().toUpperCase().equals("NO")) {
-                inputParser.selectBuild("NO");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        boolean waiting = true;
         String chosenMove = "";
+        boolean waiting = true;
         while(waiting) {
             try {
                 chosenMove = console.readLine();
-                for(Direction dir : buildListFlag.getBuildlist()) {
-                    if (dir.toString().toUpperCase().equals(chosenMove.toUpperCase())) {
-                        waiting = false;
-                        break;
-                    }
-                }
-                if(waiting) {
-                    System.out.println("Direction incorrect, retry:");
-                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            if (chosenMove.toUpperCase().equals("NO")) {
+                waiting = false;
+                inputParser.selectBuild("NO");
+            }
+            for(Direction dir : buildListFlag.getBuildlist()) {
+                if (dir.toString().toUpperCase().equals(chosenMove.toUpperCase())) {
+                    waiting = false;
+                    inputParser.selectBuild(chosenMove);
+                    break;
+                }
+            }
+            if(waiting) {
+                System.out.println("Direction incorrect, retry:");
+            }
         }
-        inputParser.selectBuild(chosenMove);
     }
 
     @Override

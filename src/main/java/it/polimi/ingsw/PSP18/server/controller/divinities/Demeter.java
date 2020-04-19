@@ -40,6 +40,7 @@ public class Demeter extends Divinity {
      */
     public void buildReceiver(Direction direction) {
         if (direction == null) { // If he doesn't want to move
+            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
             return;
         }
 
@@ -59,6 +60,9 @@ public class Demeter extends Divinity {
             moves.remove(direction);
             firstBuild = false;
             playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));
+        }
+        else{
+            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
         }
     }
 }
