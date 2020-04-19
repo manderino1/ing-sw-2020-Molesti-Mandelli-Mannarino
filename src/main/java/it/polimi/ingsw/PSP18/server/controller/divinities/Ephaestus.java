@@ -1,9 +1,7 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import it.polimi.ingsw.PSP18.networking.SocketThread;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchLost;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchWon;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -42,6 +40,7 @@ public class Ephaestus extends Divinity{
      */
     public void buildReceiver(Direction direction) {
         if (direction == null) { // If he doesn't want to move
+            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
             return;
         }
 
@@ -62,7 +61,10 @@ public class Ephaestus extends Divinity{
             moves.add(direction);
             firstBuild = false;
 
-            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
+            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));
+        }
+        else{
+            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
         }
     }
 }
