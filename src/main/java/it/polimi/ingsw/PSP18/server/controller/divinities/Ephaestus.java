@@ -64,6 +64,7 @@ public class Ephaestus extends Divinity{
             playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));
         }
         else{
+            firstBuild=true;
             playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
         }
     }

@@ -191,7 +191,7 @@ public class Match {
      * @param divinity string that represent the divinity to be created
      */
     public void divinityCreation(SocketThread socket, String divinity) {
-        socketPlayerMap.get(socket).divinityCreation("Ephaestus"); // use to change divinity
+        socketPlayerMap.get(socket).divinityCreation(divinity); // use to change divinity
         if(divinitySelectionIndex == playerManagers.size()) {
             // Set observers
             // TODO: move in separate function

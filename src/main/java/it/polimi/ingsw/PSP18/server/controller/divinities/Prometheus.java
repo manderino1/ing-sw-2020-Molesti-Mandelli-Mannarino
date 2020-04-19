@@ -92,15 +92,19 @@ public class Prometheus extends Divinity{
                 dome = true;
             }
             playerManager.setBuild(newX, newY, dome);
-            buildChoice = true;
+
             if(firstBuild){
                 firstBuild = false;
                 move();
             }
+            else{
+                firstBuild= true;
+                playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
+            }
         }
         else {
-            buildChoice = false;
             move();
+            firstBuild=false;
         }
     }
 

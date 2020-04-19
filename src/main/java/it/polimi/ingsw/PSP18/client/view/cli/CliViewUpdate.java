@@ -547,14 +547,14 @@ public class CliViewUpdate extends ViewUpdate {
             System.out.println(dir.toString());
         }
 
-        System.out.println("Would you like to build? If so worker 1 or 2?");
+        System.out.println("Would you like to build? If so worker 1 or 2? Chose between 1,2 or NO");
         try {
             chosenBuild = console.readLine();
             if (chosenBuild.equals("1")) {
                 inputParser.selectPrometheus(0);
             } else if (chosenBuild.equals("2")) {
                 inputParser.selectPrometheus(1);
-            } else {
+            } else if(chosenBuild.toUpperCase().equals("NO")){
                 inputParser.selectPrometheus(null);
             }
 
