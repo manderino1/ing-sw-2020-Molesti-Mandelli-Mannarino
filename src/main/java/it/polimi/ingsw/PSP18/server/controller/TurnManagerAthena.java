@@ -18,7 +18,12 @@ public class TurnManagerAthena extends TurnManager {
         } else {
             indexPreviousPlayer = indexCurrentPlayer - 1;
         }
-        bool = (match.getPlayerManagers().get(indexPreviousPlayer).getPlayerData().getLastMove().getLevel() == 1) && (match.getPlayerManagers().get(indexPreviousPlayer).getDivinityName().equals("Athena"));
+        if (match.getPlayerManagers().get(indexPreviousPlayer).getPlayerData().getLastMove()==null){
+            bool = false;
+        }
+        else{
+            bool = (match.getPlayerManagers().get(indexPreviousPlayer).getPlayerData().getLastMove().getLevel() == 1) && (match.getPlayerManagers().get(indexPreviousPlayer).getDivinityName().equals("Athena"));
+        }
         match.getPlayerManagers().get(indexCurrentPlayer).manageTurn(bool);
     }
 }

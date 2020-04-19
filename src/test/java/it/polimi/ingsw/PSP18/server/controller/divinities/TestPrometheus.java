@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
+import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
@@ -9,33 +10,23 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestPrometheus {
-    private GameMap map;
-    private PlayerManager playerManager;
-    @Before
-    public void createPlayerManager() {playerManager = new PlayerManager(new Match(), new PlayerData("Test1", Color.RED, 0), "Prometheus");}
+public class TestPrometheus extends TestDivinity {
+    @Override
+    public void createPlayerManager() {
+        Match match = new Match(true);
+        SocketThread socketThread = new SocketThread(socket, match);
+        socketThread.start();
+        match.addSocket(socketThread);
+        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Ephaestus");
+        match.addPlayer(playerManager, socketThread);
+    }
 
     /***
      * Testing the GetName method
      */
-    @Test
+    @Override
     public void testGetName() {
-        Divinity prometheus = new Prometheus("Prometheus", playerManager);
-        Assert.assertTrue(playerManager.getDivinityName().equals(prometheus.getName()));
-    }
-
-    /***
-     * Testing ManageTurn that will lso test all the other Divinty methods that ManageTurn calls
-     */
-    @Test
-    public void testManageTurn() {
-        playerManager.placeWorker(2,1);
-        playerManager.placeWorker(3,2);
-        playerManager.manageTurn(false);
-        playerManager.manageTurn(true);
-        /*
-        TODO: In order to have a more complete test we need to generate some buildings and some workers
-         */
-        //TODO: still gives nullpointerex with getWorker method
+        Divinity divinity = new Divinity("Ephaestus", playerManager);
+        Assert.assertEquals(playerManager.getDivinityName(), divinity.getName());
     }
 }

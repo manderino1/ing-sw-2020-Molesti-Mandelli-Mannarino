@@ -12,18 +12,20 @@ import java.net.UnknownHostException;
 public class Launcher {
 
     private final int PORT = 9002;
-    private InetAddress host ;
+    private InetAddress host;
+    SocketClient socketClient;
+    CliViewUpdate cliViewUpdate;
 
     /***
      * Contructor of Launcher. Creates the socket and start the thread
      */
     public Launcher() {
-        CliViewUpdate cliViewUpdate = new CliViewUpdate();
+        cliViewUpdate = new CliViewUpdate();
 
         try {
             host = InetAddress.getLocalHost();
             Socket socket = new Socket(host, PORT);
-            SocketClient socketClient = new SocketClient (socket, cliViewUpdate);
+            socketClient = new SocketClient (socket, cliViewUpdate);
             cliViewUpdate.setInputParser(new InputParser(socketClient));
             socketClient.start();
         } catch (IOException e) {
@@ -31,4 +33,11 @@ public class Launcher {
         }
     }
 
+    public SocketClient getSocketClient() {
+        return socketClient;
+    }
+
+    public CliViewUpdate getCliViewUpdate() {
+        return cliViewUpdate;
+    }
 }

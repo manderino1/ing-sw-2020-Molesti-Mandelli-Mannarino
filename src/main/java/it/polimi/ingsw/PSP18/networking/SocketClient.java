@@ -81,7 +81,6 @@ public class SocketClient extends Thread {
 
         ClientMessageType type = ClientMessageType.valueOf(msgTopicString);
 
-        //TODO: add function calls
         switch(type) {
             case GAME_MAP_UPDATE:
                 GameMapUpdate gameMapUpdate = gson.fromJson(jsonObj, GameMapUpdate.class);
@@ -142,9 +141,11 @@ public class SocketClient extends Thread {
             case END_TURN:
                 EndTurnAvaiable endTurnAvaiable = gson.fromJson(jsonObj, EndTurnAvaiable.class);
                 viewUpdate.endTurn(endTurnAvaiable);
+                break;
             case ATLAS_BUILD_LIST:
                 AtlasBuildList atlasBuildList = gson.fromJson(jsonObj, AtlasBuildList.class);
                 viewUpdate.atlasBuildUpdate(atlasBuildList);
+                break;
         }
     }
 

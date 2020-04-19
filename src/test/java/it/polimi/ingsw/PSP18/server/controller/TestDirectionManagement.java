@@ -35,18 +35,18 @@ public class TestDirectionManagement {
         Integer y = 1;
 
         // Check where y=y+1
-        Assert.assertEquals(Integer.valueOf(2), DirectionManagement.getY(y, Direction.UP));
-        Assert.assertEquals(Integer.valueOf(2), DirectionManagement.getY(y, Direction.LEFTUP));
-        Assert.assertEquals(Integer.valueOf(2), DirectionManagement.getY(y, Direction.RIGHTUP));
+        Assert.assertEquals(Integer.valueOf(0), DirectionManagement.getY(y, Direction.UP));
+        Assert.assertEquals(Integer.valueOf(0), DirectionManagement.getY(y, Direction.LEFTUP));
+        Assert.assertEquals(Integer.valueOf(0), DirectionManagement.getY(y, Direction.RIGHTUP));
 
         // Check where y=y
         Assert.assertEquals(Integer.valueOf(1), DirectionManagement.getY(y, Direction.LEFT));
         Assert.assertEquals(Integer.valueOf(1), DirectionManagement.getY(y, Direction.RIGHT));
 
         // Check where y=y-1
-        Assert.assertEquals(Integer.valueOf(0), DirectionManagement.getY(y, Direction.DOWN));
-        Assert.assertEquals(Integer.valueOf(0), DirectionManagement.getY(y, Direction.LEFTDOWN));
-        Assert.assertEquals(Integer.valueOf(0), DirectionManagement.getY(y, Direction.RIGHTDOWN));
+        Assert.assertEquals(Integer.valueOf(2), DirectionManagement.getY(y, Direction.DOWN));
+        Assert.assertEquals(Integer.valueOf(2), DirectionManagement.getY(y, Direction.LEFTDOWN));
+        Assert.assertEquals(Integer.valueOf(2), DirectionManagement.getY(y, Direction.RIGHTDOWN));
     }
 
     /***

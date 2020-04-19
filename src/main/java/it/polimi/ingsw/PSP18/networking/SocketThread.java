@@ -24,6 +24,13 @@ public class SocketThread extends Thread {
     public SocketThread(Socket clientSocket, Match match) {
         this.socket = clientSocket;
         this.match = match;
+        try {
+            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            output = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        match.addSocket(this);
     }
 
     /***
@@ -31,19 +38,6 @@ public class SocketThread extends Thread {
      */
     public void run()
     {
-        try
-        {
-            // Init buffers
-            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            output = new PrintWriter(socket.getOutputStream(), true);
-            match.addSocket(this);
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-
-
         while (true) {
             try {
                 String line = input.readLine();    // reads a line of text

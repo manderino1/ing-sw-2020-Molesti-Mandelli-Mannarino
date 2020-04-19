@@ -11,7 +11,7 @@ public class TestPlayerManager {
 
     @Before
     public void createPlayerManager() {
-        playerManager = new PlayerManager(new Match(), new PlayerData("Test1", Color.RED, 0), "Divinity");
+        playerManager = new PlayerManager(new Match(true), new PlayerData("Test1", Color.RED, 0), "Divinity");
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
     }

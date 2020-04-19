@@ -24,60 +24,28 @@ public class Apollo extends Divinity {
         ArrayList<Direction> moves = new ArrayList<Direction>();
 
         for (Direction dir : Direction.values()) {
-            Integer building;
             Integer newX = DirectionManagement.getX(oldX, dir);
             Integer newY = DirectionManagement.getY(oldY, dir);
 
             if(newX != -1 && newY != -1) {
                 if (!raiseForbidden) {
-                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)) {
+                    if (!playerManager.getGameMap().getCell(newX, newY).getDome()
+                            && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)
+                            && playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(0)
+                            && playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(1)) {
                         moves.add(dir);
                     }
                 } else {
-                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)) {
+                    if (!playerManager.getGameMap().getCell(newX, newY).getDome()
+                            && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)
+                            && playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(0)
+                            && playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(1)) {
                         moves.add(dir);
                     }
                 }
             }
         }
         return moves;
-    }
-
-    /***
-     *
-     * @param raiseForbidden true if athena moved up one level
-     * @param movementPhase true if curretnly in movement phase, false if currently in building phase
-     * @return true if the player has lost
-     */
-    @Override
-    protected Boolean checkForLose(Boolean raiseForbidden, Boolean movementPhase){
-        for (int i = 0; i < 2; i++) {
-            Integer oldX = playerManager.getWorker(i).getX();
-            Integer oldY = playerManager.getWorker(i).getY();
-
-            for (Direction dir : Direction.values()) {
-                Integer building;
-                Integer newX = DirectionManagement.getX(oldX, dir);
-                Integer newY = DirectionManagement.getY(oldY, dir);
-
-                if (!raiseForbidden) {
-                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() <= 1)) {
-                        return false;
-                    }
-                } else {
-                    if(movementPhase) {
-                        if (!playerManager.getGameMap().getCell(newX, newY).getDome() && (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() < 1)) {
-                            return false;
-                        }
-                    } else{
-                        if(!playerManager.getGameMap().getCell(newX, newY).getDome() && playerManager.getGameMap().getCell(newX, newY).getWorker() == null){
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-        return true;
     }
 
     /***

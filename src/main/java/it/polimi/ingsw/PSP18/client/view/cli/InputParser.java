@@ -18,6 +18,7 @@ public class InputParser {
         } else if (worker.equals("2")){
             workerID = 1;
         }
+
         socket.sendMessage(new MoveReceiver(stringToDirection(move), workerID));
     }
 
@@ -30,6 +31,9 @@ public class InputParser {
     }
 
     private Direction stringToDirection(String dir) {
+        if(dir == null || dir == "NO") {
+            return null;
+        }
         dir = dir.toUpperCase();
         switch (dir) {
             case "UP":

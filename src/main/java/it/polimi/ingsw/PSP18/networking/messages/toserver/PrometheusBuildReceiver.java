@@ -7,7 +7,6 @@ public class PrometheusBuildReceiver extends ServerAbstractMessage {
 
     /***
      * Constructor of PrometheusBuildReceiver
-     * @param flag true if the player builds before moving
      * @param workerID the worker to move and build
      */
     public PrometheusBuildReceiver(Integer workerID) {

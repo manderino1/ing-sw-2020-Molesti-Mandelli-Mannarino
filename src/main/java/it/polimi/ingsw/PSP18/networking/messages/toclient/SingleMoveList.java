@@ -7,16 +7,18 @@ import java.util.ArrayList;
 public class SingleMoveList extends ClientAbstractMessage {
     private ArrayList<Direction> moveList;
     private Integer workerID;
+    private boolean optional;
 
     /***
      * Constructor to initialize the available moves direction list
      * @param moveList the list of possible moves for worker #1
      * @param workerID the worker ID
      */
-    public SingleMoveList(ArrayList<Direction> moveList, Integer workerID) {
+    public SingleMoveList(ArrayList<Direction> moveList, Integer workerID, boolean optional) {
         this.type = ClientMessageType.SINGLE_MOVE_LIST;
         this.moveList = moveList;
         this.workerID = workerID;
+        this.optional = optional;
     }
 
     /***
@@ -33,5 +35,9 @@ public class SingleMoveList extends ClientAbstractMessage {
      */
     public Integer getWorkerID() {
         return workerID;
+    }
+
+    public boolean isOptional() {
+        return optional;
     }
 }

@@ -21,30 +21,13 @@ public class Demeter extends Divinity {
      */
     @Override
     protected void build() {
-
-        if (checkForLose(raiseForbidden, false)) {
-            for(SocketThread socket : playerManager.getMatch().getSockets()) {
-                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
-            }
-
-            playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
-
-            Integer x1 = playerManager.getWorker(0).getX();
-            Integer y1 = playerManager.getWorker(0).getY();
-            Integer x2 = playerManager.getWorker(1).getX();
-            Integer y2 = playerManager.getWorker(1).getY();
-            playerManager.getGameMap().setCell(x1, y1, playerManager.getGameMap().getCell( x1, y1).getBuilding(), null);
-            playerManager.getGameMap().setCell(x2, y2, playerManager.getGameMap().getCell( x2, y2).getBuilding(), null);
-
-            if(playerManager.getMatch().getPlayerManagers().size() == 1) {
-                for(SocketThread socket : playerManager.getMatch().getSockets()) {
-                    socket.sendMessage(new MatchWon(playerManager.getMatch().getPlayerManagers().get(0).getPlayerData().getPlayerID()));
-                }
-            }
-        }
-
         Worker worker = playerManager.getWorker(workerID);
         ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
+
+        if (moves.size() == 0) {
+            manageLoss();
+            return;
+        }
 
         playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
 
@@ -57,6 +40,7 @@ public class Demeter extends Divinity {
      */
     public void buildReceiver(Direction direction) {
         if (direction == null) { // If he doesn't want to move
+            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
             return;
         }
 
@@ -76,6 +60,10 @@ public class Demeter extends Divinity {
             moves.remove(direction);
             firstBuild = false;
             playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));
+        }
+        else{
+            firstBuild=true;
+            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
         }
     }
 }

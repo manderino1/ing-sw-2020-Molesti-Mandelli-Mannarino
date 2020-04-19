@@ -5,22 +5,57 @@ import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.net.Socket;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class TestObservers {
+    private ByteArrayOutputStream socketOutContent = new ByteArrayOutputStream();
+    private InputStream socketInContent = new InputStream() {
+        @Override
+        public int read() {
+            return -1;  // end of stream
+        }
+    };
+    private Socket socket;
+
+    @Before
+    public void socketMock() {
+        socketOutContent = new ByteArrayOutputStream();
+
+        // Create mock sockets
+        socket = mock(Socket.class);
+        try {
+            when(socket.getOutputStream()).thenReturn(socketOutContent);
+            when(socket.getInputStream()).thenReturn(socketInContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /***
      * Testing the game map observer management and return
      */
     @Test
     public void testGameMapObs() {
         GameMap map = new GameMap();
-        MapObserver mapObserver = new MapObserver(new SocketThread(new Socket(), new Match()));
+        Match match = new Match(true);
+        SocketThread socketThread = new SocketThread(socket, match);
+        socketThread.start();
+        MapObserver mapObserver = new MapObserver(socketThread);
 
-        // TODO: add return check assert
         map.attach(mapObserver);
-        map.notifyObservers();
+        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
+                "{\"gameMap\":[[{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false}],[{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false}],[{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false}],[{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false}],[{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false}]],\"type\":\"GAME_MAP_UPDATE\"}\r\n", socketOutContent.toString());
         map.detach(mapObserver);
     }
 
@@ -30,11 +65,14 @@ public class TestObservers {
     @Test
     public void testPlayerDataObs() {
         PlayerData playerData = new PlayerData("Test Player", Color.BLUE, 0);
-        PlayerDataObserver playerObserver = new PlayerDataObserver(new SocketThread(new Socket(), new Match()));
+        Match match = new Match(true);
+        SocketThread socketThread = new SocketThread(socket, match);
+        socketThread.start();
+        PlayerDataObserver playerObserver = new PlayerDataObserver(socketThread);
 
-        // TODO: add return check assert
         playerData.attach(playerObserver);
-        playerData.notifyObservers();
+        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
+                "{\"playerID\":\"Test Player\",\"playerColor\":\"BLUE\",\"playOrder\":0,\"type\":\"PLAYER_DATA_UPDATE\"}\r\n", socketOutContent.toString());
         playerData.detach(playerObserver);
     }
 }

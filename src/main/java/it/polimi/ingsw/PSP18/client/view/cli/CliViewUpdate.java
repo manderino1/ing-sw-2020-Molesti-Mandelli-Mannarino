@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP18.client.view.cli;
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.model.*;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -10,8 +12,27 @@ public class CliViewUpdate extends ViewUpdate {
 
     private Cell[][] lastMap;
     private InputParser inputParser;
-    java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+    private java.io.BufferedReader console;
     private ArrayList<PlayerData> playerDataArrayList = new ArrayList<>();
+
+    /***
+     * Used for testing, can redirect the console input
+     * @param console a bufferedreader with inputstream to send
+     */
+    public CliViewUpdate(BufferedReader console) {
+        if(console == null) {
+            this.console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+        } else {
+            this.console = console;
+        }
+    }
+
+    /***
+     * Standard constructor, just init the console variable
+     */
+    public CliViewUpdate() {
+        this.console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+    }
 
     /***
      * sets the input parser
@@ -42,14 +63,15 @@ public class CliViewUpdate extends ViewUpdate {
         boolean waiting = true;
 
         do {
+            waiting = true;
             System.out.println("Chose your first worker coordinates:");
 
             String W1 = "A1";
             while(waiting) {
                 try {
                     W1 = console.readLine();
-                    if(W1.toUpperCase().charAt(0) >= 'A' && W1.toUpperCase().charAt(0) <= 'E') {
-                        if(W1.toUpperCase().charAt(1) >= '0' && W1.toUpperCase().charAt(1) <= '4') {
+                    if(W1.length()>0 && W1.toUpperCase().charAt(0) >= 'A' && W1.toUpperCase().charAt(0) <= 'E') {
+                        if(W1.length()>1 && W1.toUpperCase().charAt(1) >= '0' && W1.toUpperCase().charAt(1) <= '4') {
                             waiting = false;
                         }
                     }
@@ -76,8 +98,8 @@ public class CliViewUpdate extends ViewUpdate {
             while(waiting) {
                 try {
                     W2 = console.readLine();
-                    if(W2.toUpperCase().charAt(0) >= 'A' && W2.toUpperCase().charAt(0) <= 'E') {
-                        if(W2.toUpperCase().charAt(1) >= '0' && W2.toUpperCase().charAt(1) <= '4') {
+                    if(W2.length()>0 && W2.toUpperCase().charAt(0) >= 'A' && W2.toUpperCase().charAt(0) <= 'E') {
+                        if(W2.length()>1 && W2.toUpperCase().charAt(1) >= '0' && W2.toUpperCase().charAt(1) <= '4') {
                             waiting = false;
                         }
                     }
@@ -91,7 +113,7 @@ public class CliViewUpdate extends ViewUpdate {
 
             x2 = Character.getNumericValue(W2.toUpperCase().charAt(0)) - 10;
             y2 = Character.getNumericValue(W2.toUpperCase().charAt(1));
-        } while (lastMap[x2][y2].getWorker()!=null);
+        } while (lastMap[x2][y2].getWorker()!=null || ((x2 == x1) && (y2 == y1)));
         inputParser.selectWorkers(x1, y1, x2, y2);
     }
 
@@ -167,6 +189,7 @@ public class CliViewUpdate extends ViewUpdate {
                     }
                 }
             }
+            System.out.println("Entry incorrect, retry");
         }
     }
 
@@ -495,6 +518,9 @@ public class CliViewUpdate extends ViewUpdate {
                 if(ready.toUpperCase().equals("READY")) {
                     waiting = false;
                 }
+                if(waiting){
+                    System.out.println("Incorrect answer, write ready");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -509,31 +535,36 @@ public class CliViewUpdate extends ViewUpdate {
     @Override
     public void prometheusBuildListUpdate(PrometheusBuildList prometheusBuildList) {
         String chosenBuild;
-        System.out.println("Available moves for worker 1:");
+        System.out.println("Available build directions for worker 1:");
 
         for (Direction dir : prometheusBuildList.getBuildlist1()) {
             System.out.println(dir.toString());
         }
 
-        System.out.println("Available moves for worker 2:");
+        System.out.println("Available build directions for worker 2:");
 
         for (Direction dir : prometheusBuildList.getBuildlist2()) {
             System.out.println(dir.toString());
         }
 
-        System.out.println("Would you like to build? If so worker 1 or 2?");
-        try {
-            chosenBuild = console.readLine();
-            if (chosenBuild.equals("1")) {
-                inputParser.selectPrometheus(0);
-            } else if (chosenBuild.equals("2")) {
-                inputParser.selectPrometheus(1);
-            } else {
-                inputParser.selectPrometheus(null);
+        System.out.println("Would you like to build? If so worker 1 or 2? Chose between 1,2 or NO");
+        while (true) {
+            try {
+                chosenBuild = console.readLine();
+                if (chosenBuild.equals("1")) {
+                    inputParser.selectPrometheus(0);
+                    return;
+                } else if (chosenBuild.equals("2")) {
+                    inputParser.selectPrometheus(1);
+                    return;
+                } else if(chosenBuild.toUpperCase().equals("NO")){
+                    inputParser.selectPrometheus(null);
+                    return;
+                }
+                System.out.println("Incorrect answer, write 1, 2 or NO");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -589,7 +620,6 @@ public class CliViewUpdate extends ViewUpdate {
      */
     @Override
     public void singleMoveUpdate(SingleMoveList singleMoveList) {
-        System.out.println("Would you like to move again? If so, where?");
         String chosenMove = "";
 
         String workerID = "";
@@ -599,68 +629,111 @@ public class CliViewUpdate extends ViewUpdate {
             workerID = "2";
         }
 
+        if(singleMoveList.isOptional()) {
+            System.out.println("Would you like to move again with worker " + workerID);
+
+            System.out.println("Write YES or NO:");
+            boolean waiting = true;
+            while(waiting) {
+                try {
+                    String reply = console.readLine();
+                    if (reply.toUpperCase().equals("NO")) {
+                        inputParser.selectMove(workerID, null);
+                        return;
+                    } else if(reply.toUpperCase().equals("YES")) {
+                        waiting = false;
+                    }
+                    if(waiting) {
+                        System.out.println("Incorrect reply, write YES or NO:");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         System.out.println("Available moves:");
         for (Direction dir : singleMoveList.getMoveList()) {
             System.out.println(dir.toString());
         }
+
+
         System.out.println("Pick a Move from above");
-
-        try {
-            if (console.readLine().toUpperCase().equals("NO")) {
-                inputParser.selectMove(workerID, null);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            chosenMove = console.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for (Direction dir : singleMoveList.getMoveList()) {
-            if (dir.toString().equals(chosenMove.toUpperCase())) {
-                inputParser.selectMove(workerID, chosenMove);
-                break;
+        while(true) {
+            try {
+                chosenMove = console.readLine();
+                for (Direction dir : singleMoveList.getMoveList()) {
+                    if (dir.toString().equals(chosenMove.toUpperCase())) {
+                        inputParser.selectMove(workerID, chosenMove);
+                        return;
+                    }
+                }
+                System.out.println("Incorrect reply, choose a direction from above:");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
     @Override
     public void buildListFlagUpdate(BuildListFlag buildListFlag) {
-        System.out.println("Would you like to build again? If so where?");
-        System.out.println("Say 'no' or pick a building move from below:");
-        for (Direction dir : buildListFlag.getBuildlist()) {
-            System.out.println(dir.toString());
-        }
 
-        try {
-            if (console.readLine().toUpperCase().equals("NO")) {
-                inputParser.selectBuild("NO");
+        if(buildListFlag.getBuildlist().size() > 1) {
+            System.out.println("Would you like to build again? If so where?");
+            System.out.println("Say NO or pick a building move from below:");
+            for (Direction dir : buildListFlag.getBuildlist()) {
+                System.out.println(dir.toString());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        boolean waiting = true;
-        String chosenMove = "";
-        while(waiting) {
-            try {
-                chosenMove = console.readLine();
+            String chosenMove = "";
+            boolean waiting = true;
+            while(waiting) {
+                try {
+                    chosenMove = console.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (chosenMove.toUpperCase().equals("NO")) {
+                    waiting = false;
+                    inputParser.selectBuild("NO");
+                }
                 for(Direction dir : buildListFlag.getBuildlist()) {
                     if (dir.toString().toUpperCase().equals(chosenMove.toUpperCase())) {
                         waiting = false;
+                        inputParser.selectBuild(chosenMove);
                         break;
                     }
                 }
                 if(waiting) {
                     System.out.println("Direction incorrect, retry:");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Would you like to build again " + buildListFlag.getBuildlist().get(0).toString() + "?");
+            System.out.println("Write YES or NO");
+            String chosenMove = "";
+            boolean waiting = true;
+            while(waiting) {
+                try {
+                    chosenMove = console.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (chosenMove.toUpperCase().equals("NO")) {
+                    waiting = false;
+                    inputParser.selectBuild("NO");
+                }
+                if (chosenMove.toUpperCase().equals("YES")) {
+                    waiting = false;
+                    inputParser.selectBuild(buildListFlag.getBuildlist().get(0).toString());
+                    break;
+                }
+                if(waiting) {
+                    System.out.println("Answer incorrect, retry:");
+                }
             }
         }
-        inputParser.selectBuild(chosenMove);
     }
 
     @Override
