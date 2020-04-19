@@ -678,33 +678,60 @@ public class CliViewUpdate extends ViewUpdate {
     @Override
     public void buildListFlagUpdate(BuildListFlag buildListFlag) {
 
-        System.out.println("Would you like to build again? If so where?");
-        System.out.println("Say 'no' or pick a building move from below:");
-        for (Direction dir : buildListFlag.getBuildlist()) {
-            System.out.println(dir.toString());
-        }
-        String chosenMove = "";
-        boolean waiting = true;
-        while(waiting) {
-            try {
-                chosenMove = console.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
+        if(buildListFlag.getBuildlist().size() > 1) {
+            System.out.println("Would you like to build again? If so where?");
+            System.out.println("Say NO or pick a building move from below:");
+            for (Direction dir : buildListFlag.getBuildlist()) {
+                System.out.println(dir.toString());
             }
+            String chosenMove = "";
+            boolean waiting = true;
+            while(waiting) {
+                try {
+                    chosenMove = console.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-            if (chosenMove.toUpperCase().equals("NO")) {
-                waiting = false;
-                inputParser.selectBuild("NO");
-            }
-            for(Direction dir : buildListFlag.getBuildlist()) {
-                if (dir.toString().toUpperCase().equals(chosenMove.toUpperCase())) {
+                if (chosenMove.toUpperCase().equals("NO")) {
                     waiting = false;
-                    inputParser.selectBuild(chosenMove);
-                    break;
+                    inputParser.selectBuild("NO");
+                }
+                for(Direction dir : buildListFlag.getBuildlist()) {
+                    if (dir.toString().toUpperCase().equals(chosenMove.toUpperCase())) {
+                        waiting = false;
+                        inputParser.selectBuild(chosenMove);
+                        break;
+                    }
+                }
+                if(waiting) {
+                    System.out.println("Direction incorrect, retry:");
                 }
             }
-            if(waiting) {
-                System.out.println("Direction incorrect, retry:");
+        } else {
+            System.out.println("Would you like to build again " + buildListFlag.getBuildlist().get(0).toString() + "?");
+            System.out.println("Write YES or NO");
+            String chosenMove = "";
+            boolean waiting = true;
+            while(waiting) {
+                try {
+                    chosenMove = console.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (chosenMove.toUpperCase().equals("NO")) {
+                    waiting = false;
+                    inputParser.selectBuild("NO");
+                }
+                if (chosenMove.toUpperCase().equals("YES")) {
+                    waiting = false;
+                    inputParser.selectBuild(buildListFlag.getBuildlist().get(0).toString());
+                    break;
+                }
+                if(waiting) {
+                    System.out.println("Answer incorrect, retry:");
+                }
             }
         }
     }
