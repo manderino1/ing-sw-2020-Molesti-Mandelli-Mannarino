@@ -22,13 +22,6 @@ public class SocketClient extends Thread {
     public SocketClient(Socket clientSocket, ViewUpdate viewUpdate) {
         this.socket = clientSocket;
         this.viewUpdate = viewUpdate;
-    }
-
-    /***
-     * Open the thread and setup the in/out buffers
-     */
-    public void run()
-    {
         try
         {
             // Init buffers
@@ -39,8 +32,13 @@ public class SocketClient extends Thread {
         {
             e.printStackTrace();
         }
+    }
 
-
+    /***
+     * Open the thread and setup the in/out buffers
+     */
+    public void run()
+    {
         while (true) {
             try {
                 String line = input.readLine();    // reads a line of text

@@ -1,9 +1,13 @@
 package it.polimi.ingsw.PSP18.client.view.cli;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.BuildReceiver;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
 import it.polimi.ingsw.PSP18.server.model.*;
 import org.junit.After;
 import org.junit.Assert;
@@ -68,14 +72,40 @@ public class TestViewUpdate {
         cliViewUpdate.setInputParser(new InputParser(socketClient));
 
         cliViewUpdate.moveUpdate(moveList);
-        Assert.assertEquals("{\"direction\":\"UP\",\"workerID\":0,\"type\":\"MOVE_RECEIVER\"}\r\n", socketOutContent.toString());
+
+        Gson gson = new Gson();
+        MoveReceiver moveReceiver = gson.fromJson(socketOutContent.toString(), MoveReceiver.class);
+        Assert.assertEquals(Direction.UP, moveReceiver.getDirection());
+        Assert.assertEquals(Integer.valueOf(0), moveReceiver.getWorkerID());
 
         socketOutContent.reset();
         testIn = new ByteArrayInputStream("2\ntest\n2\nDOWN\n".getBytes());
         cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
         cliViewUpdate.setInputParser(new InputParser(socketClient));
         cliViewUpdate.moveUpdate(moveList);
-        Assert.assertEquals("{\"direction\":\"DOWN\",\"workerID\":1,\"type\":\"MOVE_RECEIVER\"}\r\n", socketOutContent.toString());
+
+        moveReceiver = gson.fromJson(socketOutContent.toString(), MoveReceiver.class);
+        Assert.assertEquals(Direction.DOWN, moveReceiver.getDirection());
+        Assert.assertEquals(Integer.valueOf(1), moveReceiver.getWorkerID());
+    }
+
+    @Test
+    public void testBuildUpdate() {
+        ArrayList<Direction> list1 = new ArrayList<>();
+        list1.add(Direction.UP);
+        BuildList buildList = new BuildList(list1);
+
+        ByteArrayInputStream testIn = new ByteArrayInputStream("3\n1\ntest\n1\nUP\n".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        cliViewUpdate.buildUpdate(buildList);
+        Gson gson = new Gson();
+        BuildReceiver buildReceiver = gson.fromJson(socketOutContent.toString(), BuildReceiver.class);
+        Assert.assertEquals(Direction.UP, buildReceiver.getDirection());
     }
 
     @Test

@@ -19,11 +19,11 @@ public class Launcher {
     /***
      * Contructor of Launcher. Creates the socket and start the thread
      */
-    public Launcher() {
+    public Launcher(String address) {
         cliViewUpdate = new CliViewUpdate();
 
         try {
-            host = InetAddress.getLocalHost();
+            host = InetAddress.getByName(address);
             Socket socket = new Socket(host, PORT);
             socketClient = new SocketClient (socket, cliViewUpdate);
             cliViewUpdate.setInputParser(new InputParser(socketClient));
@@ -39,5 +39,16 @@ public class Launcher {
 
     public CliViewUpdate getCliViewUpdate() {
         return cliViewUpdate;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Insert the server ip address:");
+        java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+        try {
+            String ip = console.readLine();
+            Launcher launcher = new Launcher(ip);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

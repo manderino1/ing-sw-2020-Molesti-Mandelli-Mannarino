@@ -8,6 +8,6 @@ public class TestClientExternal {
     @Test
     public void launcherTest() {
         Match match = new Match();
-        Launcher launcher = new Launcher();
+        Launcher launcher = new Launcher("127.0.0.1");
     }
 }
