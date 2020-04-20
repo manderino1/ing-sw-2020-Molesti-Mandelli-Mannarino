@@ -2,12 +2,9 @@ package it.polimi.ingsw.PSP18.client.view.cli;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.BuildReceiver;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
+import it.polimi.ingsw.PSP18.server.controller.divinities.Divinity;
 import it.polimi.ingsw.PSP18.server.model.*;
 import org.junit.After;
 import org.junit.Assert;
@@ -106,6 +103,59 @@ public class TestViewUpdate {
         Gson gson = new Gson();
         BuildReceiver buildReceiver = gson.fromJson(socketOutContent.toString(), BuildReceiver.class);
         Assert.assertEquals(Direction.UP, buildReceiver.getDirection());
+    }
+
+    @Test
+    public void testSetWorker() {
+        ByteArrayInputStream testIn = new ByteArrayInputStream("W\nA1\nB\nB2\n".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        cliViewUpdate.updateMap(new GameMapUpdate(map.getMapCells()));
+        cliViewUpdate.setWorker(new PlaceReady());
+
+        Gson gson = new Gson();
+        WorkerReceiver workerReceiver = gson.fromJson(socketOutContent.toString(), WorkerReceiver.class);
+        Assert.assertEquals(Integer.valueOf(0), workerReceiver.getX1());
+        Assert.assertEquals(Integer.valueOf(1), workerReceiver.getX2());
+        Assert.assertEquals(Integer.valueOf(1), workerReceiver.getY1());
+        Assert.assertEquals(Integer.valueOf(2), workerReceiver.getY2());
+    }
+
+    @Test
+    public void testSelectNick() {
+        ByteArrayInputStream testIn = new ByteArrayInputStream("Test\n".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        cliViewUpdate.selectNick();
+        Gson gson = new Gson();
+        PlayerDataReceiver playerDataReceiver = gson.fromJson(socketOutContent.toString(), PlayerDataReceiver.class);
+        Assert.assertEquals("Test", playerDataReceiver.getPlayerID());
+    }
+
+    @Test
+    public void testSelectDivinity() {
+        ByteArrayInputStream testIn = new ByteArrayInputStream("Test\nApollo\n".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        ArrayList<String> divinities = new ArrayList<>();
+        divinities.add("Apollo");
+        divinities.add("Athena");
+        cliViewUpdate.selectDivinity(new DivinityList(divinities));
+        Gson gson = new Gson();
+        DivinityReceiver divinityReceiver = gson.fromJson(socketOutContent.toString(), DivinityReceiver.class);
+        Assert.assertEquals("Apollo", divinityReceiver.getDivinity());
     }
 
     @Test

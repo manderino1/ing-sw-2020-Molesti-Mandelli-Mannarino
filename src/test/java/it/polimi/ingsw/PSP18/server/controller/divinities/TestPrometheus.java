@@ -39,9 +39,11 @@ public class TestPrometheus extends TestDivinity {
         playerManager.getMatch().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
+        socketOutContent.reset();
         playerManager.getDivinity().manageTurn(false);
         Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
                 "{\"buildlist1\":[\"RIGHT\",\"RIGHTDOWN\"],\"buildlist2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"PROMETHEUS_BUILD_LIST\"}\r\n", socketOutContent.toString());
+        socketOutContent.reset();
         playerManager.getDivinity().manageTurn(true);
         Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
                 "{\"buildlist1\":[\"RIGHT\",\"RIGHTDOWN\"],\"buildlist2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"PROMETHEUS_BUILD_LIST\"}\r\n{\"buildlist1\":[\"RIGHT\",\"RIGHTDOWN\"],\"buildlist2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"PROMETHEUS_BUILD_LIST\"}\r\n", socketOutContent.toString());
@@ -52,16 +54,19 @@ public class TestPrometheus extends TestDivinity {
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
         ((Prometheus)playerManager.getDivinity()).receiveWorker(promMexNull);
+        socketOutContent.reset();
         playerManager.getDivinity().move();
         Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
                 "{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n", socketOutContent.toString());
         ((Prometheus)playerManager.getDivinity()).receiveWorker(promMex);
+        socketOutContent.reset();
         playerManager.getDivinity().move();
         Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
                 "{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n{\"buildlist\":[\"RIGHT\",\"RIGHTDOWN\"],\"type\":\"BUILD_LIST\"}\r\n{\"moveList\":[\"RIGHT\",\"RIGHTDOWN\"],\"workerID\":0,\"optional\":false,\"type\":\"SINGLE_MOVE_LIST\"}\r\n", socketOutContent.toString());
         playerManager.getMatch().getGameMap().setCell(0,1,3,new Worker(0,1, 0,Color.RED));
         playerManager.getMatch().getGameMap().setCell(1,1,3,new Worker(0,1, 0,Color.GREEN));
         playerManager.getMatch().getGameMap().setCell(1,0,3,new Worker(0,1, 0,Color.BLUE));
+        socketOutContent.reset();
         playerManager.getDivinity().move();
         Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
                 "{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n{\"buildlist\":[\"RIGHT\",\"RIGHTDOWN\"],\"type\":\"BUILD_LIST\"}\r\n{\"moveList\":[\"RIGHT\",\"RIGHTDOWN\"],\"workerID\":0,\"optional\":false,\"type\":\"SINGLE_MOVE_LIST\"}\r\n{\"moveList1\":[],\"moveList2\":[\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n", socketOutContent.toString());
@@ -71,6 +76,7 @@ public class TestPrometheus extends TestDivinity {
         playerManager.getMatch().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
+        socketOutContent.reset();
         playerManager.getDivinity().build();
         Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
                 "{\"buildlist\":[\"RIGHT\",\"RIGHTDOWN\"],\"type\":\"BUILD_LIST\"}\r\n", socketOutContent.toString());
@@ -80,6 +86,7 @@ public class TestPrometheus extends TestDivinity {
         playerManager.getMatch().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
+        socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
         Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
                 "{\"type\":\"END_TURN\"}\r\n", socketOutContent.toString());
