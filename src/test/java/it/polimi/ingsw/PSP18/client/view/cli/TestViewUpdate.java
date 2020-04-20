@@ -159,6 +159,184 @@ public class TestViewUpdate {
     }
 
     @Test
+    public void testMatchLostUpdate() {
+        ByteArrayInputStream testIn = new ByteArrayInputStream("".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+
+        PlayerData playerData = new PlayerData("test1", Color.RED, 0);
+        playerData.setDivinity("Apollo");
+        cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
+
+        playerData = new PlayerData("test2", Color.GREEN, 0);
+        playerData.setDivinity("Apollo");
+        cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
+
+        playerData = new PlayerData("test3", Color.BLUE, 0);
+        playerData.setDivinity("Apollo");
+        cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
+
+        cliViewUpdate.matchLostUpdate(new MatchLost("test1"));
+        cliViewUpdate.matchLostUpdate(new MatchLost("test2"));
+        cliViewUpdate.matchLostUpdate(new MatchLost("test3"));
+    }
+
+    @Test
+    public void testMatchWonUpdate() {
+        ByteArrayInputStream testIn = new ByteArrayInputStream("".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+
+        PlayerData playerData = new PlayerData("test1", Color.RED, 0);
+        playerData.setDivinity("Apollo");
+        cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
+
+        playerData = new PlayerData("test2", Color.GREEN, 0);
+        playerData.setDivinity("Apollo");
+        cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
+
+        playerData = new PlayerData("test3", Color.BLUE, 0);
+        playerData.setDivinity("Apollo");
+        cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
+
+        cliViewUpdate.matchWonUpdate(new MatchWon("test1"));
+        cliViewUpdate.matchWonUpdate(new MatchWon("test2"));
+        cliViewUpdate.matchWonUpdate(new MatchWon("test3"));
+    }
+
+    @Test
+    public void testMatchReadyUpdate() {
+        ByteArrayInputStream testIn = new ByteArrayInputStream("rdy\nready".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        cliViewUpdate.matchReadyUpdate(new MatchReady());
+    }
+
+    @Test
+    public void testPrometheusBuildUpdate() {
+        ByteArrayInputStream testIn = new ByteArrayInputStream("3\n1\n2\nNO".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        ArrayList<Direction> list1 = new ArrayList<>();
+        list1.add(Direction.UP);
+        ArrayList<Direction> list2 = new ArrayList<>();
+        list2.add(Direction.DOWN);
+
+        socketOutContent.reset();
+        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2));
+        Gson gson = new Gson();
+        PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(socketOutContent.toString(), PrometheusBuildReceiver.class);
+        Assert.assertEquals(Integer.valueOf(0), prometheusBuildReceiver.getChosenWorkerID());
+
+        socketOutContent.reset();
+        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2));
+        gson = new Gson();
+        prometheusBuildReceiver = gson.fromJson(socketOutContent.toString(), PrometheusBuildReceiver.class);
+        Assert.assertEquals(Integer.valueOf(1), prometheusBuildReceiver.getChosenWorkerID());
+
+        socketOutContent.reset();
+        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2));
+        gson = new Gson();
+        prometheusBuildReceiver = gson.fromJson(socketOutContent.toString(), PrometheusBuildReceiver.class);
+        Assert.assertNull(prometheusBuildReceiver.getChosenWorkerID());
+    }
+
+    @Test
+    public void testAtlasBuildUpdate() {
+        ArrayList<Direction> list1 = new ArrayList<>();
+        list1.add(Direction.UP);
+        AtlasBuildList atlasBuildList = new AtlasBuildList(list1);
+
+        ByteArrayInputStream testIn = new ByteArrayInputStream("3\n1\ntest\n1\nUP\nyes\nUP\nlol\nno".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        cliViewUpdate.atlasBuildUpdate(atlasBuildList);
+        Gson gson = new Gson();
+        AtlasBuildReceiver atlasBuildReceiver = gson.fromJson(socketOutContent.toString(), AtlasBuildReceiver.class);
+        Assert.assertEquals(Direction.UP, atlasBuildReceiver.getDirection());
+        Assert.assertTrue(atlasBuildReceiver.isDome());
+
+        socketOutContent.reset();
+        cliViewUpdate.atlasBuildUpdate(atlasBuildList);
+        gson = new Gson();
+        atlasBuildReceiver = gson.fromJson(socketOutContent.toString(), AtlasBuildReceiver.class);
+        Assert.assertEquals(Direction.UP, atlasBuildReceiver.getDirection());
+        Assert.assertFalse(atlasBuildReceiver.isDome());
+    }
+
+    @Test
+    public void testSingleMoveUpdate() {
+        ArrayList<Direction> list1 = new ArrayList<>();
+        list1.add(Direction.UP);
+        SingleMoveList singleMoveList = new SingleMoveList(list1, 0, true);
+
+        ByteArrayInputStream testIn = new ByteArrayInputStream("als\nYes\nasd\nUP\nno\n".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        cliViewUpdate.singleMoveUpdate(singleMoveList);
+        Gson gson = new Gson();
+        MoveReceiver moveReceiver = gson.fromJson(socketOutContent.toString(), MoveReceiver.class);
+        Assert.assertEquals(Direction.UP, moveReceiver.getDirection());
+
+        socketOutContent.reset();
+        singleMoveList = new SingleMoveList(list1, 1, true);
+        cliViewUpdate.singleMoveUpdate(singleMoveList);
+        gson = new Gson();
+        moveReceiver = gson.fromJson(socketOutContent.toString(), MoveReceiver.class);
+        Assert.assertNull(moveReceiver.getDirection());
+    }
+
+    @Test
+    public void testBuildListFlagUpdate() {
+        ArrayList<Direction> list1 = new ArrayList<>();
+        list1.add(Direction.UP);
+        list1.add(Direction.DOWN);
+        BuildListFlag buildListFlag = new BuildListFlag(list1);
+
+        ByteArrayInputStream testIn = new ByteArrayInputStream("als\nNo\nUP\n".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        cliViewUpdate.buildListFlagUpdate(buildListFlag);
+        Gson gson = new Gson();
+        BuildReceiver buildReceiver = gson.fromJson(socketOutContent.toString(), BuildReceiver.class);
+        Assert.assertNull(buildReceiver.getDirection());
+
+        socketOutContent.reset();
+        cliViewUpdate.buildListFlagUpdate(buildListFlag);
+        gson = new Gson();
+        buildReceiver = gson.fromJson(socketOutContent.toString(), BuildReceiver.class);
+        Assert.assertEquals(Direction.UP, buildReceiver.getDirection());
+    }
+
+    @Test
     public void testUpdateMap() {
         CliViewUpdate cliViewUpdate = new CliViewUpdate();
         SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
