@@ -16,7 +16,6 @@ public class TestArtemis extends TestDivinity {
         Match match = new Match(true);
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
-        match.addSocket(socketThread);
         playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Artemis");
         match.addPlayer(playerManager, socketThread);
     }
@@ -28,5 +27,15 @@ public class TestArtemis extends TestDivinity {
     public void testGetName() {
         Divinity artemis = new Artemis("Artemis", playerManager);
         Assert.assertEquals(playerManager.getDivinityName(), artemis.getName());
+    }
+
+    @Test
+    public void testMove() {
+        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.placeWorker(0,0);
+        playerManager.placeWorker(0,1);
+        playerManager.getDivinity().move();
+        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
+                "{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n", socketOutContent.toString());
     }
 }
