@@ -53,19 +53,17 @@ public class Artemis extends Divinity {
         if(checkForVictory(workerID)){
             for(SocketThread socket : playerManager.getMatch().getSockets()) {
                 socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));
-                // TODO: end the match
             }
+            playerManager.getMatch().endMatch();
+            return;
         }
-
         if(firstMove) {
             ArrayList<Direction> moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
             moves.remove(DirectionManagement.getOppositeDirection(direction));
-
             if (moves.size() == 0) {
                 manageLoss();
                 return;
             }
-
             firstMove = false;
             playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID, true));
         }

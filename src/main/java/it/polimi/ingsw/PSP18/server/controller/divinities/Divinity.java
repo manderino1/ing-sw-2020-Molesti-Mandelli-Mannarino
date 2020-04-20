@@ -245,7 +245,8 @@ public class Divinity {
                 socket.sendMessage(new MatchWon(playerManager.getMatch().getPlayerManagers().get(0).getPlayerData().getPlayerID()));
             }
         }
-
-        playerManager.getMatch().getTurnManager().passTurn();
+        if(playerManager.getMatch().getTurnManager() != null) {
+            playerManager.getMatch().getTurnManager().passTurn();
+        }
     }
 }

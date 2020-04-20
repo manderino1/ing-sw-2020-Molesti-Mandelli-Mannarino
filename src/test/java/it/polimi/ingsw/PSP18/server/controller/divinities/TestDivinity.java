@@ -1,8 +1,11 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
+import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
@@ -78,5 +81,62 @@ public class TestDivinity {
         TODO: In order to have a more complete test we need to generate some buildings and some workers
          */
         //TODO: still gives nullpointerex with getWorker method
+    }
+
+    @Test
+    public void testMoveReceiver() {
+        playerManager.getMatch().getGameMap().getCell(2,3).setBuilding(1);
+        playerManager.getMatch().getGameMap().getCell(2,2).setBuilding(2);
+        playerManager.getMatch().getGameMap().getCell(2,1).setBuilding(3);
+
+
+        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.placeWorker(2, 4);
+        playerManager.placeWorker(3, 2);
+
+        playerManager.getDivinity().moveReceiver(Direction.UP, 0);
+        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(2,3).getWorker());
+
+        playerManager.getDivinity().move();
+        playerManager.getDivinity().moveReceiver(Direction.UP, 0);
+        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(2,2).getWorker());
+
+        playerManager.getDivinity().moveReceiver(Direction.UP, 0);
+        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(2,1).getWorker());
+    }
+
+    @Test
+    public void testBuild() {
+        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.placeWorker(0,0);
+        playerManager.placeWorker(2,1);
+
+        socketOutContent.reset();
+        playerManager.getDivinity().build();
+        Gson gson = new Gson();
+        BuildList buildList = gson.fromJson(socketOutContent.toString(), BuildList.class);
+        Assert.assertEquals(playerManager.getDivinity().checkBuildingMoves(0,0), buildList.getBuildlist());
+
+        socketOutContent.reset();
+        playerManager.getDivinity().buildReceiver(Direction.DOWN);
+        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
+
+        playerManager.getMatch().getGameMap().getCell(1,0).setBuilding(3);
+        playerManager.getMatch().getGameMap().getCell(0,1).setBuilding(2);
+        playerManager.getMatch().getGameMap().getCell(1,1).setBuilding(3);
+    }
+
+    @Test
+    public void testManageLoss () {
+        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.placeWorker(0,0);
+        playerManager.placeWorker(2,1);
+
+        playerManager.getMatch().getGameMap().getCell(1,0).setDome();
+        playerManager.getMatch().getGameMap().getCell(0,1).setDome();
+        playerManager.getMatch().getGameMap().getCell(1,1).setDome();
+
+        socketOutContent.reset();
+        playerManager.getDivinity().build();
     }
 }
