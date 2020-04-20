@@ -1,7 +1,9 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.client.view.cli.CliViewUpdate;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
 import it.polimi.ingsw.PSP18.server.controller.Match;
@@ -37,18 +39,19 @@ public class TestApollo extends TestDivinity {
     @Test
     public void testCheckMovementMoves() {
         playerManager.getMatch().setCurrentPlayer(playerManager);
-        playerManager.placeWorker(0,1);
         playerManager.placeWorker(0,0);
+        playerManager.placeWorker(0,1);
 
-        playerManager.getDivinity().move();
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"moveList1\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTDOWN\"],\"type\":\"MOVE_LIST\"}\r\n", socketOutContent.toString());
+        socketOutContent.reset();
+        playerManager.manageTurn(false);
+        Gson gson = new Gson();
+        MoveList moveList = gson.fromJson(socketOutContent.toString(), MoveList.class);
+        Assert.assertEquals(playerManager.getDivinity().checkMovementMoves(0,0, false), moveList.getMoveList1());
 
+        socketOutContent.reset();
         playerManager.manageTurn(true);
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"moveList1\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTDOWN\"],\"type\":\"MOVE_LIST\"}\r\n" +
-                "{\"moveList1\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTDOWN\"],\"type\":\"MOVE_LIST\"}\r\n", socketOutContent.toString());
-
+        moveList = gson.fromJson(socketOutContent.toString(), MoveList.class);
+        Assert.assertEquals(playerManager.getDivinity().checkMovementMoves(0,0, true), moveList.getMoveList1());
     }
 
     @Test
