@@ -119,14 +119,7 @@ public class Match {
         playerManagers.add(player);
         playerSocketMap.put(player, socket);
         socketPlayerMap.put(socket, player);
-        if(playerManagers.size() == 2) { // Ask to every connected player to write if ready
-            for(PlayerManager playerPresent : playerManagers) {
-                playerSocketMap.get(playerPresent).sendMessage(new MatchReady());
-            }
-            matchStatus = MatchStatus.WAITING_FOR_DATA;
-        } else if (playerManagers.size() == 3) {
-            sockets.get(2).sendMessage(new MatchReady());
-        }
+        socket.sendMessage(new MatchReady());
     }
 
     /***
@@ -135,8 +128,10 @@ public class Match {
      * @param socket the socket reference
      */
     public void addSocket(SocketThread socket){
-        sockets.add(socket);
-        socket.sendMessage(new WaitingNick());
+        if(sockets.size() <= 2 && matchStatus == MatchStatus.WAITING_FOR_PLAYERS) {
+            sockets.add(socket);
+            socket.sendMessage(new WaitingNick());
+        }
     }
 
     /***
@@ -170,7 +165,7 @@ public class Match {
     public void readyManagement(SocketThread socket) {
         socketPlayerMap.get(socket).getPlayerData().setReady();
         for(PlayerManager player : playerManagers) {
-            if(!player.getPlayerData().getReady()) {
+            if(!player.getPlayerData().getReady() || playerManagers.size() != sockets.size()) {
                 return;
             }
         }
