@@ -97,7 +97,7 @@ public class Prometheus extends Divinity{
         boolean dome = false;
 
         // If the height of the building cell is 3 a dome has to be placed
-        if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {
+        if (playerManager.getMatch().getGameMap().getCell(newX, newY).getBuilding() == 3) {
             dome = true;
         }
         playerManager.setBuild(newX, newY, dome);
