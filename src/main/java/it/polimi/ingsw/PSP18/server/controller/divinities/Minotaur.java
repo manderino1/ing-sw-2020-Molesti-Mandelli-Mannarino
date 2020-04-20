@@ -40,6 +40,8 @@ public class Minotaur extends Divinity{
                         if ((playerManager.getGameMap().getCell(newX, newY).getWorker() != null) &&
                                 xIsInRange &&
                                 yIsInRange &&
+                                playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(0) &&
+                                playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(1) &&
                                 !playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getDome() &&
                                 playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getWorker() == null) {
                             moves.add(dir);
@@ -53,6 +55,8 @@ public class Minotaur extends Divinity{
                         if ((playerManager.getGameMap().getCell(newX, newY).getWorker() != null) &&
                                 xIsInRange &&
                                 yIsInRange &&
+                                playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(0) &&
+                                playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(1) &&
                                 !playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getDome() &&
                                 playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getWorker() == null) {
                             moves.add(dir);
