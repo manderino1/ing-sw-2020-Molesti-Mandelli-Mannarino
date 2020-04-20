@@ -1,6 +1,11 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.PrometheusBuildList;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PrometheusBuildReceiver;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
@@ -37,49 +42,65 @@ public class TestPrometheus extends TestDivinity {
     @Test
     public void testManageTurn() {
         playerManager.getMatch().setCurrentPlayer(playerManager);
-        playerManager.placeWorker(0,0);
-        playerManager.placeWorker(0,1);
+        playerManager.placeWorker(0, 0);
+        playerManager.placeWorker(0, 1);
         socketOutContent.reset();
         playerManager.getDivinity().manageTurn(false);
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"buildlist1\":[\"RIGHT\",\"RIGHTDOWN\"],\"buildlist2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"PROMETHEUS_BUILD_LIST\"}\r\n", socketOutContent.toString());
+        Gson gson = new Gson();
+        PrometheusBuildList prometheusBuildList = gson.fromJson(socketOutContent.toString(), PrometheusBuildList.class);
+        ArrayList<Direction> list = new ArrayList<Direction>();
+        list.add(Direction.RIGHT);
+        list.add(Direction.RIGHTDOWN);
+        Assert.assertEquals(list, prometheusBuildList.getBuildlist1());
         socketOutContent.reset();
-        playerManager.getDivinity().manageTurn(true);
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"buildlist1\":[\"RIGHT\",\"RIGHTDOWN\"],\"buildlist2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"PROMETHEUS_BUILD_LIST\"}\r\n{\"buildlist1\":[\"RIGHT\",\"RIGHTDOWN\"],\"buildlist2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"PROMETHEUS_BUILD_LIST\"}\r\n", socketOutContent.toString());
+        playerManager.getDivinity().manageTurn(false);
+        PrometheusBuildList prometheusBuildList1 = gson.fromJson(socketOutContent.toString(), PrometheusBuildList.class);
+        ArrayList<Direction> list1 = new ArrayList<Direction>();
+        list1.add(Direction.RIGHT);
+        list1.add(Direction.RIGHTDOWN);
+        Assert.assertEquals(list1, prometheusBuildList1.getBuildlist1());
     }
     @Test
     public void testReceiveWorker(){
         playerManager.getMatch().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
+        socketOutContent.reset();
         ((Prometheus)playerManager.getDivinity()).receiveWorker(promMexNull);
+        Gson gson = new Gson();
+        MoveList moveList = gson.fromJson(socketOutContent.toString(), MoveList.class);
+        ArrayList<Direction> list = new ArrayList<Direction>();
+        list.add(Direction.RIGHT);
+        list.add(Direction.RIGHTDOWN);
+        Assert.assertEquals(list, moveList.getMoveList1());
         socketOutContent.reset();
-        playerManager.getDivinity().move();
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n", socketOutContent.toString());
         ((Prometheus)playerManager.getDivinity()).receiveWorker(promMex);
-        socketOutContent.reset();
-        playerManager.getDivinity().move();
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n{\"buildlist\":[\"RIGHT\",\"RIGHTDOWN\"],\"type\":\"BUILD_LIST\"}\r\n{\"moveList\":[\"RIGHT\",\"RIGHTDOWN\"],\"workerID\":0,\"optional\":false,\"type\":\"SINGLE_MOVE_LIST\"}\r\n", socketOutContent.toString());
-        playerManager.getMatch().getGameMap().setCell(0,1,3,new Worker(0,1, 0,Color.RED));
-        playerManager.getMatch().getGameMap().setCell(1,1,3,new Worker(0,1, 0,Color.GREEN));
-        playerManager.getMatch().getGameMap().setCell(1,0,3,new Worker(0,1, 0,Color.BLUE));
-        socketOutContent.reset();
-        playerManager.getDivinity().move();
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n{\"moveList1\":[\"RIGHT\",\"RIGHTDOWN\"],\"moveList2\":[\"RIGHT\",\"RIGHTUP\",\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n{\"buildlist\":[\"RIGHT\",\"RIGHTDOWN\"],\"type\":\"BUILD_LIST\"}\r\n{\"moveList\":[\"RIGHT\",\"RIGHTDOWN\"],\"workerID\":0,\"optional\":false,\"type\":\"SINGLE_MOVE_LIST\"}\r\n{\"moveList1\":[],\"moveList2\":[\"RIGHTDOWN\",\"DOWN\"],\"type\":\"MOVE_LIST\"}\r\n", socketOutContent.toString());
+
+        gson = new Gson();
+        BuildList buildList = gson.fromJson(socketOutContent.toString(), BuildList.class);
+        Assert.assertEquals(playerManager.getDivinity().checkBuildingMoves(0,0), buildList.getBuildlist());
+
+
     }
     @Test
     public void build(){
         playerManager.getMatch().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
-        playerManager.placeWorker(0,1);
+        playerManager.placeWorker(2,1);
+
         socketOutContent.reset();
         playerManager.getDivinity().build();
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"buildlist\":[\"RIGHT\",\"RIGHTDOWN\"],\"type\":\"BUILD_LIST\"}\r\n", socketOutContent.toString());
+        Gson gson = new Gson();
+        BuildList buildList = gson.fromJson(socketOutContent.toString(), BuildList.class);
+        Assert.assertEquals(playerManager.getDivinity().checkBuildingMoves(0,0), buildList.getBuildlist());
+
+        socketOutContent.reset();
+        playerManager.getDivinity().buildReceiver(Direction.DOWN);
+        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
+
+        playerManager.getMatch().getGameMap().getCell(1,0).setBuilding(3);
+        playerManager.getMatch().getGameMap().getCell(0,1).setBuilding(2);
+        playerManager.getMatch().getGameMap().getCell(1,1).setBuilding(3);
     }
     @Test
     public void buildReceiver(){
@@ -88,7 +109,6 @@ public class TestPrometheus extends TestDivinity {
         playerManager.placeWorker(0,1);
         socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"type\":\"END_TURN\"}\r\n", socketOutContent.toString());
+
     }
 }
