@@ -337,6 +337,43 @@ public class TestViewUpdate {
     }
 
     @Test
+    public void testBuildListFlagUpdate2() {
+        ArrayList<Direction> list1 = new ArrayList<>();
+        list1.add(Direction.UP);
+        BuildListFlag buildListFlag = new BuildListFlag(list1);
+
+        ByteArrayInputStream testIn = new ByteArrayInputStream("als\nNo\nYes\n".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        cliViewUpdate.buildListFlagUpdate(buildListFlag);
+        Gson gson = new Gson();
+        BuildReceiver buildReceiver = gson.fromJson(socketOutContent.toString(), BuildReceiver.class);
+        Assert.assertNull(buildReceiver.getDirection());
+
+        socketOutContent.reset();
+        cliViewUpdate.buildListFlagUpdate(buildListFlag);
+        gson = new Gson();
+        buildReceiver = gson.fromJson(socketOutContent.toString(), BuildReceiver.class);
+        Assert.assertEquals(Direction.UP, buildReceiver.getDirection());
+    }
+
+    @Test
+    public void testEndTurn() {
+        ByteArrayInputStream testIn = new ByteArrayInputStream("als\nEnd\n".getBytes());
+
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        socketClient.start();
+        cliViewUpdate.setInputParser(new InputParser(socketClient));
+
+        cliViewUpdate.endTurn(new EndTurnAvaiable());
+    }
+
+    @Test
     public void testUpdateMap() {
         CliViewUpdate cliViewUpdate = new CliViewUpdate();
         SocketClient socketClient = new SocketClient(socket, cliViewUpdate);

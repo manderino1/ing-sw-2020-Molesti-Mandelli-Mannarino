@@ -6,7 +6,9 @@ import it.polimi.ingsw.PSP18.server.model.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CliViewUpdate extends ViewUpdate {
 
@@ -20,11 +22,7 @@ public class CliViewUpdate extends ViewUpdate {
      * @param console a bufferedreader with inputstream to send
      */
     public CliViewUpdate(BufferedReader console) {
-        if(console == null) {
-            this.console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
-        } else {
-            this.console = console;
-        }
+        this.console = Objects.requireNonNullElseGet(console, () -> new BufferedReader(new InputStreamReader(System.in)));
     }
 
     /***
@@ -60,7 +58,7 @@ public class CliViewUpdate extends ViewUpdate {
 
         int x1;
         int y1;
-        boolean waiting = true;
+        boolean waiting;
 
         do {
             waiting = true;
@@ -123,26 +121,18 @@ public class CliViewUpdate extends ViewUpdate {
      */
     @Override
     public void moveUpdate(MoveList movelist) {
-
-        boolean moving = true;
-
-
-        while (moving) {
+        while (true) {
             String chosenMove = "";
             System.out.println("Which Worker do you want to move? 1 or 2");
-            String chosenWorker = null;
-            boolean waiting = true;
+            String chosenWorker;
 
-            while(waiting) {
+            while(true) {
                 try {
                     chosenWorker = console.readLine();
                     if(chosenWorker.equals("1") || chosenWorker.equals("2")) {
-                        waiting = false;
                         break;
                     }
-                    if(waiting) {
-                        System.out.println("Entry incorrect, enter 1 or 2");
-                    }
+                    System.out.println("Entry incorrect, enter 1 or 2");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -205,44 +195,7 @@ public class CliViewUpdate extends ViewUpdate {
         for (int j = 0; j < 5; j++) {
             for (int i = 0; i < 5; i++) {
                 if (i > 0) {
-                    if (gameMapUpdate.getGameMap()[i][j].getWorker() != null) {
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.RED) {
-                            if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_RED + "w1");
-                                System.out.print(CliColor.RESET + "-");
-                            } else {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_RED + "w2");
-                                System.out.print(CliColor.RESET + "-");
-                            }
-                        }
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.GREEN) {
-                            if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_GREEN + "w1");
-                                System.out.print(CliColor.RESET + "-");
-                            } else {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_GREEN + "w2");
-                                System.out.print(CliColor.RESET + "-");
-                            }
-                        }
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.BLUE) {
-                            if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_BLUE + "w1");
-                                System.out.print(CliColor.RESET + "-");
-                            } else {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_BLUE + "w2");
-                                System.out.print(CliColor.RESET + "-");
-                            }
-                        }
-
-                    } else {
-                        System.out.print("|  -");
-                    }
+                    printMap(gameMapUpdate, j, i);
 
                     if (i == 4) {
                         if (gameMapUpdate.getGameMap()[i][j].getDome()) {
@@ -261,43 +214,7 @@ public class CliViewUpdate extends ViewUpdate {
                     }
 
                 } else {
-                    if (gameMapUpdate.getGameMap()[i][j].getWorker() != null) {
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.RED) {
-                            if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_RED + "w1");
-                                System.out.print(CliColor.RESET + "-");
-                            } else {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_RED + "w2");
-                                System.out.print(CliColor.RESET + "-");
-                            }
-                        }
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.GREEN) {
-                            if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_GREEN + "w1");
-                                System.out.print(CliColor.RESET + "-");
-                            } else {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_GREEN + "w2");
-                                System.out.print(CliColor.RESET + "-");
-                            }
-                        }
-                        if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.BLUE) {
-                            if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_BLUE + "w1");
-                                System.out.print(CliColor.RESET + "-");
-                            } else {
-                                System.out.print("|");
-                                System.out.print(CliColor.ANSI_BLUE + "w2");
-                                System.out.print(CliColor.RESET + "-");
-                            }
-                        }
-                    } else {
-                        System.out.print("|  -");
-                    }
+                    printMap(gameMapUpdate, j, i);
 
                     if (gameMapUpdate.getGameMap()[i][j].getDome()) {
                         System.out.print("D");
@@ -310,6 +227,47 @@ public class CliViewUpdate extends ViewUpdate {
             }
         }
         System.out.println(" a    b    c    d    e  ");
+    }
+
+    private void printMap(GameMapUpdate gameMapUpdate, int j, int i) {
+        if (gameMapUpdate.getGameMap()[i][j].getWorker() != null) {
+            if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.RED) {
+                if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
+                    System.out.print("|");
+                    System.out.print(CliColor.ANSI_RED + "w1");
+                    System.out.print(CliColor.RESET + "-");
+                } else {
+                    System.out.print("|");
+                    System.out.print(CliColor.ANSI_RED + "w2");
+                    System.out.print(CliColor.RESET + "-");
+                }
+            }
+            if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.GREEN) {
+                if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
+                    System.out.print("|");
+                    System.out.print(CliColor.ANSI_GREEN + "w1");
+                    System.out.print(CliColor.RESET + "-");
+                } else {
+                    System.out.print("|");
+                    System.out.print(CliColor.ANSI_GREEN + "w2");
+                    System.out.print(CliColor.RESET + "-");
+                }
+            }
+            if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.BLUE) {
+                if (gameMapUpdate.getGameMap()[i][j].getWorker().getID() == 0) {
+                    System.out.print("|");
+                    System.out.print(CliColor.ANSI_BLUE + "w1");
+                    System.out.print(CliColor.RESET + "-");
+                } else {
+                    System.out.print("|");
+                    System.out.print(CliColor.ANSI_BLUE + "w2");
+                    System.out.print(CliColor.RESET + "-");
+                }
+            }
+
+        } else {
+            System.out.print("|  -");
+        }
     }
 
     /***
@@ -620,7 +578,7 @@ public class CliViewUpdate extends ViewUpdate {
      */
     @Override
     public void singleMoveUpdate(SingleMoveList singleMoveList) {
-        String chosenMove = "";
+        String chosenMove;
 
         String workerID = "";
         if(singleMoveList.getWorkerID() == 0) {
@@ -712,8 +670,7 @@ public class CliViewUpdate extends ViewUpdate {
             System.out.println("Would you like to build again " + buildListFlag.getBuildlist().get(0).toString() + "?");
             System.out.println("Write YES or NO");
             String chosenMove = "";
-            boolean waiting = true;
-            while(waiting) {
+            while(true) {
                 try {
                     chosenMove = console.readLine();
                 } catch (IOException e) {
@@ -721,17 +678,14 @@ public class CliViewUpdate extends ViewUpdate {
                 }
 
                 if (chosenMove.toUpperCase().equals("NO")) {
-                    waiting = false;
                     inputParser.selectBuild("NO");
+                    return;
                 }
                 if (chosenMove.toUpperCase().equals("YES")) {
-                    waiting = false;
                     inputParser.selectBuild(buildListFlag.getBuildlist().get(0).toString());
-                    break;
+                    return;
                 }
-                if(waiting) {
-                    System.out.println("Answer incorrect, retry:");
-                }
+                System.out.println("Answer incorrect, retry:");
             }
         }
     }
@@ -739,23 +693,19 @@ public class CliViewUpdate extends ViewUpdate {
     @Override
     public void endTurn(EndTurnAvaiable endTurnAvaiable) {
         String endStr;
-        boolean waiting = true;
 
         System.out.println("Write END to end the turn");
-        while(waiting) {
+        while(true) {
             try {
                 endStr = console.readLine();
                 if(endStr.toUpperCase().equals("END")) {
-                    waiting = false;
-                    break;
+                    inputParser.endTurnSignal();
+                    return;
                 }
-                if(!waiting) {
-                    System.out.println("Input incorrect, retry");
-                }
+                System.out.println("Input incorrect, retry");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        inputParser.endTurnSignal();
     }
 }
