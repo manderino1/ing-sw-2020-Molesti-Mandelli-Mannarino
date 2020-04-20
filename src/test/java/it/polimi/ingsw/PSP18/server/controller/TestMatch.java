@@ -1,9 +1,12 @@
-package it.polimi.ingsw.PSP18.server.model;
+package it.polimi.ingsw.PSP18.server.controller;
 
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.controller.TurnManager;
+import it.polimi.ingsw.PSP18.server.model.Color;
+import it.polimi.ingsw.PSP18.server.model.MatchStatus;
+import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

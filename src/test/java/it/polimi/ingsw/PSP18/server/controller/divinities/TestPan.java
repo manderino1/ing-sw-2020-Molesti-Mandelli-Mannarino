@@ -26,4 +26,16 @@ public class TestPan extends TestDivinity {
         Divinity divinity = new Divinity("Pan", playerManager);
         Assert.assertEquals(playerManager.getDivinityName(), divinity.getName());
     }
+
+    @Test
+    public void testCheckForVictory() {
+        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.placeWorker(0,0);
+        playerManager.placeWorker(2,1);
+        playerManager.getMatch().getGameMap().getCell(2, 1).setBuilding(3);
+        playerManager.getPlayerData().setLastMove(new Move(Direction.UP, 1));
+
+        Assert.assertEquals(false, playerManager.getDivinity().checkForVictory(0));
+        Assert.assertEquals(true, playerManager.getDivinity().checkForVictory(1));
+    }
 }
