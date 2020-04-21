@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Worker</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Worker (it.polimi.ingsw.PSP18.server.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Worker</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/ 13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;public class Worker {
+<i>4</i>&nbsp;    private Integer x, y;
+<i>5</i>&nbsp;    private Integer ID;
+<i>6</i>&nbsp;    private Color playerColor;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;    /***
+<i>9</i>&nbsp;     * Worker constructor method
+<i>10</i>&nbsp;     * @param x x worker coordinate
+<i>11</i>&nbsp;     * @param y y worker coordinate
+<i>12</i>&nbsp;     */
+<b class="fc"><i>13</i>&nbsp;    public Worker(Integer x, Integer y, Integer id, Color playerColor) {</b>
+<b class="fc"><i>14</i>&nbsp;        this.x = x;</b>
+<b class="fc"><i>15</i>&nbsp;        this.y = y;</b>
+<b class="fc"><i>16</i>&nbsp;        this.ID = id;</b>
+<b class="fc"><i>17</i>&nbsp;        this.playerColor = playerColor;</b>
+<b class="fc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /***
+<i>21</i>&nbsp;     * Sets worker coordinates
+<i>22</i>&nbsp;     * @param x x worker coordinate
+<i>23</i>&nbsp;     * @param y y worker coordinate
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    public void setPosition(Integer x, Integer y) {
+<b class="fc"><i>26</i>&nbsp;        this.x = x;</b>
+<b class="fc"><i>27</i>&nbsp;        this.y = y;</b>
+<b class="fc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /***
+<i>31</i>&nbsp;     * Returns the x worker coordinate
+<i>32</i>&nbsp;     * @return x worker coordinate
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    public Integer getX() {
+<b class="fc"><i>35</i>&nbsp;        return this.x;</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /***
+<i>39</i>&nbsp;     * Returns the y worker coordinate
+<i>40</i>&nbsp;     * @return y worker coordinate
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;    public Integer getY() {
+<b class="fc"><i>43</i>&nbsp;        return this.y;</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    /***
+<i>47</i>&nbsp;     * Returns the ID of the worker
+<i>48</i>&nbsp;     * @return the id of the worker for the player, 0 or 1
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    public Integer getID() {
+<b class="fc"><i>51</i>&nbsp;        return ID;</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /***
+<i>55</i>&nbsp;     * Returns the playerData of the player
+<i>56</i>&nbsp;     * @return the player data reference
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    public Color getPlayerColor() {
+<b class="fc"><i>59</i>&nbsp;        return playerColor;</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-21 09:43</div>
+</div>
+</body>
+</html>
