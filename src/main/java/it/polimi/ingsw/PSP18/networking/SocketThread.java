@@ -53,9 +53,8 @@ public class SocketThread extends Thread {
                 if(line != null) {
                     messageParse(line);
                 }
-                // TODO: elabora input
             } catch (IOException e) {
-                e.printStackTrace();
+                match.endMatch();
                 return;
             }
         }

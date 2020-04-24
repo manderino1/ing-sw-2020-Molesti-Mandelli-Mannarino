@@ -46,7 +46,7 @@ public class TestMatch {
 
     @Test
     public void testMatchCreationGettersSetters() {
-        Match match = new Match();
+        Match match = new Match(true);
 
         match.setMatchStatus(MatchStatus.MATCH_STARTED);
         Assert.assertEquals(match.getMatchStatus(), MatchStatus.MATCH_STARTED);
@@ -66,22 +66,26 @@ public class TestMatch {
 
     @Test
     public void testReady() {
-        Match match = new Match();
+        Match match = new Match(true);
 
         match.setMatchStatus(MatchStatus.WAITING_FOR_PLAYERS);
 
         PlayerData playerData = new PlayerData("cipolla", Color.RED, 0);
         PlayerManager playerManager = new PlayerManager(match, playerData, "Apollo");
         match.addPlayer(playerManager, new SocketThread(socket, match));
-        match.setCurrentPlayer(playerManager);
+
+        PlayerData playerData1 = new PlayerData("cipolla2", Color.RED, 1);
+        PlayerManager playerManager1 = new PlayerManager(match, playerData1, "Apollo");
+        match.addPlayer(playerManager1, new SocketThread(socket, match));
 
         match.readyManagement(match.getSockets().get(0));
+        match.readyManagement(match.getSockets().get(1));
         Assert.assertEquals(match.getMatchStatus(), MatchStatus.DIVINITIES_SELECTION);
     }
 
     @Test
     public void testWorkerPlacementAthena () {
-        Match match = new Match();
+        Match match = new Match(true);
         SocketThread socketThread = new SocketThread(socket, match);
         SocketThread socketThread1 = new SocketThread(socket, match);
 
@@ -107,7 +111,7 @@ public class TestMatch {
 
     @Test
     public void testWorkerPlacement () {
-        Match match = new Match();
+        Match match = new Match(true);
         SocketThread socketThread = new SocketThread(socket, match);
         SocketThread socketThread1 = new SocketThread(socket, match);
 
@@ -129,5 +133,8 @@ public class TestMatch {
         match.workerPlacement(match.getSockets().get(1), new WorkerReceiver(2,0, 3, 1));
 
         Assert.assertEquals(MatchStatus.MATCH_STARTED, match.getMatchStatus());
+
+        match.endMatch();
+        Assert.assertEquals(MatchStatus.WAITING_FOR_PLAYERS, match.getMatchStatus());
     }
 }

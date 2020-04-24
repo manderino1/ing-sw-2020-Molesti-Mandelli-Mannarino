@@ -55,9 +55,10 @@ public class SocketClient extends Thread {
                 if(line != null) {
                     messageParse(line);
                 }
-                // TODO: elabora input
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Server has closed connection with you");
+                System.out.println("If the match ended and you want to reconnect just restart the client");
+                //TODO: gestire disconnessione lato client
                 return;
             }
         }

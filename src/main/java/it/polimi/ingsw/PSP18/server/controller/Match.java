@@ -169,7 +169,7 @@ public class Match {
     public void readyManagement(SocketThread socket) {
         socketPlayerMap.get(socket).getPlayerData().setReady();
         for(PlayerManager player : playerManagers) {
-            if(!player.getPlayerData().getReady() || playerManagers.size() != sockets.size()) {
+            if(!player.getPlayerData().getReady() || playerManagers.size() != sockets.size() || playerManagers.size() <= 1) {
                 return;
             }
         }
@@ -251,10 +251,18 @@ public class Match {
     }
 
     public void endMatch() {
-        matchStatus = MatchStatus.MATCH_ENDED;
+        // TODO: if you want to close the match just put to match_ended
+        matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
         // Detach observers from map
         for(SocketThread sock : sockets) {
             sock.closeConnection();
         }
+        sockets.clear();
+        playerManagers.clear();
+        playerSocketMap.clear();
+        socketPlayerMap.clear();
+        divinitySelectionIndex = 0;
+        workerPlacementIndex = 0;
+        gameMap = new GameMap();
     }
 }

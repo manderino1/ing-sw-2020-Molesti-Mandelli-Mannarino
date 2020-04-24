@@ -51,7 +51,7 @@ public class TestTurnManager {
      */
     @Test
     public void testManageTurn() {
-        Match match = new Match();
+        Match match = new Match(true);
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
         match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread);
