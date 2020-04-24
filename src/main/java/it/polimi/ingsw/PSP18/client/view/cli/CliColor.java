@@ -11,6 +11,10 @@ public enum CliColor {
 
     static final String RESET = "\u001B[0m";
 
+    /***
+     * Method used to set the string color
+     * @param escape
+     */
     CliColor(String escape)
     {
         this.escape = escape;

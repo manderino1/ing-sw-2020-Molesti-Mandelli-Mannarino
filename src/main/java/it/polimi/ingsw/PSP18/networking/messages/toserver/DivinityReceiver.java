@@ -5,7 +5,7 @@ public class DivinityReceiver extends ServerAbstractMessage {
     private String divinity;
 
     /***
-     * constructor of DivinityReceiver
+     * Constructor of DivinityReceiver, message used to set the divinity name using a string in input
      * @param divinity the divinity chosen by the player
      */
     public DivinityReceiver(String divinity) {
@@ -14,7 +14,7 @@ public class DivinityReceiver extends ServerAbstractMessage {
     }
 
     /***
-     * returns divinity
+     * Returns divinity
      * @return divinity
      */
     public String getDivinity(){return divinity;}

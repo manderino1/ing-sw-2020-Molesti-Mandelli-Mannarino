@@ -33,14 +33,26 @@ public class Launcher {
         }
     }
 
+    /***
+     * Returns the client socket
+     * @return the client socket
+     */
     public SocketClient getSocketClient() {
         return socketClient;
     }
 
+    /***
+     * Returns the cliViewUpdate object
+     * @return class that contains all the methods used for the command line interface
+     */
     public CliViewUpdate getCliViewUpdate() {
         return cliViewUpdate;
     }
 
+    /***
+     * Main method, launches the client
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("Insert the server ip address:");
         java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));

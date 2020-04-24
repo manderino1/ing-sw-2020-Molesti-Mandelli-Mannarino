@@ -3,7 +3,7 @@ package it.polimi.ingsw.PSP18.networking.messages.toserver;
 public class EndTurnReceiver extends ServerAbstractMessage {
 
     /***
-     * constructor of EndTurnReceiver
+     * Constructor of EndTurnReceiver, message used to end the current player turn
      */
     public EndTurnReceiver(){
         this.type=ServerMessageType.ENDTURN_RECEIVER;

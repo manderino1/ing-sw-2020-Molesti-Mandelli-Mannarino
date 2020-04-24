@@ -33,7 +33,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * sets the input parser
+     * Sets the input parser
      * @param inputParser the class that sends the message to the server
      */
     public void setInputParser(InputParser inputParser) {
@@ -41,7 +41,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * shows at screen that all players are ready
+     * Shows at screen that all players are ready
      * @param startMatch the message from the server that all players are ready
      */
     @Override
@@ -50,7 +50,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * ask to the player where his workers should be placed
+     * Ask to the player where his workers should be placed
      * @param placeReady the message from the server that says the player needs to place his workers
      */
     @Override
@@ -116,7 +116,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * ask to the player which worker needs to be move and where
+     * Ask to the player which worker needs to be move and where
      * @param movelist the message that says that the player needs to move
      */
     @Override
@@ -184,7 +184,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * shows at screen the game map
+     * Shows at screen the game map
      * @param gameMapUpdate the message that contains the game map
      */
     @Override
@@ -229,6 +229,12 @@ public class CliViewUpdate extends ViewUpdate {
         System.out.println(" a    b    c    d    e  ");
     }
 
+    /***
+     * Shows on the screeno the updated cell in the game map
+     * @param gameMapUpdate message sent to the client to ask for an update of the map
+     * @param j cell coordinate on y axis
+     * @param i cell coordinate on x axis
+     */
     private void printMap(GameMapUpdate gameMapUpdate, int j, int i) {
         if (gameMapUpdate.getGameMap()[i][j].getWorker() != null) {
             if (gameMapUpdate.getGameMap()[i][j].getWorker().getPlayerColor() == Color.RED) {
@@ -271,7 +277,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * the message that ask the player to insert his data
+     * The message that ask the player to insert his data
      * @param playerDataUpdate the message that asks for the player's data
      */
     @Override
@@ -337,7 +343,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * asks the player for a nickname
+     * Asks the player for a nickname
      */
     @Override
     public void selectNick() {
@@ -352,7 +358,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * asks the player to chose his divinity
+     * Asks the player to chose his divinity
      * @param divinityList the message that asks for the player divinity
      */
     @Override
@@ -384,7 +390,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * aks the player where he wants to move
+     * Aks the player where he wants to move
      * @param buildList the message that asks for the player move
      */
     @Override
@@ -415,7 +421,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * notify the player that he has lost
+     * Notify the player that he has lost
      * @param matchLost the message that notify the player that he has lost
      */
     @Override
@@ -487,7 +493,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * In case prometheus wants to build before the movement
+     * Method used in case prometheus wants to build before the movement
      * @param prometheusBuildList contains two sets of possible moves one for each worker
      */
     @Override
@@ -526,6 +532,10 @@ public class CliViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Method used in case atlas wants to build using his power
+     * @param atlasBuildList message containing a list of possible building moves
+     */
     public void atlasBuildUpdate(AtlasBuildList atlasBuildList) {
         System.out.println("Pick a building move from below:");
         for (Direction dir : atlasBuildList.getBuildlist()) {
@@ -633,6 +643,10 @@ public class CliViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * In case a divinity wants to move again using his special ability
+     * @param buildListFlag a set of possible building moves
+     */
     @Override
     public void buildListFlagUpdate(BuildListFlag buildListFlag) {
 
@@ -690,6 +704,10 @@ public class CliViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Method used to end the current turn
+     * @param endTurnAvaiable message used to end the turn
+     */
     @Override
     public void endTurn(EndTurnAvaiable endTurnAvaiable) {
         String endStr;

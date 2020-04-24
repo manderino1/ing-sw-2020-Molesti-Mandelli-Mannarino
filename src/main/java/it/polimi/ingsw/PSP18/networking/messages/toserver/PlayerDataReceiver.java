@@ -6,8 +6,8 @@ public class PlayerDataReceiver extends ServerAbstractMessage {
     private String playerID;
 
     /***
-     * Constructor method for the PlaeyerDataReciver class
-     * @param playerID string that rappresents the player id
+     * Constructor method for the PlayerDataReceiver class, message used to select the the PlayedData of a certain player
+     * @param playerID string that contains the in-game player nickname
      */
     public PlayerDataReceiver(String playerID) {
         this.type = ServerMessageType.PLAYER_DATA_RECEIVER;
@@ -16,7 +16,7 @@ public class PlayerDataReceiver extends ServerAbstractMessage {
 
     /***
      * Return a string with playerID
-     * @return playerID
+     * @return player in-game nick name
      */
     public String getPlayerID() {
         return playerID;

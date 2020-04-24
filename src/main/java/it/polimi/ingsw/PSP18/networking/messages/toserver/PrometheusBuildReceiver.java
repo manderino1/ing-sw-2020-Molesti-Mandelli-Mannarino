@@ -6,7 +6,7 @@ public class PrometheusBuildReceiver extends ServerAbstractMessage {
     private Integer workerID;
 
     /***
-     * Constructor of PrometheusBuildReceiver
+     * Constructor of PrometheusBuildReceiver, message used in the prometheus divinity class to select the worker to move and build
      * @param workerID the worker to move and build
      */
     public PrometheusBuildReceiver(Integer workerID) {

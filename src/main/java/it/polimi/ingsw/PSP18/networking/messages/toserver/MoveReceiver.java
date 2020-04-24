@@ -7,7 +7,7 @@ public class MoveReceiver extends ServerAbstractMessage {
     private Integer workerID;
 
     /***
-     * Constructor for MoveReceiver object initializing all the attributes
+     * Constructor for MoveReceiver object initializing the direction of the movement and the chosen worker id
      * @param direction the chosen movement direction
      * @param workerID the id of the worker, 0 or 1
      */

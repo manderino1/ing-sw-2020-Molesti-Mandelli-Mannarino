@@ -8,7 +8,7 @@ public class FlagMoveReceiver extends ServerAbstractMessage {
     private Boolean flag;
 
     /***
-     Constructor for FlagMoveReceiver object initializing all the attributes
+     Constructor for FlagMoveReceiver object initializing the direction of the movement, the worker id that will move and a flag that indicates if the worker is going to move
      * @param direction the chosen movement direction
      * @param workerID the id of the worker, 0 or 1
      * @param flag true if the player decides to move
