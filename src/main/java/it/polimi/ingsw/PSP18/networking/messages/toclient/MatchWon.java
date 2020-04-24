@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.networking.messages.toclient;
 
+/***
+ * This message class is used to tell the players that a player has won
+ */
 public class MatchWon extends ClientAbstractMessage{
 
     private String playerID;

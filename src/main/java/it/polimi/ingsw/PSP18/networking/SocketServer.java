@@ -7,6 +7,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
 
+/***
+ * The class manages the connections of sockets to the server
+ */
 public class SocketServer extends Thread {
     private int port;
     private Match match;

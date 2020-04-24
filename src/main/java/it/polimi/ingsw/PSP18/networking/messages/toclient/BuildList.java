@@ -4,6 +4,9 @@ import it.polimi.ingsw.PSP18.server.model.Direction;
 
 import java.util.ArrayList;
 
+/***
+ * This message class is used to send the list of possible builds
+ */
 public class BuildList extends ClientAbstractMessage{
 
     protected ArrayList<Direction> buildList;

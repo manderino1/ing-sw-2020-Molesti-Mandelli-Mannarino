@@ -13,6 +13,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/***
+ * The class implements an instance of the socket on the client side
+ */
 public class SocketClient extends Thread {
     Socket socket;
     BufferedReader input;

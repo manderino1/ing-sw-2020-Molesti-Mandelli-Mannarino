@@ -4,6 +4,10 @@ import it.polimi.ingsw.PSP18.server.controller.divinities.Divinity;
 
 import java.util.ArrayList;
 
+/***
+ * This message class is used to send the list of possible divinity to choose from
+ */
+
 public class DivinityList extends ClientAbstractMessage{
     private ArrayList<String> divinities = new ArrayList<String>();
 
