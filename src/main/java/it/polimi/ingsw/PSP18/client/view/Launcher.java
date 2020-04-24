@@ -18,6 +18,7 @@ public class Launcher {
 
     /***
      * Contructor of Launcher. Creates the socket and start the thread
+     * @param address the ip address of the server
      */
     public Launcher(String address) {
         cliViewUpdate = new CliViewUpdate();
@@ -51,7 +52,7 @@ public class Launcher {
 
     /***
      * Main method, launches the client
-     * @param args
+     * @param args launch arguments, not used
      */
     public static void main(String[] args) {
         System.out.println("Insert the server ip address:");

@@ -13,6 +13,7 @@ public class SingleMoveList extends ClientAbstractMessage {
      * Constructor to initialize the available moves direction list
      * @param moveList the list of possible moves for worker #1
      * @param workerID the worker ID
+     * @param optional true if the move is optional
      */
     public SingleMoveList(ArrayList<Direction> moveList, Integer workerID, boolean optional) {
         this.type = ClientMessageType.SINGLE_MOVE_LIST;

@@ -9,6 +9,8 @@ public class Worker {
      * Worker constructor method
      * @param x x worker coordinate
      * @param y y worker coordinate
+     * @param id id of the player
+     * @param playerColor red, green or blue
      */
     public Worker(Integer x, Integer y, Integer id, Color playerColor) {
         this.x = x;

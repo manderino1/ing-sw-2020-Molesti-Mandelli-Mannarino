@@ -171,6 +171,7 @@ public class Divinity {
 
     /***
      *  Checks if the player has won
+     * @param workerID the id of the worker that has moved
      * @return true if the player has won
      */
     protected Boolean checkForVictory(int workerID){

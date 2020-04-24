@@ -4,11 +4,10 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 
 import java.io.IOException;
 
+/***
+ * This is the abstract class for CliViewUpdate where are implemented all the methods used for the command line interface
+ */
 public abstract class ViewUpdate {
-    /***
-     * This is the abstract class for CliViewUpdate where are implemented all the methods used for the command line interface
-     */
-
     public abstract void updateMap(GameMapUpdate gameMapUpdate);
     public abstract void moveUpdate(MoveList movelist);
     public abstract void updatePlayerData(PlayerDataUpdate playerDataUpdate);

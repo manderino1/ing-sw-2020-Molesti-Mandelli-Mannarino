@@ -21,7 +21,7 @@ public class GameMap {
 
     /***
      * Return map cells
-     * @return
+     * @return 5x5 map matrix
      */
     public Cell[][] getMapCells() {
         return mapCells;

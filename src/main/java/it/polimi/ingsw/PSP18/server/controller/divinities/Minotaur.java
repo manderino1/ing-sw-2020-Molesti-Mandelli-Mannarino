@@ -15,10 +15,10 @@ public class Minotaur extends Divinity{
 
     /***
      * function checks the possible moves
-     * @param oldX
-     * @param oldY
-     * @param raiseForbidden
-     * @return
+     * @param oldX the starting x coordinate
+     * @param oldY the starting y coordinate
+     * @param raiseForbidden true if the raise is forbidden for athena power
+     * @return the list of possible moves
      */
     @Override
     protected ArrayList<Direction> checkMovementMoves(Integer oldX, Integer oldY, Boolean raiseForbidden) {

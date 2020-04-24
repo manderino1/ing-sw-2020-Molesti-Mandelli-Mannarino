@@ -108,6 +108,7 @@ public class Match {
     /***
      * Add a player to the players list
      * @param player the playermanager player reference
+     * @param socket the socket reference
      */
     public void addPlayer(PlayerManager player, SocketThread socket){
         for(PlayerManager playerPresent : playerManagers) {
