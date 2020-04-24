@@ -16,6 +16,9 @@ public class Atlas extends Divinity{
     }
 
     @Override
+    /***
+     * method that check for the possible building moves and ask to the client the one the player wants to move
+     */
     protected void build() {
         Worker worker = playerManager.getWorker(workerID);
         ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());

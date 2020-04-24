@@ -2,6 +2,11 @@ package it.polimi.ingsw.PSP18.server.controller;
 
 public class TurnManagerAthena extends TurnManager {
     public boolean bool;
+
+    /***
+     * constructor of the class, start managing the turn of the players in the current match
+     * @param match the object that deals with the current match
+     */
     public TurnManagerAthena(Match match) {
         super(match);
     }

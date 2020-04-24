@@ -12,9 +12,17 @@ public enum Direction {
 
     private final String name;
 
+    /***
+     * initialize name field of the enum
+     * @param name the string name of the direction
+     */
     Direction(String name){
         this.name = name;
     }
 
+    /***
+     * Get the string name of the direction
+     * @return the string name of the direction
+     */
     public String toString(){return name;}
 }

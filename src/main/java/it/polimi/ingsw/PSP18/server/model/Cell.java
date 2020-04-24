@@ -5,6 +5,9 @@ public class Cell {
     private Worker worker;
     private Boolean dome;
 
+    /***
+     * constructor of the class, initialize building to O, worker to null and dome to null
+     */
     public Cell() {
         this.building = 0;
         this.worker=null;

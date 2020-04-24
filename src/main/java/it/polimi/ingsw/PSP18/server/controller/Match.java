@@ -207,6 +207,11 @@ public class Match {
         }
     }
 
+    /***
+     * method that recieve the worker placed form the player in the client and place them in actual gameMap in the server
+     * @param socket the socket we receive message from
+     * @param workers the worker the player has placed
+     */
     public void workerPlacement(SocketThread socket, WorkerReceiver workers) {
         socketPlayerMap.get(socket).placeWorker(workers.getX1(), workers.getY1());
         socketPlayerMap.get(socket).placeWorker(workers.getX2(), workers.getY2());

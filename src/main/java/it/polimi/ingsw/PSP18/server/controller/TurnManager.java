@@ -4,6 +4,10 @@ public class TurnManager {
     protected Match match;
     protected Integer indexCurrentPlayer;
 
+    /***
+     * constructor of the class, start managing the turn of the players in the current match
+     * @param match the object that deals with the current match
+     */
     public TurnManager(Match match) {
         this.match = match;
         setupTurn();

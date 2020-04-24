@@ -3,6 +3,12 @@ package it.polimi.ingsw.PSP18.server.controller;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 
 public class DirectionManagement {
+    /***
+     * get the new X coordinate in function of the direction
+     * @param sourceX the actual X coordinate
+     * @param direction the direction the player want to move
+     * @return the future X coordinate after moving
+     */
     public static Integer getX(Integer sourceX, Direction direction) {
         Integer x = -1;
         switch (direction) {
@@ -27,7 +33,12 @@ public class DirectionManagement {
             return -1;
         }
     }
-
+    /***
+     * get the new Y coordinate in function of the direction
+     * @param sourceY the actual Y coordinate
+     * @param direction the direction the player want to move
+     * @return the future Y coordinate after moving
+     */
     public static Integer getY(Integer sourceY, Direction direction) {
         Integer y = -1;
         switch (direction) {
@@ -53,6 +64,11 @@ public class DirectionManagement {
         }
     }
 
+    /***
+     * Calculate the opposite direction of the direction received in input
+     * @param direction the direction we want to calculate the opposite
+     * @return the opposite of param direction
+     */
     public static Direction getOppositeDirection(Direction direction) {
         Direction dir = Direction.LEFT;
         switch (direction) {
@@ -85,6 +101,11 @@ public class DirectionManagement {
         return dir;
     }
 
+    /***
+     * check if the coordinate is legit
+     * @param finalCoord the coordinate
+     * @return true if the coordinate is legit
+     */
     public static Boolean checkCoordinate(Integer finalCoord){
         return finalCoord <= 4 && finalCoord >= 0;
     }
