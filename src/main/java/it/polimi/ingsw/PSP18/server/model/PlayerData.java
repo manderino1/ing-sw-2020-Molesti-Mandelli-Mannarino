@@ -4,6 +4,9 @@ import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 
 import java.util.ArrayList;
 
+/***
+ * Stores the data of the player and its state
+ */
 public class PlayerData {
     private String playerID;
     private Color playerColor;

@@ -4,6 +4,9 @@ import it.polimi.ingsw.PSP18.server.model.Cell;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
 
+/***
+ * Observes a gameMap and is notified every time there is a change into the map
+ */
 public class MapObserver {
     private SocketThread socket;
 

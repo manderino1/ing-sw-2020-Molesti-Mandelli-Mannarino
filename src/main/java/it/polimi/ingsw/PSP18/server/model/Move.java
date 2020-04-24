@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.server.model;
 
+/***
+ * Stores a move direction and level difference
+ */
 public class Move {
     private Direction direction;
     private Integer level;
@@ -15,8 +18,8 @@ public class Move {
     }
 
     /***
-     * Returns level value
-     * @return the level value
+     * Returns level difference in the move
+     * @return the level difference
      */
     public Integer getLevel(){
         return level;

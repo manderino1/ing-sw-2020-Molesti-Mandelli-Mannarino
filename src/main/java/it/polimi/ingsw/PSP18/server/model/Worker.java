@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.server.model;
 
+/***
+ * Stores the worker coordinates and the player that owns the worker details
+ */
 public class Worker {
     private Integer x, y;
     private Integer ID;
