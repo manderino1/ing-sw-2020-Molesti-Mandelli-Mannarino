@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.client.view.cli;
 
+/***
+ * This is the class used to set string colors
+ */
 public enum CliColor {
     ANSI_RED("\u001B[31m"),
     ANSI_GREEN("\u001B[32m"),

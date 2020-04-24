@@ -4,6 +4,9 @@ import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
 
+/***
+ * This is the class used to create the observer for the player data class and to update it
+ */
 public class PlayerDataObserver {
     private SocketThread socket;
 

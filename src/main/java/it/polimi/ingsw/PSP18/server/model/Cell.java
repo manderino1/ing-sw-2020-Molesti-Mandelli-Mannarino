@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.server.model;
 
+/***
+ * This is the class that contains all the methods to manage the map's cells
+ */
 public class Cell {
     private Integer building;
     private Worker worker;

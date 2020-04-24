@@ -9,6 +9,9 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/***
+ * This is the class used to launch the clients
+ */
 public class Launcher {
 
     private final int PORT = 9002;

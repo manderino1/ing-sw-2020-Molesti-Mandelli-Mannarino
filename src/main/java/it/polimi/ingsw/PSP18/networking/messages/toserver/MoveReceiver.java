@@ -2,6 +2,9 @@ package it.polimi.ingsw.PSP18.networking.messages.toserver;
 
 import it.polimi.ingsw.PSP18.server.model.Direction;
 
+/***
+ * This is the class that represents a message used to move a worker
+ */
 public class MoveReceiver extends ServerAbstractMessage {
     private Direction direction;
     private Integer workerID;

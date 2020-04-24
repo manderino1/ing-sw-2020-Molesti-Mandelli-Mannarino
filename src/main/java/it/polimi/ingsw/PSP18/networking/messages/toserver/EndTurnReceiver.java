@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.networking.messages.toserver;
 
+/***
+ * This is the class that represents a message used to signal the current player end of the turn
+ */
 public class EndTurnReceiver extends ServerAbstractMessage {
 
     /***

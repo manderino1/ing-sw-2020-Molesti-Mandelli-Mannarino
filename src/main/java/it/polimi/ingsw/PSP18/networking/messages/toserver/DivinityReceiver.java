@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.networking.messages.toserver;
 
+/***
+ * This is the class that represents a message used to set the divinity name
+ */
 public class DivinityReceiver extends ServerAbstractMessage {
 
     private String divinity;

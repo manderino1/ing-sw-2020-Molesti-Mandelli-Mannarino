@@ -2,6 +2,9 @@ package it.polimi.ingsw.PSP18.networking.messages.toserver;
 
 import it.polimi.ingsw.PSP18.server.model.Color;
 
+/***
+ * This is the class that represents a message used to select the the PlayedData of a certain player and saving his in-game nickname
+ */
 public class PlayerDataReceiver extends ServerAbstractMessage {
     private String playerID;
 

@@ -4,6 +4,9 @@ import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 
+/***
+ * This is the class that contains all the methods used to manage the messages sent by the client and notify the server with other type of messages
+ */
 public class InputParser {
     private SocketClient socket;
 

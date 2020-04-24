@@ -10,6 +10,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/***
+ * This is the class that contains all the methods used in the command line interface
+ */
 public class CliViewUpdate extends ViewUpdate {
 
     private Cell[][] lastMap;

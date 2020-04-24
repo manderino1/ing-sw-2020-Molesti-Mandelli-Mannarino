@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.server.model;
 
+/***
+ * This is the class that contains all the possible moves directions
+ */
 public enum Direction {
     LEFT("LEFT"),
     LEFTUP("LEFTUP"),

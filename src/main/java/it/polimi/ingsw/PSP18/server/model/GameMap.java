@@ -4,6 +4,9 @@ import it.polimi.ingsw.PSP18.server.view.MapObserver;
 
 import java.util.ArrayList;
 
+/***
+ * This is the class that contains all the methods to manage the game map
+ */
 public class GameMap {
     private Cell[][] mapCells = new Cell[5][5];
     private ArrayList<MapObserver> observers = new ArrayList<>();

@@ -2,6 +2,9 @@ package it.polimi.ingsw.PSP18.networking.messages.toserver;
 
 import it.polimi.ingsw.PSP18.server.model.Direction;
 
+/***
+ * This is the class that represents a message used to signal that atlas wants to move and may use his power
+ */
 public class AtlasBuildReceiver extends BuildReceiver {
     private boolean dome;
 
