@@ -193,7 +193,6 @@ public class Match {
         socketPlayerMap.get(socket).divinityCreation(divinity); // use to change divinity
         if(divinitySelectionIndex == playerManagers.size()) {
             // Set observers
-            // TODO: move in separate function
             for(SocketThread sock : sockets) {
                 gameMap.attach(new MapObserver(sock));
                 for(PlayerManager player : playerManagers) {
@@ -235,7 +234,7 @@ public class Match {
     private void startMatch() {
         // Sort players by order
         playerManagers.sort(Comparator.comparingInt(o -> o.getPlayerData().getPlayOrder()));
-
+        matchStatus = MatchStatus.MATCH_STARTED;
         // Search for Athena
         for (PlayerManager player : playerManagers) {
             if(player.getDivinityName().equals("Athena")) {
@@ -244,7 +243,6 @@ public class Match {
             }
         }
         // If Athena is not found create a standard turn manager
-        matchStatus = MatchStatus.MATCH_STARTED;
         turnManager = new TurnManager(this);
     }
 
