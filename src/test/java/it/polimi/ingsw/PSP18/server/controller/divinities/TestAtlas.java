@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -34,14 +36,16 @@ public class TestAtlas extends TestDivinity {
     public void testBuild() {
         playerManager.getMatch().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
-        playerManager.placeWorker(0,1);
-        playerManager.getDivinity().build();
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"buildlist\":[\"RIGHT\",\"RIGHTDOWN\"],\"type\":\"ATLAS_BUILD_LIST\"}\r\n", socketOutContent.toString());
+        playerManager.placeWorker(2,1);
 
-        ((Atlas) playerManager.getDivinity()).buildReceiver(Direction.DOWN, true);
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"buildlist\":[\"RIGHT\",\"RIGHTDOWN\"],\"type\":\"ATLAS_BUILD_LIST\"}\r\n" +
-                "{\"type\":\"END_TURN\"}\r\n", socketOutContent.toString());
+        socketOutContent.reset();
+        playerManager.getDivinity().build();
+        Gson gson = new Gson();
+        BuildList buildList = gson.fromJson(socketOutContent.toString(), BuildList.class);
+        Assert.assertEquals(playerManager.getDivinity().checkBuildingMoves(0,0), buildList.getBuildlist());
+
+        socketOutContent.reset();
+        ((Atlas) playerManager.getDivinity()).buildReceiver(Direction.DOWN, false);
+        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
     }
 }
