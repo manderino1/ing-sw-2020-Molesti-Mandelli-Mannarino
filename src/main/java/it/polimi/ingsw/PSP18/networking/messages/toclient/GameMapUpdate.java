@@ -2,6 +2,10 @@ package it.polimi.ingsw.PSP18.networking.messages.toclient;
 
 import it.polimi.ingsw.PSP18.server.model.Cell;
 
+/***
+ * This message class is used to send the map matrix when there is a map update
+ */
+
 public class GameMapUpdate extends  ClientAbstractMessage {
     private Cell[][] gameMap;
 

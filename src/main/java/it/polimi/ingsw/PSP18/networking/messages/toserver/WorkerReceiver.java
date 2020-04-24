@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.networking.messages.toserver;
 
+/***
+ * This message class sends is used to send the coordinates of the placed workers to the server
+ */
 public class WorkerReceiver extends ServerAbstractMessage {
     private Integer x1, y1, x2, y2;
 

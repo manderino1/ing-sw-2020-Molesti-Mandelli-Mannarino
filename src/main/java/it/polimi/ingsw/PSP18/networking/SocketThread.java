@@ -15,6 +15,9 @@ import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
 import java.io.*;
 import java.net.Socket;
 
+/***
+ * The class implements an instance of the socket on the server side
+ */
 public class SocketThread extends Thread {
     Socket socket;
     BufferedReader input;

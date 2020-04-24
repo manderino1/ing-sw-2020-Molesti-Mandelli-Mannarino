@@ -4,6 +4,9 @@ import it.polimi.ingsw.PSP18.server.model.Direction;
 
 import java.util.ArrayList;
 
+/***
+ * This message class is used to send to the client a list of the possible moves
+ */
 public class MoveList extends ClientAbstractMessage {
     private ArrayList<Direction> moveList1;
     private ArrayList<Direction> moveList2;

@@ -1,10 +1,9 @@
 package it.polimi.ingsw.PSP18.networking.messages.toserver;
 
+/***
+ * The class contains the list of all the messages used that will be sent to the server
+ */
 public enum ServerMessageType {
-    /***
-     * List of all the messages used that will be sent to the server
-     */
-
     MOVE_RECEIVER,
     PLAYER_DATA_RECEIVER,
     BUILD_RECEIVER,

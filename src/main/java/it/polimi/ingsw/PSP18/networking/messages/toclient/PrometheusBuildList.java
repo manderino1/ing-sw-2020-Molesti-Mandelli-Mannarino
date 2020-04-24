@@ -4,6 +4,9 @@ import it.polimi.ingsw.PSP18.server.model.Direction;
 
 import java.util.ArrayList;
 
+/***
+ * This message class is used from Prometheus to give the possibility to build with two workers
+ */
 public class PrometheusBuildList extends ClientAbstractMessage{
 
     private ArrayList<Direction> buildlist1;

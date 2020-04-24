@@ -3,6 +3,9 @@ package it.polimi.ingsw.PSP18.networking.messages.toclient;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 
+/***
+ * This message class is used to sent the client an update to the data of a player
+ */
 public class PlayerDataUpdate extends ClientAbstractMessage {
     private String playerID;
     private Color playerColor;
