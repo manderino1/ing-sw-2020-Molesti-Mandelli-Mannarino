@@ -6,9 +6,15 @@ import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 
 import java.util.ArrayList;
-
+/***
+ * this is the class that implements Minotaur's powers
+ */
 public class Minotaur extends Divinity{
-
+    /***
+     * Constructor of the class, initialize name and playerManager in Divinity
+     * @param name the name of the divinity
+     * @param playerManager the object that has this divinity
+     */
     public Minotaur(String name, PlayerManager playerManager) {
         super(name, playerManager);
     }

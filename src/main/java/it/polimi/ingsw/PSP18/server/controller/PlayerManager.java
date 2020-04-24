@@ -3,6 +3,9 @@ package it.polimi.ingsw.PSP18.server.controller;
 import it.polimi.ingsw.PSP18.server.controller.divinities.*;
 import it.polimi.ingsw.PSP18.server.model.*;
 
+/***
+ * class that deals with the layer information such as divinity and turns
+ */
 public class PlayerManager {
     private Match match;
     private Worker[] workers = new Worker[2];

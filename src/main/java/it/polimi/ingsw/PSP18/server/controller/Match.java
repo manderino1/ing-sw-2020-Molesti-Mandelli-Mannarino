@@ -18,6 +18,9 @@ import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 
 import java.util.*;
 
+/***
+ * class that deals with the information of the current match
+ */
 public class Match {
     private ArrayList<PlayerManager> playerManagers;
     private TurnManager turnManager;

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP18.server.controller;
-
+/***
+ * class that articulates the players' turns when Athena is in the game
+ */
 public class TurnManagerAthena extends TurnManager {
     public boolean bool;
 

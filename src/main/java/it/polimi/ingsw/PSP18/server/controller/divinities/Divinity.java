@@ -9,7 +9,9 @@ import it.polimi.ingsw.PSP18.server.model.Move;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 
 import java.util.ArrayList;
-
+/***
+ * this is the class that implements the generic move and build methods for the players
+ */
 public class Divinity {
     protected String name;
     protected PlayerManager playerManager;

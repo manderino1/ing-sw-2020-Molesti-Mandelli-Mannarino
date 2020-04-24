@@ -2,6 +2,9 @@ package it.polimi.ingsw.PSP18.server.controller;
 
 import it.polimi.ingsw.PSP18.server.model.Direction;
 
+/***
+ * Class the implements some utility methods useful for TurnManager and divinity classes
+ */
 public class DirectionManagement {
     /***
      * get the new X coordinate in function of the direction

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.server.controller;
 
+/***
+ * class that articulates the players' turns
+ */
 public class TurnManager {
     protected Match match;
     protected Integer indexCurrentPlayer;
