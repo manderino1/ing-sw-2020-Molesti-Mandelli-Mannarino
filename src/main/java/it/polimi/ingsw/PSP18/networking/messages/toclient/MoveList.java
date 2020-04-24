@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class MoveList extends ClientAbstractMessage {
     private ArrayList<Direction> moveList1;
     private ArrayList<Direction> moveList2;
+
     /***
      * Constructor to initialize the available moves direction list
      * @param moveList1 the list of possible moves for worker #1

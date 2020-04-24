@@ -6,23 +6,23 @@ import java.util.ArrayList;
 
 public class BuildListFlag extends ClientAbstractMessage{
 
-    private ArrayList<Direction> buildlist;
+    private ArrayList<Direction> buildList;
 
     /***
-     * constructor of BuildList
-     * @param buildlist
+     * Constructor of BuildListFlag, init the move list
+     * @param buildList the list of possible moves
      */
-    public BuildListFlag(ArrayList<Direction> buildlist){
+    public BuildListFlag(ArrayList<Direction> buildList){
         this.type = ClientMessageType.BUILD_LIST_FLAG;
-        this.buildlist= buildlist;
+        this.buildList= buildList;
     }
 
     /***
-     * returns buildlist
+     * Returns the list of possible moves
      * @return the array of possibles moves
      */
     public ArrayList<Direction> getBuildlist() {
-            return buildlist;
+            return buildList;
         }
 
 }

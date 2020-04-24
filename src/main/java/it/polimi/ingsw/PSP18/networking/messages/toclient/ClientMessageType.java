@@ -1,5 +1,8 @@
 package it.polimi.ingsw.PSP18.networking.messages.toclient;
 
+/***
+ * Every field in the enum is a different message to be sent to client
+ */
 public enum ClientMessageType {
     GAME_MAP_UPDATE,
     PLAYER_DATA_UPDATE,

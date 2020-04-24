@@ -4,6 +4,7 @@ public class StartMatch extends ClientAbstractMessage {
 
     /***
      * StartMatch constructor method
+     * Used when the match starts to tell the client
      */
     public StartMatch() {
         this.type = ClientMessageType.START_MATCH;

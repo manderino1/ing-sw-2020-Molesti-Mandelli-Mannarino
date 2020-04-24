@@ -19,6 +19,13 @@ public class SocketClient extends Thread {
     PrintWriter output;
     ViewUpdate viewUpdate;
 
+
+    /***
+     * Constructor for the client side socket
+     * Init the buffers
+     * @param clientSocket the socket reference
+     * @param viewUpdate the viewUpdate client reference for calling the function on receive
+     */
     public SocketClient(Socket clientSocket, ViewUpdate viewUpdate) {
         this.socket = clientSocket;
         this.viewUpdate = viewUpdate;
@@ -35,7 +42,7 @@ public class SocketClient extends Thread {
     }
 
     /***
-     * Open the thread and setup the in/out buffers
+     * Open the thread and cycle waiting for input
      */
     public void run()
     {
@@ -72,6 +79,11 @@ public class SocketClient extends Thread {
         }
     }
 
+    /***
+     * Parse the input message from the server and call the correct function into the client view
+     * Has a switch case for all the different message types that extends ClientAbstractMessage
+     * @param msg the input message to parse
+     */
     private void messageParse(String msg) {
         Gson gson = new Gson();
         JsonObject jsonObj = JsonParser.parseString(msg).getAsJsonObject();
@@ -147,6 +159,11 @@ public class SocketClient extends Thread {
         }
     }
 
+    /***
+     * Send a message trough socket converted to json
+     * Accepts all the objects that extends ServerAbstractMessage
+     * @param msg the object to send
+     */
     public void sendMessage(ServerAbstractMessage msg) {
         Gson gson = new Gson();
         output.println(gson.toJson(msg));

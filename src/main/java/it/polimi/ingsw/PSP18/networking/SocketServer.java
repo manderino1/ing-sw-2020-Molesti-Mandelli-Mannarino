@@ -13,6 +13,10 @@ public class SocketServer extends Thread {
     private boolean listening = true;
     private ServerSocket serverSocket = null;
 
+    /***
+     * Init the port and the match reference into the constructor
+     * @param match the match reference, varies if multiple
+     */
     public SocketServer(Match match) {
         this.match = match;
         this.port = 9002;
@@ -24,6 +28,12 @@ public class SocketServer extends Thread {
         }
     }
 
+    /***
+     * A debug constructor with random port between 49152 and 65535
+     * Used for tests
+     * @param match the match reference
+     * @param debug if true the port is random
+     */
     public SocketServer(Match match, boolean debug) {
         this.match = match;
 

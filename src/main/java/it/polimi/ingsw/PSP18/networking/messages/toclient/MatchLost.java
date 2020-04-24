@@ -6,7 +6,7 @@ public class MatchLost extends ClientAbstractMessage{
     private String playerID;
 
     /***
-     * constructor of MatchLost
+     * Init the type of the message and the ID of the player that has lost
      * @param playerID the player ID
      */
     public MatchLost(String playerID){
@@ -15,8 +15,8 @@ public class MatchLost extends ClientAbstractMessage{
     }
 
     /***
-     * returns the player ID
-     * @return the player ID
+     * Returns the player ID of the player that has lost
+     * @return the ID of the player that has lost
      */
     public String getMatchLost() {
         return playerID;

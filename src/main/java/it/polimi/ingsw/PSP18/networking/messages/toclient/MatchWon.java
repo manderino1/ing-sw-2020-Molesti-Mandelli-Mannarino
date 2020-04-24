@@ -5,7 +5,7 @@ public class MatchWon extends ClientAbstractMessage{
     private String playerID;
 
     /***
-     * constructor of MatchWon
+     * Init the type and the ID of the player that has won
      * @param playerID The player ID
      */
     public MatchWon(String playerID){
@@ -14,8 +14,8 @@ public class MatchWon extends ClientAbstractMessage{
     }
 
     /***
-     * returns the playerID
-     * @return the playerID
+     * Returns the ID of the player that has won
+     * @return the ID of the player that has won
      */
     public String getMatchWon() {
         return playerID;

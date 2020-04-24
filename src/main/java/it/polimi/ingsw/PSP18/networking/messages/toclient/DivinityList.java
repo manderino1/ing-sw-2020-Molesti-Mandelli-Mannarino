@@ -9,7 +9,7 @@ public class DivinityList extends ClientAbstractMessage{
 
     /***
      * Constructor method of DivinityList class
-     * @param divinities
+     * @param divinities the list of possible divinities to be chosen
      */
     public DivinityList(ArrayList<String> divinities) {
         this.type = ClientMessageType.DIVINITY_LIST;
@@ -17,8 +17,8 @@ public class DivinityList extends ClientAbstractMessage{
     }
 
     /***
-     * Return the divinities Arraylist
-     * @return
+     * Return the divinities ArrayList
+     * @return the list of possible selectable divinities
      */
     public ArrayList<String> getDivinities() {
         return divinities;

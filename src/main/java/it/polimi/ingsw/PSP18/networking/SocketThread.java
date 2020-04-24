@@ -21,6 +21,12 @@ public class SocketThread extends Thread {
     PrintWriter output;
     Match match;
 
+    /***
+     * Constructor for the server side socket
+     * Init the buffers
+     * @param clientSocket the socket reference
+     * @param match the match in which the socket will play reference
+     */
     public SocketThread(Socket clientSocket, Match match) {
         this.socket = clientSocket;
         this.match = match;
@@ -34,7 +40,7 @@ public class SocketThread extends Thread {
     }
 
     /***
-     * Open the thread and setup the in/out buffers
+     * Open the thread and cycle waiting for input
      */
     public void run()
     {
@@ -71,6 +77,11 @@ public class SocketThread extends Thread {
         }
     }
 
+    /***
+     * Parse the input message from the server and call the correct function into the client view
+     * Has a switch case for all the different message types that extends ServerAbstractMessage
+     * @param msg the input message to parse
+     */
     private void messageParse(String msg) {
         Gson gson = new Gson();
         JsonObject jsonObj = JsonParser.parseString(msg).getAsJsonObject();
@@ -131,6 +142,11 @@ public class SocketThread extends Thread {
         }
     }
 
+    /***
+     * Send a message trough socket converted to json
+     * Accepts all the objects that extends ClientAbstractMessage
+     * @param msg the object to send
+     */
     public void sendMessage(ClientAbstractMessage msg) {
         Gson gson = new Gson();
         output.println(gson.toJson(msg));
