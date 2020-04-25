@@ -68,6 +68,7 @@ public class SocketServer extends Thread {
             if (serverSocket != null) {
                 try {
                     socket = serverSocket.accept();
+                    socket.setSoTimeout(10000); // 10 s timeout
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
