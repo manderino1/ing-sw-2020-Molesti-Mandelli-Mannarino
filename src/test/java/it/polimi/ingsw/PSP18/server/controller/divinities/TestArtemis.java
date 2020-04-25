@@ -18,7 +18,7 @@ public class TestArtemis extends TestDivinity {
     private PlayerManager playerManager1;
     @Override
     public void createPlayerManager() {
-        Match match = new Match(true);
+        Match match = new Match();
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Artemis");

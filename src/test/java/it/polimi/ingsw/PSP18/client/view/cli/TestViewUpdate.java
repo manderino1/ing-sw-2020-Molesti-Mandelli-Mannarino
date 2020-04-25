@@ -145,7 +145,7 @@ public class TestViewUpdate {
         ByteArrayInputStream testIn = new ByteArrayInputStream("Test\nApollo\n".getBytes());
 
         CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
-        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate, true);
         socketClient.start();
         cliViewUpdate.setInputParser(new InputParser(socketClient));
 
@@ -266,7 +266,7 @@ public class TestViewUpdate {
         ByteArrayInputStream testIn = new ByteArrayInputStream("3\n1\ntest\n1\nUP\nyes\nUP\nlol\nno".getBytes());
 
         CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
-        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate, true);
         socketClient.start();
         cliViewUpdate.setInputParser(new InputParser(socketClient));
 
@@ -320,10 +320,11 @@ public class TestViewUpdate {
         ByteArrayInputStream testIn = new ByteArrayInputStream("als\nNo\nUP\n".getBytes());
 
         CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
-        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate, true);
         socketClient.start();
         cliViewUpdate.setInputParser(new InputParser(socketClient));
 
+        socketOutContent.reset();
         cliViewUpdate.buildListFlagUpdate(buildListFlag);
         Gson gson = new Gson();
         BuildReceiver buildReceiver = gson.fromJson(socketOutContent.toString(), BuildReceiver.class);
@@ -345,7 +346,7 @@ public class TestViewUpdate {
         ByteArrayInputStream testIn = new ByteArrayInputStream("als\nNo\nYes\n".getBytes());
 
         CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
-        SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
+        SocketClient socketClient = new SocketClient(socket, cliViewUpdate, true);
         socketClient.start();
         cliViewUpdate.setInputParser(new InputParser(socketClient));
 

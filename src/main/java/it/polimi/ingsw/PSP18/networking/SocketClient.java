@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.ServerAbstractMessage;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.ServerPing;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,6 +42,62 @@ public class SocketClient extends Thread {
         catch(IOException e)
         {
             e.printStackTrace();
+        }
+
+        /*
+         * Ping every 5 seconds the connected socket
+         */
+        new Thread(() -> {
+            while (true) {
+                sendMessage(new ServerPing());
+
+                // delay 5 seconds
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
+        }).start();
+    }
+
+    /***
+     * Constructor for the client side socket
+     * Init the buffers
+     * @param clientSocket the clientsocket reference
+     * @param viewUpdate the viewupdate reference
+     * @param debug true if debug mode, no timeout
+     */
+    public SocketClient(Socket clientSocket, ViewUpdate viewUpdate, boolean debug) {
+        this.socket = clientSocket;
+        this.viewUpdate = viewUpdate;
+        try
+        {
+            // Init buffers
+            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            output = new PrintWriter(socket.getOutputStream(), true);
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        /*
+         * Ping every 5 seconds the connected socket
+         */
+        if(!debug) {
+            new Thread(() -> {
+                while (true) {
+                    sendMessage(new ServerPing());
+
+                    // delay 5 seconds
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+            }).start();
         }
     }
 

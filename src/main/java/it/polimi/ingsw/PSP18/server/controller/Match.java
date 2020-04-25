@@ -25,7 +25,6 @@ public class Match {
     private ArrayList<PlayerManager> playerManagers;
     private TurnManager turnManager;
     private ArrayList<SocketThread> sockets;
-    private SocketServer socketServer;
     private HashMap<PlayerManager, SocketThread> playerSocketMap;
     private HashMap<SocketThread, PlayerManager> socketPlayerMap;
     private PlayerManager currentPlayer;
@@ -43,27 +42,6 @@ public class Match {
         sockets = new ArrayList<SocketThread>();
         playerSocketMap = new HashMap<PlayerManager, SocketThread>();
         socketPlayerMap = new HashMap<SocketThread, PlayerManager>();
-        socketServer = new SocketServer(this);
-        socketServer.start(); // Wait for connections
-        gameMap = new GameMap();
-        matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
-    }
-
-    /***
-     * For debug only, open the server on a randomized port
-     * @param debug true if you want to enable it
-     */
-    public Match(boolean debug) {
-        playerManagers = new ArrayList<PlayerManager>();
-        sockets = new ArrayList<SocketThread>();
-        playerSocketMap = new HashMap<PlayerManager, SocketThread>();
-        socketPlayerMap = new HashMap<SocketThread, PlayerManager>();
-        if(debug) {
-            socketServer = new SocketServer(this, true);
-        } else {
-            socketServer = new SocketServer(this, false);
-        }
-        socketServer.start(); // Wait for connections
         gameMap = new GameMap();
         matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
     }
@@ -252,17 +230,10 @@ public class Match {
 
     public void endMatch() {
         // TODO: if you want to close the match just put to match_ended
-        matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
+        matchStatus = MatchStatus.MATCH_ENDED;
         // Detach observers from map
         for(SocketThread sock : sockets) {
             sock.closeConnection();
         }
-        sockets.clear();
-        playerManagers.clear();
-        playerSocketMap.clear();
-        socketPlayerMap.clear();
-        divinitySelectionIndex = 0;
-        workerPlacementIndex = 0;
-        gameMap = new GameMap();
     }
 }

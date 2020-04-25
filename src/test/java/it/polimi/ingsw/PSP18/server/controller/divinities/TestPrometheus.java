@@ -23,7 +23,7 @@ public class TestPrometheus extends TestDivinity {
 
     @Override
     public void createPlayerManager() {
-        Match match = new Match(true);
+        Match match = new Match();
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Prometheus");

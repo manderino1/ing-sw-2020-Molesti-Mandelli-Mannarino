@@ -19,5 +19,6 @@ public enum ClientMessageType {
     PROMETHEUS_BUILD_LIST,
     BUILD_LIST_FLAG,
     END_TURN,
-    ATLAS_BUILD_LIST
+    ATLAS_BUILD_LIST,
+    PING
 }

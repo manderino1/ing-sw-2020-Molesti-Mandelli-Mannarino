@@ -48,7 +48,7 @@ public class TestObservers {
     @Test
     public void testGameMapObs() {
         GameMap map = new GameMap();
-        Match match = new Match(true);
+        Match match = new Match();
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
         MapObserver mapObserver = new MapObserver(socketThread);
@@ -65,7 +65,7 @@ public class TestObservers {
     @Test
     public void testPlayerDataObs() {
         PlayerData playerData = new PlayerData("Test Player", Color.BLUE, 0);
-        Match match = new Match(true);
+        Match match = new Match();
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
         PlayerDataObserver playerObserver = new PlayerDataObserver(socketThread);
