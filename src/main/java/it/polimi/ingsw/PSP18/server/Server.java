@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP18.server;
 
+import it.polimi.ingsw.PSP18.networking.SocketServer;
 import it.polimi.ingsw.PSP18.server.controller.Match;
 
 /***
@@ -7,6 +8,6 @@ import it.polimi.ingsw.PSP18.server.controller.Match;
  */
 public class Server {
     public static void main(String[] args) {
-        Match match = new Match();
+        MatchManager matchManager = new MatchManager();
     }
 }

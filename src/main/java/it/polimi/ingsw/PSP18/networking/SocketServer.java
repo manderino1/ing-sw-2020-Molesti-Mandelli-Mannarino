@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP18.networking;
 
+import it.polimi.ingsw.PSP18.server.MatchManager;
 import it.polimi.ingsw.PSP18.server.controller.Match;
 
 import java.io.IOException;
@@ -12,17 +13,19 @@ import java.util.Random;
  */
 public class SocketServer extends Thread {
     private int port;
-    private Match match;
+    private MatchManager manager;
     private boolean listening = true;
+    private boolean debug;
     private ServerSocket serverSocket = null;
 
     /***
      * Init the port and the match reference into the constructor
-     * @param match the match reference, varies if multiple
+     * @param manager the match manager reference
      */
-    public SocketServer(Match match) {
-        this.match = match;
+    public SocketServer(MatchManager manager) {
+        this.manager = manager;
         this.port = 9002;
+        this.debug = false;
 
         try {
             serverSocket = new ServerSocket(port);
@@ -34,11 +37,12 @@ public class SocketServer extends Thread {
     /***
      * A debug constructor with random port between 49152 and 65535
      * Used for tests
-     * @param match the match reference
+     * @param manager the match manager reference
      * @param debug if true the port is random
      */
-    public SocketServer(Match match, boolean debug) {
-        this.match = match;
+    public SocketServer(MatchManager manager, boolean debug) {
+        this.manager = manager;
+        this.debug = debug;
 
         if(debug) {
             // Randomly generate a port
@@ -74,8 +78,13 @@ public class SocketServer extends Thread {
                 }
             }
             // new thread for a client
-            SocketThread newThread = new SocketThread(socket, match);
-            newThread.start();
+            if(!debug) {
+                SocketThread newThread = new SocketThread(socket, manager.getMatch());
+                newThread.start();
+            } else {
+                SocketThread newThread = new SocketThread(socket, manager.getMatch(), true);
+                newThread.start();
+            }
         }
     }
 }

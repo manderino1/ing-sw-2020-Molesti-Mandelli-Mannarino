@@ -63,6 +63,43 @@ public class SocketThread extends Thread {
     }
 
     /***
+     * Constructor for the server side socket
+     * Init the buffers
+     * @param clientSocket the socket reference
+     * @param match the match in which the socket will play reference
+     * @param debug true if debug mode is on, no timeout
+     */
+    public SocketThread(Socket clientSocket, Match match, boolean debug) {
+        this.socket = clientSocket;
+        this.match = match;
+        try {
+            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            output = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*
+         * Ping every 5 seconds the connected socket
+         */
+        if(!debug) {
+            new Thread(() -> {
+                while (true) {
+                    sendMessage(new ClientPing());
+
+                    // delay 5 seconds
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+            }).start();
+        }
+        match.addSocket(this);
+    }
+
+    /***
      * Open the thread and cycle waiting for input
      */
     public void run()

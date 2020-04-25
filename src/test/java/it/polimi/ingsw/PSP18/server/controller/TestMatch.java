@@ -46,7 +46,7 @@ public class TestMatch {
 
     @Test
     public void testMatchCreationGettersSetters() {
-        Match match = new Match(true);
+        Match match = new Match();
 
         match.setMatchStatus(MatchStatus.MATCH_STARTED);
         Assert.assertEquals(match.getMatchStatus(), MatchStatus.MATCH_STARTED);
@@ -66,7 +66,7 @@ public class TestMatch {
 
     @Test
     public void testReady() {
-        Match match = new Match(true);
+        Match match = new Match();
 
         match.setMatchStatus(MatchStatus.WAITING_FOR_PLAYERS);
 
@@ -85,7 +85,7 @@ public class TestMatch {
 
     @Test
     public void testWorkerPlacementAthena () {
-        Match match = new Match(true);
+        Match match = new Match();
         SocketThread socketThread = new SocketThread(socket, match);
         SocketThread socketThread1 = new SocketThread(socket, match);
 
@@ -111,7 +111,7 @@ public class TestMatch {
 
     @Test
     public void testWorkerPlacement () {
-        Match match = new Match(true);
+        Match match = new Match();
         SocketThread socketThread = new SocketThread(socket, match);
         SocketThread socketThread1 = new SocketThread(socket, match);
 
@@ -135,6 +135,6 @@ public class TestMatch {
         Assert.assertEquals(MatchStatus.MATCH_STARTED, match.getMatchStatus());
 
         match.endMatch();
-        Assert.assertEquals(MatchStatus.WAITING_FOR_PLAYERS, match.getMatchStatus());
+        Assert.assertEquals(MatchStatus.MATCH_ENDED, match.getMatchStatus());
     }
 }

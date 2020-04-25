@@ -29,7 +29,7 @@ public class TestTurnManager {
 
     @Before
     public void createGameManager() {
-        match = new Match(true);
+        match = new Match();
     }
 
     @Before
@@ -51,7 +51,7 @@ public class TestTurnManager {
      */
     @Test
     public void testManageTurn() {
-        Match match = new Match(true);
+        Match match = new Match();
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
         match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread);
@@ -69,7 +69,7 @@ public class TestTurnManager {
      */
     @Test
     public void testManageTurnAthena() {
-        Match match = new Match(true);
+        Match match = new Match();
         SocketThread socketThread1 = new SocketThread(socket, match);
         socketThread1.start();
         match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread1);
@@ -89,7 +89,7 @@ public class TestTurnManager {
     }
     @Test
     public void testPassTurn(){
-        Match match = new Match(true);
+        Match match = new Match();
         SocketThread socketThread1 = new SocketThread(socket, match);
         socketThread1.start();
         match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread1);
