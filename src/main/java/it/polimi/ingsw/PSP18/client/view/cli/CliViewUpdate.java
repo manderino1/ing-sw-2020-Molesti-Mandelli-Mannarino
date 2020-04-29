@@ -604,6 +604,16 @@ public class CliViewUpdate extends ViewUpdate {
                 divinity = console.readLine();
                 for(String div : divinityPick.getDivinities()) {
                     if (div.toUpperCase().equals(divinity.toUpperCase())) {
+                        boolean alreadyPres = false;
+                        for(String pres : picked) {
+                            if (pres.toUpperCase().equals(divinity.toUpperCase())) {
+                                alreadyPres = true;
+                                break;
+                            }
+                        }
+                        if(alreadyPres) {
+                            break;
+                        }
                         found = true;
                         picked.add(div.substring(0, 1).toUpperCase() + div.toLowerCase().substring(1));
                         remaining--;
