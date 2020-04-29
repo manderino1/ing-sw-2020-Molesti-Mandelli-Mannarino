@@ -5,15 +5,18 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.WorkerReceiver;
 import it.polimi.ingsw.PSP18.server.backup.MatchBackup;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.server.backup.PlayerDataBackup;
+import it.polimi.ingsw.PSP18.server.backup.PlayerManagerBackup;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.model.MatchStatus;
+import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import it.polimi.ingsw.PSP18.server.view.MapObserver;
 import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.*;
 
 /***
@@ -149,10 +152,14 @@ public class Match {
                 return;
             }
         }
+        // Check if there is a match saved with these players
+        boolean hasBackup = backupCheck();
         // If i manage to arrive here all the players are ready, i can start the divinity selection phase
-        matchStatus = MatchStatus.DIVINITIES_SELECTION;
-        String[] divinities = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Ephaestus", "Minotaur", "Pan", "Prometheus"};
-        playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(new ArrayList<>(Arrays.asList(divinities)), playerManagers.size()));
+        if(!hasBackup) {
+            matchStatus = MatchStatus.DIVINITIES_SELECTION;
+            String[] divinities = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Ephaestus", "Minotaur", "Pan", "Prometheus"};
+            playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(new ArrayList<>(Arrays.asList(divinities)), playerManagers.size()));
+        }
     }
 
     /***
@@ -238,6 +245,9 @@ public class Match {
         }
     }
 
+    /***
+     * Every end of turn update the match backup
+     */
     public void updateFile() {
         try {
             FileWriter myWriter = new FileWriter("match.bak", false);
@@ -248,5 +258,48 @@ public class Match {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean backupCheck() {
+        try {
+            FileReader fileReader = new FileReader("match.bak");
+            Gson gson = new Gson();
+            MatchBackup matchBackup = gson.fromJson(fileReader, MatchBackup.class);
+            for(PlayerManagerBackup playerBackupped : matchBackup.getPlayerManagers()) {
+                boolean found = false;
+                for(PlayerManager playerConnected : playerManagers) {
+                    if (playerConnected.getPlayerData().getPlayerID().equals(playerBackupped.getPlayerData().getPlayerID())) {
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found) {
+                    return false;
+                }
+            }
+
+            // Match backupped with same nicknames, restore it
+            for(PlayerManagerBackup playerBackupped : matchBackup.getPlayerManagers()) {
+                for(PlayerManager playerConnected : playerManagers) {
+                    if (playerConnected.getPlayerData().getPlayerID().equals(playerBackupped.getPlayerData().getPlayerID())) {
+                        PlayerData playerData = new PlayerData(playerBackupped.getPlayerData().getPlayerID(), playerBackupped.getPlayerData().getPlayerColor(), playerBackupped.getPlayerData().getPlayOrder());
+                        // TODO: Add other fields
+                        PlayerManager playerManager = new PlayerManager(this, playerData, playerBackupped.getPlayerData().getDivinity());
+                        playerManagers.add(playerManager);
+                        SocketThread socket = playerSocketMap.get(playerConnected);
+                        playerSocketMap.remove(playerManager);
+                        playerSocketMap.put(playerManager, socket);
+                        socketPlayerMap.remove(socket);
+                        socketPlayerMap.put(playerSocketMap.get(playerConnected), playerManager);
+                        playerManagers.remove(playerConnected);
+                        break;
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 }
