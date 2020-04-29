@@ -20,5 +20,6 @@ public enum ClientMessageType {
     BUILD_LIST_FLAG,
     END_TURN,
     ATLAS_BUILD_LIST,
-    PING
+    PING,
+    DIVINITY_PICK
 }

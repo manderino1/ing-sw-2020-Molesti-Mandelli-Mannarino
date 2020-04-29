@@ -15,7 +15,9 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -100,6 +102,8 @@ public class TestMatch {
         match.readyManagement(match.getSockets().get(0));
         match.readyManagement(match.getSockets().get(1));
 
+        match.divinitySelection(new ArrayList<>());
+
         match.divinityCreation(match.getSockets().get(0), "Athena");
         match.divinityCreation(match.getSockets().get(1), "Apollo");
 
@@ -125,6 +129,8 @@ public class TestMatch {
 
         match.readyManagement(match.getSockets().get(0));
         match.readyManagement(match.getSockets().get(1));
+
+        match.divinitySelection(new ArrayList<>());
 
         match.divinityCreation(match.getSockets().get(0), "Atlas");
         match.divinityCreation(match.getSockets().get(1), "Apollo");

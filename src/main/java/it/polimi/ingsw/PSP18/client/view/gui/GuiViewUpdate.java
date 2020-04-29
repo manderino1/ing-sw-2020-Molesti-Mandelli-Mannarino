@@ -89,4 +89,9 @@ public class GuiViewUpdate extends ViewUpdate {
     public void atlasBuildUpdate(AtlasBuildList atlasBuildList) {
 
     }
+
+    @Override
+    public void divinitySelection(DivinityPick divinityPick) {
+
+    }
 }

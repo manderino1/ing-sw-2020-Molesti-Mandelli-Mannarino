@@ -4,6 +4,8 @@ import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 
+import java.util.ArrayList;
+
 /***
  * This is the class that contains all the methods used to manage the messages sent by the client and notify the server with other type of messages
  */
@@ -24,7 +26,7 @@ public class InputParser {
      * @param move move to apply to the worker
      */
     public void selectMove(String worker, String move) {
-        Integer workerID = 0;
+        int workerID = 0;
         if(worker.equals("1")) {
             workerID = 0;
         } else if (worker.equals("2")){
@@ -55,7 +57,7 @@ public class InputParser {
      * @return returns the direction as a Direction object
      */
     private Direction stringToDirection(String dir) {
-        if(dir == null || dir == "NO") {
+        if(dir == null || dir.equals("NO")) {
             return null;
         }
         dir = dir.toUpperCase();
@@ -129,5 +131,13 @@ public class InputParser {
      */
     public void atlasBuild(String move, boolean dome) {
         socket.sendMessage(new AtlasBuildReceiver(stringToDirection(move), dome));
+    }
+
+    /***
+     * Send the list of picked divinities to the server
+     * @param divinities the list of picked divinities
+     */
+    public void sendDivinities(ArrayList<String> divinities) {
+        socket.sendMessage(new DivinitySelection(divinities));
     }
 }

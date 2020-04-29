@@ -586,6 +586,40 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
+     * The user has to select n divinities from this list
+     * @param divinityPick the list of divinities to pick from
+     */
+    @Override
+    public void divinitySelection(DivinityPick divinityPick) {
+        String divinity;
+        ArrayList<String> picked = new ArrayList<>();
+        int remaining = divinityPick.getnOfPlayers();
+        System.out.println("Pick " + divinityPick.getnOfPlayers() + " divinities from this list:");
+        for(String div : divinityPick.getDivinities()) {
+            System.out.println(div);
+        }
+        while(remaining > 0) {
+            boolean found = false;
+            try {
+                divinity = console.readLine();
+                for(String div : divinityPick.getDivinities()) {
+                    if (div.toUpperCase().equals(divinity.toUpperCase())) {
+                        found = true;
+                        picked.add(div.substring(0, 1).toUpperCase() + div.toLowerCase().substring(1));
+                        remaining--;
+                    }
+                }
+                if(!found) {
+                    System.out.println("Divinity incorrect, retry:");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        inputParser.sendDivinities(picked);
+    }
+
+    /***
      * In case the player already moved and his hero can move again
      * @param singleMoveList a set of possible moves
      */
