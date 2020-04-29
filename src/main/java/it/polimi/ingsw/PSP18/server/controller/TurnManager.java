@@ -36,6 +36,7 @@ public class TurnManager {
             indexCurrentPlayer = 0;
         }
         match.setCurrentPlayer(match.getPlayerManagers().get(indexCurrentPlayer));
+        match.updateFile();
         manageTurn();
     }
 
@@ -45,5 +46,13 @@ public class TurnManager {
      */
     public void manageTurn(){
         this.match.getPlayerManagers().get(indexCurrentPlayer).manageTurn(false);
+    }
+
+    /***
+     * Get the index of the current player
+     * @return the index of the current player
+     */
+    public Integer getIndexCurrentPlayer() {
+        return indexCurrentPlayer;
     }
 }

@@ -1,18 +1,19 @@
 package it.polimi.ingsw.PSP18.server.controller;
 
-import it.polimi.ingsw.PSP18.networking.SocketClient;
+import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.WorkerReceiver;
-import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
-import it.polimi.ingsw.PSP18.server.controller.TurnManager;
-import it.polimi.ingsw.PSP18.networking.SocketServer;
+import it.polimi.ingsw.PSP18.server.backup.MatchBackup;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
-import it.polimi.ingsw.PSP18.server.controller.TurnManagerAthena;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.model.MatchStatus;
 import it.polimi.ingsw.PSP18.server.view.MapObserver;
 import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 /***
@@ -234,6 +235,18 @@ public class Match {
         // Detach observers from map
         for(SocketThread sock : sockets) {
             sock.closeConnection();
+        }
+    }
+
+    public void updateFile() {
+        try {
+            FileWriter myWriter = new FileWriter("match.bak", false);
+            Gson gson = new Gson();
+            myWriter.write(gson.toJson(new MatchBackup(playerManagers, turnManager.getIndexCurrentPlayer(), matchStatus, gameMap.getMapCells())));
+            myWriter.flush();
+            myWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
