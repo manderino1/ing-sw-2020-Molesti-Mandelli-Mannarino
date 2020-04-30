@@ -176,7 +176,7 @@
                </image>
             </ImageView>
             <Button layoutX="223.0" layoutY="114.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="97.0" text="Confirm" />
-            <Text layoutX="184.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chose a nickname">
+            <Text layoutX="184.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a nickname">
                <font>
                   <Font size="22.0" />
                </font>
