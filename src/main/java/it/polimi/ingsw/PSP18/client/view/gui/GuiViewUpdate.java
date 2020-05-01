@@ -2,6 +2,8 @@ package it.polimi.ingsw.PSP18.client.view.gui;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.Controller;
+import it.polimi.ingsw.PSP18.client.view.gui.scenes.LobbyController;
+import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,12 +16,13 @@ import java.io.IOException;
 public class GuiViewUpdate extends ViewUpdate {
     private Stage stage;
     private Scene scene;
-    private FXMLLoader loader;
     private Controller controller;
+    private Parent parent;
+    private SocketClient socket;
 
     public GuiViewUpdate() {
+        FXMLLoader loader;
         loader = new FXMLLoader();
-        Parent parent;
         try {
             loader.setLocation(getClass().getResource("/FXML/Lobby.fxml"));
             parent = loader.load();
@@ -34,9 +37,15 @@ public class GuiViewUpdate extends ViewUpdate {
         stage.show();
     }
 
+    // TODO: Non ci serve dopo
+    public void setSocket(SocketClient socket) {
+        this.socket = socket;
+        controller.setSocket(socket);
+    }
+
     /*
         From here we place the functions that are called when message of the selected types are read from socket
-         */
+    */
     @Override
     public void updateMap(GameMapUpdate gameMapUpdate) {
 
@@ -54,7 +63,7 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void selectNick() {
-
+        ((LobbyController)controller).insertNick();
     }
 
     @Override
@@ -84,7 +93,7 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void matchReadyUpdate(MatchReady matchReady) {
-
+        ((LobbyController)controller).unlockReady();
     }
 
     @Override
@@ -119,6 +128,19 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void divinitySelection(DivinityPick divinityPick) {
+        switchScene("PickDivinity9");
+    }
 
+    private void switchScene(String name) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/FXML/" + name + ".fxml"));
+        try {
+            parent = loader.load();
+            controller = loader.getController();
+            //controller.setSocket(socket);
+            scene.setRoot(parent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

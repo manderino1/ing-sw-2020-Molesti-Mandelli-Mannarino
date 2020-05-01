@@ -34,6 +34,7 @@ public class Launcher {
             Socket socket = new Socket(host, PORT);
             //socketClient = new SocketClient (socket, cliViewUpdate);
             socketClient = new SocketClient (socket, guiViewUpdate);
+            guiViewUpdate.setSocket(socketClient);
             //cliViewUpdate.setInputParser(new InputParser(socketClient));
             socketClient.start();
         } catch (IOException e) {
