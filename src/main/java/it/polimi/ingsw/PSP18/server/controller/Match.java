@@ -1,10 +1,7 @@
 package it.polimi.ingsw.PSP18.server.controller;
 
 import it.polimi.ingsw.PSP18.networking.SocketClient;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.DivinityList;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchReady;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.PlaceReady;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.WaitingNick;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.WorkerReceiver;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.controller.TurnManager;
@@ -154,10 +151,7 @@ public class Match {
         // If i manage to arrive here all the players are ready, i can start the divinity selection phase
         matchStatus = MatchStatus.DIVINITIES_SELECTION;
         String[] divinities = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Ephaestus", "Minotaur", "Pan", "Prometheus"};
-        Collections.shuffle(Arrays.asList(divinities));
-        divinitySelection.addAll(Arrays.asList(divinities).subList(0, playerManagers.size()));
-        playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
-        divinitySelectionIndex++;
+        playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(new ArrayList<>(Arrays.asList(divinities)), playerManagers.size()));
     }
 
     /***
@@ -186,6 +180,12 @@ public class Match {
             playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
             divinitySelectionIndex++;
         }
+    }
+
+    public void divinitySelection(ArrayList<String> divinities) {
+        divinitySelection = divinities;
+        playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinities));
+        divinitySelectionIndex++;
     }
 
     /***

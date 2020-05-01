@@ -201,6 +201,9 @@ public class SocketThread extends Thread {
                     ((Atlas) match.getCurrentPlayer().getDivinity()).buildReceiver(atlasBuildReceiver.getDirection(), atlasBuildReceiver.isDome());
                 }
                 break;
+            case DIVINITY_SELECTION:
+                DivinitySelection divinitySelection = gson.fromJson(jsonObj, DivinitySelection.class);
+                match.divinitySelection(divinitySelection.getDivinities());
         }
     }
 

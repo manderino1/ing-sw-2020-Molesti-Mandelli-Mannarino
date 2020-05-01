@@ -217,6 +217,10 @@ public class SocketClient extends Thread {
                 AtlasBuildList atlasBuildList = gson.fromJson(jsonObj, AtlasBuildList.class);
                 viewUpdate.atlasBuildUpdate(atlasBuildList);
                 break;
+            case DIVINITY_PICK:
+                DivinityPick divinityPick = gson.fromJson(jsonObj, DivinityPick.class);
+                viewUpdate.divinitySelection(divinityPick);
+                break;
         }
     }
 

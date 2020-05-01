@@ -14,5 +14,6 @@ public enum ServerMessageType {
     FLAG_MOVE_RECEIVER,
     PROMETHEUS_BUILD_RECEIVER,
     ATLAS_BUILD_RECEIVER,
-    PONG
+    PONG,
+    DIVINITY_SELECTION
 }
