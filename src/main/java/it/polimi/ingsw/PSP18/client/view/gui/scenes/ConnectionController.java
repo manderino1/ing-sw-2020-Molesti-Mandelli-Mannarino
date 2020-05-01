@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientMessageType;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,7 +21,11 @@ public class ConnectionController extends Controller {
     }
 
 
+    @FXML
     private void inputIP() {
 
+    }
+
+    public void confirmMouseEnter(MouseEvent mouseEvent) {
     }
 }

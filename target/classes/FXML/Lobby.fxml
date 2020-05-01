@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.ConnectionController">
+<Pane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.LobbyController">
    <children>
       <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="1120.0" layoutY="240.0" pickOnBounds="true">
          <image>
@@ -108,7 +108,7 @@
       </ImageView>
       <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="160.0" layoutY="480.0" pickOnBounds="true">
          <image>
-            <Image url="@../2DGraphics/_0000s_0055_god_and_hero_cards_0001_Athena.png" />
+            <Image url="@../2DGraphics/Athena.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="240.0" fitWidth="160.0" pickOnBounds="true">
@@ -149,7 +149,7 @@
                </image>
             </ImageView>
             <Button contentDisplay="GRAPHIC_ONLY" layoutX="234.0" layoutY="314.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="50.0" snapToPixel="false" />
-            <TextField layoutX="172.0" layoutY="76.0" prefHeight="25.0" prefWidth="200.0" />
+            <TextField fx:id="nicknameBar" layoutX="172.0" layoutY="76.0" prefHeight="25.0" prefWidth="200.0" />
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-31.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../2DGraphics/glory_gloryicon.png" />
@@ -170,20 +170,20 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="234.0" layoutY="314.0" pickOnBounds="true">
+            <ImageView fx:id="readyButton" fitHeight="50.0" fitWidth="50.0" layoutX="234.0" layoutY="314.0" onMouseClicked="#readyButtonClicked" pickOnBounds="true">
                <image>
-                  <Image url="@../2DGraphics/GreenButton.png" />
+                  <Image url="@../2DGraphics/RedButton.png" />
                </image>
             </ImageView>
             <Button layoutX="223.0" layoutY="114.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="97.0" text="Confirm" />
-            <Text layoutX="184.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a nickname">
+            <Text layoutX="184.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chose a nickname">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <ImageView fx:id="confirmButton" fitHeight="40.0" fitWidth="97.0" layoutX="224.0" layoutY="114.0" onMouseEntered="#confirmMouseEnter" pickOnBounds="true">
+            <ImageView fx:id="confirmButton" fitHeight="40.0" fitWidth="97.0" layoutX="224.0" layoutY="114.0" onMouseClicked="#confirmButtonClicked" pickOnBounds="true">
                <image>
-                  <Image url="@../2DGraphics/GreenButton.png" />
+                  <Image url="@../2DGraphics/RedButton.png" />
                </image>
             </ImageView>
             <Label layoutX="250.0" layoutY="126.0" text="Confirm" />
