@@ -15,14 +15,8 @@
          </image>
       </ImageView>
       <Button layoutX="153.0" layoutY="200.0" mnemonicParsing="false" prefHeight="310.0" prefWidth="222.0" />
-      <Button layoutX="530.0" layoutY="200.0" mnemonicParsing="false" prefHeight="310.0" prefWidth="222.0" />
       <Button layoutX="908.0" layoutY="200.0" mnemonicParsing="false" prefHeight="310.0" prefWidth="222.0" />
       <ImageView fitHeight="310.0" fitWidth="215.0" layoutX="155.0" layoutY="205.0" pickOnBounds="true">
-         <image>
-            <Image url="@../2DGraphics/Athena.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="310.0" fitWidth="215.0" layoutX="533.0" layoutY="205.0" pickOnBounds="true">
          <image>
             <Image url="@../2DGraphics/Athena.png" />
          </image>
@@ -43,14 +37,8 @@
          </font>
       </Label>
       <Pane layoutX="925.0" layoutY="541.0" prefHeight="149.0" prefWidth="188.0" style="-fx-background-color: black;" />
-      <Pane layoutX="547.0" layoutY="537.0" prefHeight="149.0" prefWidth="188.0" style="-fx-background-color: black;" />
       <Pane layoutX="168.0" layoutY="537.0" prefHeight="149.0" prefWidth="188.0" style="-fx-background-color: black;" />
       <ImageView fitHeight="341.0" fitWidth="300.0" layoutX="136.0" layoutY="189.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../2DGraphics/frame_yellow.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="341.0" fitWidth="300.0" layoutX="514.0" layoutY="189.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/frame_yellow.png" />
          </image>
@@ -66,16 +54,6 @@
          </image>
       </ImageView>
       <ImageView fitHeight="173.0" fitWidth="215.0" layoutX="154.0" layoutY="526.0" pickOnBounds="true">
-         <image>
-            <Image url="@../2DGraphics/om_btnGlow.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="134.0" fitWidth="165.0" layoutX="560.0" layoutY="547.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../2DGraphics/PowerApollo.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="173.0" fitWidth="215.0" layoutX="532.0" layoutY="527.0" pickOnBounds="true">
          <image>
             <Image url="@../2DGraphics/om_btnGlow.png" />
          </image>

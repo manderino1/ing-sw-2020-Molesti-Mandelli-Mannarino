@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.client.view;
 
 import it.polimi.ingsw.PSP18.client.view.cli.CliViewUpdate;
 import it.polimi.ingsw.PSP18.client.view.cli.InputParser;
+import it.polimi.ingsw.PSP18.client.view.gui.GuiViewUpdate;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 
 import java.io.IOException;
@@ -18,19 +19,22 @@ public class Launcher {
     private InetAddress host;
     SocketClient socketClient;
     CliViewUpdate cliViewUpdate;
+    GuiViewUpdate guiViewUpdate;
 
     /***
      * Contructor of Launcher. Creates the socket and start the thread
      * @param address the ip address of the server
      */
     public Launcher(String address) {
-        cliViewUpdate = new CliViewUpdate();
+        guiViewUpdate = new GuiViewUpdate();
+        //cliViewUpdate = new CliViewUpdate();
 
         try {
             host = InetAddress.getByName(address);
             Socket socket = new Socket(host, PORT);
-            socketClient = new SocketClient (socket, cliViewUpdate);
-            cliViewUpdate.setInputParser(new InputParser(socketClient));
+            //socketClient = new SocketClient (socket, cliViewUpdate);
+            socketClient = new SocketClient (socket, guiViewUpdate);
+            //cliViewUpdate.setInputParser(new InputParser(socketClient));
             socketClient.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,6 +56,7 @@ public class Launcher {
     public CliViewUpdate getCliViewUpdate() {
         return cliViewUpdate;
     }
+
 
     /***
      * Main method, launches the client

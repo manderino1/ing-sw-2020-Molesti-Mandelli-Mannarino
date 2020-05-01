@@ -1,10 +1,37 @@
 package it.polimi.ingsw.PSP18.client.view.gui;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
+import it.polimi.ingsw.PSP18.client.view.gui.scenes.Controller;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class GuiViewUpdate extends ViewUpdate {
+    private Stage stage;
+    private Scene scene;
+    private FXMLLoader loader;
+    private Controller controller;
+
     public GuiViewUpdate() {
+        loader = new FXMLLoader();
+        Parent parent;
+        try {
+            loader.setLocation(getClass().getResource("/FXML/Lobby.fxml"));
+            parent = loader.load();
+            scene = new Scene(parent);
+            controller = loader.getController();
+            stage = new Stage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Santorini");
+        stage.setScene(scene);
+        stage.show();
     }
 
     /*
