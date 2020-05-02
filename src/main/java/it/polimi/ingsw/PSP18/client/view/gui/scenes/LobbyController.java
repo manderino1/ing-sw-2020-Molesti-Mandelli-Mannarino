@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PlayerDataReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.ReadyReceiver;
+import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -9,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class LobbyController extends Controller {
@@ -63,5 +65,13 @@ public class LobbyController extends Controller {
         confirmButton.setImage(image);
 
         nickOK = true;
+    }
+
+    public void updatePlayers(ArrayList<PlayerData> players) {
+        /*
+        Settare tutti i label e le eventuali immagini delle divinitá nella lobby
+        In players ci sono tutti i players connessi
+        Ci sono nick playorder ed eventuale divinita
+         */
     }
 }

@@ -7,7 +7,7 @@ import it.polimi.ingsw.PSP18.client.view.gui.scenes.LobbyController;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.PickDivinity9Controller;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.DivinitySelection;
+import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 public class GuiViewUpdate extends ViewUpdate {
     private Stage stage;
@@ -24,6 +25,8 @@ public class GuiViewUpdate extends ViewUpdate {
     private SocketClient socket;
     private final int PORT = 9002;
     private InetAddress host;
+
+    private ArrayList<PlayerData> playerDataArrayList = new ArrayList<>();
 
     public GuiViewUpdate() {
         FXMLLoader loader;
@@ -62,7 +65,25 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void updatePlayerData(PlayerDataUpdate playerDataUpdate) {
+        boolean present = false;
+        if(playerDataUpdate != null) {
+            for(PlayerData player : playerDataArrayList) {
+                if (player.getPlayerID().equals(playerDataUpdate.getPlayerID())) {
+                    player.setDivinity(playerDataUpdate.getDivinity());
+                    present = true;
+                    break;
+                }
+            }
+            if(!present) {
+                PlayerData playerData = new PlayerData(playerDataUpdate.getPlayerID(), playerDataUpdate.getPlayerColor(), playerDataUpdate.getPlayOrder());
+                playerData.setDivinity(playerDataUpdate.getDivinity());
+                playerDataArrayList.add(playerData);
+            }
+        }
 
+        if(controller.getPageID().equals("Lobby")) {
+            ((LobbyController)controller).updatePlayers(playerDataArrayList);
+        }
     }
 
     @Override
