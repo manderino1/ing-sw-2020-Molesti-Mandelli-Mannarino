@@ -289,6 +289,7 @@ public class CliViewUpdate extends ViewUpdate {
         if(playerDataUpdate != null) {
             for(PlayerData player : playerDataArrayList) {
                 if (player.getPlayerID().equals(playerDataUpdate.getPlayerID())) {
+                    player.setDivinity(playerDataUpdate.getDivinity());
                     present = true;
                     break;
                 }
@@ -298,6 +299,7 @@ public class CliViewUpdate extends ViewUpdate {
                 playerData.setDivinity(playerDataUpdate.getDivinity());
                 playerDataArrayList.add(playerData);
             }
+
         }
 
         for(PlayerData player : playerDataArrayList) {

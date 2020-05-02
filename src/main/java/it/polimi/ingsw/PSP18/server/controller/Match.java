@@ -90,14 +90,26 @@ public class Match {
      */
     public void addPlayer(PlayerManager player, SocketThread socket){
         for(PlayerManager playerPresent : playerManagers) {
-            if(player.getPlayerData().getPlayerID().equals(playerPresent.getPlayerData().getPlayerID())) {
+            if (player.getPlayerData().getPlayerID().equals(playerPresent.getPlayerData().getPlayerID())) {
                 socket.sendMessage(new WaitingNick());
                 return;
             }
         }
+
+        // Subscribe the current player to all the existing players
+        for(PlayerManager exPlayer : playerManagers) {
+            exPlayer.getPlayerData().attach(new PlayerDataObserver(socket));
+        }
+
         playerManagers.add(player);
         playerSocketMap.put(player, socket);
         socketPlayerMap.put(socket, player);
+
+        // Subscribe all the existing players to the new player
+        for(PlayerManager exPlayer : playerManagers) {
+            player.getPlayerData().attach(new PlayerDataObserver(playerSocketMap.get(exPlayer)));
+        }
+
         socket.sendMessage(new MatchReady());
     }
 
@@ -167,9 +179,6 @@ public class Match {
             // Set observers
             for(SocketThread sock : sockets) {
                 gameMap.attach(new MapObserver(sock));
-                for(PlayerManager player : playerManagers) {
-                    player.getPlayerData().attach(new PlayerDataObserver(sock));
-                }
             }
 
             matchStatus = MatchStatus.WORKER_SETUP;

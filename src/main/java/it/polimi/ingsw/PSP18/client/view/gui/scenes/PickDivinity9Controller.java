@@ -23,7 +23,7 @@ public class PickDivinity9Controller extends Controller {
     private Label topText;
 
     private int nPlayers; // TODO: Add check in the message
-    private boolean sendOK = false;
+    private boolean sendOK = false, sent = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -33,7 +33,7 @@ public class PickDivinity9Controller extends Controller {
 
     @FXML
     private void confirmClick() {
-        if(sendOK) {
+        if(sendOK && !sent) {
             ArrayList<String> divinities = new ArrayList<>();
             if(athenaCheckbox.isSelected()) {
                 divinities.add("Athena");
@@ -63,6 +63,7 @@ public class PickDivinity9Controller extends Controller {
                 divinities.add("Prometheus");
             }
             socket.sendMessage(new DivinitySelection(divinities));
+            sent = true;
         }
     }
 
