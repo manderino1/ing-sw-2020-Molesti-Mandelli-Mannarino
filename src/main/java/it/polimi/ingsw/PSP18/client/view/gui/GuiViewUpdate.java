@@ -70,6 +70,9 @@ public class GuiViewUpdate extends ViewUpdate {
             for(PlayerData player : playerDataArrayList) {
                 if (player.getPlayerID().equals(playerDataUpdate.getPlayerID())) {
                     player.setDivinity(playerDataUpdate.getDivinity());
+                    if (playerDataUpdate.getReady()) {
+                        player.setReady();
+                    }
                     present = true;
                     break;
                 }
@@ -77,6 +80,9 @@ public class GuiViewUpdate extends ViewUpdate {
             if(!present) {
                 PlayerData playerData = new PlayerData(playerDataUpdate.getPlayerID(), playerDataUpdate.getPlayerColor(), playerDataUpdate.getPlayOrder());
                 playerData.setDivinity(playerDataUpdate.getDivinity());
+                if (playerDataUpdate.getReady()) {
+                    playerData.setReady();
+                }
                 playerDataArrayList.add(playerData);
             }
         }
@@ -97,7 +103,15 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void selectDivinity(DivinityList divinityList) {
-
+        ArrayList<String> divinities = divinityList.getDivinities();
+        String nextScene;
+        if(divinities.size() == 3) {
+            switchScene("PickDivinity3");
+        } else if (divinities.size() == 2) {
+            switchScene("PickDivinity2");
+        } else {
+            switchScene("PickDivinity1");
+        }
     }
 
     @Override

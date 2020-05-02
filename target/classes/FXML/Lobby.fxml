@@ -204,5 +204,65 @@
             <Font size="22.0" />
          </font>
       </Text>
+      <ImageView fx:id="blueBox1" fitHeight="259.0" fitWidth="597.0" layoutX="72.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../2DGraphics/featured_god_frame_blue.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="firstPlayerDivinity" fitHeight="127.0" fitWidth="97.0" layoutX="135.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../2DGraphics/Pan.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="yellowBox1" fitHeight="150.0" fitWidth="110.0" layoutX="124.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../2DGraphics/frame_yellow.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="secondPlayerDivinity" fitHeight="127.0" fitWidth="97.0" layoutX="135.0" layoutY="386.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../2DGraphics/Pan.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="yellowBox2" fitHeight="150.0" fitWidth="110.0" layoutX="124.0" layoutY="375.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../2DGraphics/frame_yellow.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blueBox2" fitHeight="259.0" fitWidth="597.0" layoutX="72.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../2DGraphics/featured_god_frame_blue.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="nick1" layoutX="250.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname:" visible="false" wrappingWidth="160.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fx:id="firstPlayer" layoutX="250.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nome" visible="false" wrappingWidth="260.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fx:id="firstPlayerReady" layoutX="250.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" visible="false" wrappingWidth="260.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fx:id="nick2" layoutX="250.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname:" visible="false" wrappingWidth="160.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fx:id="secondPlayer" layoutX="250.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nome" visible="false" wrappingWidth="260.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fx:id="secondPlayerReady" layoutX="250.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" visible="false" wrappingWidth="260.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
    </children>
 </Pane>

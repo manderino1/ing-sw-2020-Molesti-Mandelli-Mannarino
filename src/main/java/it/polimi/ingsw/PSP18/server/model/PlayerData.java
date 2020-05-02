@@ -93,6 +93,7 @@ public class PlayerData {
      */
     public void setReady() {
         isReady = true;
+        notifyObservers();
     }
 
     /***

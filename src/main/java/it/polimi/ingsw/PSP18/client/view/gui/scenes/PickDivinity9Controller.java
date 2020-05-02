@@ -113,4 +113,6 @@ public class PickDivinity9Controller extends Controller {
         this.nPlayers = nPlayers;
         Platform.runLater(() -> topText.setText("Pick " + nPlayers + " divinities for the game"));
     }
+
+
 }
