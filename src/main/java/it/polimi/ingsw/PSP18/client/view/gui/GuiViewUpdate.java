@@ -4,8 +4,10 @@ import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.LoginController;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.Controller;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.LobbyController;
+import it.polimi.ingsw.PSP18.client.view.gui.scenes.PickDivinity9Controller;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.DivinitySelection;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -135,6 +137,7 @@ public class GuiViewUpdate extends ViewUpdate {
     @Override
     public void divinitySelection(DivinityPick divinityPick) {
         switchScene("PickDivinity9");
+        ((PickDivinity9Controller)controller).setnPlayers(divinityPick.getnOfPlayers());
     }
 
     private void switchScene(String name) {
