@@ -13,7 +13,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
-public class ConnectionController extends Controller {
+public class LoginController extends Controller {
     @FXML
     private TextField ipAddress;
 
@@ -23,7 +23,7 @@ public class ConnectionController extends Controller {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        this.pageID = "Login"
+        this.pageID = "Login";
     }
 
 
