@@ -1,5 +1,7 @@
-package it.polimi.ingsw.PSP18.client.view;
+package it.polimi.ingsw.PSP18.client.debug;
 
+
+import it.polimi.ingsw.PSP18.client.view.Launcher;
 
 public class Client1 {
     public static void main(String[] args) {

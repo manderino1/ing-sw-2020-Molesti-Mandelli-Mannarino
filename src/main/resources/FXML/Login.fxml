@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -9,165 +7,157 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.ConnectionController">
+<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.LoginController">
    <children>
-      <Pane prefHeight="720.0" prefWidth="1280.0">
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="1120.0" layoutY="240.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0017_god_and_hero_cards_0039_Hestia.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="1120.0" layoutY="480.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/Pan.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="960.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0006_god_and_hero_cards_0050_Harpies.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="960.0" layoutY="240.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0016_god_and_hero_cards_0040_Siren.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="960.0" layoutY="480.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0012_god_and_hero_cards_0044_Jason.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="800.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0005_god_and_hero_cards_0051_Adonis.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="800.0" layoutY="240.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0001_god_and_hero_cards_0058_Iris.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="800.0" layoutY="480.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/Demeter.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="640.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/Prometheus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="640.0" layoutY="240.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0015_god_and_hero_cards_0041_fates.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="640.0" layoutY="480.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0055_god_and_hero_cards_0001_Aphrodite.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="480.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0003_god_and_hero_cards_0053_Tartarus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="480.0" layoutY="240.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0013_god_and_hero_cards_0043_Terpsichore.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="480.0" layoutY="480.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/Artemis.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="320.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0002_god_and_hero_cards_0054_Europa_and_Talus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="320.0" layoutY="240.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0011_god_and_hero_cards_0045_chaos.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="320.0" layoutY="480.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/Atlas.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="160.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0001_god_and_hero_cards_0058_Proteus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="160.0" layoutY="240.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0010_god_and_hero_cards_0046_Circe.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="160.0" layoutY="480.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0055_god_and_hero_cards_0001_Athena.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0001_god_and_hero_cards_0055_Tyche.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutY="240.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/Ephaestus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutY="480.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/_0000s_0044_god_and_hero_cards_0012_Medusa.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="1120.0" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/Minotaur.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="237.0" fitWidth="592.0" layoutX="344.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/santorini-logo.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="510.0" layoutY="332.0" prefHeight="0.0" prefWidth="261.0">
          <children>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="1120.0" layoutY="240.0" pickOnBounds="true">
+            <ImageView fitHeight="240.0" fitWidth="302.0" layoutX="45.0" layoutY="-62.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                <image>
-                  <Image url="@../2DGraphics/_0000s_0017_god_and_hero_cards_0039_Hestia.png" />
+                  <Image url="@../2DGraphics/bg_panelMid.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="1120.0" layoutY="480.0" pickOnBounds="true">
+            <ImageView fitHeight="275.0" fitWidth="208.0" layoutX="29.0" layoutY="-80.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                <image>
-                  <Image url="@../2DGraphics/Pan.png" />
+                  <Image url="@../2DGraphics/frame_yellow.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="960.0" pickOnBounds="true">
+            <Label layoutX="93.0" layoutY="-1.0" prefHeight="31.0" prefWidth="75.0" text="IP server:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="ipAddress" layoutX="23.0" layoutY="31.0" prefHeight="25.0" prefWidth="215.0" />
+            <ImageView fx:id="confirmButton" fitHeight="40.0" fitWidth="97.0" layoutX="82.0" layoutY="64.0" onMouseClicked="#inputIP" pickOnBounds="true">
                <image>
-                  <Image url="@../2DGraphics/_0000s_0006_god_and_hero_cards_0050_Harpies.png" />
+                  <Image url="@../2DGraphics/GreenButton.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="960.0" layoutY="240.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0016_god_and_hero_cards_0040_Siren.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="960.0" layoutY="480.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0012_god_and_hero_cards_0044_Jason.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="800.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0005_god_and_hero_cards_0051_Adonis.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="800.0" layoutY="240.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0001_god_and_hero_cards_0058_Iris.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="800.0" layoutY="480.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/Demeter.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="640.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/Prometheus.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="640.0" layoutY="240.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0015_god_and_hero_cards_0041_fates.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="640.0" layoutY="480.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0055_god_and_hero_cards_0001_Aphrodite.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="480.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0003_god_and_hero_cards_0053_Tartarus.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="480.0" layoutY="240.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0013_god_and_hero_cards_0043_Terpsichore.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="480.0" layoutY="480.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/Artemis.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="320.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0002_god_and_hero_cards_0054_Europa_and_Talus.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="320.0" layoutY="240.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0011_god_and_hero_cards_0045_chaos.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="320.0" layoutY="480.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/Atlas.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="160.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0001_god_and_hero_cards_0058_Proteus.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="160.0" layoutY="240.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0010_god_and_hero_cards_0046_Circe.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="160.0" layoutY="480.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0055_god_and_hero_cards_0001_Athena.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0001_god_and_hero_cards_0055_Tyche.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutY="240.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/Ephaestus.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutY="480.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/_0000s_0044_god_and_hero_cards_0012_Medusa.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="1120.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/Minotaur.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="237.0" fitWidth="592.0" layoutX="344.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../2DGraphics/santorini-logo.png" />
-               </image>
-            </ImageView>
-            <DialogPane layoutX="510.0" layoutY="332.0" prefHeight="118.0" prefWidth="261.0">
-               <content>
-                  <Pane prefHeight="0.0" prefWidth="261.0">
-                     <children>
-                        <ImageView fitHeight="240.0" fitWidth="302.0" layoutX="45.0" layoutY="-62.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
-                           <image>
-                              <Image url="@../2DGraphics/bg_panelMid.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="275.0" fitWidth="208.0" layoutX="29.0" layoutY="-80.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
-                           <image>
-                              <Image url="@../2DGraphics/frame_yellow.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="93.0" layoutY="-1.0" prefHeight="31.0" prefWidth="75.0" text="IP server:">
-                           <font>
-                              <Font size="18.0" />
-                           </font></Label>
-                        <TextField fx:id="inputIP" layoutX="23.0" layoutY="31.0" prefHeight="25.0" prefWidth="215.0" />
-                        <Button fx:id="ConfirmButton" layoutX="82.0" layoutY="64.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="97.0" text="Confirm" />
-                        <ImageView fitHeight="40.0" fitWidth="97.0" layoutX="82.0" layoutY="64.0" pickOnBounds="true">
-                           <image>
-                              <Image url="@../2DGraphics/GreenButton.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="109.0" layoutY="76.0" text="Confirm" />
-                     </children>
-                  </Pane>
-               </content>
-            </DialogPane>
+            <Label layoutX="109.0" layoutY="76.0" onMouseClicked="#inputIP" text="Confirm" />
          </children>
       </Pane>
    </children>

@@ -1,12 +1,12 @@
 package it.polimi.ingsw.PSP18.client.view;
 
+import it.polimi.ingsw.PSP18.client.view.gui.GuiViewUpdate;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class ClientGui extends Application {
-
+public class GuiLauncher extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Launcher launcher = new Launcher("127.0.0.1");
+        GuiViewUpdate guiViewUpdate = new GuiViewUpdate();
     }
 }

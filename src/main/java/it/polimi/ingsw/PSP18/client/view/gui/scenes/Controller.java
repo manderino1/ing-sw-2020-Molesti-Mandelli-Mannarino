@@ -8,13 +8,17 @@ import java.util.ResourceBundle;
 
 public abstract class Controller implements Initializable {
     protected SocketClient socket;
+    protected String pageID;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 
     public void setSocket(SocketClient socket) {
         this.socket = socket;
+    }
+
+    public String getPageID() {
+        return pageID;
     }
 }

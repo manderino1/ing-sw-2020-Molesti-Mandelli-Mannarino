@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP18.client.view.gui;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
+import it.polimi.ingsw.PSP18.client.view.gui.scenes.LoginController;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.Controller;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.LobbyController;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
@@ -8,10 +9,10 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 public class GuiViewUpdate extends ViewUpdate {
     private Stage stage;
@@ -19,15 +20,18 @@ public class GuiViewUpdate extends ViewUpdate {
     private Controller controller;
     private Parent parent;
     private SocketClient socket;
+    private final int PORT = 9002;
+    private InetAddress host;
 
     public GuiViewUpdate() {
         FXMLLoader loader;
         loader = new FXMLLoader();
         try {
-            loader.setLocation(getClass().getResource("/FXML/Lobby.fxml"));
+            loader.setLocation(getClass().getResource("/FXML/Login.fxml"));
             parent = loader.load();
             scene = new Scene(parent);
             controller = loader.getController();
+            ((LoginController)controller).setView(this);
             stage = new Stage();
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,10 +41,8 @@ public class GuiViewUpdate extends ViewUpdate {
         stage.show();
     }
 
-    // TODO: Non ci serve dopo
     public void setSocket(SocketClient socket) {
         this.socket = socket;
-        controller.setSocket(socket);
     }
 
     /*
@@ -63,7 +65,11 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void selectNick() {
-        ((LobbyController)controller).insertNick();
+        if(controller.getPageID().equals("Lobby")) { // Do not invert the two ifs
+            ((LobbyController)controller).insertNick();
+        } else if(controller.getPageID().equals("Login")) {
+            switchScene("Lobby");
+        }
     }
 
     @Override
@@ -137,7 +143,7 @@ public class GuiViewUpdate extends ViewUpdate {
         try {
             parent = loader.load();
             controller = loader.getController();
-            //controller.setSocket(socket);
+            controller.setSocket(socket);
             scene.setRoot(parent);
         } catch (IOException e) {
             e.printStackTrace();

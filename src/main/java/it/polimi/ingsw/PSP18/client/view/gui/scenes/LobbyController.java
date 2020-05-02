@@ -20,10 +20,12 @@ public class LobbyController extends Controller {
     private TextField nicknameBar;
     private boolean nickOK = false;
     private boolean isReady = false;
+    private boolean firstNick = true;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
+        this.pageID = "Lobby";
     }
 
     @FXML
@@ -41,12 +43,17 @@ public class LobbyController extends Controller {
     private void confirmButtonClicked(MouseEvent mouseEvent) {
         if(!nickOK) {
             socket.sendMessage(new PlayerDataReceiver(nicknameBar.getText()));
+            firstNick = false;
         }
     }
 
     public void insertNick() {
         Image image = new Image("/2DGraphics/RedButton.png");
         confirmButton.setImage(image);
+
+        if(!firstNick) {
+            nicknameBar.setText("Nick already used, try again");
+        }
 
         nickOK = false;
     }

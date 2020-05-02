@@ -150,7 +150,7 @@ public class Match {
         }
         // If i manage to arrive here all the players are ready, i can start the divinity selection phase
         matchStatus = MatchStatus.DIVINITIES_SELECTION;
-        String[] divinities = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Ephaestus", "Minotaur", "Pan", "Prometheus"};
+        String[] divinities = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur", "Pan", "Prometheus"};
         playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(new ArrayList<>(Arrays.asList(divinities)), playerManagers.size()));
     }
 
