@@ -17,7 +17,6 @@ public class LoginController extends Controller {
     @FXML
     private TextField ipAddress;
 
-    private GuiViewUpdate view;
     private final int PORT = 9002;
 
     @Override
@@ -38,9 +37,5 @@ public class LoginController extends Controller {
         } catch (IOException e) {
             ipAddress.setText("Unknown IP, Retry");
         }
-    }
-
-    public void setView(GuiViewUpdate view) {
-        this.view = view;
     }
 }

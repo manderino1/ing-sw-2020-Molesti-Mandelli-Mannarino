@@ -49,7 +49,6 @@ public class LobbyController extends Controller {
     private boolean nickOK = false;
     private boolean isReady = false;
     private boolean firstNick = true;
-    private boolean firstNickInput = true;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -72,6 +71,7 @@ public class LobbyController extends Controller {
     private void confirmButtonClicked(MouseEvent mouseEvent) {
         if(!nickOK) {
             socket.sendMessage(new PlayerDataReceiver(nicknameBar.getText()));
+            view.setName(nicknameBar.getText());
             firstNick = false;
         }
     }
@@ -95,6 +95,7 @@ public class LobbyController extends Controller {
     }
 
     public void updatePlayers(ArrayList<PlayerData> players) {
+        boolean firstNickInput = true;
         for (PlayerData playerData : players){
             if (!playerData.getPlayerID().equals(nicknameBar.getText()) && firstNickInput) {
                 blueBox1.setVisible(true);
@@ -117,6 +118,7 @@ public class LobbyController extends Controller {
                     yellowBox1.setVisible(true);
                 }
                 firstNickInput = false;
+
             } else if (!playerData.getPlayerID().equals(nicknameBar.getText()) && !firstNickInput && !playerData.getPlayerID().equals(firstPlayer.getText()) ) {
                 blueBox2.setVisible(true);
                 nick2.setVisible(true);

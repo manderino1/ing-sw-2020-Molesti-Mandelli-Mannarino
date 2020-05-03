@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.PickDivinity1Controller">
    <children>
       <ImageView fitHeight="1037.0" fitWidth="1280.0" layoutY="-240.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/Odyssey_UI_Backdrop.png" />
          </image>
       </ImageView>
-      <Button layoutX="530.0" layoutY="200.0" mnemonicParsing="false" prefHeight="310.0" prefWidth="222.0" />
-      <ImageView fitHeight="310.0" fitWidth="215.0" layoutX="533.0" layoutY="205.0" pickOnBounds="true">
+      <ImageView fx:id="divinitySelected" fitHeight="310.0" fitWidth="215.0" layoutX="533.0" layoutY="205.0" onMouseClicked="#divinityClick" pickOnBounds="true" visible="false">
          <image>
             <Image url="@../2DGraphics/Athena.png" />
          </image>
@@ -31,12 +29,12 @@
          </font>
       </Label>
       <Pane layoutX="547.0" layoutY="537.0" prefHeight="149.0" prefWidth="188.0" style="-fx-background-color: black;" />
-      <ImageView fitHeight="341.0" fitWidth="300.0" layoutX="514.0" layoutY="189.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="divinityBox" fitHeight="341.0" fitWidth="300.0" layoutX="514.0" layoutY="189.0" onMouseClicked="#divinityClick" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../2DGraphics/frame_yellow.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="134.0" fitWidth="165.0" layoutX="560.0" layoutY="547.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="divinityPower" fitHeight="134.0" fitWidth="165.0" layoutX="560.0" layoutY="547.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../2DGraphics/PowerApollo.png" />
          </image>

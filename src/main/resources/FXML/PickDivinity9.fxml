@@ -37,7 +37,7 @@
       </ImageView>
       <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="585.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../2DGraphics/Ephaestus.png" />
+            <Image url="@../2DGraphics/Hephaestus.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="800.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">

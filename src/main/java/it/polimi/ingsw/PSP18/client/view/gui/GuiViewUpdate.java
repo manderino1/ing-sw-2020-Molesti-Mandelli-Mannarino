@@ -1,10 +1,7 @@
 package it.polimi.ingsw.PSP18.client.view.gui;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
-import it.polimi.ingsw.PSP18.client.view.gui.scenes.LoginController;
-import it.polimi.ingsw.PSP18.client.view.gui.scenes.Controller;
-import it.polimi.ingsw.PSP18.client.view.gui.scenes.LobbyController;
-import it.polimi.ingsw.PSP18.client.view.gui.scenes.PickDivinity9Controller;
+import it.polimi.ingsw.PSP18.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
@@ -25,6 +22,7 @@ public class GuiViewUpdate extends ViewUpdate {
     private SocketClient socket;
     private final int PORT = 9002;
     private InetAddress host;
+    private String name;
 
     private ArrayList<PlayerData> playerDataArrayList = new ArrayList<>();
 
@@ -36,7 +34,7 @@ public class GuiViewUpdate extends ViewUpdate {
             parent = loader.load();
             scene = new Scene(parent);
             controller = loader.getController();
-            ((LoginController)controller).setView(this);
+            controller.setView(this);
             stage = new Stage();
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,6 +87,8 @@ public class GuiViewUpdate extends ViewUpdate {
 
         if(controller.getPageID().equals("Lobby")) {
             ((LobbyController)controller).updatePlayers(playerDataArrayList);
+        } else if (controller.getPageID().equals("WaitingRoom")) {
+            ((WaitingRoomController)controller).updatePlayers(playerDataArrayList);
         }
     }
 
@@ -107,11 +107,15 @@ public class GuiViewUpdate extends ViewUpdate {
         String nextScene;
         if(divinities.size() == 3) {
             switchScene("PickDivinity3");
+            ((PickDivinity3Controller)controller).showChoices(divinityList);
         } else if (divinities.size() == 2) {
             switchScene("PickDivinity2");
+            ((PickDivinity2Controller)controller).showChoices(divinityList);
         } else {
             switchScene("PickDivinity1");
+            ((PickDivinity1Controller)controller).showChoices(divinityList);
         }
+
     }
 
     @Override
@@ -175,16 +179,30 @@ public class GuiViewUpdate extends ViewUpdate {
         ((PickDivinity9Controller)controller).setnPlayers(divinityPick.getnOfPlayers());
     }
 
-    private void switchScene(String name) {
+    public void switchScene(String name) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/FXML/" + name + ".fxml"));
         try {
             parent = loader.load();
             controller = loader.getController();
             controller.setSocket(socket);
+            controller.setView(this);
             scene.setRoot(parent);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void goToWait(){
+        switchScene("WaitingRoom");
+        ((WaitingRoomController)controller).updatePlayers(playerDataArrayList);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

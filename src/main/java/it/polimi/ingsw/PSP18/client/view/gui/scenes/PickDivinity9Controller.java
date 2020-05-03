@@ -64,6 +64,7 @@ public class PickDivinity9Controller extends Controller {
             }
             socket.sendMessage(new DivinitySelection(divinities));
             sent = true;
+            view.goToWait();
         }
     }
 
