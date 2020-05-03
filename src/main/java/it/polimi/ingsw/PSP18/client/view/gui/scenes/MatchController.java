@@ -109,12 +109,16 @@ public class MatchController extends Application {
         primaryStage.show();
     }
 
-    public Group loadModel(URL url) throws IOException {
+    public Group loadModel(URL url) {
+        Model3D model = null;
+        try {
+            model = Importer3D.loadAsPoly(url);
+            return model.getRoot();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-        Model3D model = Importer3D.loadAsPoly(url);
-
-        return model.getRoot();
+        return null;
     }
     public static void main(String[] args) {
         launch(args);
