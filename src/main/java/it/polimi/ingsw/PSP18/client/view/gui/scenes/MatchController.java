@@ -2,21 +2,23 @@ package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import javafx.animation.KeyValue;
 import javafx.application.Application;
-import javafx.scene.Camera;
-import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
+import org.fxyz3d.importers.Importer3D;
+import org.fxyz3d.importers.Model3D;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,15 +34,22 @@ public class MatchController extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         //import models
-        Group gameMap = loadModel(getClass().getResource("Board #19612.obj"));
-        Group sea = loadModel(getClass().getResource("Sea.obj"));
-        Group Cliff = loadModel(getClass().getResource("Cliff.obj"));
-        PhongMaterial mapMaterial = new PhongMaterial();
+        Group map = loadModel(getClass().getResource("/3DGraphics/mappa.obj"));
+        Group cliff = loadModel(getClass().getResource("/3DGraphics/cliff.obj"));
+        Group sea = loadModel(getClass().getResource("/3DGraphics/Sea.obj"));
+        Group walls = loadModel(getClass().getResource("/3DGraphics/mura.obj"));
+        Group islands = loadModel(getClass().getResource("/3DGraphics/isole.obj"));
 
         //setup Scene and camera
-        Group root = new Group(gameMap);
+        Group root = new Group();
         root.getChildren().add(sea);
-        root.getChildren().add(Cliff);
+        root.getChildren().add(map);
+        root.getChildren().add(walls);
+        root.getChildren().add(cliff);
+        root.getChildren().add(islands);
+        PointLight pointLight = new PointLight();
+        pointLight.getTransforms().addAll(new Translate(0,-50,0));
+        root.getChildren().add(pointLight);
 
         Camera camera= new PerspectiveCamera(true);
 
@@ -48,23 +57,26 @@ public class MatchController extends Application {
         scene.setFill(Color.AQUA);
         scene.setCamera(camera);
 
-        camera.setNearClip(10);
-        camera.setFarClip(5000);
+        camera.setNearClip(1);
+        camera.setFarClip(50);
 
         camera.translateXProperty().set(0);
         camera.translateYProperty().set(0);
+
         camera.translateZProperty().set(0);
+        int cameraDistance = 30;
+        int cameraXAngle = 20;
 
-        camera.translateZProperty().set(-100);
+        camera.translateZProperty().set(-cameraDistance);
 
-        Translate pivot = new Translate(0,0,100);
+        Translate pivot = new Translate(0,0,cameraDistance);
         Rotate yRotate = new Rotate(0, Rotate.Y_AXIS);
 
         camera.getTransforms().addAll (
                 pivot,
                 yRotate,
-                new Rotate(-20, Rotate.X_AXIS),
-                new Translate(0, 0, -100)
+                new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                new Translate(0, 0, -cameraDistance)
         );
 
         //controller
@@ -74,40 +86,35 @@ public class MatchController extends Application {
                 case RIGHT:
                     camera.getTransforms().addAll (
                             pivot,
-                            new Rotate(20, Rotate.X_AXIS),
+                            new Rotate(cameraXAngle, Rotate.X_AXIS),
                             new Rotate(-45, Rotate.Y_AXIS),
-                            new Rotate(-20, Rotate.X_AXIS),
-                            new Translate(0, 0, -100)
+                            new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                            new Translate(0, 0, -cameraDistance)
                     );
                     break;
                 case LEFT:
                     camera.getTransforms().addAll (
                             pivot,
-                            new Rotate(20, Rotate.X_AXIS),
+                            new Rotate(cameraXAngle, Rotate.X_AXIS),
                             new Rotate(45, Rotate.Y_AXIS),
-                            new Rotate(-20, Rotate.X_AXIS),
-                            new Translate(0, 0, -100)
+                            new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                            new Translate(0, 0, -cameraDistance)
                     );
                     break;
             }
         });
 
-        primaryStage.setTitle("main stage");
+        primaryStage.setTitle("GameON");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public Group loadModel(URL url){
+    public Group loadModel(URL url) throws IOException {
 
-        Group modelRoot = new Group();
-        ObjModelImporter importer = new ObjModelImporter();
-        importer.read(url);
 
-        for(MeshView view : importer.getImport()){
-            modelRoot.getChildren().add(view);
-        }
+        Model3D model = Importer3D.loadAsPoly(url);
 
-        return modelRoot;
+        return model.getRoot();
     }
     public static void main(String[] args) {
         launch(args);
