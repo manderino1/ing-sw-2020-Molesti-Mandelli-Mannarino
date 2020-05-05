@@ -40,10 +40,10 @@ public class MatchController extends Controller {
         //setup Scene and camera
         Group root = new Group();
         root.getChildren().add(sea);
+        root.getChildren().add(islands);
+        root.getChildren().add(cliff);
         root.getChildren().add(map);
         root.getChildren().add(walls);
-        root.getChildren().add(cliff);
-        root.getChildren().add(islands);
         PointLight pointLight = new PointLight();
         pointLight.getTransforms().addAll(new Translate(0,-50,0));
         root.getChildren().add(pointLight);
@@ -55,14 +55,14 @@ public class MatchController extends Controller {
         scene.setCamera(camera);
 
         camera.setNearClip(1);
-        camera.setFarClip(50);
+        camera.setFarClip(1000);
 
         camera.translateXProperty().set(0);
         camera.translateYProperty().set(0);
 
         camera.translateZProperty().set(0);
-        int cameraDistance = 30;
-        int cameraXAngle = 20;
+        int cameraDistance = 40;
+        int cameraXAngle = 45;
 
         camera.translateZProperty().set(-cameraDistance);
 
@@ -84,7 +84,7 @@ public class MatchController extends Controller {
                     camera.getTransforms().addAll (
                             pivot,
                             new Rotate(cameraXAngle, Rotate.X_AXIS),
-                            new Rotate(-45, Rotate.Y_AXIS),
+                            new Rotate(-10, Rotate.Y_AXIS),
                             new Rotate(-cameraXAngle, Rotate.X_AXIS),
                             new Translate(0, 0, -cameraDistance)
                     );
@@ -93,7 +93,7 @@ public class MatchController extends Controller {
                     camera.getTransforms().addAll (
                             pivot,
                             new Rotate(cameraXAngle, Rotate.X_AXIS),
-                            new Rotate(45, Rotate.Y_AXIS),
+                            new Rotate(10, Rotate.Y_AXIS),
                             new Rotate(-cameraXAngle, Rotate.X_AXIS),
                             new Translate(0, 0, -cameraDistance)
                     );
@@ -106,12 +106,16 @@ public class MatchController extends Controller {
         primaryStage.show();
     }
 
-    public Group loadModel(URL url) throws IOException {
+    public Group loadModel(URL url) {
+        Model3D model = null;
+        try {
+            model = Importer3D.loadAsPoly(url);
+            return model.getRoot();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-        Model3D model = Importer3D.loadAsPoly(url);
-
-        return model.getRoot();
+        return null;
     }
     public static void main(String[] args) {
         launch(args);

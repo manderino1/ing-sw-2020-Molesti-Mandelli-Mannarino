@@ -2,7 +2,7 @@
 
 newmtl Default_6
 Kd 1 1 1
-map_Kd Cliff_v001.png
+map_Kd tex/Cliff_v001.png
 Ks 1 1 1
 Ns 50
 illum 7

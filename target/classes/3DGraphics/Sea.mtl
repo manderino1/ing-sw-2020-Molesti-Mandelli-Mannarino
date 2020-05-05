@@ -2,7 +2,7 @@
 
 newmtl Default_1
 Kd 1 1 1
-map_Kd Sea_v005.png
+map_Kd tex/Sea_v005.png
 Ks 1 1 1
 Ns 50
 illum 7
