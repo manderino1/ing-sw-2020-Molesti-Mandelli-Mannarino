@@ -58,14 +58,14 @@ public class MatchController extends Application {
         scene.setCamera(camera);
 
         camera.setNearClip(1);
-        camera.setFarClip(50);
+        camera.setFarClip(1000);
 
         camera.translateXProperty().set(0);
         camera.translateYProperty().set(0);
 
         camera.translateZProperty().set(0);
-        int cameraDistance = 30;
-        int cameraXAngle = 20;
+        int cameraDistance = 40;
+        int cameraXAngle = 45;
 
         camera.translateZProperty().set(-cameraDistance);
 
@@ -87,7 +87,7 @@ public class MatchController extends Application {
                     camera.getTransforms().addAll (
                             pivot,
                             new Rotate(cameraXAngle, Rotate.X_AXIS),
-                            new Rotate(-45, Rotate.Y_AXIS),
+                            new Rotate(-10, Rotate.Y_AXIS),
                             new Rotate(-cameraXAngle, Rotate.X_AXIS),
                             new Translate(0, 0, -cameraDistance)
                     );
@@ -96,7 +96,7 @@ public class MatchController extends Application {
                     camera.getTransforms().addAll (
                             pivot,
                             new Rotate(cameraXAngle, Rotate.X_AXIS),
-                            new Rotate(45, Rotate.Y_AXIS),
+                            new Rotate(10, Rotate.Y_AXIS),
                             new Rotate(-cameraXAngle, Rotate.X_AXIS),
                             new Translate(0, 0, -cameraDistance)
                     );
