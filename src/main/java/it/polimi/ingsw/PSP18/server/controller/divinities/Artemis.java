@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 
@@ -27,8 +28,8 @@ public class Artemis extends Divinity {
      */
     @Override
     protected void move() {
-        ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
-        ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
+        movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
+        movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
 
         // Check if the player has lost
         if (movesWorker1.size() == 0 && movesWorker2.size() == 0) {
@@ -52,6 +53,17 @@ public class Artemis extends Divinity {
             return;
         }
 
+        // Check that the move is valid
+        if((workerID == 0 && !movesWorker1.contains(direction)) || (workerID == 1 && !movesWorker2.contains(direction))) {
+            try {
+                throw new InvalidMoveException();
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+                move();
+                return;
+            }
+        }
+
         Worker worker = playerManager.getWorker(workerID);
         this.workerID = workerID;
         setMove(worker.getX(), worker.getY(), direction);
@@ -64,7 +76,7 @@ public class Artemis extends Divinity {
             return;
         }
         if(firstMove) {
-            ArrayList<Direction> moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
+            moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
             moves.remove(DirectionManagement.getOppositeDirection(direction));
             if (moves.size() == 0) {
                 manageLoss();

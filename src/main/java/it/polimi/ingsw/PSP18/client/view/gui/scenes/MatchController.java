@@ -100,12 +100,6 @@ public class MatchController extends Application {
     public Group loadModel(URL url){
 
         Group modelRoot = new Group();
-        ObjModelImporter importer = new ObjModelImporter();
-        importer.read(url);
-
-        for(MeshView view : importer.getImport()){
-            modelRoot.getChildren().add(view);
-        }
 
         return modelRoot;
     }

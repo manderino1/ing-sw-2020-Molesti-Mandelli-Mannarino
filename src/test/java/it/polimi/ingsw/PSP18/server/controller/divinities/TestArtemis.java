@@ -60,6 +60,7 @@ public class TestArtemis extends TestDivinity {
         playerManager.placeWorker(2, 4);
         playerManager.placeWorker(3, 2);
 
+        playerManager.getDivinity().move();
         playerManager.getDivinity().moveReceiver(Direction.UP, 0);
         Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(2,3).getWorker());
 

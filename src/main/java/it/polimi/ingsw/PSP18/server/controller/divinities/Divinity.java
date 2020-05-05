@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidBuildException;
 import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Move;
@@ -18,6 +19,7 @@ public class Divinity {
     protected PlayerManager playerManager;
     protected boolean raiseForbidden;
     protected ArrayList<Direction> movesWorker1, movesWorker2;
+    protected ArrayList<Direction> moves;
 
     // TODO : REMOVE IT
     protected Direction direction = Direction.UP;
@@ -105,7 +107,7 @@ public class Divinity {
      */
     protected void build() {
         Worker worker = playerManager.getWorker(workerID);
-        ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
+        moves = checkBuildingMoves(worker.getX(), worker.getY());
 
         if (moves.size() == 0) {
             manageLoss();
@@ -121,6 +123,18 @@ public class Divinity {
      */
     public void buildReceiver(Direction direction) {
         Worker worker = playerManager.getWorker(workerID);
+
+        // Check if the build direction is valid
+        if(!moves.contains(direction)) {
+            try {
+                throw new InvalidBuildException();
+            } catch (InvalidBuildException e) {
+                e.printStackTrace();
+                build();
+                return;
+            }
+        }
+
         Integer newX = DirectionManagement.getX(worker.getX(), direction);
         Integer newY = DirectionManagement.getY(worker.getY(), direction);
         boolean dome = false;
