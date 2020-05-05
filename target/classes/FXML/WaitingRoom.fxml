@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.LobbyController">
+<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.WaitingRoomController">
    <children>
       <ImageView fitHeight="240.0" fitWidth="160.0" layoutX="1120.0" layoutY="240.0" pickOnBounds="true">
          <image>
@@ -148,45 +145,11 @@
                   <Image url="@../2DGraphics/frame_yellow.png" />
                </image>
             </ImageView>
-            <Button contentDisplay="GRAPHIC_ONLY" layoutX="234.0" layoutY="314.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="50.0" snapToPixel="false" />
-            <TextField fx:id="nicknameBar" layoutX="172.0" layoutY="76.0" prefHeight="25.0" prefWidth="200.0" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-31.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../2DGraphics/glory_gloryicon.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="200.0" fitWidth="127.0" layoutX="145.0" layoutY="238.0" pickOnBounds="true" rotate="90.0">
-               <image>
-                  <Image url="@../2DGraphics/bg_panelMid.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="225.0" fitWidth="143.0" layoutX="132.0" layoutY="226.0" pickOnBounds="true" rotate="90.0">
-               <image>
-                  <Image url="@../2DGraphics/frame_yellow.png" />
-               </image>
-            </ImageView>
-            <Text layoutX="121.0" layoutY="347.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready up!">
+            <Text layoutX="118.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wait..." wrappingWidth="212.8349609375">
                <font>
-                  <Font size="22.0" />
+                  <Font size="56.0" />
                </font>
             </Text>
-            <ImageView fx:id="readyButton" fitHeight="50.0" fitWidth="50.0" layoutX="234.0" layoutY="314.0" onMouseClicked="#readyButtonClicked" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/RedButton.png" />
-               </image>
-            </ImageView>
-            <Button layoutX="223.0" layoutY="114.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="97.0" text="Confirm" />
-            <Text layoutX="184.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a nickname">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Text>
-            <ImageView fx:id="confirmButton" fitHeight="40.0" fitWidth="97.0" layoutX="224.0" layoutY="114.0" onMouseClicked="#confirmButtonClicked" pickOnBounds="true">
-               <image>
-                  <Image url="@../2DGraphics/RedButton.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="250.0" layoutY="126.0" onMouseClicked="#confirmButtonClicked" text="Confirm" />
          </children>
       </Pane>
       <ImageView fitHeight="524.0" fitWidth="495.0" layoutX="61.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true">
@@ -204,17 +167,17 @@
             <Font size="22.0" />
          </font>
       </Text>
-      <ImageView fx:id="blueBox1" fitHeight="259.0" fitWidth="597.0" layoutX="72.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="blueBox1" fitHeight="259.0" fitWidth="597.0" layoutX="72.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/featured_god_frame_blue.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="firstPlayerDivinity" fitHeight="127.0" fitWidth="97.0" layoutX="135.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="firstPlayerDivinity" fitHeight="127.0" fitWidth="97.0" layoutX="135.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/Pan.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="yellowBox1" fitHeight="150.0" fitWidth="110.0" layoutX="124.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="yellowBox1" fitHeight="150.0" fitWidth="110.0" layoutX="124.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/frame_yellow.png" />
          </image>
@@ -234,17 +197,17 @@
             <Image url="@../2DGraphics/featured_god_frame_blue.png" />
          </image>
       </ImageView>
-      <Text fx:id="nick1" layoutX="250.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname:" visible="false" wrappingWidth="160.0">
+      <Text fx:id="nick1" layoutX="250.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname:" wrappingWidth="160.0">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
-      <Text fx:id="firstPlayer" layoutX="250.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nome" visible="false" wrappingWidth="260.0">
+      <Text fx:id="firstPlayer" layoutX="250.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nome" wrappingWidth="260.0">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
-      <Text fx:id="firstPlayerReady" layoutX="250.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" visible="false" wrappingWidth="260.0">
+      <Text fx:id="firstPlayerReady" layoutX="250.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" wrappingWidth="260.0">
          <font>
             <Font size="25.0" />
          </font>

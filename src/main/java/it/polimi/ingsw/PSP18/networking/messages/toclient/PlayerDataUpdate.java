@@ -11,6 +11,7 @@ public class PlayerDataUpdate extends ClientAbstractMessage {
     private Color playerColor;
     private Integer playOrder;
     private String divinity;
+    private Boolean isReady;
 
     /***
      * Constructor that initializes the message type and the playerData attribute
@@ -22,6 +23,7 @@ public class PlayerDataUpdate extends ClientAbstractMessage {
         this.playerColor = playerData.getPlayerColor();
         this.playOrder = playerData.getPlayOrder();
         this.divinity = playerData.getDivinity();
+        this.isReady = playerData.getReady();
     }
 
     /***
@@ -54,5 +56,9 @@ public class PlayerDataUpdate extends ClientAbstractMessage {
      */
     public String getDivinity() {
         return divinity;
+    }
+
+    public Boolean getReady() {
+        return isReady;
     }
 }
