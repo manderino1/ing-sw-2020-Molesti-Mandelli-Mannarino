@@ -2,8 +2,11 @@ package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import javafx.animation.KeyValue;
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.scene.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
@@ -23,9 +26,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MatchController extends Controller {
+    @FXML
+    private SubScene matchScene;
+    private Group matchSceneGroup = new Group();
+
+    private int cameraDistance = 40;
+    private int cameraXAngle = 45;
+    private Translate pivot = new Translate(0,0,cameraDistance);
+    private Rotate yRotate = new Rotate(0, Rotate.Y_AXIS);
 
     private static final int WIDTH= 1280;
     private static final int HEIGHT= 720;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -38,21 +50,20 @@ public class MatchController extends Controller {
         Group islands = loadModel(getClass().getResource("/3DGraphics/isole.obj"));
 
         //setup Scene and camera
-        Group root = new Group();
-        root.getChildren().add(sea);
-        root.getChildren().add(islands);
-        root.getChildren().add(cliff);
-        root.getChildren().add(map);
-        root.getChildren().add(walls);
+        matchSceneGroup.getChildren().add(sea);
+        matchSceneGroup.getChildren().add(islands);
+        matchSceneGroup.getChildren().add(cliff);
+        matchSceneGroup.getChildren().add(map);
+        matchSceneGroup.getChildren().add(walls);
         PointLight pointLight = new PointLight();
         pointLight.getTransforms().addAll(new Translate(0,-50,0));
-        root.getChildren().add(pointLight);
+        matchSceneGroup.getChildren().add(pointLight);
 
         Camera camera= new PerspectiveCamera(true);
 
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
-        scene.setFill(Color.AQUA);
-        scene.setCamera(camera);
+        matchScene.setFill(Color.AQUA);
+        matchScene.setCamera(camera);
+        matchScene.setRoot(matchSceneGroup);
 
         camera.setNearClip(1);
         camera.setFarClip(1000);
@@ -61,13 +72,8 @@ public class MatchController extends Controller {
         camera.translateYProperty().set(0);
 
         camera.translateZProperty().set(0);
-        int cameraDistance = 40;
-        int cameraXAngle = 45;
 
         camera.translateZProperty().set(-cameraDistance);
-
-        Translate pivot = new Translate(0,0,cameraDistance);
-        Rotate yRotate = new Rotate(0, Rotate.Y_AXIS);
 
         camera.getTransforms().addAll (
                 pivot,
@@ -75,35 +81,6 @@ public class MatchController extends Controller {
                 new Rotate(-cameraXAngle, Rotate.X_AXIS),
                 new Translate(0, 0, -cameraDistance)
         );
-
-        //controller
-
-        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
-            switch (event.getCode()){
-                case RIGHT:
-                    camera.getTransforms().addAll (
-                            pivot,
-                            new Rotate(cameraXAngle, Rotate.X_AXIS),
-                            new Rotate(-10, Rotate.Y_AXIS),
-                            new Rotate(-cameraXAngle, Rotate.X_AXIS),
-                            new Translate(0, 0, -cameraDistance)
-                    );
-                    break;
-                case LEFT:
-                    camera.getTransforms().addAll (
-                            pivot,
-                            new Rotate(cameraXAngle, Rotate.X_AXIS),
-                            new Rotate(10, Rotate.Y_AXIS),
-                            new Rotate(-cameraXAngle, Rotate.X_AXIS),
-                            new Translate(0, 0, -cameraDistance)
-                    );
-                    break;
-            }
-        });
-
-        primaryStage.setTitle("GameON");
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     public Group loadModel(URL url) {
@@ -117,7 +94,28 @@ public class MatchController extends Controller {
 
         return null;
     }
-    public static void main(String[] args) {
-        launch(args);
+
+    @FXML
+    private void keyPressedEvent(KeyEvent event) {
+        switch (event.getCode()){
+            case RIGHT:
+                matchScene.getCamera().getTransforms().addAll (
+                        pivot,
+                        new Rotate(cameraXAngle, Rotate.X_AXIS),
+                        new Rotate(-10, Rotate.Y_AXIS),
+                        new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                        new Translate(0, 0, -cameraDistance)
+                );
+                break;
+            case LEFT:
+                matchScene.getCamera().getTransforms().addAll (
+                        pivot,
+                        new Rotate(cameraXAngle, Rotate.X_AXIS),
+                        new Rotate(10, Rotate.Y_AXIS),
+                        new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                        new Translate(0, 0, -cameraDistance)
+                );
+                break;
+        }
     }
 }
