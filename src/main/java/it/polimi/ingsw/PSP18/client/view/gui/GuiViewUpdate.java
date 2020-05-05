@@ -97,7 +97,7 @@ public class GuiViewUpdate extends ViewUpdate {
         if(controller.getPageID().equals("Lobby")) { // Do not invert the two ifs
             ((LobbyController)controller).insertNick();
         } else if(controller.getPageID().equals("Login")) {
-            switchScene("Lobby");
+            switchScene("Match");
         }
     }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import javafx.animation.KeyValue;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.*;
@@ -41,6 +42,7 @@ public class MatchController extends Controller {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
+        this.pageID = "Match";
 
         //import models
         Group map = loadModel(getClass().getResource("/3DGraphics/mappa.obj"));
@@ -81,6 +83,34 @@ public class MatchController extends Controller {
                 new Rotate(-cameraXAngle, Rotate.X_AXIS),
                 new Translate(0, 0, -cameraDistance)
         );
+
+        matchScene.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
+            switch (event.getCode()){
+                case RIGHT:
+                    camera.getTransforms().addAll (
+                            pivot,
+                            new Rotate(cameraXAngle, Rotate.X_AXIS),
+                            new Rotate(-10, Rotate.Y_AXIS),
+                            new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                            new Translate(0, 0, -cameraDistance)
+                    );
+                    break;
+                case LEFT:
+                    camera.getTransforms().addAll (
+                            pivot,
+                            new Rotate(cameraXAngle, Rotate.X_AXIS),
+                            new Rotate(10, Rotate.Y_AXIS),
+                            new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                            new Translate(0, 0, -cameraDistance)
+                    );
+                    break;
+            }
+        });
+
+        matchScene.setOnMousePressed(e -> {
+            matchScene.requestFocus();
+            e.consume();
+        });
     }
 
     public Group loadModel(URL url) {
@@ -93,29 +123,5 @@ public class MatchController extends Controller {
         }
 
         return null;
-    }
-
-    @FXML
-    private void keyPressedEvent(KeyEvent event) {
-        switch (event.getCode()){
-            case RIGHT:
-                matchScene.getCamera().getTransforms().addAll (
-                        pivot,
-                        new Rotate(cameraXAngle, Rotate.X_AXIS),
-                        new Rotate(-10, Rotate.Y_AXIS),
-                        new Rotate(-cameraXAngle, Rotate.X_AXIS),
-                        new Translate(0, 0, -cameraDistance)
-                );
-                break;
-            case LEFT:
-                matchScene.getCamera().getTransforms().addAll (
-                        pivot,
-                        new Rotate(cameraXAngle, Rotate.X_AXIS),
-                        new Rotate(10, Rotate.Y_AXIS),
-                        new Rotate(-cameraXAngle, Rotate.X_AXIS),
-                        new Translate(0, 0, -cameraDistance)
-                );
-                break;
-        }
     }
 }
