@@ -43,10 +43,10 @@ public class MatchController extends Application {
         //setup Scene and camera
         Group root = new Group();
         root.getChildren().add(sea);
+        root.getChildren().add(islands);
+        root.getChildren().add(cliff);
         root.getChildren().add(map);
         root.getChildren().add(walls);
-        root.getChildren().add(cliff);
-        root.getChildren().add(islands);
         PointLight pointLight = new PointLight();
         pointLight.getTransforms().addAll(new Translate(0,-50,0));
         root.getChildren().add(pointLight);
