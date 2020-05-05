@@ -22,16 +22,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MatchController extends Application {
+public class MatchController extends Controller {
 
     private static final int WIDTH= 1280;
     private static final int HEIGHT= 720;
-   // @Override
-   // public void initialize(URL location, ResourceBundle resources) {
-    //    super.initialize(location, resources);
-    //}
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
 
         //import models
         Group map = loadModel(getClass().getResource("/3DGraphics/mappa.obj"));
