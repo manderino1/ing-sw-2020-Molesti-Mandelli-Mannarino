@@ -13,13 +13,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestEphaestus extends TestDivinity {
+public class TestHephaestus extends TestDivinity {
     @Override
     public void createPlayerManager() {
         Match match = new Match();
         SocketThread socketThread = new SocketThread(socket, match);
         socketThread.start();
-        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Ephaestus");
+        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Hephaestus");
         match.addPlayer(playerManager, socketThread);
     }
 
@@ -28,7 +28,7 @@ public class TestEphaestus extends TestDivinity {
      */
     @Override
     public void testGetName() {
-        Divinity divinity = new Divinity("Ephaestus", playerManager);
+        Divinity divinity = new Divinity("Hephaestus", playerManager);
         Assert.assertEquals(playerManager.getDivinityName(), divinity.getName());
     }
 

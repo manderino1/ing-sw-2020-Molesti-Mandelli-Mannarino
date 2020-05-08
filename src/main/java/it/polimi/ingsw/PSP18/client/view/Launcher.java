@@ -2,7 +2,10 @@ package it.polimi.ingsw.PSP18.client.view;
 
 import it.polimi.ingsw.PSP18.client.view.cli.CliViewUpdate;
 import it.polimi.ingsw.PSP18.client.view.cli.InputParser;
+import it.polimi.ingsw.PSP18.client.view.gui.GuiViewUpdate;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -13,11 +16,10 @@ import java.net.UnknownHostException;
  * This is the class used to launch the clients
  */
 public class Launcher {
-
+    private CliViewUpdate cliViewUpdate;
+    private SocketClient socketClient;
     private final int PORT = 9002;
     private InetAddress host;
-    SocketClient socketClient;
-    CliViewUpdate cliViewUpdate;
 
     /***
      * Contructor of Launcher. Creates the socket and start the thread
@@ -38,14 +40,6 @@ public class Launcher {
     }
 
     /***
-     * Returns the client socket
-     * @return the client socket
-     */
-    public SocketClient getSocketClient() {
-        return socketClient;
-    }
-
-    /***
      * Returns the cliViewUpdate object
      * @return class that contains all the methods used for the command line interface
      */
@@ -53,18 +47,25 @@ public class Launcher {
         return cliViewUpdate;
     }
 
+
     /***
      * Main method, launches the client
      * @param args launch arguments, not used
      */
     public static void main(String[] args) {
-        System.out.println("Insert the server ip address:");
-        java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
-        try {
-            String ip = console.readLine();
-            Launcher launcher = new Launcher(ip);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(args[0].toUpperCase().equals("CLI")) {
+            System.out.println("Insert the server ip address:");
+            java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+            try {
+                String ip = console.readLine();
+                Launcher launcher = new Launcher(ip);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (args[0].toUpperCase().equals("GUI")) {
+            Application.launch(GuiLauncher.class);
+        } else {
+            System.out.println("Not valid option, use cli or gui");
         }
     }
 }
