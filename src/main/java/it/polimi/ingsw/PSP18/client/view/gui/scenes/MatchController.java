@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
@@ -45,13 +46,13 @@ public class MatchController extends Controller {
     private Translate pivot = new Translate(0,0,cameraDistance);
     private Rotate yRotate = new Rotate(0, Rotate.Y_AXIS);
 
+    private static final double DELTA = 2.5, DELTAZ1 = 1.1, DELTAZ2 = 2.2, DELTAZ3 = 2.9;
+
     private Cell[][] mapCells;
     private boolean followMessage = false, standardMove = true, matchStarted = false;
     private Worker newWorker1, newWorker2, oldWorker1, oldWorker2;
 
     private ArrayList<Direction> directionList1, directionList2;
-    private Worker worker1, worker2;
-    private int workerID;
 
     private static final int WIDTH= 1280;
     private static final int HEIGHT= 720;
@@ -232,7 +233,19 @@ public class MatchController extends Controller {
 
     public void showBuildList(BuildList buildList){
         for (Direction dir : buildList.getBuildlist()) {
+           double newX = indexToCoordinateX(DirectionManagement.getX(buildList.getWorker().getX(), dir));
+           double newY = indexToCoordinateY(DirectionManagement.getY(buildList.getWorker().getY(), dir));
+           //TODO: Color the cells
+            
 
         }
+    }
+
+    public static double indexToCoordinateX(int index){
+        return DELTA*index;
+    }
+
+    public static double indexToCoordinateY(int index){
+        return DELTA*index;
     }
 }
