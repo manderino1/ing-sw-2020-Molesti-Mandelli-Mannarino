@@ -114,7 +114,7 @@ public class TestViewUpdate {
         socketClient.start();
         cliViewUpdate.setInputParser(new InputParser(socketClient));
 
-        cliViewUpdate.updateMap(new GameMapUpdate(map.getMapCells()));
+        cliViewUpdate.updateMap(new GameMapUpdate(map));
         cliViewUpdate.setWorker(new PlaceReady());
 
         Gson gson = new Gson();
@@ -381,7 +381,7 @@ public class TestViewUpdate {
         socketClient.start();
         cliViewUpdate.setInputParser(new InputParser(socketClient));
 
-        cliViewUpdate.updateMap(new GameMapUpdate(map.getMapCells()));
+        cliViewUpdate.updateMap(new GameMapUpdate(map));
         Assert.assertEquals("|  -0|  -0|  -0|  -0|  -0| 0\r\n" +
                 "|  -0|  -0|  -0|  -0|  -0| 1\r\n" +
                 "|  -0|  -0|  -0|  -0|  -0| 2\r\n" +
@@ -407,7 +407,7 @@ public class TestViewUpdate {
         map.setCell(0,1,2, new Worker(2, 2 , 1, Color.BLUE));
         map.setCell(0,2,2, new Worker(2, 2 , 1, Color.GREEN));
 
-        cliViewUpdate.updateMap(new GameMapUpdate(map.getMapCells()));
+        cliViewUpdate.updateMap(new GameMapUpdate(map));
         Assert.assertEquals("|\u001B[32mw2\u001B[0m-1|\u001B[31mw1\u001B[0m-2|  -0|  -0|\u001B[34mw1\u001B[0m-1| 0\r\n" +
                 "|\u001B[34mw2\u001B[0m-2|  -0|  -0|  -0|  -0| 1\r\n" +
                 "|\u001B[32mw2\u001B[0m-2|\u001B[32mw2\u001B[0m-1|\u001B[31mw2\u001B[0m-2|  -0|  -0| 2\r\n" +
@@ -426,7 +426,7 @@ public class TestViewUpdate {
         map.getCell(0,4).setDome();
         map.getCell(3,3).setDome();
 
-        cliViewUpdate.updateMap(new GameMapUpdate(map.getMapCells()));
+        cliViewUpdate.updateMap(new GameMapUpdate(map));
         Assert.assertEquals("|\u001B[32mw2\u001B[0m-D|\u001B[31mw1\u001B[0m-2|  -0|  -0|\u001B[34mw1\u001B[0m-D| 0\r\n" +
                 "|\u001B[34mw1\u001B[0m-2|  -0|  -0|  -0|  -0| 1\r\n" +
                 "|\u001B[32mw1\u001B[0m-2|\u001B[32mw2\u001B[0m-1|\u001B[31mw2\u001B[0m-2|  -0|  -0| 2\r\n" +

@@ -9,6 +9,9 @@ import java.util.ArrayList;
  */
 public class GameMap {
     private Cell[][] mapCells = new Cell[5][5];
+    private Direction lastActionDirection;
+    private boolean lastActionIsBuild;
+    private int lastActionX, lastActionY;
     private ArrayList<MapObserver> observers = new ArrayList<>();
 
     /***
@@ -85,7 +88,30 @@ public class GameMap {
      */
     public void notifyObservers() {
         for(MapObserver observer : observers) {
-            observer.update(mapCells);
+            observer.update(this);
         }
+    }
+
+    public Direction getLastActionDirection() {
+        return lastActionDirection;
+    }
+
+    public void setLastAction(Direction lastActionDirection, int x, int y, boolean isBuild) {
+        this.lastActionDirection = lastActionDirection;
+        this.lastActionX = x;
+        this.lastActionY = y;
+        this.lastActionIsBuild = isBuild;
+    }
+
+    public int getLastActionX() {
+        return lastActionX;
+    }
+
+    public int getLastActionY() {
+        return lastActionY;
+    }
+
+    public boolean isLastActionIsBuild() {
+        return lastActionIsBuild;
     }
 }
