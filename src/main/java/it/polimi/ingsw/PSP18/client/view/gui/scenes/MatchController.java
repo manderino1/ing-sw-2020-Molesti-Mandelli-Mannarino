@@ -236,7 +236,7 @@ public class MatchController extends Controller {
            double newX = indexToCoordinateX(DirectionManagement.getX(buildList.getWorker().getX(), dir));
            double newY = indexToCoordinateY(DirectionManagement.getY(buildList.getWorker().getY(), dir));
            //TODO: Color the cells
-            
+
 
         }
     }
