@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
+import it.polimi.ingsw.PSP18.server.model.Direction;
+import it.polimi.ingsw.PSP18.server.model.Worker;
 import javafx.animation.KeyValue;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -47,13 +49,14 @@ public class MatchController extends Controller {
         //import models
         Group map = loadModel(getClass().getResource("/3DGraphics/mappa.obj"));
         Group cliff = loadModel(getClass().getResource("/3DGraphics/cliff.obj"));
-        Group sea = loadModel(getClass().getResource("/3DGraphics/Sea.obj"));
+        Group lava = loadModel(getClass().getResource("/3DGraphics/lava.obj"));
         Group walls = loadModel(getClass().getResource("/3DGraphics/mura.obj"));
-        Group islands = loadModel(getClass().getResource("/3DGraphics/isole.obj"));
+        //Group islands = loadModel(getClass().getResource("/3DGraphics/isole.obj"));
+        Group redWorker1 = loadModel(getClass().getResource("/3DGraphics/MaleBuilder.obj"));
 
         //setup Scene and camera
-        matchSceneGroup.getChildren().add(sea);
-        matchSceneGroup.getChildren().add(islands);
+        matchSceneGroup.getChildren().add(lava);
+        matchSceneGroup.getChildren().add(redWorker1);
         matchSceneGroup.getChildren().add(cliff);
         matchSceneGroup.getChildren().add(map);
         matchSceneGroup.getChildren().add(walls);
@@ -123,5 +126,21 @@ public class MatchController extends Controller {
         }
 
         return null;
+    }
+
+    public void buildUpdate( int oldX, int oldY, Boolean dome){
+
+    }
+    public void moveUpdate(Worker oldWork, Worker newWork){
+        oldWork.getPlayerColor();
+    }
+    public void apolloMoveUpdate(Worker oldWork, Worker newWork){
+
+    }
+    public void minotaurMoveUpdate(Worker oldWork, Worker newWork){
+
+    }
+    public void placeWorkerUpdate(Worker worker){
+
     }
 }
