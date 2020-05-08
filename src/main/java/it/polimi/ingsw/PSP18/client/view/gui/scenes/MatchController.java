@@ -1,5 +1,9 @@
 package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
+import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
+import it.polimi.ingsw.PSP18.server.model.Cell;
+import it.polimi.ingsw.PSP18.server.model.GameMap;
+import it.polimi.ingsw.PSP18.server.model.Worker;
 import javafx.animation.KeyValue;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -35,6 +39,10 @@ public class MatchController extends Controller {
     private int cameraXAngle = 45;
     private Translate pivot = new Translate(0,0,cameraDistance);
     private Rotate yRotate = new Rotate(0, Rotate.Y_AXIS);
+
+    private Cell[][] mapCells;
+    private boolean followMessage = false, standardMove = true, matchStarted = false;
+    private Worker newWorker1, newWorker2, oldWorker1, oldWorker2;
 
     private static final int WIDTH= 1280;
     private static final int HEIGHT= 720;
@@ -123,5 +131,73 @@ public class MatchController extends Controller {
         }
 
         return null;
+    }
+
+    /***
+     * Method used to determine if the current move is one between:
+     * placeWorker : placing the worker in the initial phase of the game
+     * standardMove : a standard move
+     * apolloMoveUpdate : a move where the two workers involved are swapped
+     * minotaurMoveUpdate : a mov where one worker pushes the other one
+     * We then proceed to save all the workers needed for the methods above in parameters
+     * @param gameMapUpdate Contains contains the new map, the last diretction, the last x and y coordinate and a boolean that signals if the move is a build or a move
+     */
+    public void mapUpdate(GameMapUpdate gameMapUpdate){
+        Cell[][] oldMap = mapCells;
+        mapCells = gameMapUpdate.getGameMap();
+        if(!matchStarted){
+            newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+            placeWorkerUpdate(newWorker1);
+            return;
+        }
+        if(gameMapUpdate.isLastActionIsBuild()){
+            if(mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getDome()) {
+                buildUpdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY(), true);
+            } else {
+                buildupdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY(), false);
+            }
+        } else {
+            if(oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker() == null) {
+                if (!followMessage) {
+                    //Standard 1
+                    newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    followMessage = true;
+                    standardMove = true;
+                } else {
+                    //Minotaur 3
+                    newWorker2 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    minotaurMoveUpdate(newWorker1, oldWorker2, oldWorker1, newWorker2);
+                    followMessage = false;
+                }
+            } else {
+                if(!followMessage){
+                    //Apollo and Minotaur 1
+                    newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    oldWorker2 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    followMessage = true;
+                    standardMove = false;
+                } else {
+                    if(mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker() == null){
+                        if(standardMove) {
+                            //StandardMove second half
+                            oldWorker1 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                            standardMoveUpdate(newWorker1, oldWorker1);
+                            followMessage = false;
+                        } else {
+                            //Minotaur 2
+                            oldWorker1 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                            followMessage = true;
+                        }
+
+                    } else {
+                        //Apollo 2
+                        newWorker2 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                        oldWorker1 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                        followMessage = false;
+                        apolloMoveUpdate(newWorker1, oldWorker2, oldWorker1, newWorker2);
+                    }
+                }
+            }
+        }
     }
 }
