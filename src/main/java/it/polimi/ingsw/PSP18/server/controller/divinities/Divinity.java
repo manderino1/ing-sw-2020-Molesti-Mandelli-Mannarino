@@ -65,7 +65,7 @@ public class Divinity {
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));
     }
 
     /***
@@ -76,7 +76,6 @@ public class Divinity {
     public void moveReceiver(Direction direction, Integer workerID) {
         Worker worker = playerManager.getWorker(workerID);
         this.workerID = workerID;
-        playerManager.getGameMap().setLastAction(direction, worker.getX(), worker.getY(), false);
 
         // Check that the move is valid
         if((workerID == 0 && !movesWorker1.contains(direction)) || (workerID == 1 && !movesWorker2.contains(direction))) {
@@ -115,7 +114,7 @@ public class Divinity {
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves, worker));
     }
 
     /***
