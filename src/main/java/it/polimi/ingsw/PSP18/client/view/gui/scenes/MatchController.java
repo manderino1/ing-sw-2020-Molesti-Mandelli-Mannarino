@@ -145,13 +145,13 @@ public class MatchController extends Controller {
     public void buildUpdate( int oldX, int oldY, Boolean dome){
 
     }
-    public void moveUpdate(Worker oldWork, Worker newWork){
+    public void standardMoveUpdate(Worker oldWork, Worker newWork){
         oldWork.getPlayerColor();
     }
-    public void apolloMoveUpdate(Worker oldWork, Worker newWork){
+    public void apolloMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWorker2){
 
     }
-    public void minotaurMoveUpdate(Worker oldWork, Worker newWork){
+    public void minotaurMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWorker2){
 
     }
     public void placeWorkerUpdate(Worker worker){
@@ -179,7 +179,7 @@ public class MatchController extends Controller {
             if(mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getDome()) {
                 buildUpdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY(), true);
             } else {
-                buildupdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY(), false);
+                buildUpdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY(), false);
             }
         } else {
             if(oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker() == null) {
