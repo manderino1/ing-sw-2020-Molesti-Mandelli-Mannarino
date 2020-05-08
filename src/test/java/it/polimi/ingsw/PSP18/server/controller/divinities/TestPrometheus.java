@@ -106,9 +106,9 @@ public class TestPrometheus extends TestDivinity {
     public void buildReceiver(){
         playerManager.getMatch().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
-        playerManager.placeWorker(0,1);
+        playerManager.placeWorker(0,2);
         socketOutContent.reset();
+        playerManager.getDivinity().build();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
-
     }
 }

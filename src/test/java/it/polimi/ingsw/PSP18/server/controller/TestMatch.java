@@ -102,7 +102,10 @@ public class TestMatch {
         match.readyManagement(match.getSockets().get(0));
         match.readyManagement(match.getSockets().get(1));
 
-        match.divinitySelection(new ArrayList<>());
+        ArrayList<String> div = new ArrayList<>();
+        div.add("Athena");
+        div.add("Apollo");
+        match.divinitySelection(div);
 
         match.divinityCreation(match.getSockets().get(0), "Athena");
         match.divinityCreation(match.getSockets().get(1), "Apollo");
@@ -130,7 +133,10 @@ public class TestMatch {
         match.readyManagement(match.getSockets().get(0));
         match.readyManagement(match.getSockets().get(1));
 
-        match.divinitySelection(new ArrayList<>());
+        ArrayList<String> div = new ArrayList<>();
+        div.add("Atlas");
+        div.add("Apollo");
+        match.divinitySelection(div);
 
         match.divinityCreation(match.getSockets().get(0), "Atlas");
         match.divinityCreation(match.getSockets().get(1), "Apollo");

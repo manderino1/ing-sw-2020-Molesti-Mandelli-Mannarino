@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidBuildException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 
@@ -28,7 +29,7 @@ public class Hephaestus extends Divinity{
     @Override
     protected void build() {
         Worker worker = playerManager.getWorker(workerID);
-        ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
+        moves = checkBuildingMoves(worker.getX(), worker.getY());
 
         if (moves.size() == 0) {
             manageLoss();
@@ -50,6 +51,21 @@ public class Hephaestus extends Divinity{
             return;
         }
 
+        // Check if the build direction is valid
+        if(!moves.contains(direction)) {
+            try {
+                throw new InvalidBuildException();
+            } catch (InvalidBuildException e) {
+                e.printStackTrace();
+                if(firstBuild) {
+                    build();
+                } else {
+                    playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));
+                }
+                return;
+            }
+        }
+
         Worker worker = playerManager.getWorker(workerID);
         Integer newX = DirectionManagement.getX(worker.getX(), direction);
         Integer newY = DirectionManagement.getY(worker.getY(), direction);
@@ -63,7 +79,7 @@ public class Hephaestus extends Divinity{
         playerManager.setBuild(newX, newY, dome);
 
         if (firstBuild && playerManager.getGameMap().getCell(newX, newY).getBuilding() != 3) {
-            ArrayList<Direction> moves = new ArrayList<>();
+            moves = new ArrayList<>();
             moves.add(direction);
             firstBuild = false;
 

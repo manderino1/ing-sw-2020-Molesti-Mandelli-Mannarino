@@ -4,6 +4,8 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidBuildException;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Move;
 import it.polimi.ingsw.PSP18.server.model.Worker;
@@ -16,6 +18,8 @@ public class Divinity {
     protected String name;
     protected PlayerManager playerManager;
     protected boolean raiseForbidden;
+    protected ArrayList<Direction> movesWorker1, movesWorker2;
+    protected ArrayList<Direction> moves;
 
     // TODO : REMOVE IT
     protected Direction direction = Direction.UP;
@@ -52,8 +56,8 @@ public class Divinity {
      *  First part of the movement phase
      */
     protected void move() {
-        ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
-        ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
+        movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
+        movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
 
         // Check if the player has lost
         if (movesWorker1.size() == 0 && movesWorker2.size() == 0) {
@@ -72,6 +76,20 @@ public class Divinity {
     public void moveReceiver(Direction direction, Integer workerID) {
         Worker worker = playerManager.getWorker(workerID);
         this.workerID = workerID;
+        playerManager.getGameMap().setLastAction(direction, worker.getX(), worker.getY(), false);
+
+        // Check that the move is valid
+        if((workerID == 0 && !movesWorker1.contains(direction)) || (workerID == 1 && !movesWorker2.contains(direction))) {
+            try {
+                throw new InvalidMoveException();
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+                move();
+                return;
+            }
+        }
+
+        // If it's valid start the program
         setMove(worker.getX(), worker.getY(), direction);
 
         if(checkForVictory(workerID)){
@@ -90,7 +108,7 @@ public class Divinity {
      */
     protected void build() {
         Worker worker = playerManager.getWorker(workerID);
-        ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
+        moves = checkBuildingMoves(worker.getX(), worker.getY());
 
         if (moves.size() == 0) {
             manageLoss();
@@ -106,6 +124,18 @@ public class Divinity {
      */
     public void buildReceiver(Direction direction) {
         Worker worker = playerManager.getWorker(workerID);
+
+        // Check if the build direction is valid
+        if(!moves.contains(direction)) {
+            try {
+                throw new InvalidBuildException();
+            } catch (InvalidBuildException e) {
+                e.printStackTrace();
+                build();
+                return;
+            }
+        }
+
         Integer newX = DirectionManagement.getX(worker.getX(), direction);
         Integer newY = DirectionManagement.getY(worker.getY(), direction);
         boolean dome = false;
