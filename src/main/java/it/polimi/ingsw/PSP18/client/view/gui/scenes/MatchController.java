@@ -39,8 +39,8 @@ public class MatchController extends Controller {
     private SubScene matchScene;
     private Group matchSceneGroup = new Group();
 
-    private int cameraDistance = 40;
-    private int cameraXAngle = 45;
+    private int cameraDistance = 30;
+    private int cameraXAngle = 60;
     private Translate pivot = new Translate(0,0,cameraDistance);
     private Rotate yRotate = new Rotate(0, Rotate.Y_AXIS);
 
@@ -80,7 +80,7 @@ public class MatchController extends Controller {
 
         Camera camera= new PerspectiveCamera(true);
 
-        matchScene.setFill(Color.AQUA);
+        matchScene.setFill(Color.RED);
         matchScene.setCamera(camera);
         matchScene.setRoot(matchSceneGroup);
 
