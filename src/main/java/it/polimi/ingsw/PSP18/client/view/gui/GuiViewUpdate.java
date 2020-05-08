@@ -51,9 +51,16 @@ public class GuiViewUpdate extends ViewUpdate {
     /*
         From here we place the functions that are called when message of the selected types are read from socket
     */
+
+    /***
+     * If we currently are in the match scene, calls the moveUpdate function in MatchController
+     * @param gameMapUpdate contains the new map, the last diretction, the last x and y coordinate and a boolean that signals if the move is a build or a move
+     */
     @Override
     public void updateMap(GameMapUpdate gameMapUpdate) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).mapUpdate(gameMapUpdate);
+        }
     }
 
     @Override
