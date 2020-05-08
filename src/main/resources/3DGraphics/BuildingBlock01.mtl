@@ -2,7 +2,7 @@
 
 newmtl Default
 Kd 1 1 1
-map_Kd P:\Desktop\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\resources\3DGraphics\tex\BuildingBlock01_v001.png
+map_Kd tex/BuildingBlock01_v001.png
 illum 7
 
 newmtl sea text

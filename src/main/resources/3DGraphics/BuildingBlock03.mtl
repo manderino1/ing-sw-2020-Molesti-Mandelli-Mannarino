@@ -2,23 +2,23 @@
 
 newmtl Default
 Kd 1 1 1
-map_Kd P:\Desktop\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\resources\3DGraphics\tex\BuildingBlock03_v001.png
+map_Kd tex/BuildingBlock03_v001.png
 illum 7
 
 newmtl Default
 Kd 1 1 1
-map_Kd P:\Desktop\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\resources\3DGraphics\tex\BuildingBlock02_v001.png
+map_Kd tex/BuildingBlock02_v001.png
 illum 7
 
 newmtl Default
 Kd 1 1 1
-map_Kd P:\Desktop\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\resources\3DGraphics\tex\BuildingBlock01_v001.png
+map_Kd tex/BuildingBlock01_v001.png
 illum 7
 
 newmtl sea text
 Ka 0.99000000953674 0.29699999094009 0.29699999094009
-map_Ka P:\Desktop\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\resources\3DGraphics\tex\Hades_Lava.png
+map_Ka tex/Hades_Lava.png
 Kd 1 1 1
-map_Kd P:\Desktop\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\resources\3DGraphics\tex\Hades_Lava.png
+map_Kd tex/Hades_Lava.png
 illum 7
 

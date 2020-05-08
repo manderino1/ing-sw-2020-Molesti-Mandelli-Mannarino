@@ -59,7 +59,8 @@ public class TestViewUpdate {
         list1.add(Direction.UP);
         ArrayList<Direction> list2 = new ArrayList<>();
         list2.add(Direction.DOWN);
-        MoveList moveList = new MoveList(list1, list2);
+        Worker worker1 = new Worker(0, 0, 0, Color.RED), worker2 = new Worker(0,0,0, Color.RED);
+        MoveList moveList = new MoveList(list1, list2, worker1, worker2);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("3\n1\ntest\n1\nUP\n".getBytes());
 
@@ -90,7 +91,8 @@ public class TestViewUpdate {
     public void testBuildUpdate() {
         ArrayList<Direction> list1 = new ArrayList<>();
         list1.add(Direction.UP);
-        BuildList buildList = new BuildList(list1);
+        Worker worker = new Worker(0, 0, 0, Color.RED);
+        BuildList buildList = new BuildList(list1, worker);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("3\n1\ntest\n1\nUP\n".getBytes());
 
@@ -261,7 +263,8 @@ public class TestViewUpdate {
     public void testAtlasBuildUpdate() {
         ArrayList<Direction> list1 = new ArrayList<>();
         list1.add(Direction.UP);
-        AtlasBuildList atlasBuildList = new AtlasBuildList(list1);
+        Worker worker = new Worker(0, 0, 0, Color.RED);
+        AtlasBuildList atlasBuildList = new AtlasBuildList(list1, worker);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("3\n1\ntest\n1\nUP\nyes\nUP\nlol\nno".getBytes());
 
