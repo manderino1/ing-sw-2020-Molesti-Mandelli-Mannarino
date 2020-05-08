@@ -142,7 +142,9 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void startMatch(StartMatch startMatch) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).setMatchStarted(true);
+        }
     }
 
     @Override

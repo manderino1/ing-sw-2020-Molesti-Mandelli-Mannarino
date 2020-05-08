@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
 import it.polimi.ingsw.PSP18.server.model.Cell;
+import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 import javafx.animation.KeyValue;
@@ -28,6 +29,7 @@ import org.fxyz3d.importers.Model3D;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MatchController extends Controller {
@@ -43,6 +45,10 @@ public class MatchController extends Controller {
     private Cell[][] mapCells;
     private boolean followMessage = false, standardMove = true, matchStarted = false;
     private Worker newWorker1, newWorker2, oldWorker1, oldWorker2;
+
+    private ArrayList<Direction> directionList1, directionList2;
+    private Worker worker1, worker2;
+    private int workerID;
 
     private static final int WIDTH= 1280;
     private static final int HEIGHT= 720;
@@ -199,5 +205,9 @@ public class MatchController extends Controller {
                 }
             }
         }
+    }
+
+    public void setMatchStarted(boolean matchStarted) {
+        this.matchStarted = matchStarted;
     }
 }

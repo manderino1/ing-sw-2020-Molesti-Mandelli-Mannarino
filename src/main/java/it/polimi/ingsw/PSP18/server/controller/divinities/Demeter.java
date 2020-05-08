@@ -36,7 +36,7 @@ public class Demeter extends Divinity {
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves, worker));
 
         firstBuild = true;
     }

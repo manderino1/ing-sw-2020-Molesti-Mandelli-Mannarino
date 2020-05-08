@@ -65,7 +65,7 @@ public class Divinity {
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));
     }
 
     /***
@@ -114,7 +114,7 @@ public class Divinity {
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves, worker));
     }
 
     /***

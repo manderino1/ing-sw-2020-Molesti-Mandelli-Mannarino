@@ -36,7 +36,7 @@ public class Atlas extends Divinity{
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new AtlasBuildList(moves));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new AtlasBuildList(moves, worker));
     }
 
     /***
