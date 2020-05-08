@@ -1,13 +1,10 @@
 package it.polimi.ingsw.PSP18.server.controller;
 
-import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.WorkerReceiver;
-import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
-import it.polimi.ingsw.PSP18.server.controller.TurnManager;
-import it.polimi.ingsw.PSP18.networking.SocketServer;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
-import it.polimi.ingsw.PSP18.server.controller.TurnManagerAthena;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidDivinityException;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidWorkerPositionException;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.model.MatchStatus;
 import it.polimi.ingsw.PSP18.server.view.MapObserver;
@@ -27,20 +24,23 @@ public class Match {
     private PlayerManager currentPlayer;
     private MatchStatus matchStatus;
     private GameMap gameMap;
-    private ArrayList<String> divinitySelection = new ArrayList<String>();
+    private ArrayList<String> divinitySelection = new ArrayList<>();
     private Integer divinitySelectionIndex = 0;
     private Integer workerPlacementIndex = 0;
+    private ArrayList<String> divinities;
 
     /***
      * Match constructor, initializes the arrayLists and the game map
      */
     public Match(){
-        playerManagers = new ArrayList<PlayerManager>();
-        sockets = new ArrayList<SocketThread>();
-        playerSocketMap = new HashMap<PlayerManager, SocketThread>();
-        socketPlayerMap = new HashMap<SocketThread, PlayerManager>();
+        playerManagers = new ArrayList<>();
+        sockets = new ArrayList<>();
+        playerSocketMap = new HashMap<>();
+        socketPlayerMap = new HashMap<>();
         gameMap = new GameMap();
         matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
+        String[] divArray = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Ephaestus", "Minotaur", "Pan", "Prometheus"};
+        divinities = new ArrayList<>(Arrays.asList(divArray));
     }
 
     /***
@@ -150,8 +150,7 @@ public class Match {
         }
         // If i manage to arrive here all the players are ready, i can start the divinity selection phase
         matchStatus = MatchStatus.DIVINITIES_SELECTION;
-        String[] divinities = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Ephaestus", "Minotaur", "Pan", "Prometheus"};
-        playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(new ArrayList<>(Arrays.asList(divinities)), playerManagers.size()));
+        playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(divinities, playerManagers.size()));
     }
 
     /***
@@ -162,6 +161,16 @@ public class Match {
      * @param divinity string that represent the divinity to be created
      */
     public void divinityCreation(SocketThread socket, String divinity) {
+        // Check that the divinity selection is correct
+        if(!divinitySelection.contains(divinity)) {
+            try {
+                throw new InvalidDivinityException();
+            } catch (InvalidDivinityException e) {
+                e.printStackTrace();
+                playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
+                return;
+            }
+        }
         socketPlayerMap.get(socket).divinityCreation(divinity); // use to change divinity
         if(divinitySelectionIndex == playerManagers.size()) {
             // Set observers
@@ -183,6 +192,17 @@ public class Match {
     }
 
     public void divinitySelection(ArrayList<String> divinities) {
+        for(String divinity : divinities) {
+            if(!this.divinities.contains(divinity)) {
+                try {
+                    throw new InvalidDivinityException();
+                } catch (InvalidDivinityException e) {
+                    e.printStackTrace();
+                    playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(divinities, playerManagers.size()));
+                    return;
+                }
+            }
+        }
         divinitySelection = divinities;
         playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinities));
         divinitySelectionIndex++;
@@ -194,6 +214,15 @@ public class Match {
      * @param workers the worker the player has placed
      */
     public void workerPlacement(SocketThread socket, WorkerReceiver workers) {
+        if(gameMap.getCell(workers.getX1(), workers.getY1()).getWorker() != null || gameMap.getCell(workers.getX2(), workers.getY2()).getWorker() != null) {
+            try {
+                throw new InvalidWorkerPositionException();
+            } catch (InvalidWorkerPositionException e) {
+                e.printStackTrace();
+                playerSocketMap.get(playerManagers.get(workerPlacementIndex)).sendMessage(new PlaceReady());
+                return;
+            }
+        }
         socketPlayerMap.get(socket).placeWorker(workers.getX1(), workers.getY1());
         socketPlayerMap.get(socket).placeWorker(workers.getX2(), workers.getY2());
         if(workerPlacementIndex == playerManagers.size()) {
@@ -229,7 +258,6 @@ public class Match {
     }
 
     public void endMatch() {
-        // TODO: if you want to close the match just put to match_ended
         matchStatus = MatchStatus.MATCH_ENDED;
         // Detach observers from map
         for(SocketThread sock : sockets) {
