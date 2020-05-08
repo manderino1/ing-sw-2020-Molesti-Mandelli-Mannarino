@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -127,7 +128,9 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void buildUpdate(BuildList buildList) {
-
+        if(controller.getPageID().equals("Match")) {
+            ((MatchController)controller).showBuildList(buildList);
+        }
     }
 
     @Override

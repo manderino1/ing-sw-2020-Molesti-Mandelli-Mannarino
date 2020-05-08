@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
+import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
@@ -63,14 +64,13 @@ public class MatchController extends Controller {
         //import models
         Group map = loadModel(getClass().getResource("/3DGraphics/mappa.obj"));
         Group cliff = loadModel(getClass().getResource("/3DGraphics/cliff.obj"));
-        Group lava = loadModel(getClass().getResource("/3DGraphics/lava.obj"));
+        Group sea = loadModel(getClass().getResource("/3DGraphics/Sea.obj"));
         Group walls = loadModel(getClass().getResource("/3DGraphics/mura.obj"));
-        //Group islands = loadModel(getClass().getResource("/3DGraphics/isole.obj"));
-        Group redWorker1 = loadModel(getClass().getResource("/3DGraphics/MaleBuilder.obj"));
+        Group islands = loadModel(getClass().getResource("/3DGraphics/isole.obj"));
 
         //setup Scene and camera
-        matchSceneGroup.getChildren().add(lava);
-        matchSceneGroup.getChildren().add(redWorker1);
+        matchSceneGroup.getChildren().add(sea);
+        matchSceneGroup.getChildren().add(islands);
         matchSceneGroup.getChildren().add(cliff);
         matchSceneGroup.getChildren().add(map);
         matchSceneGroup.getChildren().add(walls);
@@ -165,7 +165,7 @@ public class MatchController extends Controller {
      * apolloMoveUpdate : a move where the two workers involved are swapped
      * minotaurMoveUpdate : a mov where one worker pushes the other one
      * We then proceed to save all the workers needed for the methods above in parameters
-     * @param gameMapUpdate Contains contains the new map, the last diretction, the last x and y coordinate and a boolean that signals if the move is a build or a move
+     * @param gameMapUpdate Contains contains the new map, the last direction, the last x and y coordinate and a boolean that signals if the move is a build or a move
      */
     public void mapUpdate(GameMapUpdate gameMapUpdate){
         Cell[][] oldMap = mapCells;
@@ -228,5 +228,11 @@ public class MatchController extends Controller {
 
     public void setMatchStarted(boolean matchStarted) {
         this.matchStarted = matchStarted;
+    }
+
+    public void showBuildList(BuildList buildList){
+        for (Direction dir : buildList.getBuildlist()) {
+
+        }
     }
 }
