@@ -22,7 +22,7 @@ public class MapObserver {
 
     /***
      * Send to the client the updated map
-     * @param mapCells the game map
+     * @param map the game map
      */
     public void update(GameMap map) {
         socket.sendMessage(new GameMapUpdate(map));

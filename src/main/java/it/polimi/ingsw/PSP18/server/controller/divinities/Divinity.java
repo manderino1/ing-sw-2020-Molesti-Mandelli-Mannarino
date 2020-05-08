@@ -76,7 +76,6 @@ public class Divinity {
     public void moveReceiver(Direction direction, Integer workerID) {
         Worker worker = playerManager.getWorker(workerID);
         this.workerID = workerID;
-        playerManager.getGameMap().setLastAction(direction, worker.getX(), worker.getY(), false);
 
         // Check that the move is valid
         if((workerID == 0 && !movesWorker1.contains(direction)) || (workerID == 1 && !movesWorker2.contains(direction))) {

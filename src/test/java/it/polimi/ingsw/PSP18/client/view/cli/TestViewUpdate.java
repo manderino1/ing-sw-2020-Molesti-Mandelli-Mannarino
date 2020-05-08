@@ -488,7 +488,7 @@ public class TestViewUpdate {
         cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
         Assert.assertEquals("\u001B[31mNickname: test\r\n" +
                 "Play order: 0\r\n" +
-                "Divinity: Apollo\r\n" +
+                "Divinity: null\r\n" +
                 "\u001B[0m\r\n" +
                 "\u001B[32mNickname: a\r\n" +
                 "Play order: 0\r\n" +
