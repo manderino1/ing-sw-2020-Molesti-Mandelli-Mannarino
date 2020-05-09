@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.BuildReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.WorkerReceiver;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.model.*;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -643,7 +644,33 @@ public class MatchController extends Controller {
     }
 
     public void placeWorkerInit() {
-        // TODO: show worker placement message and start cell click wait
+        Platform.runLater(() -> hintLabel.setText("Select a free position for the first worker"));
+        matchScene.setOnMousePressed(e -> {
+            matchScene.requestFocus();
+            int[] indexes1 = coordinateToIndex(e.getPickResult());
+            if(indexes1[0] == -1 || indexes1[1] == -1) {
+                // Click is out of bound
+                Platform.runLater(() -> hintLabel.setText("Select a free position for the first worker"));
+                return;
+            }
+            Platform.runLater(() -> hintLabel.setText("Select a free position for the second worker"));
+            matchScene.setOnMousePressed(e2 -> {
+                matchScene.requestFocus();
+                int[] indexes2 = coordinateToIndex(e.getPickResult());
+                if(indexes2[0] == -1 || indexes2[1] == -1) {
+                    // Click is out of bound
+                    Platform.runLater(() -> hintLabel.setText("Select a free position for the second worker"));
+                    return;
+                }
+                socket.sendMessage(new WorkerReceiver(indexes1[0], indexes1[1], indexes2[0], indexes2[1]));
+                matchScene.setOnMousePressed(e3 -> {
+                    matchScene.requestFocus();
+                    e3.consume();
+                });
+                e2.consume();
+            });
+            e.consume();
+        });
     }
 
     public void prometheusBuildShow(PrometheusBuildList prometheusBuildList) {
