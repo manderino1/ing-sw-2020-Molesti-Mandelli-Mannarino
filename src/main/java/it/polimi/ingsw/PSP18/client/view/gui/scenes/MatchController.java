@@ -1,10 +1,9 @@
 package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
-import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
 import it.polimi.ingsw.PSP18.server.model.Cell;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
@@ -236,9 +235,74 @@ public class MatchController extends Controller {
            double newX = indexToCoordinateX(DirectionManagement.getX(buildList.getWorker().getX(), dir));
            double newY = indexToCoordinateY(DirectionManagement.getY(buildList.getWorker().getY(), dir));
            //TODO: Color the cells
-
-
         }
+
+        // TODO: show message and start click waiting on worker for the build
+    }
+
+    // Show both move lists
+    public void showMoveList(MoveList moveList) {
+        for (Direction dir : moveList.getMoveList1()) {
+            double newX = indexToCoordinateX(DirectionManagement.getX(moveList.getWorker1().getX(), dir));
+            double newY = indexToCoordinateY(DirectionManagement.getY(moveList.getWorker1().getY(), dir));
+            //TODO: Color the cells
+        }
+
+        for (Direction dir : moveList.getMoveList2()) {
+            double newX = indexToCoordinateX(DirectionManagement.getX(moveList.getWorker2().getX(), dir));
+            double newY = indexToCoordinateY(DirectionManagement.getY(moveList.getWorker2().getY(), dir));
+            //TODO: Color the cells
+        }
+
+        // TODO: show message and start click waiting on worker for the move
+    }
+
+    // Show only one move list after the click
+    private void showSingleMoveList(MoveList moveList, int x, int y) {
+        if(moveList.getWorker1().getX() == x && moveList.getWorker1().getY() == y) {
+            for (Direction dir : moveList.getMoveList1()) {
+                double newX = indexToCoordinateX(DirectionManagement.getX(moveList.getWorker1().getX(), dir));
+                double newY = indexToCoordinateY(DirectionManagement.getY(moveList.getWorker1().getY(), dir));
+                //TODO: Color the cells
+            }
+        } else if(moveList.getWorker2().getX() == x && moveList.getWorker2().getY() == y) {
+            for (Direction dir : moveList.getMoveList2()) {
+                double newX = indexToCoordinateX(DirectionManagement.getX(moveList.getWorker2().getX(), dir));
+                double newY = indexToCoordinateY(DirectionManagement.getY(moveList.getWorker2().getY(), dir));
+                //TODO: Color the cells
+            }
+        } else {
+            System.err.println("Click is not in a cell occupied by a worker");
+        }
+    }
+
+    public void atlasShowBuild(AtlasBuildList buildList) {
+        showBuildList(buildList);
+        // TODO: show dome toggle button
+    }
+
+    public void showEndTurn() {
+        // TODO: show end turn button
+    }
+
+    public void placeWorkerInit() {
+        // TODO: show worker placement message and start cell click wait
+    }
+
+    public void prometheusBuildShow(PrometheusBuildList prometheusBuildList) {
+        for (Direction dir : prometheusBuildList.getBuildlist1()) {
+            double newX = indexToCoordinateX(DirectionManagement.getX(prometheusBuildList.getWorker1().getX(), dir));
+            double newY = indexToCoordinateY(DirectionManagement.getY(prometheusBuildList.getWorker1().getY(), dir));
+            //TODO: Color the cells
+        }
+
+        for (Direction dir : prometheusBuildList.getBuildlist2()) {
+            double newX = indexToCoordinateX(DirectionManagement.getX(prometheusBuildList.getWorker2().getX(), dir));
+            double newY = indexToCoordinateY(DirectionManagement.getY(prometheusBuildList.getWorker2().getY(), dir));
+            //TODO: Color the cells
+        }
+
+        // TODO: show message that if he doesn't move up he can build both times
     }
 
     public static double indexToCoordinateX(int index){
