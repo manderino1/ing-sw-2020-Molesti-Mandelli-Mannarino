@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
@@ -15,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.PickResult;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
@@ -50,6 +52,8 @@ public class MatchController extends Controller {
     private Cell[][] mapCells;
     private boolean followMessage = false, standardMove = true, matchStarted = false;
     private Worker newWorker1, newWorker2, oldWorker1, oldWorker2;
+
+    private Worker myWorker1, myWorker2;
 
     private ArrayList<Direction> directionList1, directionList2;
 
@@ -126,8 +130,75 @@ public class MatchController extends Controller {
 
         matchScene.setOnMousePressed(e -> {
             matchScene.requestFocus();
+            PickResult pr = e.getPickResult();
+            System.out.println(pr.getIntersectedPoint());
             e.consume();
         });
+
+        /*
+        matchScene.setOnMousePressed(e -> {
+            GameMap gameMap = new GameMap();
+            mapCells = gameMap.getMapCells();
+            ArrayList<Direction> directions1 = new ArrayList<>();
+            directions1.add(Direction.UP);
+            ArrayList<Direction> directions2 = new ArrayList<>();
+            directions2.add(Direction.DOWN);
+            Worker worker1 = new Worker(0, 0, 0, it.polimi.ingsw.PSP18.server.model.Color.RED);
+            Worker worker2 = new Worker(0, 2, 1, it.polimi.ingsw.PSP18.server.model.Color.RED);
+            mapCells[0][0].setWorker(worker1);
+            mapCells[0][2].setWorker(worker2);
+            myWorker1 = worker1;
+            myWorker2 = worker2;
+            MoveList moveList = new MoveList(directions1, directions2, worker1, worker2);
+            matchScene.requestFocus();
+            int[] indexes = coordinateToIndex(e.getPickResult());
+            if(indexes[0] == -1 || indexes[1] == -1) {
+                // Click is out of bound
+                return;
+            }
+            if(mapCells[indexes[0]][indexes[1]].getWorker() == myWorker1) {
+                showSingleMoveList(moveList, indexes[0], indexes[1]);
+                matchScene.setOnMousePressed(e2 -> {
+                    matchScene.requestFocus();
+                    int[] newIndexes = coordinateToIndex(e2.getPickResult());
+                    if(newIndexes[0] == -1 || newIndexes[1] == -1) {
+                        // Click is out of bound
+                        return;
+                    }
+                    for(Direction direction : moveList.getMoveList1()) {
+                        int newX = DirectionManagement.getX(moveList.getWorker1().getX(), direction);
+                        int newY = DirectionManagement.getY(moveList.getWorker1().getY(), direction);
+
+                        if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
+                            socket.sendMessage(new MoveReceiver(direction, 0));
+                        }
+                    }
+                    e2.consume();
+                });
+            } else if(mapCells[indexes[0]][indexes[1]].getWorker() == myWorker2) {
+                showSingleMoveList(moveList, indexes[0], indexes[1]);
+                matchScene.setOnMousePressed(e2 -> {
+                    matchScene.requestFocus();
+                    int[] newIndexes = coordinateToIndex(e2.getPickResult());
+                    if(newIndexes[0] == -1 || newIndexes[1] == -1) {
+                        // Click is out of bound
+                        return;
+                    }
+                    for(Direction direction : moveList.getMoveList2()) {
+                        int newX = DirectionManagement.getX(moveList.getWorker2().getX(), direction);
+                        int newY = DirectionManagement.getY(moveList.getWorker2().getY(), direction);
+
+                        if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
+                            socket.sendMessage(new MoveReceiver(direction, 1));
+                        }
+                    }
+                    e2.consume();
+                });
+            }
+            e.consume();
+        });
+
+      */
     }
 
     public Group loadModel(URL url) {
@@ -242,19 +313,66 @@ public class MatchController extends Controller {
 
     // Show both move lists
     public void showMoveList(MoveList moveList) {
-        for (Direction dir : moveList.getMoveList1()) {
-            double newX = indexToCoordinateX(DirectionManagement.getX(moveList.getWorker1().getX(), dir));
-            double newY = indexToCoordinateY(DirectionManagement.getY(moveList.getWorker1().getY(), dir));
-            //TODO: Color the cells
-        }
-
-        for (Direction dir : moveList.getMoveList2()) {
-            double newX = indexToCoordinateX(DirectionManagement.getX(moveList.getWorker2().getX(), dir));
-            double newY = indexToCoordinateY(DirectionManagement.getY(moveList.getWorker2().getY(), dir));
-            //TODO: Color the cells
-        }
+        myWorker1 = moveList.getWorker1();
+        myWorker2 = moveList.getWorker2();
 
         // TODO: show message and start click waiting on worker for the move
+        matchScene.setOnMousePressed(e -> {
+            matchScene.requestFocus();
+            int[] indexes = coordinateToIndex(e.getPickResult());
+            if(indexes[0] == -1 || indexes[1] == -1) {
+                // Click is out of bound
+                return;
+            }
+            if(mapCells[indexes[0]][indexes[1]].getWorker() == myWorker1) {
+                showSingleMoveList(moveList, indexes[0], indexes[1]);
+                matchScene.setOnMousePressed(e2 -> {
+                    matchScene.requestFocus();
+                    int[] newIndexes = coordinateToIndex(e2.getPickResult());
+                    if(newIndexes[0] == -1 || newIndexes[1] == -1) {
+                        // Click is out of bound
+                        return;
+                    }
+                    for(Direction direction : moveList.getMoveList1()) {
+                        int newX = DirectionManagement.getX(moveList.getWorker1().getX(), direction);
+                        int newY = DirectionManagement.getY(moveList.getWorker1().getY(), direction);
+
+                        if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
+                            socket.sendMessage(new MoveReceiver(direction, 0));
+                            matchScene.setOnMousePressed(e3 -> {
+                                matchScene.requestFocus();
+                                e3.consume();
+                            });
+                        }
+                    }
+                    e2.consume();
+                });
+            } else if(mapCells[indexes[0]][indexes[1]].getWorker() == myWorker2) {
+                showSingleMoveList(moveList, indexes[0], indexes[1]);
+                matchScene.setOnMousePressed(e2 -> {
+                    matchScene.requestFocus();
+                    int[] newIndexes = coordinateToIndex(e2.getPickResult());
+                    if(newIndexes[0] == -1 || newIndexes[1] == -1) {
+                        // Click is out of bound
+                        return;
+                    }
+                    for(Direction direction : moveList.getMoveList2()) {
+                        int newX = DirectionManagement.getX(moveList.getWorker2().getX(), direction);
+                        int newY = DirectionManagement.getY(moveList.getWorker2().getY(), direction);
+
+                        if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
+                            socket.sendMessage(new MoveReceiver(direction, 1));
+                            matchScene.setOnMousePressed(e3 -> {
+                                matchScene.requestFocus();
+                                e3.consume();
+                            });
+                        }
+                    }
+                    e2.consume();
+                });
+            }
+            e.consume();
+        });
     }
 
     // Show only one move list after the click
@@ -322,5 +440,27 @@ public class MatchController extends Controller {
 
     public static double indexToCoordinateY(int index){
         return DELTA*index;
+    }
+
+    public static int[] coordinateToIndex(PickResult pick) {
+        int[] index = new int[3];
+        index[0] = (int)((pick.getIntersectedPoint().getX()+(DELTA*2.5)) / DELTA);
+        if(index[0]>4 || index[0]<0) {
+            index[0] = -1;
+        }
+        index[1] = (int)(((-1*pick.getIntersectedPoint().getZ())+(DELTA*2.5)) / DELTA);
+        if(index[1]>4 || index[1]<0) {
+            index[1] = -1;
+        }
+        if(pick.getIntersectedPoint().getY()>=0 && pick.getIntersectedPoint().getZ()<DELTAZ1) {
+            index[2] = 0;
+        } else if(pick.getIntersectedPoint().getY()>=DELTAZ1 && pick.getIntersectedPoint().getZ()<DELTAZ2) {
+            index[2] = 1;
+        } else if(pick.getIntersectedPoint().getY()>=DELTAZ2 && pick.getIntersectedPoint().getZ()<DELTAZ3) {
+            index[2] = 2;
+        } else if(pick.getIntersectedPoint().getY()>=DELTAZ3) {
+            index[2] = 3;
+        }
+        return index;
     }
 }
