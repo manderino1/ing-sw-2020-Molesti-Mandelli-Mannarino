@@ -66,7 +66,9 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void moveUpdate(MoveList movelist) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).showMoveList(movelist);
+        }
     }
 
     @Override
@@ -157,17 +159,23 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void setWorker(PlaceReady placeReady) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).placeWorkerInit();
+        }
     }
 
     @Override
     public void prometheusBuildListUpdate(PrometheusBuildList prometheusBuildList) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).prometheusBuildShow(prometheusBuildList);
+        }
     }
 
     @Override
     public void singleMoveUpdate(SingleMoveList singleMoveList) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).singleMoveUpdate(singleMoveList);
+        }
     }
 
     @Override
@@ -177,12 +185,16 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void endTurn(EndTurnAvaiable endTurnAvaiable) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).showEndTurn();
+        }
     }
 
     @Override
     public void atlasBuildUpdate(AtlasBuildList atlasBuildList) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).atlasShowBuild(atlasBuildList);
+        }
     }
 
     @Override
