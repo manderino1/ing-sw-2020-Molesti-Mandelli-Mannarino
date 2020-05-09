@@ -318,7 +318,7 @@ public class TestViewUpdate {
         ArrayList<Direction> list1 = new ArrayList<>();
         list1.add(Direction.UP);
         list1.add(Direction.DOWN);
-        BuildListFlag buildListFlag = new BuildListFlag(list1);
+        BuildListFlag buildListFlag = new BuildListFlag(list1, null);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("als\nNo\nUP\n".getBytes());
 
@@ -344,7 +344,7 @@ public class TestViewUpdate {
     public void testBuildListFlagUpdate2() {
         ArrayList<Direction> list1 = new ArrayList<>();
         list1.add(Direction.UP);
-        BuildListFlag buildListFlag = new BuildListFlag(list1);
+        BuildListFlag buildListFlag = new BuildListFlag(list1, null);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("als\nNo\nYes\n".getBytes());
 

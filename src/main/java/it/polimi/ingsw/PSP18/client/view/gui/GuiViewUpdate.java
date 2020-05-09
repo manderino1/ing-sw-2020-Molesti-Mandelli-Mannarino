@@ -61,6 +61,10 @@ public class GuiViewUpdate extends ViewUpdate {
     public void updateMap(GameMapUpdate gameMapUpdate) {
         if (controller.getPageID().equals("Match")) {
             ((MatchController)controller).mapUpdate(gameMapUpdate);
+        } else {
+            switchScene("Match");
+            ((MatchController)controller).mapUpdate(gameMapUpdate);
+            ((MatchController)controller).updatePlayers(playerDataArrayList);
         }
     }
 
@@ -109,7 +113,7 @@ public class GuiViewUpdate extends ViewUpdate {
         if(controller.getPageID().equals("Lobby")) { // Do not invert the two ifs
             ((LobbyController)controller).insertNick();
         } else if(controller.getPageID().equals("Login")) {
-            switchScene("Match");
+            switchScene("Lobby");
         }
     }
 
@@ -161,9 +165,10 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void setWorker(PlaceReady placeReady) {
-        if (controller.getPageID().equals("Match")) {
-            ((MatchController)controller).placeWorkerInit();
+        if (!controller.getPageID().equals("Match")) {
+            switchScene("Match");
         }
+        ((MatchController)controller).placeWorkerInit();
     }
 
     @Override

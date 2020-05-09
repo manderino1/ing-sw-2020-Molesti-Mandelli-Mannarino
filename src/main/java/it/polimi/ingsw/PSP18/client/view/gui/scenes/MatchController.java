@@ -171,71 +171,6 @@ public class MatchController extends Controller {
             System.out.println(pr.getIntersectedPoint());
             e.consume();
         });
-
-        /*
-        matchScene.setOnMousePressed(e -> {
-            GameMap gameMap = new GameMap();
-            mapCells = gameMap.getMapCells();
-            ArrayList<Direction> directions1 = new ArrayList<>();
-            directions1.add(Direction.UP);
-            ArrayList<Direction> directions2 = new ArrayList<>();
-            directions2.add(Direction.DOWN);
-            Worker worker1 = new Worker(0, 0, 0, it.polimi.ingsw.PSP18.server.model.Color.RED);
-            Worker worker2 = new Worker(0, 2, 1, it.polimi.ingsw.PSP18.server.model.Color.RED);
-            mapCells[0][0].setWorker(worker1);
-            mapCells[0][2].setWorker(worker2);
-            myWorker1 = worker1;
-            myWorker2 = worker2;
-            MoveList moveList = new MoveList(directions1, directions2, worker1, worker2);
-            matchScene.requestFocus();
-            int[] indexes = coordinateToIndex(e.getPickResult());
-            if(indexes[0] == -1 || indexes[1] == -1) {
-                // Click is out of bound
-                return;
-            }
-            if(mapCells[indexes[0]][indexes[1]].getWorker() == myWorker1) {
-                showSingleMoveList(moveList, indexes[0], indexes[1]);
-                matchScene.setOnMousePressed(e2 -> {
-                    matchScene.requestFocus();
-                    int[] newIndexes = coordinateToIndex(e2.getPickResult());
-                    if(newIndexes[0] == -1 || newIndexes[1] == -1) {
-                        // Click is out of bound
-                        return;
-                    }
-                    for(Direction direction : moveList.getMoveList1()) {
-                        int newX = DirectionManagement.getX(moveList.getWorker1().getX(), direction);
-                        int newY = DirectionManagement.getY(moveList.getWorker1().getY(), direction);
-
-                        if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
-                            socket.sendMessage(new MoveReceiver(direction, 0));
-                        }
-                    }
-                    e2.consume();
-                });
-            } else if(mapCells[indexes[0]][indexes[1]].getWorker() == myWorker2) {
-                showSingleMoveList(moveList, indexes[0], indexes[1]);
-                matchScene.setOnMousePressed(e2 -> {
-                    matchScene.requestFocus();
-                    int[] newIndexes = coordinateToIndex(e2.getPickResult());
-                    if(newIndexes[0] == -1 || newIndexes[1] == -1) {
-                        // Click is out of bound
-                        return;
-                    }
-                    for(Direction direction : moveList.getMoveList2()) {
-                        int newX = DirectionManagement.getX(moveList.getWorker2().getX(), direction);
-                        int newY = DirectionManagement.getY(moveList.getWorker2().getY(), direction);
-
-                        if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
-                            socket.sendMessage(new MoveReceiver(direction, 1));
-                        }
-                    }
-                    e2.consume();
-                });
-            }
-            e.consume();
-        });
-
-      */
     }
 
     public Group loadModel(URL url) {
@@ -367,10 +302,10 @@ public class MatchController extends Controller {
                 switch(worker.getID()){
                     case 0:
                         workerBlue1 = loadModel(getClass().getResource("/3DGraphics/workerBlue.obj"));
-                        workerBlue1.setTranslateY(10);
+                        workerBlue1.setTranslateY(-10);
                         workerBlue1.setTranslateX(indexToCoordinateX(worker.getX()));
-                        workerBlue1.setTranslateY(indexToCoordinateY(worker.getY()));
-                        matchSceneGroup.getChildren().add(workerBlue1);
+                        workerBlue1.setTranslateZ(indexToCoordinateY(worker.getY()));
+                        Platform.runLater(() -> matchSceneGroup.getChildren().add(workerBlue1));
 
                         timeline.setCycleCount(1);
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
@@ -379,10 +314,10 @@ public class MatchController extends Controller {
                         break;
                     case 1:
                         workerBlue2 = loadModel(getClass().getResource("/3DGraphics/workerBlue.obj"));
-                        workerBlue2.setTranslateY(10);
+                        workerBlue2.setTranslateY(-10);
                         workerBlue2.setTranslateX(indexToCoordinateX(worker.getX()));
-                        workerBlue2.setTranslateY(indexToCoordinateY(worker.getY()));
-                        matchSceneGroup.getChildren().add(workerBlue2);
+                        workerBlue2.setTranslateZ(indexToCoordinateY(worker.getY()));
+                        Platform.runLater(() -> matchSceneGroup.getChildren().add(workerBlue2));
 
                         timeline.setCycleCount(1);
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
@@ -396,10 +331,11 @@ public class MatchController extends Controller {
                 switch(worker.getID()){
                     case 0:
                         workerRed1 = loadModel(getClass().getResource("/3DGraphics/workerRed.obj"));
-                        workerRed1.setTranslateY(10);
+                        workerRed1.setTranslateY(-10);
                         workerRed1.setTranslateX(indexToCoordinateX(worker.getX()));
-                        workerRed1.setTranslateY(indexToCoordinateY(worker.getY()));
-                        matchSceneGroup.getChildren().add(workerRed1);
+                        workerRed1.setTranslateZ(indexToCoordinateY(worker.getY()));
+
+                        Platform.runLater(() -> matchSceneGroup.getChildren().add(workerRed1));
 
                         timeline.setCycleCount(1);
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
@@ -408,10 +344,10 @@ public class MatchController extends Controller {
                         break;
                     case 1:
                         workerRed2 = loadModel(getClass().getResource("/3DGraphics/workerRed.obj"));
-                        workerRed2.setTranslateY(10);
+                        workerRed2.setTranslateY(-10);
                         workerRed2.setTranslateX(indexToCoordinateX(worker.getX()));
-                        workerRed2.setTranslateY(indexToCoordinateY(worker.getY()));
-                        matchSceneGroup.getChildren().add(workerRed2);
+                        workerRed2.setTranslateZ(indexToCoordinateY(worker.getY()));
+                        Platform.runLater(() -> matchSceneGroup.getChildren().add(workerRed2));
 
                         timeline.setCycleCount(1);
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
@@ -425,10 +361,10 @@ public class MatchController extends Controller {
                 switch(worker.getID()){
                     case 0:
                         workerWhite1 = loadModel(getClass().getResource("/3DGraphics/workerWhite.obj"));
-                        workerWhite1.setTranslateY(10);
+                        workerWhite1.setTranslateY(-10);
                         workerWhite1.setTranslateX(indexToCoordinateX(worker.getX()));
-                        workerWhite1.setTranslateY(indexToCoordinateY(worker.getY()));
-                        matchSceneGroup.getChildren().add(workerWhite1);
+                        workerWhite1.setTranslateZ(indexToCoordinateY(worker.getY()));
+                        Platform.runLater(() -> matchSceneGroup.getChildren().add(workerWhite1));
 
                         timeline.setCycleCount(1);
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
@@ -437,10 +373,10 @@ public class MatchController extends Controller {
                         break;
                     case 1:
                         workerWhite2 = loadModel(getClass().getResource("/3DGraphics/workerWhite.obj"));
-                        workerWhite2.setTranslateY(10);
+                        workerWhite2.setTranslateY(-10);
                         workerWhite2.setTranslateX(indexToCoordinateX(worker.getX()));
-                        workerWhite2.setTranslateY(indexToCoordinateY(worker.getY()));
-                        matchSceneGroup.getChildren().add(workerWhite2);
+                        workerWhite2.setTranslateZ(indexToCoordinateY(worker.getY()));
+                        Platform.runLater(() -> matchSceneGroup.getChildren().add(workerWhite2));
 
                         timeline.setCycleCount(1);
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
@@ -466,7 +402,9 @@ public class MatchController extends Controller {
         mapCells = gameMapUpdate.getGameMap();
         if(!matchStarted){
             newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
-            placeWorkerUpdate(newWorker1);
+            if(newWorker1 != null) {
+                placeWorkerUpdate(newWorker1);
+            }
             return;
         }
         if(gameMapUpdate.isLastActionIsBuild()){
@@ -656,7 +594,7 @@ public class MatchController extends Controller {
             Platform.runLater(() -> hintLabel.setText("Select a free position for the second worker"));
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
-                int[] indexes2 = coordinateToIndex(e.getPickResult());
+                int[] indexes2 = coordinateToIndex(e2.getPickResult());
                 if(indexes2[0] == -1 || indexes2[1] == -1) {
                     // Click is out of bound
                     Platform.runLater(() -> hintLabel.setText("Select a free position for the second worker"));
@@ -701,20 +639,6 @@ public class MatchController extends Controller {
     }
 
     public void updatePlayers(ArrayList<PlayerData> players) {
-        if (players.size() == 1) {
-            for (PlayerData playerData : players) {
-                nick1.setText(playerData.getPlayerID());
-                Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                divinity1.setImage(image);
-
-                ColorAdjust blackout = new ColorAdjust();
-                blackout.setBrightness(-0.7);
-
-                divinity1.setEffect(blackout);
-                divinity1.setCache(true);
-                divinity1.setCacheHint(CacheHint.SPEED);
-            }
-        }
         if (players.size() == 2) {
             for (PlayerData playerData : players) {
                 if (playerData.getPlayOrder() == 0) {
@@ -723,7 +647,12 @@ public class MatchController extends Controller {
                         Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
                         divinity1.setImage(image);
                     } else {
-                        //todo: grigiare il tutto
+                        ColorAdjust blackout = new ColorAdjust();
+                        blackout.setBrightness(-0.7);
+
+                        divinity1.setEffect(blackout);
+                        divinity1.setCache(true);
+                        divinity1.setCacheHint(CacheHint.SPEED);
                     }
                 }
                 if (playerData.getPlayOrder() == 1) {
@@ -732,7 +661,12 @@ public class MatchController extends Controller {
                         Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
                         divinity2.setImage(image1);
                     } else {
-                        //todo: grigiare il tutto
+                        ColorAdjust blackout = new ColorAdjust();
+                        blackout.setBrightness(-0.7);
+
+                        divinity2.setEffect(blackout);
+                        divinity2.setCache(true);
+                        divinity2.setCacheHint(CacheHint.SPEED);
                     }
                 }
                 nick3.setVisible(false);
@@ -747,7 +681,12 @@ public class MatchController extends Controller {
                         Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
                         divinity1.setImage(image);
                     } else {
-                        //todo: grigiare il tutto
+                        ColorAdjust blackout = new ColorAdjust();
+                        blackout.setBrightness(-0.7);
+
+                        divinity1.setEffect(blackout);
+                        divinity1.setCache(true);
+                        divinity1.setCacheHint(CacheHint.SPEED);
                     }
                 }
                 if (playerData.getPlayOrder() == 1) {
@@ -756,7 +695,12 @@ public class MatchController extends Controller {
                         Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
                         divinity2.setImage(image1);
                     } else {
-                        //todo: grigiare il tutto
+                        ColorAdjust blackout = new ColorAdjust();
+                        blackout.setBrightness(-0.7);
+
+                        divinity2.setEffect(blackout);
+                        divinity2.setCache(true);
+                        divinity2.setCacheHint(CacheHint.SPEED);
                     }
                 }
                 if (playerData.getPlayOrder() == 2) {
@@ -765,7 +709,12 @@ public class MatchController extends Controller {
                         Image image2 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
                         divinity3.setImage(image2);
                     } else {
-                        //todo: grigiare il tutto
+                        ColorAdjust blackout = new ColorAdjust();
+                        blackout.setBrightness(-0.7);
+
+                        divinity3.setEffect(blackout);
+                        divinity3.setCache(true);
+                        divinity3.setCacheHint(CacheHint.SPEED);
                     }
                 }
             }
@@ -780,11 +729,11 @@ public class MatchController extends Controller {
     }
 
     public static double indexToCoordinateX(int index){
-        return DELTA*index;
+        return (index-2)*DELTA;
     }
 
     public static double indexToCoordinateY(int index){
-        return DELTA*index;
+        return (index-2)*DELTA*(-1);
     }
 
     public static int[] coordinateToIndex(PickResult pick) {
