@@ -226,8 +226,8 @@ public class MatchController extends Controller {
             case 0:
                 block = loadModel(getClass().getResource("Dome.obj"));
                 block.setTranslateY(10);
-                block.setTranslateX(IndexToValue(oldX));
-                block.setTranslateZ(IndexToValue(oldY));
+                block.setTranslateX(indexToCoordinateX(oldX));
+                block.setTranslateZ(indexToCoordinateY(oldY));
 
                 timeline.setCycleCount(1);
                 timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
@@ -244,8 +244,8 @@ public class MatchController extends Controller {
                     block = loadModel(getClass().getResource("Dome.obj"));
                 }
                 block.setTranslateY(10);
-                block.setTranslateX(IndexToCoordinateX(oldX));
-                block.setTranslateZ(IndexToCoordinateY(oldY));
+                block.setTranslateX(indexToCoordinateX(oldX));
+                block.setTranslateZ(indexToCoordinateY(oldY));
                 if(dome){
                     timeline.setCycleCount(1);
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
@@ -268,8 +268,8 @@ public class MatchController extends Controller {
                     block = loadModel(getClass().getResource("Dome.obj"));
                 }
                 block.setTranslateY(10);
-                block.setTranslateX(IndexToCoordinateX(oldX));
-                block.setTranslateZ(IndexToCoordinateY(oldY));
+                block.setTranslateX(indexToCoordinateX(oldX));
+                block.setTranslateZ(indexToCoordinateY(oldY));
                 if(dome){
                     timeline.setCycleCount(1);
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
@@ -292,8 +292,8 @@ public class MatchController extends Controller {
                     block = loadModel(getClass().getResource("Dome.obj"));
                 }
                 block.setTranslateY(10);
-                block.setTranslateX(IndexToCoordinateX(oldX));
-                block.setTranslateZ(IndexToCoordinateY(oldY));
+                block.setTranslateX(indexToCoordinateX(oldX));
+                block.setTranslateZ(indexToCoordinateY(oldY));
                 if(dome){
                     timeline.setCycleCount(1);
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
@@ -341,9 +341,9 @@ public class MatchController extends Controller {
         }
         if(gameMapUpdate.isLastActionIsBuild()){
             if(mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getDome()) {
-                buildUpdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY(), true);
+                buildUpdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
             } else {
-                buildUpdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY(), false);
+                buildUpdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
             }
         } else {
             if(oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker() == null) {
