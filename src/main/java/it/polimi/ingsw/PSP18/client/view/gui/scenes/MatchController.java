@@ -44,6 +44,7 @@ import org.fxyz3d.importers.Model3D;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class MatchController extends Controller {
@@ -85,7 +86,7 @@ public class MatchController extends Controller {
     private Rotate yRotate = new Rotate(0, Rotate.Y_AXIS);
 
     private static final double DELTA = 2.5, DELTAZ1 = 1.1, DELTAZ2 = 2.2, DELTAZ3 = 2.9;
-
+    private HashMap<String, Group> workList= new HashMap<>();
     private Cell[][] mapCells;
     private boolean followMessage = false, standardMove = true, matchStarted = false;
     private Worker newWorker1, newWorker2, oldWorker1, oldWorker2;
@@ -276,7 +277,91 @@ public class MatchController extends Controller {
         }
     }
     public void standardMoveUpdate(Worker oldWork, Worker newWork){
-        oldWork.getPlayerColor();
+        final Timeline timeline = new Timeline();
+        Group workerSelected;
+
+        switch (oldWork.getPlayerColor()){
+
+            case BLUE:
+                switch(oldWork.getID()){
+                    case 0:
+                        workerSelected = workList.get("WB1");
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
+                        timeline.play();
+                        break;
+                    case 1:
+
+                        workerSelected = workList.get("WB2");
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
+                        timeline.play();
+                        break;
+                }
+                break;
+
+            case RED:
+                switch(oldWork.getID()){
+                    case 0:
+
+                        workerSelected = workList.get("WR1");
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
+                        timeline.play();
+                        break;
+
+                    case 1:
+                        workerSelected = workList.get("WR2");
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
+                        timeline.play();
+                        break;
+                }
+                break;
+
+            case GREEN:
+                switch(oldWork.getID()){
+                    case 0:
+
+                        workerSelected = workList.get("WW1");
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
+                        timeline.play();
+                        break;
+                    case 1:
+
+                        workerSelected = workList.get("WW2");
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
+                        timeline.play();
+                        break;
+                }
+                break;
+        }
     }
     public void apolloMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWorker2){
 
@@ -291,6 +376,10 @@ public class MatchController extends Controller {
         Group workerRed2;
         Group workerWhite1;
         Group workerWhite2;
+
+
+
+
         final Timeline timeline = new Timeline();
 
 
@@ -300,6 +389,7 @@ public class MatchController extends Controller {
                 switch(worker.getID()){
                     case 0:
                         workerBlue1 = loadModel(getClass().getResource("/3DGraphics/workerBlue.obj"));
+                        workList.put("WB1", workerBlue1);
                         workerBlue1.setTranslateY(-10);
                         workerBlue1.setTranslateX(indexToCoordinateX(worker.getX()));
                         workerBlue1.setTranslateZ(indexToCoordinateY(worker.getY()));
@@ -312,6 +402,7 @@ public class MatchController extends Controller {
                         break;
                     case 1:
                         workerBlue2 = loadModel(getClass().getResource("/3DGraphics/workerBlue.obj"));
+                        workList.put("WB2", workerBlue2);
                         workerBlue2.setTranslateY(-10);
                         workerBlue2.setTranslateX(indexToCoordinateX(worker.getX()));
                         workerBlue2.setTranslateZ(indexToCoordinateY(worker.getY()));
@@ -329,6 +420,7 @@ public class MatchController extends Controller {
                 switch(worker.getID()){
                     case 0:
                         workerRed1 = loadModel(getClass().getResource("/3DGraphics/workerRed.obj"));
+                        workList.put("WR1", workerRed1);
                         workerRed1.setTranslateY(-10);
                         workerRed1.setTranslateX(indexToCoordinateX(worker.getX()));
                         workerRed1.setTranslateZ(indexToCoordinateY(worker.getY()));
@@ -342,6 +434,8 @@ public class MatchController extends Controller {
                         break;
                     case 1:
                         workerRed2 = loadModel(getClass().getResource("/3DGraphics/workerRed.obj"));
+                        workList.put("WR2", workerRed2);
+
                         workerRed2.setTranslateY(-10);
                         workerRed2.setTranslateX(indexToCoordinateX(worker.getX()));
                         workerRed2.setTranslateZ(indexToCoordinateY(worker.getY()));
@@ -359,6 +453,8 @@ public class MatchController extends Controller {
                 switch(worker.getID()){
                     case 0:
                         workerWhite1 = loadModel(getClass().getResource("/3DGraphics/workerWhite.obj"));
+                        workList.put("WW1", workerWhite1);
+
                         workerWhite1.setTranslateY(-10);
                         workerWhite1.setTranslateX(indexToCoordinateX(worker.getX()));
                         workerWhite1.setTranslateZ(indexToCoordinateY(worker.getY()));
@@ -371,6 +467,7 @@ public class MatchController extends Controller {
                         break;
                     case 1:
                         workerWhite2 = loadModel(getClass().getResource("/3DGraphics/workerWhite.obj"));
+                        workList.put("WW2", workerWhite2);
                         workerWhite2.setTranslateY(-10);
                         workerWhite2.setTranslateX(indexToCoordinateX(worker.getX()));
                         workerWhite2.setTranslateZ(indexToCoordinateY(worker.getY()));
