@@ -110,6 +110,8 @@ public class MatchController extends Controller {
         Group walls = loadModel(getClass().getResource("/3DGraphics/mura.obj"));
 
         //setup Scene and camera
+        sea.setScaleX(0.5);
+        sea.setScaleZ(0.5);
         matchSceneGroup.getChildren().add(sea);
         matchSceneGroup.getChildren().add(cliff);
         matchSceneGroup.getChildren().add(map);
