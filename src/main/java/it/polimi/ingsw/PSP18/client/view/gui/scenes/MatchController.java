@@ -1,11 +1,10 @@
 package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.BuildReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
-import it.polimi.ingsw.PSP18.server.model.Direction;
-import it.polimi.ingsw.PSP18.server.model.Worker;
-import it.polimi.ingsw.PSP18.server.model.Cell;
+import it.polimi.ingsw.PSP18.server.model.*;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.model.Worker;
@@ -18,8 +17,13 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.*;
+import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.PickResult;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
@@ -42,6 +46,34 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MatchController extends Controller {
+    @FXML
+    private ImageView border3;
+    @FXML
+    private Label hintLabel;
+    @FXML
+    private ImageView button1;
+    @FXML
+    private ImageView button2;
+    @FXML
+    private Label label1;
+    @FXML
+    private Label label2;
+    @FXML
+    private Pane leftBar;
+    @FXML
+    private ImageView divinity1;
+    @FXML
+    private Label nick1;
+    @FXML
+    private ImageView divinity2;
+    @FXML
+    private Label nick2;
+    @FXML
+    private ImageView divinity3;
+    @FXML
+    private Label nick3;
+    @FXML
+    private GridPane lowBar;
     @FXML
     private SubScene matchScene;
     private Group matchSceneGroup = new Group();
@@ -495,6 +527,27 @@ public class MatchController extends Controller {
         }
 
         // TODO: show message and start click waiting on worker for the build
+        matchScene.setOnMousePressed(e -> {
+            matchScene.requestFocus();
+            int[] newIndexes = coordinateToIndex(e.getPickResult());
+            if(newIndexes[0] == -1 || newIndexes[1] == -1) {
+                // Click is out of bound
+                return;
+            }
+            for(Direction direction : buildList.getBuildlist()) {
+                int newX = DirectionManagement.getX(buildList.getWorker().getX(), direction);
+                int newY = DirectionManagement.getY(buildList.getWorker().getY(), direction);
+
+                if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
+                    socket.sendMessage(new BuildReceiver(direction));
+                    matchScene.setOnMousePressed(e2 -> {
+                        matchScene.requestFocus();
+                        e2.consume();
+                    });
+                }
+            }
+            e.consume();
+        });
     }
 
     // Show both move lists
@@ -618,6 +671,85 @@ public class MatchController extends Controller {
         } else {
             // TODO: wait for the move
         }
+    }
+
+    public void updatePlayers(ArrayList<PlayerData> players) {
+        if (players.size() == 1) {
+            for (PlayerData playerData : players) {
+                nick1.setText(playerData.getPlayerID());
+                Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                divinity1.setImage(image);
+
+                ColorAdjust blackout = new ColorAdjust();
+                blackout.setBrightness(-0.7);
+
+                divinity1.setEffect(blackout);
+                divinity1.setCache(true);
+                divinity1.setCacheHint(CacheHint.SPEED);
+            }
+        }
+        if (players.size() == 2) {
+            for (PlayerData playerData : players) {
+                if (playerData.getPlayOrder() == 0) {
+                    if (!playerData.getLost()) {
+                        nick1.setText(playerData.getPlayerID());
+                        Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                        divinity1.setImage(image);
+                    } else {
+                        //todo: grigiare il tutto
+                    }
+                }
+                if (playerData.getPlayOrder() == 1) {
+                    if (!playerData.getLost()) {
+                        nick2.setText(playerData.getPlayerID());
+                        Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                        divinity2.setImage(image1);
+                    } else {
+                        //todo: grigiare il tutto
+                    }
+                }
+                nick3.setVisible(false);
+                divinity3.setVisible(false);
+                border3.setVisible(false);
+            }
+        } else if (players.size() == 3) {
+            for (PlayerData playerData : players) {
+                if (playerData.getPlayOrder() == 0) {
+                    if (!playerData.getLost()) {
+                        nick1.setText(playerData.getPlayerID());
+                        Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                        divinity1.setImage(image);
+                    } else {
+                        //todo: grigiare il tutto
+                    }
+                }
+                if (playerData.getPlayOrder() == 1) {
+                    if (!playerData.getLost()) {
+                        nick2.setText(playerData.getPlayerID());
+                        Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                        divinity2.setImage(image1);
+                    } else {
+                        //todo: grigiare il tutto
+                    }
+                }
+                if (playerData.getPlayOrder() == 2) {
+                    if (!playerData.getLost()) {
+                        nick3.setText(playerData.getPlayerID());
+                        Image image2 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                        divinity3.setImage(image2);
+                    } else {
+                        //todo: grigiare il tutto
+                    }
+                }
+            }
+        }
+    }
+
+
+    public void optionalBuildUpdate(BuildListFlag buildListFlag) {
+        showBuildList(buildListFlag);
+
+        // TODO: enable option button that if clicked does skip
     }
 
     public static double indexToCoordinateX(int index){

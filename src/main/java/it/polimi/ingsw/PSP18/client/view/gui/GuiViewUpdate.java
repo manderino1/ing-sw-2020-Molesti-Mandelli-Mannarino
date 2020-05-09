@@ -99,6 +99,8 @@ public class GuiViewUpdate extends ViewUpdate {
             ((LobbyController)controller).updatePlayers(playerDataArrayList);
         } else if (controller.getPageID().equals("WaitingRoom")) {
             ((WaitingRoomController)controller).updatePlayers(playerDataArrayList);
+        } else if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).updatePlayers(playerDataArrayList);
         }
     }
 
@@ -180,7 +182,9 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void buildListFlagUpdate(BuildListFlag buildListFlag) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).optionalBuildUpdate(buildListFlag);
+        }
     }
 
     @Override
