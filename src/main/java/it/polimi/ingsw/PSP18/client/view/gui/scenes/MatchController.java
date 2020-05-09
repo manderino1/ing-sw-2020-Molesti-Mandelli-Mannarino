@@ -340,11 +340,7 @@ public class MatchController extends Controller {
             return;
         }
         if(gameMapUpdate.isLastActionIsBuild()){
-            if(mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getDome()) {
                 buildUpdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
-            } else {
-                buildUpdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
-            }
         } else {
             if(oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker() == null) {
                 if (!followMessage) {
