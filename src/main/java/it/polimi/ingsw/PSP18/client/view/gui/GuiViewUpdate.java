@@ -99,6 +99,8 @@ public class GuiViewUpdate extends ViewUpdate {
             ((LobbyController)controller).updatePlayers(playerDataArrayList);
         } else if (controller.getPageID().equals("WaitingRoom")) {
             ((WaitingRoomController)controller).updatePlayers(playerDataArrayList);
+        } else if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).updatePlayers(playerDataArrayList);
         }
     }
 
