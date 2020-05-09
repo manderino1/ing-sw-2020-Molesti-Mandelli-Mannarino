@@ -180,7 +180,9 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void buildListFlagUpdate(BuildListFlag buildListFlag) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).optionalBuildUpdate(buildListFlag);
+        }
     }
 
     @Override

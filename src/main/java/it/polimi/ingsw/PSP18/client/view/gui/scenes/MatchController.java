@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.BuildReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -398,6 +399,27 @@ public class MatchController extends Controller {
         }
 
         // TODO: show message and start click waiting on worker for the build
+        matchScene.setOnMousePressed(e -> {
+            matchScene.requestFocus();
+            int[] newIndexes = coordinateToIndex(e.getPickResult());
+            if(newIndexes[0] == -1 || newIndexes[1] == -1) {
+                // Click is out of bound
+                return;
+            }
+            for(Direction direction : buildList.getBuildlist()) {
+                int newX = DirectionManagement.getX(buildList.getWorker().getX(), direction);
+                int newY = DirectionManagement.getY(buildList.getWorker().getY(), direction);
+
+                if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
+                    socket.sendMessage(new BuildReceiver(direction));
+                    matchScene.setOnMousePressed(e2 -> {
+                        matchScene.requestFocus();
+                        e2.consume();
+                    });
+                }
+            }
+            e.consume();
+        });
     }
 
     // Show both move lists
@@ -521,6 +543,12 @@ public class MatchController extends Controller {
         } else {
             // TODO: wait for the move
         }
+    }
+
+    public void optionalBuildUpdate(BuildListFlag buildListFlag) {
+        showBuildList(buildListFlag);
+
+        // TODO: enable option button that if clicked does skip
     }
 
     public static double indexToCoordinateX(int index){
