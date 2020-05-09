@@ -9,7 +9,10 @@ import it.polimi.ingsw.PSP18.server.model.Cell;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.model.Worker;
+import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
+
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -28,6 +31,7 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.fxyz3d.importers.Importer3D;
 import org.fxyz3d.importers.Model3D;
 
@@ -143,8 +147,97 @@ public class MatchController extends Controller {
         return null;
     }
 
-    public void buildUpdate( int oldX, int oldY, Boolean dome){
+    public void buildUpdate( int oldX, int oldY){
+        Group block;
+        Boolean dome = mapCells[oldX][oldY].getDome();
+        final Timeline timeline = new Timeline();
 
+        switch( mapCells[oldX][oldY].getBuilding()) {
+            case 0:
+                block = loadModel(getClass().getResource("Dome.obj"));
+                block.setTranslateY(10);
+                block.setTranslateX(IndexToValue(oldX));
+                block.setTranslateZ(IndexToValue(oldY));
+
+                timeline.setCycleCount(1);
+                timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                        new KeyValue (block.translateYProperty(), 0)));
+                timeline.play();
+
+                break;
+
+            case 1:
+                if(!dome) {
+                    block = loadModel(getClass().getResource("BuildingBlock01.obj"));
+                }
+                else {
+                    block = loadModel(getClass().getResource("Dome.obj"));
+                }
+                block.setTranslateY(10);
+                block.setTranslateX(IndexToCoordinateX(oldX));
+                block.setTranslateZ(IndexToCoordinateY(oldY));
+                if(dome){
+                    timeline.setCycleCount(1);
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                            new KeyValue (block.translateYProperty(), DELTAZ1)));
+                    timeline.play();
+                }
+                else{
+                    timeline.setCycleCount(1);
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                            new KeyValue (block.translateYProperty(), 0)));
+                    timeline.play();
+                }
+                break;
+
+            case 2:
+                if(!dome) {
+                    block = loadModel(getClass().getResource("BuildingBlock02.obj"));
+                }
+                else{
+                    block = loadModel(getClass().getResource("Dome.obj"));
+                }
+                block.setTranslateY(10);
+                block.setTranslateX(IndexToCoordinateX(oldX));
+                block.setTranslateZ(IndexToCoordinateY(oldY));
+                if(dome){
+                    timeline.setCycleCount(1);
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                            new KeyValue (block.translateYProperty(), DELTAZ2)));
+                    timeline.play();
+                }
+                else{
+                    timeline.setCycleCount(1);
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                            new KeyValue (block.translateYProperty(), 0)));
+                    timeline.play();
+                }
+                break;
+
+            case 3:
+                if(!dome) {
+                    block = loadModel(getClass().getResource("BuildingBlock03.obj"));
+                }
+                else{
+                    block = loadModel(getClass().getResource("Dome.obj"));
+                }
+                block.setTranslateY(10);
+                block.setTranslateX(IndexToCoordinateX(oldX));
+                block.setTranslateZ(IndexToCoordinateY(oldY));
+                if(dome){
+                    timeline.setCycleCount(1);
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                            new KeyValue (block.translateYProperty(), DELTAZ3)));
+                    timeline.play();
+                }
+                else{
+                    timeline.setCycleCount(1);
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                            new KeyValue (block.translateYProperty(), 0)));
+                    timeline.play();
+                }
+                break;
+        }
     }
     public void standardMoveUpdate(Worker oldWork, Worker newWork){
         oldWork.getPlayerColor();
