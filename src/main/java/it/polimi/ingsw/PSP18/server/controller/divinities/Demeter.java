@@ -60,7 +60,7 @@ public class Demeter extends Divinity {
                 if(firstBuild) {
                     build();
                 } else {
-                    playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));
+                    playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));
                 }
                 return;
             }
@@ -81,7 +81,7 @@ public class Demeter extends Divinity {
             moves = checkBuildingMoves(worker.getX(), worker.getY());
             moves.remove(direction);
             firstBuild = false;
-            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));
+            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves, worker));
         }
         else{
             firstBuild=true;
