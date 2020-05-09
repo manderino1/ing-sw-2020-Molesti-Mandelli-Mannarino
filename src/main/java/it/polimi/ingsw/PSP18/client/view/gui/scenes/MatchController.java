@@ -224,10 +224,11 @@ public class MatchController extends Controller {
 
         switch( mapCells[oldX][oldY].getBuilding()) {
             case 0:
-                block = loadModel(getClass().getResource("Dome.obj"));
+                block = loadModel(getClass().getResource("/3DGraphics/Dome.obj"));
                 block.setTranslateY(10);
                 block.setTranslateX(indexToCoordinateX(oldX));
                 block.setTranslateZ(indexToCoordinateY(oldY));
+                matchSceneGroup.getChildren().add(block);
 
                 timeline.setCycleCount(1);
                 timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
@@ -238,74 +239,73 @@ public class MatchController extends Controller {
 
             case 1:
                 if(!dome) {
-                    block = loadModel(getClass().getResource("BuildingBlock01.obj"));
+                    block = loadModel(getClass().getResource("/3DGraphics/BuildingBlock01.obj"));
                 }
                 else {
-                    block = loadModel(getClass().getResource("Dome.obj"));
+                    block = loadModel(getClass().getResource("/3DGraphics/Dome.obj"));
                 }
                 block.setTranslateY(10);
                 block.setTranslateX(indexToCoordinateX(oldX));
                 block.setTranslateZ(indexToCoordinateY(oldY));
+                matchSceneGroup.getChildren().add(block);
+                timeline.setCycleCount(1);
                 if(dome){
-                    timeline.setCycleCount(1);
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
                             new KeyValue (block.translateYProperty(), DELTAZ1)));
-                    timeline.play();
                 }
                 else{
-                    timeline.setCycleCount(1);
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
                             new KeyValue (block.translateYProperty(), 0)));
-                    timeline.play();
                 }
+                timeline.play();
                 break;
 
             case 2:
                 if(!dome) {
-                    block = loadModel(getClass().getResource("BuildingBlock02.obj"));
+                    block = loadModel(getClass().getResource("/3DGraphics/BuildingBlock02.obj"));
                 }
                 else{
-                    block = loadModel(getClass().getResource("Dome.obj"));
+                    block = loadModel(getClass().getResource("/3DGraphics/Dome.obj"));
                 }
                 block.setTranslateY(10);
                 block.setTranslateX(indexToCoordinateX(oldX));
                 block.setTranslateZ(indexToCoordinateY(oldY));
+                matchSceneGroup.getChildren().add(block);
+                timeline.setCycleCount(1);
                 if(dome){
-                    timeline.setCycleCount(1);
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
                             new KeyValue (block.translateYProperty(), DELTAZ2)));
-                    timeline.play();
                 }
                 else{
-                    timeline.setCycleCount(1);
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
                             new KeyValue (block.translateYProperty(), 0)));
-                    timeline.play();
                 }
+                timeline.play();
                 break;
 
             case 3:
                 if(!dome) {
-                    block = loadModel(getClass().getResource("BuildingBlock03.obj"));
+                    block = loadModel(getClass().getResource("/3DGraphics/BuildingBlock03.obj"));
                 }
                 else{
-                    block = loadModel(getClass().getResource("Dome.obj"));
+                    block = loadModel(getClass().getResource("/3DGraphics/Dome.obj"));
                 }
+
                 block.setTranslateY(10);
                 block.setTranslateX(indexToCoordinateX(oldX));
                 block.setTranslateZ(indexToCoordinateY(oldY));
+                matchSceneGroup.getChildren().add(block);
+
+                timeline.setCycleCount(1);
                 if(dome){
-                    timeline.setCycleCount(1);
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
                             new KeyValue (block.translateYProperty(), DELTAZ3)));
-                    timeline.play();
                 }
                 else{
-                    timeline.setCycleCount(1);
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
                             new KeyValue (block.translateYProperty(), 0)));
-                    timeline.play();
                 }
+                timeline.play();
                 break;
         }
     }
@@ -319,7 +319,104 @@ public class MatchController extends Controller {
 
     }
     public void placeWorkerUpdate(Worker worker){
+        Group workerBlue1;
+        Group workerBlue2;
+        Group workerRed1;
+        Group workerRed2;
+        Group workerWhite1;
+        Group workerWhite2;
+        final Timeline timeline = new Timeline();
 
+
+        switch (worker.getPlayerColor()){
+
+            case BLUE:
+                switch(worker.getID()){
+                    case 0:
+                        workerBlue1 = loadModel(getClass().getResource("/3DGraphics/workerBlue.obj"));
+                        workerBlue1.setTranslateY(10);
+                        workerBlue1.setTranslateX(indexToCoordinateX(worker.getX()));
+                        workerBlue1.setTranslateY(indexToCoordinateY(worker.getY()));
+                        matchSceneGroup.getChildren().add(workerBlue1);
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                                new KeyValue (workerBlue1.translateYProperty(), 0)));
+                        timeline.play();
+                        break;
+                    case 1:
+                        workerBlue2 = loadModel(getClass().getResource("/3DGraphics/workerBlue.obj"));
+                        workerBlue2.setTranslateY(10);
+                        workerBlue2.setTranslateX(indexToCoordinateX(worker.getX()));
+                        workerBlue2.setTranslateY(indexToCoordinateY(worker.getY()));
+                        matchSceneGroup.getChildren().add(workerBlue2);
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                                new KeyValue (workerBlue2.translateYProperty(), 0)));
+                        timeline.play();
+                        break;
+                }
+                break;
+
+            case RED:
+                switch(worker.getID()){
+                    case 0:
+                        workerRed1 = loadModel(getClass().getResource("/3DGraphics/workerRed.obj"));
+                        workerRed1.setTranslateY(10);
+                        workerRed1.setTranslateX(indexToCoordinateX(worker.getX()));
+                        workerRed1.setTranslateY(indexToCoordinateY(worker.getY()));
+                        matchSceneGroup.getChildren().add(workerRed1);
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                                new KeyValue (workerRed1.translateYProperty(), 0)));
+                        timeline.play();
+                        break;
+                    case 1:
+                        workerRed2 = loadModel(getClass().getResource("/3DGraphics/workerRed.obj"));
+                        workerRed2.setTranslateY(10);
+                        workerRed2.setTranslateX(indexToCoordinateX(worker.getX()));
+                        workerRed2.setTranslateY(indexToCoordinateY(worker.getY()));
+                        matchSceneGroup.getChildren().add(workerRed2);
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                                new KeyValue (workerRed2.translateYProperty(), 0)));
+                        timeline.play();
+                        break;
+                }
+                break;
+
+            case GREEN:
+                switch(worker.getID()){
+                    case 0:
+                        workerWhite1 = loadModel(getClass().getResource("/3DGraphics/workerWhite.obj"));
+                        workerWhite1.setTranslateY(10);
+                        workerWhite1.setTranslateX(indexToCoordinateX(worker.getX()));
+                        workerWhite1.setTranslateY(indexToCoordinateY(worker.getY()));
+                        matchSceneGroup.getChildren().add(workerWhite1);
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                                new KeyValue (workerWhite1.translateYProperty(), 0)));
+                        timeline.play();
+                        break;
+                    case 1:
+                        workerWhite2 = loadModel(getClass().getResource("/3DGraphics/workerWhite.obj"));
+                        workerWhite2.setTranslateY(10);
+                        workerWhite2.setTranslateX(indexToCoordinateX(worker.getX()));
+                        workerWhite2.setTranslateY(indexToCoordinateY(worker.getY()));
+                        matchSceneGroup.getChildren().add(workerWhite2);
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                                new KeyValue (workerWhite2.translateYProperty(), 0)));
+                        timeline.play();
+                        break;
+                }
+                break;
+        }
     }
 
     /***
