@@ -241,19 +241,19 @@ public class TestViewUpdate {
         list2.add(Direction.DOWN);
 
         socketOutContent.reset();
-        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2));
+        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2, null, null));
         Gson gson = new Gson();
         PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(socketOutContent.toString(), PrometheusBuildReceiver.class);
         Assert.assertEquals(Integer.valueOf(0), prometheusBuildReceiver.getChosenWorkerID());
 
         socketOutContent.reset();
-        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2));
+        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2, null, null));
         gson = new Gson();
         prometheusBuildReceiver = gson.fromJson(socketOutContent.toString(), PrometheusBuildReceiver.class);
         Assert.assertEquals(Integer.valueOf(1), prometheusBuildReceiver.getChosenWorkerID());
 
         socketOutContent.reset();
-        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2));
+        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2, null, null));
         gson = new Gson();
         prometheusBuildReceiver = gson.fromJson(socketOutContent.toString(), PrometheusBuildReceiver.class);
         Assert.assertNull(prometheusBuildReceiver.getChosenWorkerID());
@@ -291,7 +291,7 @@ public class TestViewUpdate {
     public void testSingleMoveUpdate() {
         ArrayList<Direction> list1 = new ArrayList<>();
         list1.add(Direction.UP);
-        SingleMoveList singleMoveList = new SingleMoveList(list1, 0, true);
+        SingleMoveList singleMoveList = new SingleMoveList(list1, 0, true, null);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("als\nYes\nasd\nUP\nno\n".getBytes());
 
@@ -306,7 +306,7 @@ public class TestViewUpdate {
         Assert.assertEquals(Direction.UP, moveReceiver.getDirection());
 
         socketOutContent.reset();
-        singleMoveList = new SingleMoveList(list1, 1, true);
+        singleMoveList = new SingleMoveList(list1, 1, true, null);
         cliViewUpdate.singleMoveUpdate(singleMoveList);
         gson = new Gson();
         moveReceiver = gson.fromJson(socketOutContent.toString(), MoveReceiver.class);
