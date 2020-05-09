@@ -105,13 +105,11 @@ public class MatchController extends Controller {
         //import models
         Group map = loadModel(getClass().getResource("/3DGraphics/mappa.obj"));
         Group cliff = loadModel(getClass().getResource("/3DGraphics/cliff.obj"));
-        Group sea = loadModel(getClass().getResource("/3DGraphics/Sea.obj"));
+        Group sea = loadModel(getClass().getResource("/3DGraphics/lava.obj"));
         Group walls = loadModel(getClass().getResource("/3DGraphics/mura.obj"));
-        Group islands = loadModel(getClass().getResource("/3DGraphics/isole.obj"));
 
         //setup Scene and camera
         matchSceneGroup.getChildren().add(sea);
-        matchSceneGroup.getChildren().add(islands);
         matchSceneGroup.getChildren().add(cliff);
         matchSceneGroup.getChildren().add(map);
         matchSceneGroup.getChildren().add(walls);
@@ -185,7 +183,7 @@ public class MatchController extends Controller {
         return null;
     }
 
-    public void buildUpdate( int oldX, int oldY){
+    public void buildUpdate(int oldX, int oldY){
         Group block;
         Boolean dome = mapCells[oldX][oldY].getDome();
         final Timeline timeline = new Timeline();
@@ -193,13 +191,13 @@ public class MatchController extends Controller {
         switch( mapCells[oldX][oldY].getBuilding()) {
             case 0:
                 block = loadModel(getClass().getResource("/3DGraphics/Dome.obj"));
-                block.setTranslateY(10);
+                block.setTranslateY(-10);
                 block.setTranslateX(indexToCoordinateX(oldX));
                 block.setTranslateZ(indexToCoordinateY(oldY));
-                matchSceneGroup.getChildren().add(block);
+                Platform.runLater(() -> matchSceneGroup.getChildren().add(block));
 
                 timeline.setCycleCount(1);
-                timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                         new KeyValue (block.translateYProperty(), 0)));
                 timeline.play();
 
@@ -212,17 +210,17 @@ public class MatchController extends Controller {
                 else {
                     block = loadModel(getClass().getResource("/3DGraphics/Dome.obj"));
                 }
-                block.setTranslateY(10);
+                block.setTranslateY(-10);
                 block.setTranslateX(indexToCoordinateX(oldX));
                 block.setTranslateZ(indexToCoordinateY(oldY));
-                matchSceneGroup.getChildren().add(block);
+                Platform.runLater(() -> matchSceneGroup.getChildren().add(block));
                 timeline.setCycleCount(1);
                 if(dome){
-                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                             new KeyValue (block.translateYProperty(), DELTAZ1)));
                 }
                 else{
-                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                             new KeyValue (block.translateYProperty(), 0)));
                 }
                 timeline.play();
@@ -238,14 +236,14 @@ public class MatchController extends Controller {
                 block.setTranslateY(10);
                 block.setTranslateX(indexToCoordinateX(oldX));
                 block.setTranslateZ(indexToCoordinateY(oldY));
-                matchSceneGroup.getChildren().add(block);
+                Platform.runLater(() -> matchSceneGroup.getChildren().add(block));
                 timeline.setCycleCount(1);
                 if(dome){
-                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                             new KeyValue (block.translateYProperty(), DELTAZ2)));
                 }
                 else{
-                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                             new KeyValue (block.translateYProperty(), 0)));
                 }
                 timeline.play();
@@ -262,15 +260,15 @@ public class MatchController extends Controller {
                 block.setTranslateY(10);
                 block.setTranslateX(indexToCoordinateX(oldX));
                 block.setTranslateZ(indexToCoordinateY(oldY));
-                matchSceneGroup.getChildren().add(block);
+                Platform.runLater(() -> matchSceneGroup.getChildren().add(block));
 
                 timeline.setCycleCount(1);
                 if(dome){
-                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                             new KeyValue (block.translateYProperty(), DELTAZ3)));
                 }
                 else{
-                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                             new KeyValue (block.translateYProperty(), 0)));
                 }
                 timeline.play();
@@ -308,7 +306,7 @@ public class MatchController extends Controller {
                         Platform.runLater(() -> matchSceneGroup.getChildren().add(workerBlue1));
 
                         timeline.setCycleCount(1);
-                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerBlue1.translateYProperty(), 0)));
                         timeline.play();
                         break;
@@ -320,7 +318,7 @@ public class MatchController extends Controller {
                         Platform.runLater(() -> matchSceneGroup.getChildren().add(workerBlue2));
 
                         timeline.setCycleCount(1);
-                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerBlue2.translateYProperty(), 0)));
                         timeline.play();
                         break;
@@ -338,7 +336,7 @@ public class MatchController extends Controller {
                         Platform.runLater(() -> matchSceneGroup.getChildren().add(workerRed1));
 
                         timeline.setCycleCount(1);
-                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerRed1.translateYProperty(), 0)));
                         timeline.play();
                         break;
@@ -350,7 +348,7 @@ public class MatchController extends Controller {
                         Platform.runLater(() -> matchSceneGroup.getChildren().add(workerRed2));
 
                         timeline.setCycleCount(1);
-                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerRed2.translateYProperty(), 0)));
                         timeline.play();
                         break;
@@ -367,7 +365,7 @@ public class MatchController extends Controller {
                         Platform.runLater(() -> matchSceneGroup.getChildren().add(workerWhite1));
 
                         timeline.setCycleCount(1);
-                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerWhite1.translateYProperty(), 0)));
                         timeline.play();
                         break;
@@ -379,7 +377,7 @@ public class MatchController extends Controller {
                         Platform.runLater(() -> matchSceneGroup.getChildren().add(workerWhite2));
 
                         timeline.setCycleCount(1);
-                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000),
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerWhite2.translateYProperty(), 0)));
                         timeline.play();
                         break;
@@ -643,78 +641,100 @@ public class MatchController extends Controller {
             for (PlayerData playerData : players) {
                 if (playerData.getPlayOrder() == 0) {
                     if (!playerData.getLost()) {
-                        nick1.setText(playerData.getPlayerID());
-                        Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                        divinity1.setImage(image);
+                        Platform.runLater(() -> {
+                            nick1.setText(playerData.getPlayerID());
+                            Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                            divinity1.setImage(image);
+                        });
                     } else {
-                        ColorAdjust blackout = new ColorAdjust();
-                        blackout.setBrightness(-0.7);
+                        Platform.runLater(() -> {
+                            ColorAdjust blackout = new ColorAdjust();
+                            blackout.setBrightness(-0.7);
 
-                        divinity1.setEffect(blackout);
-                        divinity1.setCache(true);
-                        divinity1.setCacheHint(CacheHint.SPEED);
+                            divinity1.setEffect(blackout);
+                            divinity1.setCache(true);
+                            divinity1.setCacheHint(CacheHint.SPEED);
+                        });
                     }
                 }
                 if (playerData.getPlayOrder() == 1) {
                     if (!playerData.getLost()) {
-                        nick2.setText(playerData.getPlayerID());
-                        Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                        divinity2.setImage(image1);
+                        Platform.runLater(() -> {
+                            nick2.setText(playerData.getPlayerID());
+                            Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                            divinity2.setImage(image1);
+                        });
                     } else {
-                        ColorAdjust blackout = new ColorAdjust();
-                        blackout.setBrightness(-0.7);
+                        Platform.runLater(() -> {
+                            ColorAdjust blackout = new ColorAdjust();
+                            blackout.setBrightness(-0.7);
 
-                        divinity2.setEffect(blackout);
-                        divinity2.setCache(true);
-                        divinity2.setCacheHint(CacheHint.SPEED);
+                            divinity2.setEffect(blackout);
+                            divinity2.setCache(true);
+                            divinity2.setCacheHint(CacheHint.SPEED);
+                        });
                     }
                 }
-                nick3.setVisible(false);
-                divinity3.setVisible(false);
-                border3.setVisible(false);
+                Platform.runLater(() -> {
+                    nick3.setVisible(false);
+                    divinity3.setVisible(false);
+                    border3.setVisible(false);
+                });
             }
         } else if (players.size() == 3) {
             for (PlayerData playerData : players) {
                 if (playerData.getPlayOrder() == 0) {
                     if (!playerData.getLost()) {
-                        nick1.setText(playerData.getPlayerID());
-                        Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                        divinity1.setImage(image);
+                        Platform.runLater(() -> {
+                            nick1.setText(playerData.getPlayerID());
+                            Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                            divinity1.setImage(image);
+                        });
                     } else {
-                        ColorAdjust blackout = new ColorAdjust();
-                        blackout.setBrightness(-0.7);
+                        Platform.runLater(() -> {
+                            ColorAdjust blackout = new ColorAdjust();
+                            blackout.setBrightness(-0.7);
 
-                        divinity1.setEffect(blackout);
-                        divinity1.setCache(true);
-                        divinity1.setCacheHint(CacheHint.SPEED);
+                            divinity1.setEffect(blackout);
+                            divinity1.setCache(true);
+                            divinity1.setCacheHint(CacheHint.SPEED);
+                        });
                     }
                 }
                 if (playerData.getPlayOrder() == 1) {
                     if (!playerData.getLost()) {
-                        nick2.setText(playerData.getPlayerID());
-                        Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                        divinity2.setImage(image1);
+                        Platform.runLater(() -> {
+                            nick2.setText(playerData.getPlayerID());
+                            Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                            divinity2.setImage(image1);
+                        });
                     } else {
-                        ColorAdjust blackout = new ColorAdjust();
-                        blackout.setBrightness(-0.7);
+                        Platform.runLater(() -> {
+                            ColorAdjust blackout = new ColorAdjust();
+                            blackout.setBrightness(-0.7);
 
-                        divinity2.setEffect(blackout);
-                        divinity2.setCache(true);
-                        divinity2.setCacheHint(CacheHint.SPEED);
+                            divinity2.setEffect(blackout);
+                            divinity2.setCache(true);
+                            divinity2.setCacheHint(CacheHint.SPEED);
+                        });
                     }
                 }
                 if (playerData.getPlayOrder() == 2) {
                     if (!playerData.getLost()) {
-                        nick3.setText(playerData.getPlayerID());
-                        Image image2 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                        divinity3.setImage(image2);
+                        Platform.runLater(() -> {
+                            nick3.setText(playerData.getPlayerID());
+                            Image image2 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                            divinity3.setImage(image2);
+                        });
                     } else {
-                        ColorAdjust blackout = new ColorAdjust();
-                        blackout.setBrightness(-0.7);
+                        Platform.runLater(() -> {
+                            ColorAdjust blackout = new ColorAdjust();
+                            blackout.setBrightness(-0.7);
 
-                        divinity3.setEffect(blackout);
-                        divinity3.setCache(true);
-                        divinity3.setCacheHint(CacheHint.SPEED);
+                            divinity3.setEffect(blackout);
+                            divinity3.setCache(true);
+                            divinity3.setCacheHint(CacheHint.SPEED);
+                        });
                     }
                 }
             }
