@@ -590,63 +590,64 @@ public class MatchController extends Controller {
                 divinity1.setCache(true);
                 divinity1.setCacheHint(CacheHint.SPEED);
             }
-            if (players.size() == 2) {
-                for (PlayerData playerData : players) {
-                    if (playerData.getPlayOrder() == 0) {
-                        if (!playerData.getLost()) {
-                            nick1.setText(playerData.getPlayerID());
-                            Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                            divinity1.setImage(image);
-                        } else {
-                            //todo: grigiare il tutto
-                        }
+        }
+        if (players.size() == 2) {
+            for (PlayerData playerData : players) {
+                if (playerData.getPlayOrder() == 0) {
+                    if (!playerData.getLost()) {
+                        nick1.setText(playerData.getPlayerID());
+                        Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                        divinity1.setImage(image);
+                    } else {
+                        //todo: grigiare il tutto
                     }
-                    if (playerData.getPlayOrder() == 1) {
-                        if (!playerData.getLost()) {
-                            nick2.setText(playerData.getPlayerID());
-                            Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                            divinity2.setImage(image1);
-                        } else {
-                            //todo: grigiare il tutto
-                        }
-                    }
-                    nick3.setVisible(false);
-                    divinity3.setVisible(false);
-                    border3.setVisible(false);
                 }
-            } else if (players.size() == 3) {
-                for (PlayerData playerData : players) {
-                    if (playerData.getPlayOrder() == 0) {
-                        if (!playerData.getLost()) {
-                            nick1.setText(playerData.getPlayerID());
-                            Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                            divinity1.setImage(image);
-                        } else {
-                            //todo: grigiare il tutto
-                        }
+                if (playerData.getPlayOrder() == 1) {
+                    if (!playerData.getLost()) {
+                        nick2.setText(playerData.getPlayerID());
+                        Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                        divinity2.setImage(image1);
+                    } else {
+                        //todo: grigiare il tutto
                     }
-                    if (playerData.getPlayOrder() == 1) {
-                        if (!playerData.getLost()) {
-                            nick2.setText(playerData.getPlayerID());
-                            Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                            divinity2.setImage(image1);
-                        } else {
-                            //todo: grigiare il tutto
-                        }
+                }
+                nick3.setVisible(false);
+                divinity3.setVisible(false);
+                border3.setVisible(false);
+            }
+        } else if (players.size() == 3) {
+            for (PlayerData playerData : players) {
+                if (playerData.getPlayOrder() == 0) {
+                    if (!playerData.getLost()) {
+                        nick1.setText(playerData.getPlayerID());
+                        Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                        divinity1.setImage(image);
+                    } else {
+                        //todo: grigiare il tutto
                     }
-                    if (playerData.getPlayOrder() == 2) {
-                        if (!playerData.getLost()) {
-                            nick3.setText(playerData.getPlayerID());
-                            Image image2 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                            divinity3.setImage(image2);
-                        } else {
-                            //todo: grigiare il tutto
-                        }
+                }
+                if (playerData.getPlayOrder() == 1) {
+                    if (!playerData.getLost()) {
+                        nick2.setText(playerData.getPlayerID());
+                        Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                        divinity2.setImage(image1);
+                    } else {
+                        //todo: grigiare il tutto
+                    }
+                }
+                if (playerData.getPlayOrder() == 2) {
+                    if (!playerData.getLost()) {
+                        nick3.setText(playerData.getPlayerID());
+                        Image image2 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                        divinity3.setImage(image2);
+                    } else {
+                        //todo: grigiare il tutto
                     }
                 }
             }
         }
     }
+
 
     public void optionalBuildUpdate(BuildListFlag buildListFlag) {
         showBuildList(buildListFlag);
