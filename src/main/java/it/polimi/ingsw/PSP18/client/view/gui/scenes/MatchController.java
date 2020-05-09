@@ -84,6 +84,7 @@ public class MatchController extends Controller {
     private int cameraXAngle = 60;
     private Translate pivot = new Translate(0,0,cameraDistance);
     private Rotate yRotate = new Rotate(0, Rotate.Y_AXIS);
+    private double previousX;
 
     private static final double DELTA = 2.5, DELTAZ1 = 1.1, DELTAZ2 = 2.2, DELTAZ3 = 2.9;
     private HashMap<String, Group> workList= new HashMap<>();
@@ -143,6 +144,7 @@ public class MatchController extends Controller {
                 new Translate(0, 0, -cameraDistance)
         );
 
+
         matchScene.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
             switch (event.getCode()){
                 case RIGHT:
@@ -168,9 +170,28 @@ public class MatchController extends Controller {
 
         matchScene.setOnMousePressed(e -> {
             matchScene.requestFocus();
-            PickResult pr = e.getPickResult();
-            System.out.println(pr.getIntersectedPoint());
             e.consume();
+        });
+
+        matchScene.setOnMouseDragged(event -> {
+            if(previousX - event.getSceneX() < 0) {
+                camera.getTransforms().addAll (
+                        pivot,
+                        new Rotate(cameraXAngle, Rotate.X_AXIS),
+                        new Rotate((event.getSceneX())/500, Rotate.Y_AXIS),
+                        new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                        new Translate(0, 0, -cameraDistance)
+                );
+            } else {
+                camera.getTransforms().addAll (
+                        pivot,
+                        new Rotate(cameraXAngle, Rotate.X_AXIS),
+                        new Rotate((-event.getSceneX())/500, Rotate.Y_AXIS),
+                        new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                        new Translate(0, 0, -cameraDistance)
+                );
+            }
+            previousX = event.getSceneX();
         });
     }
 
