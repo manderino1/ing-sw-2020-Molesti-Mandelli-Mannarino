@@ -67,10 +67,10 @@ public class Prometheus extends Divinity{
         if(firstBuild) {
             firstBuild = false;
             if(workerID == 0) {
-                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker1, workerID, false));
+                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker1, workerID, false, playerManager.getWorker(workerID)));
             }
             if(workerID == 1) {
-                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker2, workerID, false));
+                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker2, workerID, false, playerManager.getWorker(workerID)));
             }
         } else {
             playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));

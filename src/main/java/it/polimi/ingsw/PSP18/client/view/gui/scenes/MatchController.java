@@ -305,6 +305,17 @@ public class MatchController extends Controller {
         // TODO: show message that if he doesn't move up he can build both times
     }
 
+    public void singleMoveUpdate(SingleMoveList singleMoveList) {
+        MoveList moveList = new MoveList(singleMoveList.getMoveList(), null, singleMoveList.getWorker(), null);
+        showSingleMoveList(moveList, singleMoveList.getWorker().getX(), singleMoveList.getWorker().getY());
+
+        if(singleMoveList.isOptional()) {
+            // TODO: show toggle button that the move is optional to skip if not just wait for the move
+        } else {
+            // TODO: wait for the move
+        }
+    }
+
     public static double indexToCoordinateX(int index){
         return DELTA*index;
     }

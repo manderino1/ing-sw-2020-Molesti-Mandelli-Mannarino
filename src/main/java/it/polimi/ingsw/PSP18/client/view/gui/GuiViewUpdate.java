@@ -173,7 +173,9 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void singleMoveUpdate(SingleMoveList singleMoveList) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).singleMoveUpdate(singleMoveList);
+        }
     }
 
     @Override
