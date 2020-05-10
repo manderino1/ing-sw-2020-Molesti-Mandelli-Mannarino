@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP18.networking.messages.toserver.PlayerDataReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.ReadyReceiver;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Divinity;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -98,48 +99,40 @@ public class LobbyController extends Controller {
         boolean firstNickInput = true;
         for (PlayerData playerData : players){
             if (!playerData.getPlayerID().equals(nicknameBar.getText()) && firstNickInput) {
-                blueBox1.setVisible(true);
-                nick1.setVisible(true);
-                firstPlayer.setText(playerData.getPlayerID());
-                firstPlayer.setVisible(true);
-                int playOrder = playerData.getPlayOrder() + 1;
-                firstPlayerReady.setText("Play Order: " + Integer.toString(playOrder));
-                firstPlayerReady.setVisible(true);
-
-                if(playerData.getDivinity() == null){
-                    Image image = new Image("/2DGraphics/Random.png");
-                    firstPlayerDivinity.setImage(image);
-                    firstPlayerDivinity.setVisible(true);
-                    yellowBox1.setVisible(true);
-                } else {
-                    Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                    firstPlayerDivinity.setImage(image);
-                    firstPlayerDivinity.setVisible(true);
-                    yellowBox1.setVisible(true);
-                }
+                updateSinglePlayer(playerData, blueBox1, nick1, firstPlayer, firstPlayerReady, firstPlayerDivinity, yellowBox1);
                 firstNickInput = false;
 
             } else if (!playerData.getPlayerID().equals(nicknameBar.getText()) && !firstNickInput && !playerData.getPlayerID().equals(firstPlayer.getText()) ) {
-                blueBox2.setVisible(true);
-                nick2.setVisible(true);
-                secondPlayer.setText(playerData.getPlayerID());
-                secondPlayer.setVisible(true);
-                int playOrder = playerData.getPlayOrder() + 1;
-                secondPlayerReady.setText("Play Order: " + Integer.toString(playOrder));
-                secondPlayerReady.setVisible(true);
-
-                if(playerData.getDivinity() == null){
-                    Image image = new Image("/2DGraphics/Random.png");
-                    secondPlayerDivinity.setImage(image);
-                    secondPlayerDivinity.setVisible(true);
-                    yellowBox2.setVisible(true);
-                } else {
-                    Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                    secondPlayerDivinity.setImage(image);
-                    secondPlayerDivinity.setVisible(true);
-                    yellowBox2.setVisible(true);
-                }
+                updateSinglePlayer(playerData, blueBox2, nick2, secondPlayer, secondPlayerReady, secondPlayerDivinity, yellowBox2);
             }
+        }
+    }
+
+    private void updateSinglePlayer(PlayerData playerData, ImageView blueBox2, Text nick2, Text secondPlayer, Text secondPlayerReady, ImageView secondPlayerDivinity, ImageView yellowBox2) {
+        Platform.runLater(() -> {
+            blueBox2.setVisible(true);
+            nick2.setVisible(true);
+            secondPlayer.setText(playerData.getPlayerID());
+            secondPlayer.setVisible(true);
+            int playOrder = playerData.getPlayOrder() + 1;
+            secondPlayerReady.setText("Play Order: " + playOrder);
+            secondPlayerReady.setVisible(true);
+        });
+
+        if(playerData.getDivinity() == null){
+            Platform.runLater(() -> {
+                Image image = new Image("/2DGraphics/Random.png");
+                secondPlayerDivinity.setImage(image);
+                secondPlayerDivinity.setVisible(true);
+                yellowBox2.setVisible(true);
+            });
+        } else {
+            Platform.runLater(() -> {
+                Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                secondPlayerDivinity.setImage(image);
+                secondPlayerDivinity.setVisible(true);
+                yellowBox2.setVisible(true);
+            });
         }
     }
 }
