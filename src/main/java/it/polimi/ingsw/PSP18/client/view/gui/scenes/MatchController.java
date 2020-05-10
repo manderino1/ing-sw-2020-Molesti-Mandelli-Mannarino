@@ -884,21 +884,24 @@ public class MatchController extends Controller {
 
     public static int[] coordinateToIndex(PickResult pick) {
         int[] index = new int[3];
-        index[0] = (int)((pick.getIntersectedPoint().getX()+(DELTA*2.5)) / DELTA);
+        double x = pick.getIntersectedNode().localToScene(0,0,0).getX() + pick.getIntersectedPoint().getX();
+        double y = -1 * (pick.getIntersectedNode().localToScene(0,0,0).getY() + pick.getIntersectedPoint().getY());
+        double z = pick.getIntersectedNode().localToScene(0,0,0).getZ() + pick.getIntersectedPoint().getZ();
+        index[0] = (int)((x+(DELTA*2.5)) / DELTA);
         if(index[0]>4 || index[0]<0) {
             index[0] = -1;
         }
-        index[1] = (int)(((-1*pick.getIntersectedPoint().getZ())+(DELTA*2.5)) / DELTA);
+        index[1] = (int)(((-1*z)+(DELTA*2.5)) / DELTA);
         if(index[1]>4 || index[1]<0) {
             index[1] = -1;
         }
-        if(pick.getIntersectedPoint().getY()>=0 && pick.getIntersectedPoint().getZ()<DELTAZ1) {
+        if(y>=0 && y<DELTAZ1) {
             index[2] = 0;
-        } else if(pick.getIntersectedPoint().getY()>=DELTAZ1 && pick.getIntersectedPoint().getZ()<DELTAZ2) {
+        } else if(y>=DELTAZ1 && y<DELTAZ2) {
             index[2] = 1;
-        } else if(pick.getIntersectedPoint().getY()>=DELTAZ2 && pick.getIntersectedPoint().getZ()<DELTAZ3) {
+        } else if(y>=DELTAZ2 && y<DELTAZ3) {
             index[2] = 2;
-        } else if(pick.getIntersectedPoint().getY()>=DELTAZ3) {
+        } else if(y>=DELTAZ3) {
             index[2] = 3;
         }
         return index;
