@@ -566,12 +566,12 @@ public class MatchController extends Controller {
         showBuildList(buildList);
         Platform.runLater(() -> hintLabel.setText("Choose where to build!"));
         button1.setOnMousePressed(e -> {
-            if(button1.getImage().equals(new Image("/2DGraphics/GreenButton.png"))){
+            if(button1.getImage().getUrl().equals(getClass().getResource("/2DGraphics/GreenButton.png").toString())){
                 Image image = new Image("/2DGraphics/RedButton.png");
-                button1.setImage(image);
+                Platform.runLater(() -> button1.setImage(image));
             } else {
                 Image image1 = new Image("/2DGraphics/GreenButton.png");
-                button1.setImage(image1);
+                Platform.runLater(() -> button1.setImage(image1));
             }
             e.consume();
         });
@@ -587,19 +587,18 @@ public class MatchController extends Controller {
                 int newX = DirectionManagement.getX(buildList.getWorker().getX(), direction);
                 int newY = DirectionManagement.getY(buildList.getWorker().getY(), direction);
 
-                if(newIndexes[0] == newX && newIndexes[1] == newY && button1.getImage().equals(new Image("/2DGraphics/GreenButton.png"))) { // Found the valid direction
-                    socket.sendMessage(new AtlasBuildReceiver(direction, false));
-                    matchScene.setOnMousePressed(e2 -> {
-                        matchScene.requestFocus();
-                        e2.consume();
-                    });
-                } else if(newIndexes[0] == newX && newIndexes[1] == newY && button1.getImage().equals(new Image("/2DGraphics/RedButton.png"))){
+                if(newIndexes[0] == newX && newIndexes[1] == newY && button1.getImage().getUrl().equals(getClass().getResource("/2DGraphics/GreenButton.png").toString())) { // Found the valid direction
                     socket.sendMessage(new AtlasBuildReceiver(direction, true));
-                    matchScene.setOnMousePressed(e2 -> {
-                        matchScene.requestFocus();
-                        e2.consume();
-                    });
+                } else if(newIndexes[0] == newX && newIndexes[1] == newY && button1.getImage().getUrl().equals(getClass().getResource("/2DGraphics/RedButton.png").toString())){
+                    socket.sendMessage(new AtlasBuildReceiver(direction, false));
                 }
+                button1.setOnMousePressed(e2 -> { });
+                matchScene.setOnMousePressed(e2 -> {
+                    matchScene.requestFocus();
+                    e2.consume();
+                });
+                Image image = new Image("/2DGraphics/RedButton.png");
+                Platform.runLater(() -> button1.setImage(image));
             }
             e1.consume();
         });
