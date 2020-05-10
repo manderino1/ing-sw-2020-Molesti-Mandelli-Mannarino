@@ -3,6 +3,6 @@
 newmtl map solid
 Ka 1 1 1
 Kd 1 1 1
-map_Kd tex/Cliff_v001_Hades.png
+map_Kd tex/Cliff_v001.png
 illum 7
 

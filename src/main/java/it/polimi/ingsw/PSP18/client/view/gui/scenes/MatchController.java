@@ -114,14 +114,16 @@ public class MatchController extends Controller {
         //import models
         Group map = loadModel(getClass().getResource("/3DGraphics/mappa.obj"));
         Group cliff = loadModel(getClass().getResource("/3DGraphics/cliff.obj"));
-        Group sea = loadModel(getClass().getResource("/3DGraphics/lava.obj"));
+        Group sea = loadModel(getClass().getResource("/3DGraphics/sea.obj"));
         Group walls = loadModel(getClass().getResource("/3DGraphics/mura.obj"));
+        Group islands = loadModel(getClass().getResource("/3DGraphics/isole.obj"));
 
         //setup Scene and camera
         matchSceneGroup.getChildren().add(sea);
         matchSceneGroup.getChildren().add(cliff);
         matchSceneGroup.getChildren().add(map);
         matchSceneGroup.getChildren().add(walls);
+        matchSceneGroup.getChildren().add(islands);
         PointLight pointLight = new PointLight();
         pointLight.getTransforms().addAll(new Translate(0,-50,0));
         matchSceneGroup.getChildren().add(pointLight);
@@ -197,20 +199,6 @@ public class MatchController extends Controller {
                 );
             }
             previousX = event.getSceneX();
-        });
-
-        // Press button on label press
-        label1.setOnMousePressed(e -> {
-            Event.fireEvent(button1, new MouseEvent(MouseEvent.MOUSE_CLICKED, 0,
-                    0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
-                    true, true, true, true, true, true, null));
-        });
-
-        // Press button on label press
-        label2.setOnMousePressed(e -> {
-            Event.fireEvent(button1, new MouseEvent(MouseEvent.MOUSE_CLICKED, 0,
-                    0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
-                    true, true, true, true, true, true, null));
         });
     }
 
@@ -643,10 +631,6 @@ public class MatchController extends Controller {
         myWorker2 = moveList.getWorker2();
         Platform.runLater(() -> hintLabel.setText("Click on the worker you want to move with"));
 
-        Platform.runLater(()->
-                hintLabel.setText("Choose where to Move!")
-        );
-
         matchScene.setOnMousePressed(e -> {
             matchScene.requestFocus();
             int[] indexes = coordinateToIndex(e.getPickResult());
@@ -654,8 +638,8 @@ public class MatchController extends Controller {
                 // Click is out of bound
                 return;
             }
-            Platform.runLater(() -> hintLabel.setText("Click on the green cell you want to move to"));
             if(indexes[0] == myWorker1.getX() && indexes[1] == myWorker1.getY()) {
+                Platform.runLater(() -> hintLabel.setText("Click on the green cell you want to move to"));
                 showSingleMoveList(moveList, indexes[0], indexes[1]);
                 matchScene.setOnMousePressed(e2 -> {
                     matchScene.requestFocus();
@@ -679,6 +663,7 @@ public class MatchController extends Controller {
                     e2.consume();
                 });
             } else if(indexes[0] == myWorker2.getX() && indexes[1] == myWorker2.getY()) {
+                Platform.runLater(() -> hintLabel.setText("Click on the green cell you want to move to"));
                 showSingleMoveList(moveList, indexes[0], indexes[1]);
                 matchScene.setOnMousePressed(e2 -> {
                     matchScene.requestFocus();
@@ -961,7 +946,12 @@ public class MatchController extends Controller {
         Platform.runLater(()->
                 hintLabel.setText("Choose where to build!")
         );
+        Image image = new Image("/2DGraphics/GreenButton.png");
+        button1.setImage(image);
+
         button1.setOnMousePressed(e -> {
+            Image image2 = new Image("/2DGraphics/RedButton.png");
+            button1.setImage(image2);
             socket.sendMessage(new BuildReceiver(null));
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
@@ -983,6 +973,10 @@ public class MatchController extends Controller {
 
                 if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
                     socket.sendMessage(new BuildReceiver(direction));
+                    matchScene.setOnMousePressed(e2 -> {
+                    });
+                    Image image2 = new Image("/2DGraphics/RedButton.png");
+                    button1.setImage(image2);
                     matchScene.setOnMousePressed(e2 -> {
                         matchScene.requestFocus();
                         e2.consume();

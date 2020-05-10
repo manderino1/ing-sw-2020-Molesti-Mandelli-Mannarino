@@ -2,9 +2,8 @@
 
 newmtl Default_5
 Ka 1 1 1
-map_Ka tex/Cliff_v001_Hades_Emission.png
 Kd 1 1 1
-map_Kd tex/Cliff_v001_Hades.png
+map_Kd tex/Cliff_v001.png
 illum 7
 
 newmtl mura
