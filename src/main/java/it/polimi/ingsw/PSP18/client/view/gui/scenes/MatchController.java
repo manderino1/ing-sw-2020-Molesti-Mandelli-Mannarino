@@ -47,6 +47,12 @@ import java.util.ResourceBundle;
 
 public class MatchController extends Controller {
     @FXML
+    private Pane color1;
+    @FXML
+    private Pane color2;
+    @FXML
+    private Pane color3;
+    @FXML
     private ImageView border3;
     @FXML
     private Label hintLabel;
@@ -619,7 +625,10 @@ public class MatchController extends Controller {
         myWorker1 = moveList.getWorker1();
         myWorker2 = moveList.getWorker2();
 
-        // TODO: show message and start click waiting on worker for the move
+        Platform.runLater(()->
+                hintLabel.setText("Choose where to Move!")
+        );
+
         matchScene.setOnMousePressed(e -> {
             matchScene.requestFocus();
             int[] indexes = coordinateToIndex(e.getPickResult());
@@ -749,6 +758,10 @@ public class MatchController extends Controller {
             Image image1 = new Image("/2DGraphics/RedButton.png");
             button1.setImage(image1);
             socket.sendMessage(new EndTurnReceiver());
+            matchScene.setOnMousePressed(e2 -> {
+                matchScene.requestFocus();
+                e2.consume();
+            });
             e.consume();
         });
     }
@@ -830,6 +843,7 @@ public class MatchController extends Controller {
                             divinity1.setCacheHint(CacheHint.SPEED);
                         });
                     }
+                    color1.setStyle("-fx-background-color: Red;");
                 }
                 if (playerData.getPlayOrder() == 1) {
                     if (!playerData.getLost()) {
@@ -848,11 +862,13 @@ public class MatchController extends Controller {
                             divinity2.setCacheHint(CacheHint.SPEED);
                         });
                     }
+                    color2.setStyle("-fx-background-color: Blue;");
                 }
                 Platform.runLater(() -> {
                     nick3.setVisible(false);
                     divinity3.setVisible(false);
                     border3.setVisible(false);
+                    color3.setVisible(false);
                 });
             }
         } else if (players.size() == 3) {
@@ -874,6 +890,7 @@ public class MatchController extends Controller {
                             divinity1.setCacheHint(CacheHint.SPEED);
                         });
                     }
+                    color1.setStyle("-fx-background-color: Red;");
                 }
                 if (playerData.getPlayOrder() == 1) {
                     if (!playerData.getLost()) {
@@ -892,6 +909,7 @@ public class MatchController extends Controller {
                             divinity2.setCacheHint(CacheHint.SPEED);
                         });
                     }
+                    color2.setStyle("-fx-background-color: Blue;");
                 }
                 if (playerData.getPlayOrder() == 2) {
                     if (!playerData.getLost()) {
@@ -910,16 +928,51 @@ public class MatchController extends Controller {
                             divinity3.setCacheHint(CacheHint.SPEED);
                         });
                     }
+                    color3.setStyle("-fx-background-color: White;");
                 }
             }
         }
     }
 
+    public void optionalBuildUpdate(BuildListFlag buildList) {
+        showBuildList(buildList);
+        Platform.runLater(()->
+                label1.setText("Skip Build")
+                );
+        Platform.runLater(()->
+                hintLabel.setText("Choose where to build!")
+        );
+        button1.setOnMousePressed(e -> {
+            socket.sendMessage(new BuildReceiver(null));
+            matchScene.setOnMousePressed(e2 -> {
+                matchScene.requestFocus();
+                e2.consume();
+            });
+            e.consume();
+        });
 
-    public void optionalBuildUpdate(BuildListFlag buildListFlag) {
-        showBuildList(buildListFlag);
+        matchScene.setOnMousePressed(e -> {
+            matchScene.requestFocus();
+            int[] newIndexes = coordinateToIndex(e.getPickResult());
+            if(newIndexes[0] == -1 || newIndexes[1] == -1) {
+                // Click is out of bound
+                return;
+            }
+            for(Direction direction : buildList.getBuildlist()) {
+                int newX = DirectionManagement.getX(buildList.getWorker().getX(), direction);
+                int newY = DirectionManagement.getY(buildList.getWorker().getY(), direction);
 
-        // TODO: enable option button that if clicked does skip
+                if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
+                    socket.sendMessage(new BuildReceiver(direction));
+                    matchScene.setOnMousePressed(e2 -> {
+                        matchScene.requestFocus();
+                        e2.consume();
+                    });
+                }
+            }
+            e.consume();
+        });
+
     }
 
     public static double indexToCoordinateX(int index){
