@@ -111,8 +111,6 @@ public class MatchController extends Controller {
         Group walls = loadModel(getClass().getResource("/3DGraphics/mura.obj"));
 
         //setup Scene and camera
-        sea.setScaleX(0.5);
-        sea.setScaleZ(0.5);
         matchSceneGroup.getChildren().add(sea);
         matchSceneGroup.getChildren().add(cliff);
         matchSceneGroup.getChildren().add(map);
@@ -532,11 +530,13 @@ public class MatchController extends Controller {
                 if (!followMessage) {
                     //Standard 1
                     newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    newWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
                     followMessage = true;
                     standardMove = true;
                 } else {
                     //Minotaur 3
                     newWorker2 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    newWorker2.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
                     minotaurMoveUpdate(newWorker1, oldWorker2, oldWorker1, newWorker2);
                     followMessage = false;
                 }
@@ -544,7 +544,9 @@ public class MatchController extends Controller {
                 if(!followMessage){
                     //Apollo and Minotaur 1
                     newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    newWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
                     oldWorker2 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    oldWorker2.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
                     followMessage = true;
                     standardMove = false;
                 } else {
@@ -552,18 +554,22 @@ public class MatchController extends Controller {
                         if(standardMove) {
                             //StandardMove second half
                             oldWorker1 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
-                            standardMoveUpdate(newWorker1, oldWorker1);
+                            oldWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
+                            standardMoveUpdate(oldWorker1, newWorker1);
                             followMessage = false;
                         } else {
                             //Minotaur 2
                             oldWorker1 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                            oldWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
                             followMessage = true;
                         }
 
                     } else {
                         //Apollo 2
                         newWorker2 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                        newWorker2.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
                         oldWorker1 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                        oldWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
                         followMessage = false;
                         apolloMoveUpdate(newWorker1, oldWorker2, oldWorker1, newWorker2);
                     }
@@ -620,7 +626,7 @@ public class MatchController extends Controller {
                 // Click is out of bound
                 return;
             }
-            if(mapCells[indexes[0]][indexes[1]].getWorker() == myWorker1) {
+            if(indexes[0] == myWorker1.getX() && indexes[1] == myWorker1.getY()) {
                 showSingleMoveList(moveList, indexes[0], indexes[1]);
                 matchScene.setOnMousePressed(e2 -> {
                     matchScene.requestFocus();
@@ -643,7 +649,7 @@ public class MatchController extends Controller {
                     }
                     e2.consume();
                 });
-            } else if(mapCells[indexes[0]][indexes[1]].getWorker() == myWorker2) {
+            } else if(indexes[0] == myWorker2.getX() && indexes[1] == myWorker2.getY()) {
                 showSingleMoveList(moveList, indexes[0], indexes[1]);
                 matchScene.setOnMousePressed(e2 -> {
                     matchScene.requestFocus();
@@ -713,8 +719,8 @@ public class MatchController extends Controller {
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
                 int[] indexes2 = coordinateToIndex(e2.getPickResult());
-                if(indexes2[0] == -1 || indexes2[1] == -1) {
-                    // Click is out of bound
+                if(indexes2[0] == -1 || indexes2[1] == -1 || (indexes2[0] == indexes1[0] && indexes2[1] == indexes1[1])) {
+                    // Click is out of bound or is the same position of the first worker
                     Platform.runLater(() -> hintLabel.setText("Select a free position for the second worker"));
                     return;
                 }
