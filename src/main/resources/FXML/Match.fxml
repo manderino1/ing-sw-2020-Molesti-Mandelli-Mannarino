@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.SceneAntialiasing?>
 <?import javafx.scene.SubScene?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -12,14 +13,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.SceneAntialiasing?>
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.MatchController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.MatchController">
    <center>
       <BorderPane fx:id="mainScene">
          <center>
-            <SubScene fx:id="matchScene" height="645.0" width="1080.0" BorderPane.alignment="TOP_CENTER" depthBuffer="true">
+            <SubScene fx:id="matchScene" depthBuffer="true" height="645.0" width="1080.0" BorderPane.alignment="TOP_CENTER">
                <antiAliasing>
-                  <SceneAntialiasing fx:constant="BALANCED"/>
+                  <SceneAntialiasing fx:constant="BALANCED" />
                </antiAliasing>
               <root>
                 <Region />
@@ -95,7 +95,6 @@
                   <Image url="@../2DGraphics/frame_yellow.png" />
                </image>
             </ImageView>
-            <Label fx:id="nick1" layoutX="89.0" layoutY="164.0" text="ID" translateY="85.0" />
             <ImageView fx:id="divinity2" fitHeight="137.0" fitWidth="98.0" layoutX="52.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true" translateY="25.0">
                <image>
                   <Image url="@../2DGraphics/Pan.png" />
@@ -106,7 +105,6 @@
                   <Image url="@../2DGraphics/frame_yellow.png" />
                </image>
             </ImageView>
-            <Label fx:id="nick2" layoutX="89.0" layoutY="402.0" text="ID" translateY="25.0" />
             <ImageView fx:id="divinity3" fitHeight="137.0" fitWidth="98.0" layoutX="52.0" layoutY="498.0" pickOnBounds="true" preserveRatio="true" translateY="-35.0">
                <image>
                   <Image url="@../2DGraphics/Pan.png" />
@@ -117,10 +115,12 @@
                   <Image url="@../2DGraphics/frame_yellow.png" />
                </image>
             </ImageView>
-            <Label fx:id="nick3" layoutX="89.0" layoutY="641.0" text="ID" translateY="-35.0" />
-            <Pane fx:id="color1" layoutX="107.0" layoutY="252.0" prefHeight="12.0" prefWidth="13.0" style="-fx-background-color: Green;" />
-            <Pane fx:id="color2" layoutX="107.0" layoutY="430.0" prefHeight="12.0" prefWidth="13.0" style="-fx-background-color: Green;" />
-            <Pane fx:id="color3" layoutX="107.0" layoutY="609.0" prefHeight="12.0" prefWidth="13.0" style="-fx-background-color: Green;" />
+            <Pane fx:id="color1" layoutX="22.0" layoutY="169.0" prefHeight="12.0" prefWidth="13.0" style="-fx-background-color: Green;" />
+            <Pane fx:id="color2" layoutX="22.0" layoutY="347.0" prefHeight="12.0" prefWidth="13.0" style="-fx-background-color: Green;" />
+            <Pane fx:id="color3" layoutX="22.0" layoutY="525.0" prefHeight="12.0" prefWidth="13.0" style="-fx-background-color: Green;" />
+            <Label fx:id="nick1" alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="249.0" prefHeight="17.0" prefWidth="143.0" text="ID" />
+            <Label fx:id="nick2" alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="428.0" prefHeight="17.0" prefWidth="143.0" text="ID" />
+            <Label fx:id="nick3" alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="606.0" prefHeight="17.0" prefWidth="143.0" text="ID" />
          </children></Pane>
    </left>
 </BorderPane>

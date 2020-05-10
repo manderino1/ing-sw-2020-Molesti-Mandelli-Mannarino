@@ -75,7 +75,7 @@ public class MatchController extends Controller {
     private Group matchSceneGroup = new Group();
 
     private int cameraDistance = 30;
-    private int cameraXAngle = 60;
+    private int cameraXAngle = 45;
     private Translate pivot = new Translate(0,0,cameraDistance);
     private Rotate yRotate = new Rotate(0, Rotate.Y_AXIS);
     private double previousX;
@@ -107,7 +107,7 @@ public class MatchController extends Controller {
         matchSceneGroup.getChildren().add(walls);
         matchSceneGroup.getChildren().add(islands);
         PointLight pointLight = new PointLight();
-        pointLight.getTransforms().addAll(new Translate(0,-50,0));
+        pointLight.getTransforms().addAll(new Translate(0,-50, 0));
         matchSceneGroup.getChildren().add(pointLight);
 
         Camera camera= new PerspectiveCamera(true);
@@ -136,11 +136,11 @@ public class MatchController extends Controller {
 
         matchScene.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
             switch (event.getCode()){
-                case RIGHT:
+                case UP:
                     camera.getTransforms().addAll (
                             pivot,
                             new Rotate(cameraXAngle, Rotate.Z_AXIS),
-                            new Rotate(-10, Rotate.X_AXIS),
+                            new Rotate(-2, Rotate.X_AXIS),
                             new Rotate(-cameraXAngle, Rotate.X_AXIS),
                             new Translate(0, 0, -cameraDistance)
                     );
@@ -174,6 +174,7 @@ public class MatchController extends Controller {
             previousX = event.getSceneX();
         });
     }
+
 
     public Group loadModel(URL url) {
         Model3D model;
