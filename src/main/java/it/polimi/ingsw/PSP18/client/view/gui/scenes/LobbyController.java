@@ -58,7 +58,7 @@ public class LobbyController extends Controller {
 
     @FXML
     private void readyButtonClicked(MouseEvent mouseEvent) {
-        if(!isReady) {
+        if(!isReady && nickOK) {
             Image image = new Image("/2DGraphics/GreenButton.png");
             readyButton.setImage(image);
 

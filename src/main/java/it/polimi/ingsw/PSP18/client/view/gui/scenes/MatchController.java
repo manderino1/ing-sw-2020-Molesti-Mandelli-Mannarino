@@ -629,7 +629,7 @@ public class MatchController extends Controller {
     public void showMoveList(MoveList moveList) {
         myWorker1 = moveList.getWorker1();
         myWorker2 = moveList.getWorker2();
-        Platform.runLater(() -> hintLabel.setText("Click on the worker you want to move with"));
+        Platform.runLater(() -> hintLabel.setText("Click on a worker"));
 
         matchScene.setOnMousePressed(e -> {
             matchScene.requestFocus();
@@ -639,7 +639,7 @@ public class MatchController extends Controller {
                 return;
             }
             if(indexes[0] == myWorker1.getX() && indexes[1] == myWorker1.getY()) {
-                Platform.runLater(() -> hintLabel.setText("Click on the green cell you want to move to"));
+                Platform.runLater(() -> hintLabel.setText("Click on a green cell"));
                 showSingleMoveList(moveList, indexes[0], indexes[1]);
                 matchScene.setOnMousePressed(e2 -> {
                     matchScene.requestFocus();
@@ -761,6 +761,7 @@ public class MatchController extends Controller {
         button2.setOnMousePressed(e -> {
             Image image1 = new Image("/2DGraphics/RedButton.png");
             Platform.runLater(() -> button2.setImage(image1));
+            Platform.runLater(() -> hintLabel.setText("Wait for your turn"));
             socket.sendMessage(new EndTurnReceiver());
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
@@ -771,24 +772,25 @@ public class MatchController extends Controller {
     }
 
     public void placeWorkerInit() {
-        Platform.runLater(() -> hintLabel.setText("Select a free position for the first worker"));
+        Platform.runLater(() -> hintLabel.setText("Place the first worker"));
         matchScene.setOnMousePressed(e -> {
             matchScene.requestFocus();
             int[] indexes1 = coordinateToIndex(e.getPickResult());
             if(indexes1[0] == -1 || indexes1[1] == -1) {
                 // Click is out of bound
-                Platform.runLater(() -> hintLabel.setText("Select a free position for the first worker"));
+                Platform.runLater(() -> hintLabel.setText("Place the second worker"));
                 return;
             }
-            Platform.runLater(() -> hintLabel.setText("Select a free position for the second worker"));
+            Platform.runLater(() -> hintLabel.setText("Place the second worker"));
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
                 int[] indexes2 = coordinateToIndex(e2.getPickResult());
                 if(indexes2[0] == -1 || indexes2[1] == -1 || (indexes2[0] == indexes1[0] && indexes2[1] == indexes1[1])) {
                     // Click is out of bound or is the same position of the first worker
-                    Platform.runLater(() -> hintLabel.setText("Select a free position for the second worker"));
+                    Platform.runLater(() -> hintLabel.setText("Place the second worker"));
                     return;
                 }
+                Platform.runLater(() -> hintLabel.setText("Wait your turn"));
                 socket.sendMessage(new WorkerReceiver(indexes1[0], indexes1[1], indexes2[0], indexes2[1]));
                 matchScene.setOnMousePressed(e3 -> {
                     matchScene.requestFocus();

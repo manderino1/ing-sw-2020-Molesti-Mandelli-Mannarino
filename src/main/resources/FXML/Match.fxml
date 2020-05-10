@@ -43,7 +43,7 @@
                         <Image url="@../2DGraphics/om_btnGlow.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="hintLabel" alignment="CENTER" prefHeight="53.0" prefWidth="589.0" text="Sono veramente euforico" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <Label fx:id="hintLabel" alignment="CENTER" prefHeight="53.0" prefWidth="589.0" text="Wait your turn" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                      <font>
                         <Font size="36.0" />
                      </font>
