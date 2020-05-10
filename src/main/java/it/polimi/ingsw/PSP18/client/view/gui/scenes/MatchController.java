@@ -502,55 +502,41 @@ public class MatchController extends Controller {
                 // Click is out of bound
                 return;
             }
+            Worker worker;
+            int index;
             if(indexes[0] == myWorker1.getX() && indexes[1] == myWorker1.getY()) {
-                Platform.runLater(() -> hintLabel.setText("Click on a green cell"));
-                showSingleMoveList(moveList, indexes[0], indexes[1]);
-                matchScene.setOnMousePressed(e2 -> {
-                    matchScene.requestFocus();
-                    int[] newIndexes = coordinateToIndex(e2.getPickResult());
-                    if(newIndexes[0] == -1 || newIndexes[1] == -1) {
-                        // Click is out of bound
-                        return;
-                    }
-                    for(Direction direction : moveList.getMoveList1()) {
-                        int newX = DirectionManagement.getX(moveList.getWorker1().getX(), direction);
-                        int newY = DirectionManagement.getY(moveList.getWorker1().getY(), direction);
-
-                        if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
-                            socket.sendMessage(new MoveReceiver(direction, 0));
-                            matchScene.setOnMousePressed(e3 -> {
-                                matchScene.requestFocus();
-                                e3.consume();
-                            });
-                        }
-                    }
-                    e2.consume();
-                });
+                worker = moveList.getWorker1();
+                index = 0;
             } else if(indexes[0] == myWorker2.getX() && indexes[1] == myWorker2.getY()) {
-                Platform.runLater(() -> hintLabel.setText("Click on a green cell"));
-                showSingleMoveList(moveList, indexes[0], indexes[1]);
-                matchScene.setOnMousePressed(e2 -> {
-                    matchScene.requestFocus();
-                    int[] newIndexes = coordinateToIndex(e2.getPickResult());
-                    if(newIndexes[0] == -1 || newIndexes[1] == -1) {
-                        // Click is out of bound
-                        return;
-                    }
-                    for(Direction direction : moveList.getMoveList2()) {
-                        int newX = DirectionManagement.getX(moveList.getWorker2().getX(), direction);
-                        int newY = DirectionManagement.getY(moveList.getWorker2().getY(), direction);
-
-                        if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
-                            socket.sendMessage(new MoveReceiver(direction, 1));
-                            matchScene.setOnMousePressed(e3 -> {
-                                matchScene.requestFocus();
-                                e3.consume();
-                            });
-                        }
-                    }
-                    e2.consume();
-                });
+                worker = moveList.getWorker2();
+                index = 1;
+            } else {
+                return;
             }
+            Platform.runLater(() -> hintLabel.setText("Click on a green cell"));
+            showSingleMoveList(moveList, indexes[0], indexes[1]);
+            Worker finalWorker = worker;
+            matchScene.setOnMousePressed(e2 -> {
+                matchScene.requestFocus();
+                int[] newIndexes = coordinateToIndex(e2.getPickResult());
+                if(newIndexes[0] == -1 || newIndexes[1] == -1) {
+                    // Click is out of bound
+                    return;
+                }
+                for(Direction direction : moveList.getMoveList1()) {
+                    int newX = DirectionManagement.getX(finalWorker.getX(), direction);
+                    int newY = DirectionManagement.getY(finalWorker.getY(), direction);
+
+                    if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
+                        socket.sendMessage(new MoveReceiver(direction, index));
+                        matchScene.setOnMousePressed(e3 -> {
+                            matchScene.requestFocus();
+                            e3.consume();
+                        });
+                    }
+                }
+                e2.consume();
+            });
             e.consume();
         });
     }
