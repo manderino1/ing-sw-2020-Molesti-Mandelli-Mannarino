@@ -10,6 +10,7 @@ import it.polimi.ingsw.PSP18.server.model.Worker;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 
+import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -44,6 +45,7 @@ import org.fxyz3d.importers.Model3D;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -157,17 +159,8 @@ public class MatchController extends Controller {
                 case RIGHT:
                     camera.getTransforms().addAll (
                             pivot,
-                            new Rotate(cameraXAngle, Rotate.X_AXIS),
-                            new Rotate(-10, Rotate.Y_AXIS),
-                            new Rotate(-cameraXAngle, Rotate.X_AXIS),
-                            new Translate(0, 0, -cameraDistance)
-                    );
-                    break;
-                case LEFT:
-                    camera.getTransforms().addAll (
-                            pivot,
-                            new Rotate(cameraXAngle, Rotate.X_AXIS),
-                            new Rotate(10, Rotate.Y_AXIS),
+                            new Rotate(cameraXAngle, Rotate.Z_AXIS),
+                            new Rotate(-10, Rotate.X_AXIS),
                             new Rotate(-cameraXAngle, Rotate.X_AXIS),
                             new Translate(0, 0, -cameraDistance)
                     );
@@ -308,7 +301,12 @@ public class MatchController extends Controller {
     }
     public void standardMoveUpdate(Worker oldWork, Worker newWork){
         final Timeline timeline = new Timeline();
+        final Timeline verticalTimeline = new Timeline();
         Group workerSelected;
+
+        int oldHeight = mapCells[oldWork.getX()][oldWork.getY()].getBuilding();
+        int newHeight = mapCells[newWork.getX()][newWork.getY()].getBuilding();
+        double heightDiff = indexToCoordinateZ(oldHeight, newHeight);
 
         switch (oldWork.getPlayerColor()){
 
@@ -322,7 +320,20 @@ public class MatchController extends Controller {
                                 new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
-                        timeline.play();
+
+                        verticalTimeline.setCycleCount(1);
+                        verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+
+                        if(heightDiff == 0) {
+                            timeline.play();
+                        } else if(heightDiff > 0) {
+                            SequentialTransition sequentialTransition = new SequentialTransition(verticalTimeline, timeline);
+                            sequentialTransition.play();
+                        } else {
+                            SequentialTransition sequentialTransition = new SequentialTransition(timeline, verticalTimeline);
+                            sequentialTransition.play();
+                        }
                         break;
                     case 1:
 
@@ -333,7 +344,20 @@ public class MatchController extends Controller {
                                 new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
-                        timeline.play();
+
+                        verticalTimeline.setCycleCount(1);
+                        verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+
+                        if(heightDiff == 0) {
+                            timeline.play();
+                        } else if(heightDiff > 0) {
+                            SequentialTransition sequentialTransition = new SequentialTransition(verticalTimeline, timeline);
+                            sequentialTransition.play();
+                        } else {
+                            SequentialTransition sequentialTransition = new SequentialTransition(timeline, verticalTimeline);
+                            sequentialTransition.play();
+                        }
                         break;
                 }
                 break;
@@ -349,7 +373,20 @@ public class MatchController extends Controller {
                                 new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
-                        timeline.play();
+
+                        verticalTimeline.setCycleCount(1);
+                        verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+
+                        if(heightDiff == 0) {
+                            timeline.play();
+                        } else if(heightDiff > 0) {
+                            SequentialTransition sequentialTransition = new SequentialTransition(verticalTimeline, timeline);
+                            sequentialTransition.play();
+                        } else {
+                            SequentialTransition sequentialTransition = new SequentialTransition(timeline, verticalTimeline);
+                            sequentialTransition.play();
+                        }
                         break;
 
                     case 1:
@@ -360,7 +397,20 @@ public class MatchController extends Controller {
                                 new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
-                        timeline.play();
+
+                        verticalTimeline.setCycleCount(1);
+                        verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+
+                        if(heightDiff == 0) {
+                            timeline.play();
+                        } else if(heightDiff > 0) {
+                            SequentialTransition sequentialTransition = new SequentialTransition(verticalTimeline, timeline);
+                            sequentialTransition.play();
+                        } else {
+                            SequentialTransition sequentialTransition = new SequentialTransition(timeline, verticalTimeline);
+                            sequentialTransition.play();
+                        }
                         break;
                 }
                 break;
@@ -376,7 +426,20 @@ public class MatchController extends Controller {
                                 new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
-                        timeline.play();
+
+                        verticalTimeline.setCycleCount(1);
+                        verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+
+                        if(heightDiff == 0) {
+                            timeline.play();
+                        } else if(heightDiff > 0) {
+                            SequentialTransition sequentialTransition = new SequentialTransition(verticalTimeline, timeline);
+                            sequentialTransition.play();
+                        } else {
+                            SequentialTransition sequentialTransition = new SequentialTransition(timeline, verticalTimeline);
+                            sequentialTransition.play();
+                        }
                         break;
                     case 1:
 
@@ -387,7 +450,20 @@ public class MatchController extends Controller {
                                 new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
                         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
                                 new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
-                        timeline.play();
+
+                        verticalTimeline.setCycleCount(1);
+                        verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+
+                        if(heightDiff == 0) {
+                            timeline.play();
+                        } else if(heightDiff > 0) {
+                            SequentialTransition sequentialTransition = new SequentialTransition(verticalTimeline, timeline);
+                            sequentialTransition.play();
+                        } else {
+                            SequentialTransition sequentialTransition = new SequentialTransition(timeline, verticalTimeline);
+                            sequentialTransition.play();
+                        }
                         break;
                 }
                 break;
@@ -996,6 +1072,43 @@ public class MatchController extends Controller {
 
     public static double indexToCoordinateY(int index){
         return (index-2)*DELTA*(-1);
+    }
+
+    public static double indexToCoordinateZ(int oldLevel, int newLevel) {
+        double oldHeight, newHeight;
+        switch (oldLevel) {
+            case 0:
+                oldHeight = 0;
+                break;
+            case 1:
+                oldHeight = DELTAZ1;
+                break;
+            case 2:
+                oldHeight = DELTAZ2;
+                break;
+            case 3:
+                oldHeight = DELTAZ3;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + oldLevel);
+        }
+        switch (newLevel) {
+            case 0:
+                newHeight = 0;
+                break;
+            case 1:
+                newHeight = DELTAZ1;
+                break;
+            case 2:
+                newHeight = DELTAZ2;
+                break;
+            case 3:
+                newHeight = DELTAZ3;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + newLevel);
+        }
+        return newHeight-oldHeight;
     }
 
     public static int[] coordinateToIndex(PickResult pick) {
