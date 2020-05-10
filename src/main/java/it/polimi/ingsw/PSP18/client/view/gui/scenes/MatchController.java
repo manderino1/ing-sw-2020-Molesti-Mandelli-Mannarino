@@ -13,6 +13,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.*;
@@ -21,6 +22,8 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -195,6 +198,20 @@ public class MatchController extends Controller {
             }
             previousX = event.getSceneX();
         });
+
+        // Press button on label press
+        label1.setOnMousePressed(e -> {
+            Event.fireEvent(button1, new MouseEvent(MouseEvent.MOUSE_CLICKED, 0,
+                    0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
+                    true, true, true, true, true, true, null));
+        });
+
+        // Press button on label press
+        label2.setOnMousePressed(e -> {
+            Event.fireEvent(button1, new MouseEvent(MouseEvent.MOUSE_CLICKED, 0,
+                    0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
+                    true, true, true, true, true, true, null));
+        });
     }
 
     public Group loadModel(URL url) {
@@ -243,7 +260,7 @@ public class MatchController extends Controller {
                 timeline.setCycleCount(1);
                 if(dome){
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                            new KeyValue (block.translateYProperty(), DELTAZ1)));
+                            new KeyValue (block.translateYProperty(), -DELTAZ1)));
                 }
                 else{
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
@@ -259,14 +276,14 @@ public class MatchController extends Controller {
                 else{
                     block = loadModel(getClass().getResource("/3DGraphics/Dome.obj"));
                 }
-                block.setTranslateY(10);
+                block.setTranslateY(-10);
                 block.setTranslateX(indexToCoordinateX(oldX));
                 block.setTranslateZ(indexToCoordinateY(oldY));
                 Platform.runLater(() -> matchSceneGroup.getChildren().add(block));
                 timeline.setCycleCount(1);
                 if(dome){
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                            new KeyValue (block.translateYProperty(), DELTAZ2)));
+                            new KeyValue (block.translateYProperty(), -DELTAZ2)));
                 }
                 else{
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
@@ -283,7 +300,7 @@ public class MatchController extends Controller {
                     block = loadModel(getClass().getResource("/3DGraphics/Dome.obj"));
                 }
 
-                block.setTranslateY(10);
+                block.setTranslateY(-10);
                 block.setTranslateX(indexToCoordinateX(oldX));
                 block.setTranslateZ(indexToCoordinateY(oldY));
                 Platform.runLater(() -> matchSceneGroup.getChildren().add(block));
@@ -291,7 +308,7 @@ public class MatchController extends Controller {
                 timeline.setCycleCount(1);
                 if(dome){
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                            new KeyValue (block.translateYProperty(), DELTAZ3)));
+                            new KeyValue (block.translateYProperty(), -DELTAZ3)));
                 }
                 else{
                     timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
@@ -596,7 +613,7 @@ public class MatchController extends Controller {
 
     public void standardBuildList(BuildList buildList) {
         showBuildList(buildList);
-        hintLabel.setText("Choose where to build!");
+        Platform.runLater(() -> hintLabel.setText("Choose where to build!"));
         matchScene.setOnMousePressed(e -> {
             matchScene.requestFocus();
             int[] newIndexes = coordinateToIndex(e.getPickResult());
@@ -624,6 +641,7 @@ public class MatchController extends Controller {
     public void showMoveList(MoveList moveList) {
         myWorker1 = moveList.getWorker1();
         myWorker2 = moveList.getWorker2();
+        Platform.runLater(() -> hintLabel.setText("Click on the worker you want to move with"));
 
         Platform.runLater(()->
                 hintLabel.setText("Choose where to Move!")
@@ -636,6 +654,7 @@ public class MatchController extends Controller {
                 // Click is out of bound
                 return;
             }
+            Platform.runLater(() -> hintLabel.setText("Click on the green cell you want to move to"));
             if(indexes[0] == myWorker1.getX() && indexes[1] == myWorker1.getY()) {
                 showSingleMoveList(moveList, indexes[0], indexes[1]);
                 matchScene.setOnMousePressed(e2 -> {
@@ -707,9 +726,9 @@ public class MatchController extends Controller {
     }
 
     public void atlasBuild(AtlasBuildList buildList) {
-        label1.setText("Dome");
+        Platform.runLater(() -> label1.setText("Dome"));
         showBuildList(buildList);
-        hintLabel.setText("Choose where to build!");
+        Platform.runLater(() -> hintLabel.setText("Choose where to build!"));
         button1.setOnMousePressed(e -> {
             if(button1.getImage().equals(new Image("/2DGraphics/GreenButton.png"))){
                 Image image = new Image("/2DGraphics/RedButton.png");
@@ -751,12 +770,12 @@ public class MatchController extends Controller {
     }
 
     public void showEndTurn() {
-        hintLabel.setText("End your turn!");
+        Platform.runLater(() -> hintLabel.setText("End your turn!"));
         Image image = new Image("/2DGraphics/GreenButton.png");
-        button2.setImage(image);
+        Platform.runLater(() -> button2.setImage(image));
         button2.setOnMousePressed(e -> {
             Image image1 = new Image("/2DGraphics/RedButton.png");
-            button1.setImage(image1);
+            Platform.runLater(() -> button2.setImage(image1));
             socket.sendMessage(new EndTurnReceiver());
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
