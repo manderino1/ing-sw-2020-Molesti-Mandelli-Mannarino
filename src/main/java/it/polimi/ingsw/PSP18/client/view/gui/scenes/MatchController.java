@@ -1,9 +1,7 @@
 package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.BuildReceiver;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.WorkerReceiver;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.model.*;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -582,14 +580,17 @@ public class MatchController extends Controller {
         this.matchStarted = matchStarted;
     }
 
-    public void showBuildList(BuildList buildList){
+    public void showBuildList(BuildList buildList) {
         for (Direction dir : buildList.getBuildlist()) {
-           double newX = indexToCoordinateX(DirectionManagement.getX(buildList.getWorker().getX(), dir));
-           double newY = indexToCoordinateY(DirectionManagement.getY(buildList.getWorker().getY(), dir));
-           //TODO: Color the cells
+            double newX = indexToCoordinateX(DirectionManagement.getX(buildList.getWorker().getX(), dir));
+            double newY = indexToCoordinateY(DirectionManagement.getY(buildList.getWorker().getY(), dir));
+            //TODO: Color the cells
         }
+    }
 
-        // TODO: show message and start click waiting on worker for the build
+    public void standardBuildList(BuildList buildList) {
+        showBuildList(buildList);
+        hintLabel.setText("Choose where to build!");
         matchScene.setOnMousePressed(e -> {
             matchScene.requestFocus();
             int[] newIndexes = coordinateToIndex(e.getPickResult());
@@ -696,13 +697,60 @@ public class MatchController extends Controller {
         }
     }
 
-    public void atlasShowBuild(AtlasBuildList buildList) {
+    public void atlasBuild(AtlasBuildList buildList) {
+        label1.setText("Dome");
         showBuildList(buildList);
-        // TODO: show dome toggle button
+        hintLabel.setText("Choose where to build!");
+        button1.setOnMousePressed(e -> {
+            if(button1.getImage().equals(new Image("/2DGraphics/GreenButton.png"))){
+                Image image = new Image("/2DGraphics/RedButton.png");
+                button1.setImage(image);
+            } else {
+                Image image1 = new Image("/2DGraphics/GreenButton.png");
+                button1.setImage(image1);
+            }
+            e.consume();
+        });
+
+        matchScene.setOnMousePressed(e1 -> {
+            matchScene.requestFocus();
+            int[] newIndexes = coordinateToIndex(e1.getPickResult());
+            if(newIndexes[0] == -1 || newIndexes[1] == -1) {
+                // Click is out of bound
+                return;
+            }
+            for(Direction direction : buildList.getBuildlist()) {
+                int newX = DirectionManagement.getX(buildList.getWorker().getX(), direction);
+                int newY = DirectionManagement.getY(buildList.getWorker().getY(), direction);
+
+                if(newIndexes[0] == newX && newIndexes[1] == newY && button1.getImage().equals(new Image("/2DGraphics/GreenButton.png"))) { // Found the valid direction
+                    socket.sendMessage(new AtlasBuildReceiver(direction, false));
+                    matchScene.setOnMousePressed(e2 -> {
+                        matchScene.requestFocus();
+                        e2.consume();
+                    });
+                } else if(newIndexes[0] == newX && newIndexes[1] == newY && button1.getImage().equals(new Image("/2DGraphics/RedButton.png"))){
+                    socket.sendMessage(new AtlasBuildReceiver(direction, true));
+                    matchScene.setOnMousePressed(e2 -> {
+                        matchScene.requestFocus();
+                        e2.consume();
+                    });
+                }
+            }
+            e1.consume();
+        });
     }
 
     public void showEndTurn() {
-        // TODO: show end turn button
+        hintLabel.setText("End your turn!");
+        Image image = new Image("/2DGraphics/GreenButton.png");
+        button2.setImage(image);
+        button2.setOnMousePressed(e -> {
+            Image image1 = new Image("/2DGraphics/RedButton.png");
+            button1.setImage(image1);
+            socket.sendMessage(new EndTurnReceiver());
+            e.consume();
+        });
     }
 
     public void placeWorkerInit() {

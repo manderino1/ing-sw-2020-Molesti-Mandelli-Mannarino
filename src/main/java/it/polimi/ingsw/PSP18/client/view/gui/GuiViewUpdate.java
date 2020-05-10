@@ -137,7 +137,7 @@ public class GuiViewUpdate extends ViewUpdate {
     @Override
     public void buildUpdate(BuildList buildList) {
         if(controller.getPageID().equals("Match")) {
-            ((MatchController)controller).showBuildList(buildList);
+            ((MatchController)controller).standardBuildList(buildList);
         }
     }
 
@@ -202,7 +202,7 @@ public class GuiViewUpdate extends ViewUpdate {
     @Override
     public void atlasBuildUpdate(AtlasBuildList atlasBuildList) {
         if (controller.getPageID().equals("Match")) {
-            ((MatchController)controller).atlasShowBuild(atlasBuildList);
+            ((MatchController)controller).atlasBuild(atlasBuildList);
         }
     }
 
