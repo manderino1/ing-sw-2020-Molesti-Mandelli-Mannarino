@@ -323,7 +323,7 @@ public class MatchController extends Controller {
 
                         verticalTimeline.setCycleCount(1);
                         verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+                                new KeyValue (workerSelected.translateYProperty(), levelToCoordZ(newHeight))));
 
                         if(heightDiff == 0) {
                             timeline.play();
@@ -347,7 +347,7 @@ public class MatchController extends Controller {
 
                         verticalTimeline.setCycleCount(1);
                         verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+                                new KeyValue (workerSelected.translateYProperty(), levelToCoordZ(newHeight))));
 
                         if(heightDiff == 0) {
                             timeline.play();
@@ -376,7 +376,7 @@ public class MatchController extends Controller {
 
                         verticalTimeline.setCycleCount(1);
                         verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+                                new KeyValue (workerSelected.translateYProperty(), levelToCoordZ(newHeight))));
 
                         if(heightDiff == 0) {
                             timeline.play();
@@ -400,7 +400,7 @@ public class MatchController extends Controller {
 
                         verticalTimeline.setCycleCount(1);
                         verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+                                new KeyValue (workerSelected.translateYProperty(), levelToCoordZ(newHeight))));
 
                         if(heightDiff == 0) {
                             timeline.play();
@@ -429,7 +429,7 @@ public class MatchController extends Controller {
 
                         verticalTimeline.setCycleCount(1);
                         verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+                                new KeyValue (workerSelected.translateYProperty(), levelToCoordZ(newHeight))));
 
                         if(heightDiff == 0) {
                             timeline.play();
@@ -453,7 +453,7 @@ public class MatchController extends Controller {
 
                         verticalTimeline.setCycleCount(1);
                         verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                                new KeyValue (workerSelected.translateYProperty(), -1 * heightDiff)));
+                                new KeyValue (workerSelected.translateYProperty(), levelToCoordZ(newHeight))));
 
                         if(heightDiff == 0) {
                             timeline.play();
@@ -739,7 +739,7 @@ public class MatchController extends Controller {
                     e2.consume();
                 });
             } else if(indexes[0] == myWorker2.getX() && indexes[1] == myWorker2.getY()) {
-                Platform.runLater(() -> hintLabel.setText("Click on the green cell you want to move to"));
+                Platform.runLater(() -> hintLabel.setText("Click on a green cell"));
                 showSingleMoveList(moveList, indexes[0], indexes[1]);
                 matchScene.setOnMousePressed(e2 -> {
                     matchScene.requestFocus();
@@ -1109,6 +1109,20 @@ public class MatchController extends Controller {
                 throw new IllegalStateException("Unexpected value: " + newLevel);
         }
         return newHeight-oldHeight;
+    }
+
+    public static double levelToCoordZ(int level) {
+        switch (level) {
+            case 0:
+                return 0;
+            case 1:
+                return -DELTAZ1;
+            case 2:
+                return -DELTAZ2;
+            case 3:
+                return -DELTAZ3;
+        }
+        return -1;
     }
 
     public static int[] coordinateToIndex(PickResult pick) {
