@@ -245,7 +245,6 @@ public class MatchController extends Controller {
     }
     public void standardMoveUpdate(Worker oldWork, Worker newWork){
         final Timeline timeline = new Timeline();
-        final Timeline verticalTimeline = new Timeline();
         Group workerSelected = null;
         int oldHeight = mapCells[oldWork.getX()][oldWork.getY()].getBuilding();
         int newHeight = mapCells[newWork.getX()][newWork.getY()].getBuilding();
@@ -416,8 +415,6 @@ public class MatchController extends Controller {
     public void minotaurMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWork2){
         final Timeline timeline = new Timeline();
         final Timeline enemyTimeline = new Timeline();
-        final Timeline verticalTimeline = new Timeline();
-        final Timeline enemyVerticalTimeline = new Timeline();
         final Timeline offsetTimeline = new Timeline();
         Group workerSelected = null;
         Group workerEnemy = null;
@@ -529,72 +526,7 @@ public class MatchController extends Controller {
         SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
         ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
         parallelTransition.play();
-/*
-        verticalTimeline.setCycleCount(1);
-        verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerSelected.translateYProperty(), levelToCoordZ(newHeight))));
 
-        enemyVerticalTimeline.setCycleCount(1);
-        enemyVerticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateYProperty(), levelToCoordZ(newHeightEnemy))));
-
-        if(heightDiff == 0) {
-            if(heightDiffEnemy == 0) {
-                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
-                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
-                parallelTransition.play();
-            } else if(heightDiffEnemy > 0) {
-                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
-                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
-                SequentialTransition sequentialTransition2 = new SequentialTransition(enemyVerticalTimeline, parallelTransition);
-                sequentialTransition2.play();
-            } else {
-                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
-                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
-                SequentialTransition sequentialTransition2 = new SequentialTransition( parallelTransition, enemyVerticalTimeline);
-                sequentialTransition2.play();
-            }
-
-        } else if(heightDiff > 0) {
-            if(heightDiffEnemy == 0) {
-                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
-                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
-                SequentialTransition sequentialTransition2 = new SequentialTransition(verticalTimeline, parallelTransition);
-                sequentialTransition2.play();
-            } else if(heightDiffEnemy > 0) {
-                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
-                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
-                ParallelTransition parallelTransition2 = new ParallelTransition(verticalTimeline, enemyVerticalTimeline);
-                SequentialTransition sequentialTransition2 = new SequentialTransition( parallelTransition, parallelTransition2);
-                sequentialTransition2.play();
-            } else {
-                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
-                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
-                SequentialTransition sequentialTransition2 = new SequentialTransition(verticalTimeline, parallelTransition, enemyVerticalTimeline);
-                sequentialTransition2.play();
-            }
-
-        } else {
-            if(heightDiffEnemy == 0) {
-                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
-                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
-                SequentialTransition sequentialTransition2 = new SequentialTransition(parallelTransition, verticalTimeline);
-                sequentialTransition2.play();
-            } else if(heightDiffEnemy > 0) {
-                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
-                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
-                SequentialTransition sequentialTransition2 = new SequentialTransition(enemyVerticalTimeline, parallelTransition, verticalTimeline);
-                sequentialTransition2.play();
-            } else {
-                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
-                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
-                ParallelTransition parallelTransition2 = new ParallelTransition(verticalTimeline, enemyVerticalTimeline);
-                SequentialTransition sequentialTransition2 = new SequentialTransition(parallelTransition, parallelTransition2);
-                sequentialTransition2.play();
-            }
-        }
-
- */
     }
 
 
