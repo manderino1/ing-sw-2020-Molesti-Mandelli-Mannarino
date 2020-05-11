@@ -6,11 +6,8 @@ import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.model.*;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
+import javafx.animation.*;
 
-import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.*;
@@ -34,6 +31,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+
+import static java.lang.Math.max;
 
 public class MatchController extends Controller {
     @FXML
@@ -74,10 +73,10 @@ public class MatchController extends Controller {
     private SubScene matchScene;
     private Group matchSceneGroup = new Group();
 
-    private int cameraDistance = 30;
+    private int cameraDistance = 35;
     private int cameraXAngle = 45;
     private Translate pivot = new Translate(0,0,cameraDistance);
-    private Rotate yRotate = new Rotate(0, Rotate.Y_AXIS);
+    private Rotate yRotate = new Rotate(15, Rotate.Y_AXIS);
     private double previousX;
 
     private static final double DELTA = 2.5, DELTAZ1 = 1.1, DELTAZ2 = 2.2, DELTAZ3 = 2.9;
@@ -106,9 +105,9 @@ public class MatchController extends Controller {
         matchSceneGroup.getChildren().add(map);
         matchSceneGroup.getChildren().add(walls);
         matchSceneGroup.getChildren().add(islands);
-        PointLight pointLight = new PointLight();
-        pointLight.getTransforms().addAll(new Translate(0,-50, 0));
-        matchSceneGroup.getChildren().add(pointLight);
+
+        AmbientLight ambientLight = new AmbientLight();
+        matchSceneGroup.getChildren().add(ambientLight);
 
         Camera camera= new PerspectiveCamera(true);
 
@@ -228,19 +227,19 @@ public class MatchController extends Controller {
                 throw new IllegalStateException("Unexpected value: " + mapCells[oldX][oldY].getBuilding());
         }
 
-        block.setTranslateY(-10);
+        block.setTranslateY(-20);
         block.setTranslateX(indexToCoordinateX(oldX));
         block.setTranslateZ(indexToCoordinateY(oldY));
         Platform.runLater(() -> matchSceneGroup.getChildren().add(block));
 
         timeline.setCycleCount(1);
         if(dome){
-            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                    new KeyValue (block.translateYProperty(), levelToCoordZ(mapCells[oldX][oldY].getBuilding()))));
+            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
+                    new KeyValue (block.translateYProperty(), levelToCoordZ(mapCells[oldX][oldY].getBuilding()),Interpolator.EASE_OUT)));
         }
         else{
-            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                    new KeyValue (block.translateYProperty(), 0)));
+            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
+                    new KeyValue (block.translateYProperty(), 0,Interpolator.EASE_OUT)));
         }
         timeline.play();
     }
@@ -248,7 +247,6 @@ public class MatchController extends Controller {
         final Timeline timeline = new Timeline();
         final Timeline verticalTimeline = new Timeline();
         Group workerSelected = null;
-
         int oldHeight = mapCells[oldWork.getX()][oldWork.getY()].getBuilding();
         int newHeight = mapCells[newWork.getX()][newWork.getY()].getBuilding();
         double heightDiff = indexToCoordinateZ(oldHeight, newHeight);
@@ -290,33 +288,315 @@ public class MatchController extends Controller {
 
         timeline.setCycleCount(1);
         assert workerSelected != null;
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()))));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()))));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()), Interpolator.EASE_OUT)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()), Interpolator.EASE_OUT)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                new KeyValue (workerSelected.translateYProperty(), -max(indexToCoordinateZ(0,oldHeight), indexToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new KeyValue (workerSelected.translateYProperty(), -indexToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
+
+        timeline.play();
+    }
+
+    public void apolloMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWork2){
+        final Timeline timeline = new Timeline();
+        final Timeline enemyTimeline = new Timeline();
+        final Timeline verticalTimeline = new Timeline();
+        final Timeline enemyVerticalTimeline = new Timeline();
+        Group workerSelected = null;
+        Group workerEnemy = null;
+
+        int oldHeight = mapCells[oldWork1.getX()][oldWork1.getY()].getBuilding();
+        int newHeight = mapCells[newWork1.getX()][newWork1.getY()].getBuilding();
+        double heightDiff = indexToCoordinateZ(oldHeight, newHeight);
+
+        switch (oldWork1.getPlayerColor()){
+            case BLUE:
+                switch(oldWork1.getID()){
+                    case 0:
+                        workerSelected = workList.get("WB1");
+                        break;
+                    case 1:
+                        workerSelected = workList.get("WB2");
+                        break;
+                }
+                break;
+
+            case RED:
+                switch(oldWork1.getID()){
+                    case 0:
+                        workerSelected = workList.get("WR1");
+                        break;
+                    case 1:
+                        workerSelected = workList.get("WR2");
+                        break;
+                }
+                break;
+
+            case GREEN:
+                switch(oldWork1.getID()){
+                    case 0:
+                        workerSelected = workList.get("WW1");
+                        break;
+                    case 1:
+                        workerSelected = workList.get("WW2");
+                        break;
+                }
+                break;
+        }
+
+        switch (oldWork2.getPlayerColor()){
+            case BLUE:
+                switch(oldWork2.getID()){
+                    case 0:
+                        workerEnemy = workList.get("WB1");
+                        break;
+                    case 1:
+                        workerEnemy = workList.get("WB2");
+                        break;
+                }
+                break;
+
+            case RED:
+                switch(oldWork2.getID()){
+                    case 0:
+                        workerEnemy = workList.get("WR1");
+                        break;
+                    case 1:
+                        workerEnemy = workList.get("WR2");
+                        break;
+                }
+                break;
+
+            case GREEN:
+                switch(oldWork2.getID()){
+                    case 0:
+                        workerEnemy = workList.get("WW1");
+                        break;
+                    case 1:
+                        workerEnemy = workList.get("WW2");
+                        break;
+                }
+                break;
+        }
+
+        timeline.setCycleCount(1);
+        assert workerSelected != null;
+        assert workerEnemy != null;
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
+                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork1.getX()))));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
+                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork1.getY()))));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
+                new KeyValue (workerEnemy.translateXProperty(), indexToCoordinateX(newWork2.getX()))));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
+                new KeyValue (workerEnemy.translateZProperty(), indexToCoordinateY(newWork2.getY()))));
 
         verticalTimeline.setCycleCount(1);
-        verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
+        verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
                 new KeyValue (workerSelected.translateYProperty(), levelToCoordZ(newHeight))));
+
+        enemyVerticalTimeline.setCycleCount(1);
+        enemyVerticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
+                new KeyValue (workerEnemy.translateYProperty(), levelToCoordZ(oldHeight))));
 
         if(heightDiff == 0) {
             timeline.play();
         } else if(heightDiff > 0) {
-            SequentialTransition sequentialTransition = new SequentialTransition(verticalTimeline, timeline);
+            SequentialTransition sequentialTransition = new SequentialTransition(verticalTimeline, timeline, enemyVerticalTimeline);
             sequentialTransition.play();
         } else {
-            SequentialTransition sequentialTransition = new SequentialTransition(timeline, verticalTimeline);
+            SequentialTransition sequentialTransition = new SequentialTransition(enemyVerticalTimeline, timeline, verticalTimeline);
             sequentialTransition.play();
         }
     }
 
-    public void apolloMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWorker2){
+    public void minotaurMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWork2){
+        final Timeline timeline = new Timeline();
+        final Timeline enemyTimeline = new Timeline();
+        final Timeline verticalTimeline = new Timeline();
+        final Timeline enemyVerticalTimeline = new Timeline();
+        final Timeline offsetTimeline = new Timeline();
+        Group workerSelected = null;
+        Group workerEnemy = null;
 
+        int oldHeight = mapCells[oldWork1.getX()][oldWork1.getY()].getBuilding();
+        int newHeight = mapCells[newWork1.getX()][newWork1.getY()].getBuilding();
+        double heightDiff = indexToCoordinateZ(oldHeight, newHeight);
+
+        int oldHeightEnemy = mapCells[oldWork2.getX()][oldWork2.getY()].getBuilding();
+        int newHeightEnemy = mapCells[newWork2.getX()][newWork2.getY()].getBuilding();
+        double heightDiffEnemy = indexToCoordinateZ(oldHeightEnemy, newHeightEnemy);
+
+        switch (oldWork1.getPlayerColor()){
+            case BLUE:
+                switch(oldWork1.getID()){
+                    case 0:
+                        workerSelected = workList.get("WB1");
+                        break;
+                    case 1:
+                        workerSelected = workList.get("WB2");
+                        break;
+                }
+                break;
+
+            case RED:
+                switch(oldWork1.getID()){
+                    case 0:
+                        workerSelected = workList.get("WR1");
+                        break;
+                    case 1:
+                        workerSelected = workList.get("WR2");
+                        break;
+                }
+                break;
+
+            case GREEN:
+                switch(oldWork1.getID()){
+                    case 0:
+                        workerSelected = workList.get("WW1");
+                        break;
+                    case 1:
+                        workerSelected = workList.get("WW2");
+                        break;
+                }
+                break;
+        }
+
+        switch (oldWork2.getPlayerColor()){
+            case BLUE:
+                switch(oldWork2.getID()){
+                    case 0:
+                        workerEnemy = workList.get("WB1");
+                        break;
+                    case 1:
+                        workerEnemy = workList.get("WB2");
+                        break;
+                }
+                break;
+
+            case RED:
+                switch(oldWork2.getID()){
+                    case 0:
+                        workerEnemy = workList.get("WR1");
+                        break;
+                    case 1:
+                        workerEnemy = workList.get("WR2");
+                        break;
+                }
+                break;
+
+            case GREEN:
+                switch(oldWork2.getID()){
+                    case 0:
+                        workerEnemy = workList.get("WW1");
+                        break;
+                    case 1:
+                        workerEnemy = workList.get("WW2");
+                        break;
+                }
+                break;
+        }
+
+        timeline.setCycleCount(1);
+        assert workerSelected != null;
+        assert workerEnemy != null;
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork1.getX()),Interpolator.EASE_OUT)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork1.getY()), Interpolator.EASE_OUT)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                new KeyValue (workerSelected.translateYProperty(), -max(indexToCoordinateZ(0,oldHeight), indexToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new KeyValue (workerSelected.translateYProperty(), -indexToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
+
+        enemyTimeline.setCycleCount(1);
+        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new KeyValue (workerEnemy.translateXProperty(), indexToCoordinateX(newWork2.getX()),Interpolator.EASE_OUT)));
+        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new KeyValue (workerEnemy.translateZProperty(), indexToCoordinateY(newWork2.getY()),Interpolator.EASE_OUT)));
+        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                new KeyValue (workerEnemy.translateYProperty(), -max(indexToCoordinateZ(0,oldHeightEnemy), indexToCoordinateZ(0,newHeightEnemy))-0.8, Interpolator.EASE_OUT)));
+        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new KeyValue (workerEnemy.translateYProperty(), -indexToCoordinateZ(0,newHeightEnemy), Interpolator.EASE_BOTH)));
+
+        offsetTimeline.setCycleCount(1);
+        offsetTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(oldWork1.getX()))));
+
+        SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
+        ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
+        parallelTransition.play();
+/*
+        verticalTimeline.setCycleCount(1);
+        verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new KeyValue (workerSelected.translateYProperty(), levelToCoordZ(newHeight))));
+
+        enemyVerticalTimeline.setCycleCount(1);
+        enemyVerticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new KeyValue (workerEnemy.translateYProperty(), levelToCoordZ(newHeightEnemy))));
+
+        if(heightDiff == 0) {
+            if(heightDiffEnemy == 0) {
+                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
+                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
+                parallelTransition.play();
+            } else if(heightDiffEnemy > 0) {
+                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
+                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
+                SequentialTransition sequentialTransition2 = new SequentialTransition(enemyVerticalTimeline, parallelTransition);
+                sequentialTransition2.play();
+            } else {
+                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
+                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
+                SequentialTransition sequentialTransition2 = new SequentialTransition( parallelTransition, enemyVerticalTimeline);
+                sequentialTransition2.play();
+            }
+
+        } else if(heightDiff > 0) {
+            if(heightDiffEnemy == 0) {
+                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
+                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
+                SequentialTransition sequentialTransition2 = new SequentialTransition(verticalTimeline, parallelTransition);
+                sequentialTransition2.play();
+            } else if(heightDiffEnemy > 0) {
+                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
+                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
+                ParallelTransition parallelTransition2 = new ParallelTransition(verticalTimeline, enemyVerticalTimeline);
+                SequentialTransition sequentialTransition2 = new SequentialTransition( parallelTransition, parallelTransition2);
+                sequentialTransition2.play();
+            } else {
+                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
+                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
+                SequentialTransition sequentialTransition2 = new SequentialTransition(verticalTimeline, parallelTransition, enemyVerticalTimeline);
+                sequentialTransition2.play();
+            }
+
+        } else {
+            if(heightDiffEnemy == 0) {
+                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
+                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
+                SequentialTransition sequentialTransition2 = new SequentialTransition(parallelTransition, verticalTimeline);
+                sequentialTransition2.play();
+            } else if(heightDiffEnemy > 0) {
+                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
+                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
+                SequentialTransition sequentialTransition2 = new SequentialTransition(enemyVerticalTimeline, parallelTransition, verticalTimeline);
+                sequentialTransition2.play();
+            } else {
+                SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);
+                ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
+                ParallelTransition parallelTransition2 = new ParallelTransition(verticalTimeline, enemyVerticalTimeline);
+                SequentialTransition sequentialTransition2 = new SequentialTransition(parallelTransition, parallelTransition2);
+                sequentialTransition2.play();
+            }
+        }
+
+ */
     }
 
-    public void minotaurMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWorker2){
-
-    }
 
     public void placeWorkerUpdate(Worker worker){
         Group workerGroup = null;
@@ -366,15 +646,15 @@ public class MatchController extends Controller {
         }
 
         assert workerGroup != null;
-        workerGroup.setTranslateY(-10);
+        workerGroup.setTranslateY(-20);
         workerGroup.setTranslateX(indexToCoordinateX(worker.getX()));
         workerGroup.setTranslateZ(indexToCoordinateY(worker.getY()));
         Group finalWorkerGroup = workerGroup;
         Platform.runLater(() -> matchSceneGroup.getChildren().add(finalWorkerGroup));
 
         timeline.setCycleCount(1);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(2000),
-                new KeyValue (workerGroup.translateYProperty(), 0)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
+                new KeyValue (workerGroup.translateYProperty(), 0, Interpolator.EASE_OUT)));
         timeline.play();
     }
 
@@ -734,7 +1014,7 @@ public class MatchController extends Controller {
                     divinity1.setCacheHint(CacheHint.SPEED);
                 });
             }
-            color1.setStyle("-fx-background-color: Red;");
+            color1.setStyle("-fx-background-color: #ff0000;");
         }
         if (playerData.getPlayOrder() == 1) {
             if (!playerData.getLost()) {
