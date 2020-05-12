@@ -801,16 +801,23 @@ public class MatchController extends Controller {
 
                 if(newIndexes[0] == newX && newIndexes[1] == newY && button1.getImage().getUrl().equals(getClass().getResource("/2DGraphics/GreenButton.png").toString())) { // Found the valid direction
                     socket.sendMessage(new AtlasBuildReceiver(direction, true));
+                    button1.setOnMousePressed(e2 -> { });
+                    matchScene.setOnMousePressed(e2 -> {
+                        matchScene.requestFocus();
+                        e2.consume();
+                    });
+                    Image image = new Image("/2DGraphics/RedButton.png");
+                    Platform.runLater(() -> button1.setImage(image));
                 } else if(newIndexes[0] == newX && newIndexes[1] == newY && button1.getImage().getUrl().equals(getClass().getResource("/2DGraphics/RedButton.png").toString())){
                     socket.sendMessage(new AtlasBuildReceiver(direction, false));
+                    button1.setOnMousePressed(e2 -> { });
+                    matchScene.setOnMousePressed(e2 -> {
+                        matchScene.requestFocus();
+                        e2.consume();
+                    });
+                    Image image = new Image("/2DGraphics/RedButton.png");
+                    Platform.runLater(() -> button1.setImage(image));
                 }
-                button1.setOnMousePressed(e2 -> { });
-                matchScene.setOnMousePressed(e2 -> {
-                    matchScene.requestFocus();
-                    e2.consume();
-                });
-                Image image = new Image("/2DGraphics/RedButton.png");
-                Platform.runLater(() -> button1.setImage(image));
             }
             e1.consume();
         });
@@ -840,7 +847,6 @@ public class MatchController extends Controller {
             int[] indexes1 = coordinateToIndex(e.getPickResult());
             if(indexes1[0] == -1 || indexes1[1] == -1) {
                 // Click is out of bound
-                Platform.runLater(() -> hintLabel.setText("Place the second worker"));
                 return;
             }
             Platform.runLater(() -> hintLabel.setText("Place the second worker"));
@@ -897,36 +903,37 @@ public class MatchController extends Controller {
 
                 if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
                     socket.sendMessage(new MoveReceiver(direction, singleMoveList.getWorkerID()));
+
+                    button1.setOnMousePressed(e2 -> { });
+                    matchScene.setOnMousePressed(e2 -> {
+                        matchScene.requestFocus();
+                        e2.consume();
+                    });
+                    Image image = new Image("/2DGraphics/RedButton.png");
+                    Platform.runLater(() -> button1.setImage(image));
                 }
-                button1.setOnMousePressed(e2 -> { });
-                matchScene.setOnMousePressed(e2 -> {
-                    matchScene.requestFocus();
-                    e2.consume();
-                });
-                Image image = new Image("/2DGraphics/RedButton.png");
-                Platform.runLater(() -> button1.setImage(image));
             }
             e1.consume();
         });
 
         if(singleMoveList.isOptional()) {
-            label1.setText("Skip Move");
+            Platform.runLater(() -> label1.setText("Skip Move"));
             Image image = new Image("/2DGraphics/GreenButton.png");
             Platform.runLater(() -> button1.setImage(image));
-            hintLabel.setText("Select move or skip");
+            Platform.runLater(() -> hintLabel.setText("Select move or skip"));
             button1.setOnMousePressed(e -> {
                 Image image2 = new Image("/2DGraphics/RedButton.png");
                 Platform.runLater(() -> button1.setImage(image2));
                 socket.sendMessage(new MoveReceiver(null, singleMoveList.getWorkerID()));
                 button1.setOnMousePressed(e2 -> { });
+                matchScene.setOnMousePressed(e2 -> {
+                    matchScene.requestFocus();
+                    e2.consume();
+                });
                 e.consume();
             });
-            matchScene.setOnMousePressed(e2 -> {
-                matchScene.requestFocus();
-                e2.consume();
-            });
         } else {
-            hintLabel.setText("Select move");
+            Platform.runLater(() -> hintLabel.setText("Select move"));
             button1.setOnMousePressed(e -> { });
         }
     }
