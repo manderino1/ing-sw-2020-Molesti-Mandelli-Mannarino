@@ -699,6 +699,7 @@ public class MatchController extends Controller {
                     });
                     Image image = new Image("/2DGraphics/RedButton.png");
                     Platform.runLater(() -> button1.setImage(image));
+                    Platform.runLater(() -> label1.setText(""));
                 }
             }
             e1.consume();
