@@ -739,7 +739,7 @@ public class MatchController extends Controller {
         matchScene.setOnMousePressed(e -> {
             matchScene.requestFocus();
             int[] indexes1 = coordinateToIndex(e.getPickResult());
-            if(indexes1[0] == -1 || indexes1[1] == -1) {
+            if(indexes1[0] == -1 || indexes1[1] == -1 || mapCells[indexes1[0]][indexes1[1]].getWorker() != null) {
                 // Click is out of bound
                 return;
             }
@@ -747,7 +747,7 @@ public class MatchController extends Controller {
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
                 int[] indexes2 = coordinateToIndex(e2.getPickResult());
-                if(indexes2[0] == -1 || indexes2[1] == -1 || (indexes2[0] == indexes1[0] && indexes2[1] == indexes1[1])) {
+                if(indexes2[0] == -1 || indexes2[1] == -1 || (indexes2[0] == indexes1[0] && indexes2[1] == indexes1[1]) || mapCells[indexes2[0]][indexes2[1]].getWorker() != null) {
                     // Click is out of bound or is the same position of the first worker
                     Platform.runLater(() -> hintLabel.setText("Place the second worker"));
                     return;
