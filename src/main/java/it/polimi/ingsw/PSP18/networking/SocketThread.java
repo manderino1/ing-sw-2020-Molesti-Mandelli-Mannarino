@@ -155,7 +155,7 @@ public class SocketThread extends Thread {
         switch(type) {
             case MOVE_RECEIVER:
                 MoveReceiver moveReceiver = gson.fromJson(jsonObj, MoveReceiver.class);
-                if(match.getCurrentSocket() != this) {
+                if(match.getCurrentSocket() == this) {
                     match.getCurrentPlayer().getDivinity().moveReceiver(moveReceiver.getDirection(), moveReceiver.getWorkerID());
                 } else {
                     try {
@@ -167,7 +167,7 @@ public class SocketThread extends Thread {
                 break;
             case BUILD_RECEIVER:
                 BuildReceiver buildReceiver = gson.fromJson(jsonObj, BuildReceiver.class);
-                if(match.getCurrentSocket() != this) {
+                if(match.getCurrentSocket() == this) {
                     match.getCurrentPlayer().getDivinity().buildReceiver(buildReceiver.getDirection());
                 } else {
                     try {
@@ -196,7 +196,7 @@ public class SocketThread extends Thread {
                 break;
             case ENDTURN_RECEIVER:
                 EndTurnReceiver endTurnReceiver = gson.fromJson(jsonObj, EndTurnReceiver.class);
-                if(match.getCurrentSocket() != this) {
+                if(match.getCurrentSocket() == this) {
                     match.getTurnManager().passTurn();
                 } else {
                     try {
@@ -212,19 +212,11 @@ public class SocketThread extends Thread {
                 break;
             case WORKER_RECEIVER:
                 WorkerReceiver workerReceiver = gson.fromJson(jsonObj, WorkerReceiver.class);
-                if(match.getCurrentSocket() != this) {
-                    match.workerPlacement(this, workerReceiver);
-                } else {
-                    try {
-                        throw new InvalidTurnException("Worker receiver");
-                    } catch (InvalidTurnException e) {
-                        e.printStackTrace();
-                    }
-                }
+                match.workerPlacement(this, workerReceiver);
                 break;
             case PROMETHEUS_BUILD_RECEIVER:
                 PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(jsonObj, PrometheusBuildReceiver.class);
-                if(match.getCurrentSocket() != this) {
+                if(match.getCurrentSocket() == this) {
                     if(match.getCurrentPlayer().getDivinity() instanceof Prometheus) {
                         ((Prometheus) match.getCurrentPlayer().getDivinity()).receiveWorker(prometheusBuildReceiver);
                     }
@@ -238,7 +230,7 @@ public class SocketThread extends Thread {
                 break;
             case ATLAS_BUILD_RECEIVER:
                 AtlasBuildReceiver atlasBuildReceiver = gson.fromJson(jsonObj, AtlasBuildReceiver.class);
-                if(match.getCurrentSocket() != this) {
+                if(match.getCurrentSocket() == this) {
                     if(match.getCurrentPlayer().getDivinity() instanceof Atlas) {
                         ((Atlas) match.getCurrentPlayer().getDivinity()).buildReceiver(atlasBuildReceiver.getDirection(), atlasBuildReceiver.isDome());
                     }
