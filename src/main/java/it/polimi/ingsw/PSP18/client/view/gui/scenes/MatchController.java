@@ -267,50 +267,18 @@ public class MatchController extends Controller {
         final Timeline timeline = new Timeline();
         final Timeline enemyTimeline = new Timeline();
         final Timeline offsetTimeline = new Timeline();
-        final Timeline verticalTimeline = new Timeline();
-        final Timeline enemyVerticalTimeline = new Timeline();
+
         Group workerSelected = pickWorker(oldWork1);
         Group workerEnemy = pickWorker(oldWork2);
 
+
         int oldHeight = mapCells[oldWork1.getX()][oldWork1.getY()].getBuilding();
         int newHeight = mapCells[newWork1.getX()][newWork1.getY()].getBuilding();
-        double heightDiff = indexToCoordinateZ(oldHeight, newHeight);
-/*
+
         timeline.setCycleCount(1);
         assert workerSelected != null;
         assert workerEnemy != null;
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork1.getX()))));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork1.getY()))));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(workerSelected)))
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateXProperty(), indexToCoordinateX(newWork2.getX()))));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateZProperty(), indexToCoordinateY(newWork2.getY()))));
 
-        upTimeline
-        verticalTimeline.setCycleCount(1);
-        verticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerSelected.translateYProperty(), levelToCoordZ(newHeight))));
-
-        enemyVerticalTimeline.setCycleCount(1);
-        enemyVerticalTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateYProperty(), levelToCoordZ(oldHeight))));
-
-        if(heightDiff == 0) {
-            timeline.play();
-        } else if(heightDiff > 0) {
-            SequentialTransition sequentialTransition = new SequentialTransition(verticalTimeline, timeline, enemyVerticalTimeline);
-            sequentialTransition.play();
-        } else {
-            SequentialTransition sequentialTransition = new SequentialTransition(enemyVerticalTimeline, timeline, verticalTimeline);
-            sequentialTransition.play();
-        }
-        */
-        timeline.setCycleCount(1);
-        assert workerSelected != null;
-        assert workerEnemy != null;
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
                 new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork1.getX()),Interpolator.EASE_OUT)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
@@ -319,6 +287,8 @@ public class MatchController extends Controller {
                 new KeyValue (workerSelected.translateYProperty(), -max(indexToCoordinateZ(0,oldHeight), indexToCoordinateZ(0,newHeight))-4, Interpolator.EASE_OUT)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
                 new KeyValue (workerSelected.translateYProperty(), -indexToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
+                new KeyValue (workerSelected.rotateProperty(), workerSelected.getRotate()-360, Interpolator.EASE_BOTH)));
 
         enemyTimeline.setCycleCount(1);
         enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
