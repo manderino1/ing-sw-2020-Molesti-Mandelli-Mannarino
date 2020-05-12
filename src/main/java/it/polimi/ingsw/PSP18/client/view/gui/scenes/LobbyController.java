@@ -2,14 +2,12 @@ package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PlayerDataReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.ReadyReceiver;
-import it.polimi.ingsw.PSP18.server.controller.divinities.Divinity;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -58,7 +56,7 @@ public class LobbyController extends Controller {
     }
 
     @FXML
-    private void readyButtonClicked(MouseEvent mouseEvent) {
+    private void readyButtonClicked() {
         if(!isReady && nickOK) {
             Image image = new Image("/2DGraphics/GreenButton.png");
             readyButton.setImage(image);
@@ -69,7 +67,7 @@ public class LobbyController extends Controller {
     }
 
     @FXML
-    private void confirmButtonClicked(MouseEvent mouseEvent) {
+    private void confirmButtonClicked() {
         if(!nickOK) {
             socket.sendMessage(new PlayerDataReceiver(nicknameBar.getText()));
             view.setName(nicknameBar.getText());

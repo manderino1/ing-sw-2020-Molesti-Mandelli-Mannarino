@@ -884,10 +884,50 @@ public class MatchController extends Controller {
         MoveList moveList = new MoveList(singleMoveList.getMoveList(), null, singleMoveList.getWorker(), null);
         showSingleMoveList(moveList, singleMoveList.getWorker().getX(), singleMoveList.getWorker().getY());
 
+        matchScene.setOnMousePressed(e1 -> {
+            matchScene.requestFocus();
+            int[] newIndexes = coordinateToIndex(e1.getPickResult());
+            if(newIndexes[0] == -1 || newIndexes[1] == -1) {
+                // Click is out of bound
+                return;
+            }
+            for(Direction direction : singleMoveList.getMoveList()) {
+                int newX = DirectionManagement.getX(singleMoveList.getWorker().getX(), direction);
+                int newY = DirectionManagement.getY(singleMoveList.getWorker().getY(), direction);
+
+                if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
+                    socket.sendMessage(new MoveReceiver(direction, singleMoveList.getWorkerID()));
+                }
+                button1.setOnMousePressed(e2 -> { });
+                matchScene.setOnMousePressed(e2 -> {
+                    matchScene.requestFocus();
+                    e2.consume();
+                });
+                Image image = new Image("/2DGraphics/RedButton.png");
+                Platform.runLater(() -> button1.setImage(image));
+            }
+            e1.consume();
+        });
+
         if(singleMoveList.isOptional()) {
-            // TODO: show toggle button that the move is optional to skip if not just wait for the move
+            label1.setText("Skip Move");
+            Image image = new Image("/2DGraphics/GreenButton.png");
+            Platform.runLater(() -> button1.setImage(image));
+            hintLabel.setText("Select move or skip");
+            button1.setOnMousePressed(e -> {
+                Image image2 = new Image("/2DGraphics/RedButton.png");
+                Platform.runLater(() -> button1.setImage(image2));
+                socket.sendMessage(new MoveReceiver(null, singleMoveList.getWorkerID()));
+                button1.setOnMousePressed(e2 -> { });
+                e.consume();
+            });
+            matchScene.setOnMousePressed(e2 -> {
+                matchScene.requestFocus();
+                e2.consume();
+            });
         } else {
-            // TODO: wait for the move
+            hintLabel.setText("Select move");
+            button1.setOnMousePressed(e -> { });
         }
     }
 
