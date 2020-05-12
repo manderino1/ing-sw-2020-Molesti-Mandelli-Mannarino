@@ -108,8 +108,6 @@ public class MatchController extends Controller {
         matchSceneGroup.getChildren().add(walls);
         matchSceneGroup.getChildren().add(islands);
 
-        matchSceneGroup.getChildren().add(planes);
-
         AmbientLight ambientLight = new AmbientLight();
         matchSceneGroup.getChildren().add(ambientLight);
 
@@ -609,7 +607,7 @@ public class MatchController extends Controller {
 
                     if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
                         socket.sendMessage(new MoveReceiver(direction, index));
-                        planes.getChildren().clear();
+                        clearColor();
                         matchScene.setOnMousePressed(e3 -> {
                             matchScene.requestFocus();
                             e3.consume();
@@ -834,6 +832,7 @@ public class MatchController extends Controller {
 
                 if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
                     socket.sendMessage(new MoveReceiver(direction, singleMoveList.getWorkerID()));
+                    clearColor();
 
                     button1.setOnMousePressed(e2 -> { });
                     matchScene.setOnMousePressed(e2 -> {
@@ -1001,10 +1000,16 @@ public class MatchController extends Controller {
         for(Point3D coordinate : coordinates) {
             Group plane = loadModel(getClass().getResource("/3DGraphics/moveIndicator.obj"));
             plane.setTranslateX(coordinate.getX());
-            plane.setTranslateY(coordinate.getY());
+            plane.setTranslateY(coordinate.getY()-0.1);
             plane.setTranslateZ(coordinate.getZ());
             planes.getChildren().add(plane);
         }
+        matchSceneGroup.getChildren().add(planes);
+    }
+
+    public void clearColor() {
+        planes.getChildren().clear();
+        matchSceneGroup.getChildren().remove(planes);
     }
 
     public static double indexToCoordinateX(int index){
