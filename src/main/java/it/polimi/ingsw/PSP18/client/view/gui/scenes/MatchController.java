@@ -10,6 +10,7 @@ import javafx.animation.*;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
@@ -72,6 +73,7 @@ public class MatchController extends Controller {
     @FXML
     private SubScene matchScene;
     private Group matchSceneGroup = new Group();
+    private Group planes = new Group();
 
     private int cameraDistance = 35;
     private int cameraXAngle = 45;
@@ -256,9 +258,9 @@ public class MatchController extends Controller {
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
                 new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()), Interpolator.EASE_OUT)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                new KeyValue (workerSelected.translateYProperty(), -max(indexToCoordinateZ(0,oldHeight), indexToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
+                new KeyValue (workerSelected.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerSelected.translateYProperty(), -indexToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
+                new KeyValue (workerSelected.translateYProperty(), -deltaToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
 
         timeline.play();
     }
@@ -284,9 +286,9 @@ public class MatchController extends Controller {
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
                 new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork1.getY()), Interpolator.EASE_OUT)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerSelected.translateYProperty(), -max(indexToCoordinateZ(0,oldHeight), indexToCoordinateZ(0,newHeight))-4, Interpolator.EASE_OUT)));
+                new KeyValue (workerSelected.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-4, Interpolator.EASE_OUT)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
-                new KeyValue (workerSelected.translateYProperty(), -indexToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
+                new KeyValue (workerSelected.translateYProperty(), -deltaToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
                 new KeyValue (workerSelected.rotateProperty(), workerSelected.getRotate()-360, Interpolator.EASE_BOTH)));
 
@@ -296,9 +298,9 @@ public class MatchController extends Controller {
         enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
                 new KeyValue (workerEnemy.translateZProperty(), indexToCoordinateY(newWork2.getY()),Interpolator.EASE_OUT)));
         enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                new KeyValue (workerEnemy.translateYProperty(), -max(indexToCoordinateZ(0,oldHeight), indexToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
+                new KeyValue (workerEnemy.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
         enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateYProperty(), -indexToCoordinateZ(0,oldHeight), Interpolator.EASE_BOTH)));
+                new KeyValue (workerEnemy.translateYProperty(), -deltaToCoordinateZ(0,oldHeight), Interpolator.EASE_BOTH)));
 
         offsetTimeline.setCycleCount(1);
         offsetTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
@@ -369,9 +371,9 @@ public class MatchController extends Controller {
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
                 new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork1.getY()), Interpolator.EASE_OUT)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                new KeyValue (workerSelected.translateYProperty(), -max(indexToCoordinateZ(0,oldHeight), indexToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
+                new KeyValue (workerSelected.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerSelected.translateYProperty(), -indexToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
+                new KeyValue (workerSelected.translateYProperty(), -deltaToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
 
         enemyTimeline.setCycleCount(1);
         enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
@@ -379,9 +381,9 @@ public class MatchController extends Controller {
         enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
                 new KeyValue (workerEnemy.translateZProperty(), indexToCoordinateY(newWork2.getY()),Interpolator.EASE_OUT)));
         enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                new KeyValue (workerEnemy.translateYProperty(), -max(indexToCoordinateZ(0,oldHeightEnemy), indexToCoordinateZ(0,newHeightEnemy))-0.8, Interpolator.EASE_OUT)));
+                new KeyValue (workerEnemy.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeightEnemy), deltaToCoordinateZ(0,newHeightEnemy))-0.8, Interpolator.EASE_OUT)));
         enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateYProperty(), -indexToCoordinateZ(0,newHeightEnemy), Interpolator.EASE_BOTH)));
+                new KeyValue (workerEnemy.translateYProperty(), -deltaToCoordinateZ(0,newHeightEnemy), Interpolator.EASE_BOTH)));
 
         offsetTimeline.setCycleCount(1);
         offsetTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
@@ -579,11 +581,14 @@ public class MatchController extends Controller {
                 return;
             }
             Worker worker;
+            ArrayList<Direction> moves;
             int index;
             if(indexes[0] == myWorker1.getX() && indexes[1] == myWorker1.getY()) {
+                moves = moveList.getMoveList1();
                 worker = moveList.getWorker1();
                 index = 0;
             } else if(indexes[0] == myWorker2.getX() && indexes[1] == myWorker2.getY()) {
+                moves = moveList.getMoveList2();
                 worker = moveList.getWorker2();
                 index = 1;
             } else {
@@ -599,12 +604,13 @@ public class MatchController extends Controller {
                     // Click is out of bound
                     return;
                 }
-                for(Direction direction : moveList.getMoveList1()) {
+                for(Direction direction : moves) {
                     int newX = DirectionManagement.getX(finalWorker.getX(), direction);
                     int newY = DirectionManagement.getY(finalWorker.getY(), direction);
 
                     if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
                         socket.sendMessage(new MoveReceiver(direction, index));
+                        clearColor();
                         matchScene.setOnMousePressed(e3 -> {
                             matchScene.requestFocus();
                             e3.consume();
@@ -619,21 +625,34 @@ public class MatchController extends Controller {
 
     // Show only one move list after the click
     private void showSingleMoveList(MoveList moveList, int x, int y) {
+        ArrayList<Point3D> coordinates = new ArrayList<>();
         if(moveList.getWorker1().getX() == x && moveList.getWorker1().getY() == y) {
             for (Direction dir : moveList.getMoveList1()) {
-                double newX = indexToCoordinateX(DirectionManagement.getX(moveList.getWorker1().getX(), dir));
-                double newY = indexToCoordinateY(DirectionManagement.getY(moveList.getWorker1().getY(), dir));
-                //TODO: Color the cells
+                int xIndex = DirectionManagement.getX(moveList.getWorker1().getX(), dir);
+                int yIndex = DirectionManagement.getY(moveList.getWorker1().getY(), dir);
+                if(xIndex != -1 && yIndex != -1) { // If not out of bounds
+                    double newX = indexToCoordinateX(xIndex);
+                    double newZ = indexToCoordinateY(yIndex);
+                    double newY = indexToCoordinateZ(mapCells[DirectionManagement.getX(moveList.getWorker1().getX(), dir)][DirectionManagement.getY(moveList.getWorker1().getY(), dir)].getBuilding());
+                    coordinates.add(new Point3D(newX, newY, newZ));
+                }
             }
         } else if(moveList.getWorker2().getX() == x && moveList.getWorker2().getY() == y) {
             for (Direction dir : moveList.getMoveList2()) {
-                double newX = indexToCoordinateX(DirectionManagement.getX(moveList.getWorker2().getX(), dir));
-                double newY = indexToCoordinateY(DirectionManagement.getY(moveList.getWorker2().getY(), dir));
-                //TODO: Color the cells
+                int xIndex = DirectionManagement.getX(moveList.getWorker2().getX(), dir);
+                int yIndex = DirectionManagement.getY(moveList.getWorker2().getY(), dir);
+                if(xIndex != -1 && yIndex != -1) { // If not out of bounds
+                    double newX = indexToCoordinateX(xIndex);
+                    double newZ = indexToCoordinateY(yIndex);
+                    double newY = indexToCoordinateZ(mapCells[DirectionManagement.getX(moveList.getWorker2().getX(), dir)][DirectionManagement.getY(moveList.getWorker2().getY(), dir)].getBuilding());
+                    coordinates.add(new Point3D(newX, newY, newZ));
+                }
             }
         } else {
             System.err.println("Click is not in a cell occupied by a worker");
+            return;
         }
+        moveColor(coordinates);
     }
 
     public void atlasBuild(AtlasBuildList buildList) {
@@ -680,6 +699,7 @@ public class MatchController extends Controller {
                     });
                     Image image = new Image("/2DGraphics/RedButton.png");
                     Platform.runLater(() -> button1.setImage(image));
+                    Platform.runLater(() -> label1.setText(""));
                 }
             }
             e1.consume();
@@ -816,6 +836,7 @@ public class MatchController extends Controller {
 
                 if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
                     socket.sendMessage(new MoveReceiver(direction, singleMoveList.getWorkerID()));
+                    clearColor();
 
                     button1.setOnMousePressed(e2 -> { });
                     matchScene.setOnMousePressed(e2 -> {
@@ -979,6 +1000,22 @@ public class MatchController extends Controller {
 
     }
 
+    public void moveColor(ArrayList<Point3D> coordinates) {
+        for(Point3D coordinate : coordinates) {
+            Group plane = loadModel(getClass().getResource("/3DGraphics/moveIndicator.obj"));
+            plane.setTranslateX(coordinate.getX());
+            plane.setTranslateY(coordinate.getY()-0.1);
+            plane.setTranslateZ(coordinate.getZ());
+            planes.getChildren().add(plane);
+        }
+        matchSceneGroup.getChildren().add(planes);
+    }
+
+    public void clearColor() {
+        planes.getChildren().clear();
+        matchSceneGroup.getChildren().remove(planes);
+    }
+
     public static double indexToCoordinateX(int index){
         return (index-2)*DELTA;
     }
@@ -987,7 +1024,21 @@ public class MatchController extends Controller {
         return (index-2)*DELTA*(-1);
     }
 
-    public static double indexToCoordinateZ(int oldLevel, int newLevel) {
+    public static double indexToCoordinateZ(int index){
+        switch (index) {
+            case 0:
+                return 0;
+            case 1:
+                return -DELTAZ1;
+            case 2:
+                return -DELTAZ2;
+            case 3:
+                return -DELTAZ3;
+        }
+        return -1;
+    }
+
+    public static double deltaToCoordinateZ(int oldLevel, int newLevel) {
         double oldHeight, newHeight;
         switch (oldLevel) {
             case 0:
