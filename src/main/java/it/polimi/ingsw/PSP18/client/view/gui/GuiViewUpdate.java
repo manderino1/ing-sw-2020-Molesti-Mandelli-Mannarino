@@ -9,6 +9,7 @@ import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class GuiViewUpdate extends ViewUpdate {
     private final int PORT = 9002;
     private InetAddress host;
     private String name;
+    private Popup popup = new Popup();
 
     private ArrayList<PlayerData> playerDataArrayList = new ArrayList<>();
 
@@ -143,7 +145,11 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void matchLostUpdate(MatchLost matchLost) {
-
+        Controller controller = new LostController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/LosePopUp.fxml"));
+        loader.setController(controller);
+        popup.show(stage);
+        controller.setView(this);
     }
 
     @Override
@@ -237,5 +243,9 @@ public class GuiViewUpdate extends ViewUpdate {
 
     public String getName() {
         return name;
+    }
+
+    public void hidePopUp() {
+        popup.hide();
     }
 }
