@@ -7,6 +7,7 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientPing;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Atlas;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Prometheus;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidTurnException;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
@@ -154,11 +155,27 @@ public class SocketThread extends Thread {
         switch(type) {
             case MOVE_RECEIVER:
                 MoveReceiver moveReceiver = gson.fromJson(jsonObj, MoveReceiver.class);
-                match.getCurrentPlayer().getDivinity().moveReceiver(moveReceiver.getDirection(), moveReceiver.getWorkerID());
+                if(match.getCurrentSocket() != this) {
+                    match.getCurrentPlayer().getDivinity().moveReceiver(moveReceiver.getDirection(), moveReceiver.getWorkerID());
+                } else {
+                    try {
+                        throw new InvalidTurnException("Move");
+                    } catch (InvalidTurnException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case BUILD_RECEIVER:
                 BuildReceiver buildReceiver = gson.fromJson(jsonObj, BuildReceiver.class);
-                match.getCurrentPlayer().getDivinity().buildReceiver(buildReceiver.getDirection());
+                if(match.getCurrentSocket() != this) {
+                    match.getCurrentPlayer().getDivinity().buildReceiver(buildReceiver.getDirection());
+                } else {
+                    try {
+                        throw new InvalidTurnException("Build");
+                    } catch (InvalidTurnException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case PLAYER_DATA_RECEIVER:
                 PlayerDataReceiver playerDataReceiver = gson.fromJson(jsonObj, PlayerDataReceiver.class);
@@ -179,7 +196,15 @@ public class SocketThread extends Thread {
                 break;
             case ENDTURN_RECEIVER:
                 EndTurnReceiver endTurnReceiver = gson.fromJson(jsonObj, EndTurnReceiver.class);
-                match.getTurnManager().passTurn();
+                if(match.getCurrentSocket() != this) {
+                    match.getTurnManager().passTurn();
+                } else {
+                    try {
+                        throw new InvalidTurnException("End Turn");
+                    } catch (InvalidTurnException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case READY_RECEIVER:
                 ReadyReceiver readyReceiver = gson.fromJson(jsonObj, ReadyReceiver.class);
@@ -187,18 +212,42 @@ public class SocketThread extends Thread {
                 break;
             case WORKER_RECEIVER:
                 WorkerReceiver workerReceiver = gson.fromJson(jsonObj, WorkerReceiver.class);
-                match.workerPlacement(this, workerReceiver);
+                if(match.getCurrentSocket() != this) {
+                    match.workerPlacement(this, workerReceiver);
+                } else {
+                    try {
+                        throw new InvalidTurnException("Worker receiver");
+                    } catch (InvalidTurnException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case PROMETHEUS_BUILD_RECEIVER:
                 PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(jsonObj, PrometheusBuildReceiver.class);
-                if(match.getCurrentPlayer().getDivinity() instanceof Prometheus) {
-                    ((Prometheus) match.getCurrentPlayer().getDivinity()).receiveWorker(prometheusBuildReceiver);
+                if(match.getCurrentSocket() != this) {
+                    if(match.getCurrentPlayer().getDivinity() instanceof Prometheus) {
+                        ((Prometheus) match.getCurrentPlayer().getDivinity()).receiveWorker(prometheusBuildReceiver);
+                    }
+                } else {
+                    try {
+                        throw new InvalidTurnException("Prometheus build");
+                    } catch (InvalidTurnException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case ATLAS_BUILD_RECEIVER:
                 AtlasBuildReceiver atlasBuildReceiver = gson.fromJson(jsonObj, AtlasBuildReceiver.class);
-                if(match.getCurrentPlayer().getDivinity() instanceof Atlas) {
-                    ((Atlas) match.getCurrentPlayer().getDivinity()).buildReceiver(atlasBuildReceiver.getDirection(), atlasBuildReceiver.isDome());
+                if(match.getCurrentSocket() != this) {
+                    if(match.getCurrentPlayer().getDivinity() instanceof Atlas) {
+                        ((Atlas) match.getCurrentPlayer().getDivinity()).buildReceiver(atlasBuildReceiver.getDirection(), atlasBuildReceiver.isDome());
+                    }
+                } else {
+                    try {
+                        throw new InvalidTurnException("Atlas build");
+                    } catch (InvalidTurnException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case DIVINITY_SELECTION:

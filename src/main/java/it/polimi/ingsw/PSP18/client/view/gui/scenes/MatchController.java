@@ -174,7 +174,6 @@ public class MatchController extends Controller {
         });
     }
 
-
     public Group loadModel(URL url) {
         Model3D model;
         try {
@@ -243,6 +242,7 @@ public class MatchController extends Controller {
         }
         timeline.play();
     }
+
     public void standardMoveUpdate(Worker oldWork, Worker newWork){
         final Timeline timeline = new Timeline();
         Group workerSelected = pickWorker(oldWork);
@@ -392,7 +392,6 @@ public class MatchController extends Controller {
         parallelTransition.play();
 
     }
-
 
     public void placeWorkerUpdate(Worker worker){
         Group workerGroup = null;
@@ -700,6 +699,7 @@ public class MatchController extends Controller {
                 matchScene.requestFocus();
                 e2.consume();
             });
+            button2.setOnMousePressed(e2 -> { });
             e.consume();
         });
     }
@@ -735,7 +735,7 @@ public class MatchController extends Controller {
     }
 
     public void prometheusBuildShow(PrometheusBuildList prometheusBuildList) {
-        for (Direction dir : prometheusBuildList.getBuildlist1()) {
+        /*for (Direction dir : prometheusBuildList.getBuildlist1()) {
             double newX = indexToCoordinateX(DirectionManagement.getX(prometheusBuildList.getWorker1().getX(), dir));
             double newY = indexToCoordinateY(DirectionManagement.getY(prometheusBuildList.getWorker1().getY(), dir));
             //TODO: Color the cells
@@ -745,9 +745,58 @@ public class MatchController extends Controller {
             double newX = indexToCoordinateX(DirectionManagement.getX(prometheusBuildList.getWorker2().getX(), dir));
             double newY = indexToCoordinateY(DirectionManagement.getY(prometheusBuildList.getWorker2().getY(), dir));
             //TODO: Color the cells
-        }
+        }*/
 
-        // TODO: show message that if he doesn't move up he can build both times
+        Platform.runLater(() -> hintLabel.setText("Move or Build?"));
+        Image image = new Image("/2DGraphics/GreenButton.png");
+        Platform.runLater(() -> label1.setText("Move"));
+        Platform.runLater(() -> button1.setImage(image));
+        Platform.runLater(() -> label2.setText("Build"));
+        Platform.runLater(() -> button2.setImage(image));
+
+        button1.setOnMousePressed(e -> {
+            socket.sendMessage(new PrometheusBuildReceiver(null));
+            Image image2 = new Image("/2DGraphics/RedButton.png");
+            Platform.runLater(() -> {label2.setText("End Turn");
+            label1.setText("");
+            button1.setImage(image2);
+            button2.setImage(image2);});
+            button1.setOnMousePressed(e2 -> { });
+            button2.setOnMousePressed(e2 -> { });
+            e.consume();
+        });
+
+        button2.setOnMousePressed(e -> {
+            button1.setOnMousePressed(e2 -> { });
+            button2.setOnMousePressed(e2 -> { });
+            Platform.runLater(() -> {
+                label1.setText("");
+                Image image3 = new Image("/2DGraphics/RedButton.png");
+                Platform.runLater(() -> button1.setImage(image3));
+            });
+            matchScene.requestFocus();
+            Platform.runLater(() -> hintLabel.setText("Choose the worker that has  to build!"));
+            myWorker1 = prometheusBuildList.getWorker1();
+            myWorker2 = prometheusBuildList.getWorker2();
+            matchScene.setOnMousePressed(e3 -> {
+                matchScene.requestFocus();
+                int[] indexes = coordinateToIndex(e3.getPickResult());
+                if(indexes[0] == -1 || indexes[1] == -1) {
+                    // Click is out of bound
+                    return;
+                }
+                if(indexes[0] == myWorker1.getX() && indexes[1] == myWorker1.getY()) {
+                    socket.sendMessage(new PrometheusBuildReceiver(0));
+                } else if(indexes[0] == myWorker2.getX() && indexes[1] == myWorker2.getY()) {
+                    socket.sendMessage(new PrometheusBuildReceiver(1));
+                } else {
+                    return;
+                }
+                Platform.runLater(() -> { label2.setText("End Turn"); });
+                e3.consume();
+            });
+            e.consume();
+        });
     }
 
     public void singleMoveUpdate(SingleMoveList singleMoveList) {
