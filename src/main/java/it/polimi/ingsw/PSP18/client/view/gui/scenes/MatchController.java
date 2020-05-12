@@ -581,11 +581,14 @@ public class MatchController extends Controller {
                 return;
             }
             Worker worker;
+            ArrayList<Direction> moves;
             int index;
             if(indexes[0] == myWorker1.getX() && indexes[1] == myWorker1.getY()) {
+                moves = moveList.getMoveList1();
                 worker = moveList.getWorker1();
                 index = 0;
             } else if(indexes[0] == myWorker2.getX() && indexes[1] == myWorker2.getY()) {
+                moves = moveList.getMoveList2();
                 worker = moveList.getWorker2();
                 index = 1;
             } else {
@@ -601,7 +604,7 @@ public class MatchController extends Controller {
                     // Click is out of bound
                     return;
                 }
-                for(Direction direction : moveList.getMoveList1()) {
+                for(Direction direction : moves) {
                     int newX = DirectionManagement.getX(finalWorker.getX(), direction);
                     int newY = DirectionManagement.getY(finalWorker.getY(), direction);
 
