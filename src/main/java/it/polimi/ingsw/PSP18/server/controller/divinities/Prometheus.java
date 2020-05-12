@@ -32,7 +32,7 @@ public class Prometheus extends Divinity{
         this.raiseForbidden = raiseForbidden;
         ArrayList<Direction> moves1 = checkBuildingMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY());
         ArrayList<Direction> moves2 = checkBuildingMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY());
-        playerManager.getMatch().getCurrentSocket().sendMessage(new PrometheusBuildList(moves1, moves2));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new PrometheusBuildList(moves1, moves2, playerManager.getWorker(0), playerManager.getWorker(1)));
     }
 
     /***
@@ -67,13 +67,13 @@ public class Prometheus extends Divinity{
         if(firstBuild) {
             firstBuild = false;
             if(workerID == 0) {
-                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker1, workerID, false));
+                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker1, workerID, false, playerManager.getWorker(workerID)));
             }
             if(workerID == 1) {
-                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker2, workerID, false));
+                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker2, workerID, false, playerManager.getWorker(workerID)));
             }
         } else {
-            playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
+            playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));
         }
     }
 
@@ -90,7 +90,7 @@ public class Prometheus extends Divinity{
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves, worker));
     }
 
     /***

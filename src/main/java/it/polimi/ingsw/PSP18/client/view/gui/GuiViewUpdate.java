@@ -4,7 +4,9 @@ import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -51,14 +53,27 @@ public class GuiViewUpdate extends ViewUpdate {
     /*
         From here we place the functions that are called when message of the selected types are read from socket
     */
+
+    /***
+     * If we currently are in the match scene, calls the moveUpdate function in MatchController
+     * @param gameMapUpdate contains the new map, the last diretction, the last x and y coordinate and a boolean that signals if the move is a build or a move
+     */
     @Override
     public void updateMap(GameMapUpdate gameMapUpdate) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).mapUpdate(gameMapUpdate);
+        } else {
+            switchScene("Match");
+            ((MatchController)controller).mapUpdate(gameMapUpdate);
+            ((MatchController)controller).updatePlayers(playerDataArrayList);
+        }
     }
 
     @Override
     public void moveUpdate(MoveList movelist) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).showMoveList(movelist);
+        }
     }
 
     @Override
@@ -89,6 +104,8 @@ public class GuiViewUpdate extends ViewUpdate {
             ((LobbyController)controller).updatePlayers(playerDataArrayList);
         } else if (controller.getPageID().equals("WaitingRoom")) {
             ((WaitingRoomController)controller).updatePlayers(playerDataArrayList);
+        } else if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).updatePlayers(playerDataArrayList);
         }
     }
 
@@ -120,7 +137,9 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void buildUpdate(BuildList buildList) {
-
+        if(controller.getPageID().equals("Match")) {
+            ((MatchController)controller).standardBuildList(buildList);
+        }
     }
 
     @Override
@@ -135,7 +154,9 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void startMatch(StartMatch startMatch) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).setMatchStarted(true);
+        }
     }
 
     @Override
@@ -145,32 +166,45 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void setWorker(PlaceReady placeReady) {
-
+        if (!controller.getPageID().equals("Match")) {
+            switchScene("Match");
+        }
+        ((MatchController)controller).placeWorkerInit();
     }
 
     @Override
     public void prometheusBuildListUpdate(PrometheusBuildList prometheusBuildList) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).prometheusBuildShow(prometheusBuildList);
+        }
     }
 
     @Override
     public void singleMoveUpdate(SingleMoveList singleMoveList) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).singleMoveUpdate(singleMoveList);
+        }
     }
 
     @Override
     public void buildListFlagUpdate(BuildListFlag buildListFlag) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).optionalBuildUpdate(buildListFlag);
+        }
     }
 
     @Override
     public void endTurn(EndTurnAvaiable endTurnAvaiable) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).showEndTurn();
+        }
     }
 
     @Override
     public void atlasBuildUpdate(AtlasBuildList atlasBuildList) {
-
+        if (controller.getPageID().equals("Match")) {
+            ((MatchController)controller).atlasBuild(atlasBuildList);
+        }
     }
 
     @Override
@@ -187,7 +221,7 @@ public class GuiViewUpdate extends ViewUpdate {
             controller = loader.getController();
             controller.setSocket(socket);
             controller.setView(this);
-            scene.setRoot(parent);
+            Platform.runLater(() -> scene.setRoot(parent));
         } catch (IOException e) {
             e.printStackTrace();
         }

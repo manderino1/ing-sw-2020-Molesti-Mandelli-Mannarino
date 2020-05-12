@@ -1,16 +1,13 @@
 package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
-import it.polimi.ingsw.PSP18.client.view.gui.GuiViewUpdate;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 public class LoginController extends Controller {

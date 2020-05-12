@@ -36,7 +36,7 @@ public class Hephaestus extends Divinity{
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves, worker));
 
         firstBuild = true;
     }
@@ -60,7 +60,7 @@ public class Hephaestus extends Divinity{
                 if(firstBuild) {
                     build();
                 } else {
-                    playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));
+                    playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));
                 }
                 return;
             }
@@ -83,7 +83,7 @@ public class Hephaestus extends Divinity{
             moves.add(direction);
             firstBuild = false;
 
-            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));
+            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves, worker));
         }
         else{
             firstBuild=true;

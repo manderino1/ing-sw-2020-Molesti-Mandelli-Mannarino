@@ -39,7 +39,7 @@ public class Match {
         socketPlayerMap = new HashMap<>();
         gameMap = new GameMap();
         matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
-        String[] divArray = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Ephaestus", "Minotaur", "Pan", "Prometheus"};
+        String[] divArray = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur", "Pan", "Prometheus"};
         divinities = new ArrayList<>(Arrays.asList(divArray));
     }
 
@@ -251,6 +251,9 @@ public class Match {
         // Sort players by order
         playerManagers.sort(Comparator.comparingInt(o -> o.getPlayerData().getPlayOrder()));
         matchStatus = MatchStatus.MATCH_STARTED;
+        for(SocketThread socket : sockets) {
+            socket.sendMessage(new StartMatch());
+        }
         // Search for Athena
         for (PlayerManager player : playerManagers) {
             if(player.getDivinityName().equals("Athena")) {

@@ -59,7 +59,8 @@ public class TestViewUpdate {
         list1.add(Direction.UP);
         ArrayList<Direction> list2 = new ArrayList<>();
         list2.add(Direction.DOWN);
-        MoveList moveList = new MoveList(list1, list2);
+        Worker worker1 = new Worker(0, 0, 0, Color.RED), worker2 = new Worker(0,0,0, Color.RED);
+        MoveList moveList = new MoveList(list1, list2, worker1, worker2);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("3\n1\ntest\n1\nUP\n".getBytes());
 
@@ -90,7 +91,8 @@ public class TestViewUpdate {
     public void testBuildUpdate() {
         ArrayList<Direction> list1 = new ArrayList<>();
         list1.add(Direction.UP);
-        BuildList buildList = new BuildList(list1);
+        Worker worker = new Worker(0, 0, 0, Color.RED);
+        BuildList buildList = new BuildList(list1, worker);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("3\n1\ntest\n1\nUP\n".getBytes());
 
@@ -239,19 +241,19 @@ public class TestViewUpdate {
         list2.add(Direction.DOWN);
 
         socketOutContent.reset();
-        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2));
+        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2, null, null));
         Gson gson = new Gson();
         PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(socketOutContent.toString(), PrometheusBuildReceiver.class);
         Assert.assertEquals(Integer.valueOf(0), prometheusBuildReceiver.getChosenWorkerID());
 
         socketOutContent.reset();
-        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2));
+        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2, null, null));
         gson = new Gson();
         prometheusBuildReceiver = gson.fromJson(socketOutContent.toString(), PrometheusBuildReceiver.class);
         Assert.assertEquals(Integer.valueOf(1), prometheusBuildReceiver.getChosenWorkerID());
 
         socketOutContent.reset();
-        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2));
+        cliViewUpdate.prometheusBuildListUpdate(new PrometheusBuildList(list1, list2, null, null));
         gson = new Gson();
         prometheusBuildReceiver = gson.fromJson(socketOutContent.toString(), PrometheusBuildReceiver.class);
         Assert.assertNull(prometheusBuildReceiver.getChosenWorkerID());
@@ -261,7 +263,8 @@ public class TestViewUpdate {
     public void testAtlasBuildUpdate() {
         ArrayList<Direction> list1 = new ArrayList<>();
         list1.add(Direction.UP);
-        AtlasBuildList atlasBuildList = new AtlasBuildList(list1);
+        Worker worker = new Worker(0, 0, 0, Color.RED);
+        AtlasBuildList atlasBuildList = new AtlasBuildList(list1, worker);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("3\n1\ntest\n1\nUP\nyes\nUP\nlol\nno".getBytes());
 
@@ -288,7 +291,7 @@ public class TestViewUpdate {
     public void testSingleMoveUpdate() {
         ArrayList<Direction> list1 = new ArrayList<>();
         list1.add(Direction.UP);
-        SingleMoveList singleMoveList = new SingleMoveList(list1, 0, true);
+        SingleMoveList singleMoveList = new SingleMoveList(list1, 0, true, null);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("als\nYes\nasd\nUP\nno\n".getBytes());
 
@@ -303,7 +306,7 @@ public class TestViewUpdate {
         Assert.assertEquals(Direction.UP, moveReceiver.getDirection());
 
         socketOutContent.reset();
-        singleMoveList = new SingleMoveList(list1, 1, true);
+        singleMoveList = new SingleMoveList(list1, 1, true, null);
         cliViewUpdate.singleMoveUpdate(singleMoveList);
         gson = new Gson();
         moveReceiver = gson.fromJson(socketOutContent.toString(), MoveReceiver.class);
@@ -315,7 +318,7 @@ public class TestViewUpdate {
         ArrayList<Direction> list1 = new ArrayList<>();
         list1.add(Direction.UP);
         list1.add(Direction.DOWN);
-        BuildListFlag buildListFlag = new BuildListFlag(list1);
+        BuildListFlag buildListFlag = new BuildListFlag(list1, null);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("als\nNo\nUP\n".getBytes());
 
@@ -341,7 +344,7 @@ public class TestViewUpdate {
     public void testBuildListFlagUpdate2() {
         ArrayList<Direction> list1 = new ArrayList<>();
         list1.add(Direction.UP);
-        BuildListFlag buildListFlag = new BuildListFlag(list1);
+        BuildListFlag buildListFlag = new BuildListFlag(list1, null);
 
         ByteArrayInputStream testIn = new ByteArrayInputStream("als\nNo\nYes\n".getBytes());
 
@@ -488,7 +491,7 @@ public class TestViewUpdate {
         cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
         Assert.assertEquals("\u001B[31mNickname: test\r\n" +
                 "Play order: 0\r\n" +
-                "Divinity: Apollo\r\n" +
+                "Divinity: null\r\n" +
                 "\u001B[0m\r\n" +
                 "\u001B[32mNickname: a\r\n" +
                 "Play order: 0\r\n" +

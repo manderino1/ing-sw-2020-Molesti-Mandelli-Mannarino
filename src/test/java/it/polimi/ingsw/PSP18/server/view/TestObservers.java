@@ -1,5 +1,9 @@
 package it.polimi.ingsw.PSP18.server.view;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.controller.Match;
@@ -53,9 +57,16 @@ public class TestObservers {
         socketThread.start();
         MapObserver mapObserver = new MapObserver(socketThread);
 
+        socketOutContent.reset();
         map.attach(mapObserver);
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"gameMap\":[[{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false}],[{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false}],[{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false}],[{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false}],[{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false},{\"building\":0,\"dome\":false}]],\"type\":\"GAME_MAP_UPDATE\"}\r\n", socketOutContent.toString());
+        Gson gson = new Gson();
+        GameMapUpdate gameMapUpdate = gson.fromJson(socketOutContent.toString(), GameMapUpdate.class);
+        for(int i=0; i<5; i++) {
+            for(int j=0; j<5; j++) {
+                Assert.assertEquals(map.getMapCells()[i][j].getBuilding(), gameMapUpdate.getGameMap()[i][j].getBuilding());
+                Assert.assertEquals(map.getMapCells()[i][j].getWorker(), gameMapUpdate.getGameMap()[i][j].getWorker());
+            }
+        }
         map.detach(mapObserver);
     }
 
@@ -70,9 +81,15 @@ public class TestObservers {
         socketThread.start();
         PlayerDataObserver playerObserver = new PlayerDataObserver(socketThread);
 
+        socketOutContent.reset();
         playerData.attach(playerObserver);
-        Assert.assertEquals("{\"type\":\"WAITING_NICK\"}\r\n" +
-                "{\"playerID\":\"Test Player\",\"playerColor\":\"BLUE\",\"playOrder\":0,\"type\":\"PLAYER_DATA_UPDATE\"}\r\n", socketOutContent.toString());
+        Gson gson = new Gson();
+        PlayerDataUpdate playerDataUpdate = gson.fromJson(socketOutContent.toString(), PlayerDataUpdate.class);
+        Assert.assertEquals(playerDataUpdate.getDivinity(), playerData.getDivinity());
+        Assert.assertEquals(playerDataUpdate.getPlayerID(), playerData.getPlayerID());
+        Assert.assertEquals(playerDataUpdate.getPlayerColor(), playerData.getPlayerColor());
+        Assert.assertEquals(playerDataUpdate.getPlayOrder(), playerData.getPlayOrder());
+        Assert.assertEquals(playerDataUpdate.getReady(), playerData.getReady());
         playerData.detach(playerObserver);
     }
 }
