@@ -42,12 +42,12 @@
                         <Image url="@../2DGraphics/bg_panelMid.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="85.0" fitWidth="732.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <ImageView fitHeight="85.0" fitWidth="1085.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                      <image>
-                        <Image url="@../2DGraphics/om_btnGlow.png" />
+                        <Image url="@../2DGraphics/bottom_bar.jpg" />
                      </image>
                   </ImageView>
-                  <Label fx:id="hintLabel" alignment="CENTER" prefHeight="53.0" prefWidth="589.0" text="Wait your turn" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <Label fx:id="hintLabel" alignment="CENTER" prefHeight="53.0" prefWidth="589.0" text="Wait your turn" translateY="11.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                      <font>
                         <Font size="36.0" />
                      </font>

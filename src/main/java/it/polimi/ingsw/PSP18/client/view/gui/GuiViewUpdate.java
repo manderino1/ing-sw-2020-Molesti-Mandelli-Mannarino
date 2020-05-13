@@ -148,9 +148,24 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void matchLostUpdate(MatchLost matchLost) {
+        for(PlayerData playerData : playerDataArrayList){
+            if (matchLost.getMatchLost().equals(playerData.getPlayerID())) {
+                playerData.setLost();
+                updatePlayerData(null);
+            }
+        }
+
         if(matchLost.isMe()) {
             Platform.runLater(() -> {
+                ((MatchController)controller).setLabelOnLost();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/LosePopUp.fxml"));
+
+                int counter = 0;
+                for(PlayerData playerData : playerDataArrayList){
+                    if(playerData.getLost()){
+                        counter++;
+                    }
+                }
                 try {
                     popup.getContent().add(loader.load());
                 } catch (IOException e) {
@@ -159,14 +174,10 @@ public class GuiViewUpdate extends ViewUpdate {
                 Controller controller = loader.getController();
                 controller.setView(this);
                 popup.show(stage);
+                if(counter == 1){
+                    ((PopupController)controller).setSpectate();
+                }
             });
-        }
-
-        for (PlayerData playerData : playerDataArrayList) {
-            if (matchLost.getMatchLost().equals(playerData.getPlayerID())) {
-                playerData.setLost();
-                updatePlayerData(null);
-            }
         }
     }
 

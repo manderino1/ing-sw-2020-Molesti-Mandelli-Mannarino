@@ -1237,6 +1237,13 @@ public class MatchController extends Controller {
         Platform.runLater(() -> matchSceneGroup.getChildren().remove(planes));
     }
 
+    public void setLabelOnLost(){
+        Platform.runLater(() -> {
+            hintLabel.setText("You have lost!");
+            label2.setText("");
+        });
+    }
+
     private static double indexToCoordinateX(int index){
         return (index-2)*DELTA;
     }
