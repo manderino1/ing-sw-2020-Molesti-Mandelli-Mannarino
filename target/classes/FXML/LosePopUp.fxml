@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="716.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.PopupController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="716.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.PopupController">
    <children>
       <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="-20.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -58,7 +58,7 @@
             <Font name="System Italic" size="51.0" />
          </font>
       </Label>
-      <Label layoutX="256.0" layoutY="401.0" mouseTransparent="true" pickOnBounds="false" text="PLAY AGAIN" textFill="WHITE">
+      <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="256.0" layoutY="401.0" mouseTransparent="true" pickOnBounds="false" prefHeight="54.0" prefWidth="205.0" text="PLAY AGAIN" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Italic" size="37.0" />
          </font>
