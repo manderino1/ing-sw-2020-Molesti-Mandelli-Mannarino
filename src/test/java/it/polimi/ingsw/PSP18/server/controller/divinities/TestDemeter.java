@@ -1,7 +1,6 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import com.google.gson.Gson;
-import com.sun.jdi.IntegerValue;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientAbstractMessage;

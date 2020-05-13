@@ -24,7 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
-import org.fxyz3d.importers.Importer3D;
+import it.polimi.ingsw.PSP18.client.view.gui.scenes.utils.Importer3D;
 import org.fxyz3d.importers.Model3D;
 
 import java.io.IOException;
@@ -98,8 +98,8 @@ public class MatchController extends Controller {
 
         //import models
         Group map = loadModel(getClass().getResource("/3DGraphics/mappa.obj"));
-        Group cliff = loadModel(getClass().getResource("/3DGraphics/cliff.obj"));
-        Group sea = loadModel(getClass().getResource("/3DGraphics/sea.obj"));
+        Group cliff = loadModel(getClass().getResource("/3DGraphics/Cliff.obj"));
+        Group sea = loadModel(getClass().getResource("/3DGraphics/Sea.obj"));
         Group walls = loadModel(getClass().getResource("/3DGraphics/mura.obj"));
         Group islands = loadModel(getClass().getResource("/3DGraphics/isole.obj"));
 
