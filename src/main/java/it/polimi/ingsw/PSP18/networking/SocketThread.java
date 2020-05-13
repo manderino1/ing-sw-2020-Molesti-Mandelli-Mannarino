@@ -112,7 +112,7 @@ public class SocketThread extends Thread {
                     messageParse(line);
                 }
             } catch (SocketException | SocketTimeoutException e) {
-                match.endMatch();
+                match.endMatch(null);
                 System.out.println("Socket disconnected");
                 return;
             } catch (IOException e) {

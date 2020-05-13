@@ -6,14 +6,16 @@ package it.polimi.ingsw.PSP18.networking.messages.toclient;
 public class MatchWon extends ClientAbstractMessage{
 
     private String playerID;
+    private boolean me;
 
     /***
      * Init the type and the ID of the player that has won
      * @param playerID The player ID
      */
-    public MatchWon(String playerID){
+    public MatchWon(String playerID, boolean me){
         this.type=ClientMessageType.MATCH_WON;
         this.playerID=playerID;
+        this.me = me;
     }
 
     /***
@@ -22,5 +24,13 @@ public class MatchWon extends ClientAbstractMessage{
      */
     public String getMatchWon() {
         return playerID;
+    }
+
+    /***
+     * True if i'm the one that has lost
+     * @return true if is me
+     */
+    public boolean isMe() {
+        return me;
     }
 }

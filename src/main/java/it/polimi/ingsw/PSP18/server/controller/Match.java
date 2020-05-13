@@ -269,7 +269,17 @@ public class Match {
         return playerSocketMap.get(currentPlayer);
     }
 
-    public void endMatch() {
+    public void endMatch(PlayerManager winner) {
+        if(winner != null) {
+            playerSocketMap.get(winner).sendMessage(new MatchWon(winner.getPlayerData().getPlayerID(), true));
+            for(SocketThread socket : sockets) {
+                if(socketPlayerMap.get(socket) != null) {
+                    if(socketPlayerMap.get(socket) != winner) {
+                        playerSocketMap.get(winner).sendMessage(new MatchLost(winner.getPlayerData().getPlayerID(), true));
+                    }
+                }
+            }
+        }
         matchStatus = MatchStatus.MATCH_ENDED;
         // Detach observers from map
         for(SocketThread sock : sockets) {

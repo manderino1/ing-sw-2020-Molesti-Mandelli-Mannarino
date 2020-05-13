@@ -1,10 +1,12 @@
 package it.polimi.ingsw.PSP18.client.view.gui;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
+import it.polimi.ingsw.PSP18.client.view.cli.CliColor;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.Match;
+import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -146,27 +148,42 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void matchLostUpdate(MatchLost matchLost) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/LosePopUp.fxml"));
-        try {
-            popup.getContent().add(loader.load());
-            Controller controller = loader.getController();
-            controller.setView(this);
-            Platform.runLater(() -> popup.show(stage));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(matchLost.isMe()) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/LosePopUp.fxml"));
+            Platform.runLater(() -> {
+                try {
+                    popup.getContent().add(loader.load());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Controller controller = loader.getController();
+                controller.setView(this);
+                popup.show(stage);
+            });
+        } else {
+            for (PlayerData playerData : playerDataArrayList) {
+                if (matchLost.getMatchLost().equals(playerData.getPlayerID())) {
+                    playerData.setLost();
+                    updatePlayerData(null);
+                }
+            }
         }
     }
 
     @Override
     public void matchWonUpdate(MatchWon matchWon) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/WinPopUp.fxml"));
-        try {
-            popup.getContent().add(loader.load());
-            Controller controller = loader.getController();
-            controller.setView(this);
-            Platform.runLater(() -> popup.show(stage));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(matchWon.isMe()) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/WinPopUp.fxml"));
+            Platform.runLater(() -> {
+                try {
+                    popup.getContent().add(loader.load());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Controller controller = loader.getController();
+                controller.setView(this);
+                popup.show(stage);
+            });
         }
     }
 

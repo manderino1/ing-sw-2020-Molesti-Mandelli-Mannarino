@@ -455,6 +455,54 @@ public class MatchController extends Controller {
         timeline.play();
     }
 
+    public void removeWorker(Worker worker) {
+        Group workerGroup = null;
+
+        switch (worker.getPlayerColor()) {
+            case BLUE:
+                switch(worker.getID()){
+                    case 0:
+                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerBlue.obj"));
+                        workList.put("WB1", workerGroup);
+                        break;
+                    case 1:
+                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerBlue.obj"));
+                        workList.put("WB2", workerGroup);
+                        break;
+                }
+                break;
+
+            case RED:
+                switch(worker.getID()){
+                    case 0:
+                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerRed.obj"));
+                        workList.put("WR1", workerGroup);
+                        break;
+                    case 1:
+                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerRed.obj"));
+                        workList.put("WR2", workerGroup);
+                        break;
+                }
+                break;
+
+            case GREEN:
+                switch(worker.getID()){
+                    case 0:
+                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerWhite.obj"));
+                        workList.put("WW1", workerGroup);
+                        break;
+                    case 1:
+                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerWhite.obj"));
+                        workList.put("WW2", workerGroup);
+                        break;
+                }
+                break;
+        }
+
+        Group finalWorkerGroup = workerGroup;
+        Platform.runLater(() -> matchSceneGroup.getChildren().remove(finalWorkerGroup));
+    }
+
     /***
      * Method used to determine if the current move is one between:
      * placeWorker : placing the worker in the initial phase of the game
@@ -495,6 +543,10 @@ public class MatchController extends Controller {
                 if(!followMessage){
                     //Apollo and Minotaur 1
                     newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    if(newWorker1 == null) { // Remove the worker from the board
+                        removeWorker(oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker());
+                        return;
+                    }
                     newWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
                     oldWorker2 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
                     oldWorker2.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());

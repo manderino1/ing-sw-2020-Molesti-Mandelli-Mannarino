@@ -146,7 +146,7 @@ public class TestMatch {
 
         Assert.assertEquals(MatchStatus.MATCH_STARTED, match.getMatchStatus());
 
-        match.endMatch();
+        match.endMatch(null);
         Assert.assertEquals(MatchStatus.MATCH_ENDED, match.getMatchStatus());
     }
 }

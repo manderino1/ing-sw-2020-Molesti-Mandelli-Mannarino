@@ -182,9 +182,9 @@ public class TestViewUpdate {
         playerData.setDivinity("Apollo");
         cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
 
-        cliViewUpdate.matchLostUpdate(new MatchLost("test1"));
-        cliViewUpdate.matchLostUpdate(new MatchLost("test2"));
-        cliViewUpdate.matchLostUpdate(new MatchLost("test3"));
+        cliViewUpdate.matchLostUpdate(new MatchLost("test1", true));
+        cliViewUpdate.matchLostUpdate(new MatchLost("test2", true));
+        cliViewUpdate.matchLostUpdate(new MatchLost("test3", true));
     }
 
     @Test
@@ -209,9 +209,9 @@ public class TestViewUpdate {
         playerData.setDivinity("Apollo");
         cliViewUpdate.updatePlayerData(new PlayerDataUpdate(playerData));
 
-        cliViewUpdate.matchWonUpdate(new MatchWon("test1"));
-        cliViewUpdate.matchWonUpdate(new MatchWon("test2"));
-        cliViewUpdate.matchWonUpdate(new MatchWon("test3"));
+        cliViewUpdate.matchWonUpdate(new MatchWon("test1", true));
+        cliViewUpdate.matchWonUpdate(new MatchWon("test2", true));
+        cliViewUpdate.matchWonUpdate(new MatchWon("test3", true));
     }
 
     @Test

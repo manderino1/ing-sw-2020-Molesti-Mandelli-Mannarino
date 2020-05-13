@@ -92,10 +92,7 @@ public class Divinity {
         setMove(worker.getX(), worker.getY(), direction);
 
         if(checkForVictory(workerID)){
-            for(SocketThread socket : playerManager.getMatch().getSockets()) {
-                socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));
-            }
-            playerManager.getMatch().endMatch();
+            playerManager.getMatch().endMatch(playerManager);
             return;
         }
 
@@ -260,8 +257,13 @@ public class Divinity {
      */
     protected void manageLoss() {
         for(SocketThread socket : playerManager.getMatch().getSockets()) {
-            socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));
+            if(socket == playerManager.getMatch().getCurrentSocket()) {
+                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID(), true));
+            } else {
+                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID(), false));
+            }
         }
+
 
         playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());
 
@@ -273,9 +275,7 @@ public class Divinity {
         playerManager.getGameMap().setCell(x2, y2, playerManager.getGameMap().getCell( x2, y2).getBuilding(), null);
 
         if(playerManager.getMatch().getPlayerManagers().size() == 1) {
-            for(SocketThread socket : playerManager.getMatch().getSockets()) {
-                socket.sendMessage(new MatchWon(playerManager.getMatch().getPlayerManagers().get(0).getPlayerData().getPlayerID()));
-            }
+            playerManager.getMatch().endMatch(playerManager.getMatch().getPlayerManagers().get(0));
         }
         if(playerManager.getMatch().getTurnManager() != null) {
             playerManager.getMatch().getTurnManager().passTurn();
