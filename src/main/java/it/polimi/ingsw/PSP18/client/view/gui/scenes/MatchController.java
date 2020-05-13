@@ -534,11 +534,18 @@ public class MatchController extends Controller {
     }
 
     public void showBuildList(BuildList buildList) {
+        ArrayList<Point3D> coordinates = new ArrayList<>();
         for (Direction dir : buildList.getBuildlist()) {
-            double newX = indexToCoordinateX(DirectionManagement.getX(buildList.getWorker().getX(), dir));
-            double newY = indexToCoordinateY(DirectionManagement.getY(buildList.getWorker().getY(), dir));
-            //TODO: Color the cells
+            int xIndex = DirectionManagement.getX(buildList.getWorker().getX(), dir);
+            int yIndex = DirectionManagement.getY(buildList.getWorker().getY(), dir);
+            if(xIndex != -1 && yIndex != -1) { // If not out of bounds
+                double newX = indexToCoordinateX(xIndex);
+                double newZ = indexToCoordinateY(yIndex);
+                double newY = indexToCoordinateZ(mapCells[DirectionManagement.getX(buildList.getWorker().getX(), dir)][DirectionManagement.getY(buildList.getWorker().getY(), dir)].getBuilding());
+                coordinates.add(new Point3D(newX, newY, newZ));
+            }
         }
+        buildColor(coordinates);
     }
 
     public void standardBuildList(BuildList buildList) {
@@ -557,6 +564,7 @@ public class MatchController extends Controller {
 
                 if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
                     socket.sendMessage(new BuildReceiver(direction));
+                    clearColor();
                     matchScene.setOnMousePressed(e2 -> {
                         matchScene.requestFocus();
                         e2.consume();
@@ -573,6 +581,11 @@ public class MatchController extends Controller {
         myWorker2 = moveList.getWorker2();
         Platform.runLater(() -> hintLabel.setText("Click on a worker"));
 
+        ArrayList<Point3D> wCoordinates = new ArrayList<>();
+        wCoordinates.add(new Point3D(indexToCoordinateX(myWorker1.getX()), indexToCoordinateZ(mapCells[myWorker1.getX()][myWorker1.getY()].getBuilding()), indexToCoordinateY(myWorker1.getY())));
+        wCoordinates.add(new Point3D(indexToCoordinateX(myWorker2.getX()), indexToCoordinateZ(mapCells[myWorker2.getX()][myWorker2.getY()].getBuilding()), indexToCoordinateY(myWorker2.getY())));
+        workerColor(wCoordinates);
+
         matchScene.setOnMousePressed(e -> {
             matchScene.requestFocus();
             int[] indexes = coordinateToIndex(e.getPickResult());
@@ -584,10 +597,12 @@ public class MatchController extends Controller {
             ArrayList<Direction> moves;
             int index;
             if(indexes[0] == myWorker1.getX() && indexes[1] == myWorker1.getY()) {
+                clearColor();
                 moves = moveList.getMoveList1();
                 worker = moveList.getWorker1();
                 index = 0;
             } else if(indexes[0] == myWorker2.getX() && indexes[1] == myWorker2.getY()) {
+                clearColor();
                 moves = moveList.getMoveList2();
                 worker = moveList.getWorker2();
                 index = 1;
@@ -684,6 +699,7 @@ public class MatchController extends Controller {
                 if(newIndexes[0] == newX && newIndexes[1] == newY && button1.getImage().getUrl().equals(getClass().getResource("/2DGraphics/GreenButton.png").toString())) { // Found the valid direction
                     socket.sendMessage(new AtlasBuildReceiver(direction, true));
                     button1.setOnMousePressed(e2 -> { });
+                    clearColor();
                     matchScene.setOnMousePressed(e2 -> {
                         matchScene.requestFocus();
                         e2.consume();
@@ -693,6 +709,7 @@ public class MatchController extends Controller {
                 } else if(newIndexes[0] == newX && newIndexes[1] == newY && button1.getImage().getUrl().equals(getClass().getResource("/2DGraphics/RedButton.png").toString())){
                     socket.sendMessage(new AtlasBuildReceiver(direction, false));
                     button1.setOnMousePressed(e2 -> { });
+                    clearColor();
                     matchScene.setOnMousePressed(e2 -> {
                         matchScene.requestFocus();
                         e2.consume();
@@ -733,6 +750,12 @@ public class MatchController extends Controller {
                 // Click is out of bound
                 return;
             }
+            ArrayList<Point3D> coordinates = new ArrayList<>();
+            double newX = indexToCoordinateX(indexes1[0]);
+            double newZ = indexToCoordinateY(indexes1[1]);
+            double newY = indexToCoordinateZ(mapCells[indexes1[0]][indexes1[1]].getBuilding());
+            coordinates.add(new Point3D(newX, newY, newZ));
+            workerColor(coordinates);
             Platform.runLater(() -> hintLabel.setText("Place the second worker"));
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
@@ -744,6 +767,7 @@ public class MatchController extends Controller {
                 }
                 Platform.runLater(() -> hintLabel.setText("Wait your turn"));
                 socket.sendMessage(new WorkerReceiver(indexes1[0], indexes1[1], indexes2[0], indexes2[1]));
+                clearColor();
                 matchScene.setOnMousePressed(e3 -> {
                     matchScene.requestFocus();
                     e3.consume();
@@ -755,17 +779,28 @@ public class MatchController extends Controller {
     }
 
     public void prometheusBuildShow(PrometheusBuildList prometheusBuildList) {
-        /*for (Direction dir : prometheusBuildList.getBuildlist1()) {
-            double newX = indexToCoordinateX(DirectionManagement.getX(prometheusBuildList.getWorker1().getX(), dir));
-            double newY = indexToCoordinateY(DirectionManagement.getY(prometheusBuildList.getWorker1().getY(), dir));
-            //TODO: Color the cells
+        ArrayList<Point3D> coordinates = new ArrayList<>();
+        for (Direction dir : prometheusBuildList.getBuildlist1()) {
+            int xIndex = DirectionManagement.getX(prometheusBuildList.getWorker1().getX(), dir);
+            int yIndex = DirectionManagement.getY(prometheusBuildList.getWorker1().getY(), dir);
+            if(xIndex != -1 && yIndex != -1) { // If not out of bounds
+                double newX = indexToCoordinateX(xIndex);
+                double newZ = indexToCoordinateY(yIndex);
+                double newY = indexToCoordinateZ(mapCells[DirectionManagement.getX(prometheusBuildList.getWorker1().getX(), dir)][DirectionManagement.getY(prometheusBuildList.getWorker1().getY(), dir)].getBuilding());
+                coordinates.add(new Point3D(newX, newY, newZ));
+            }
         }
-
         for (Direction dir : prometheusBuildList.getBuildlist2()) {
-            double newX = indexToCoordinateX(DirectionManagement.getX(prometheusBuildList.getWorker2().getX(), dir));
-            double newY = indexToCoordinateY(DirectionManagement.getY(prometheusBuildList.getWorker2().getY(), dir));
-            //TODO: Color the cells
-        }*/
+            int xIndex = DirectionManagement.getX(prometheusBuildList.getWorker2().getX(), dir);
+            int yIndex = DirectionManagement.getY(prometheusBuildList.getWorker2().getY(), dir);
+            if(xIndex != -1 && yIndex != -1) { // If not out of bounds
+                double newX = indexToCoordinateX(xIndex);
+                double newZ = indexToCoordinateY(yIndex);
+                double newY = indexToCoordinateZ(mapCells[DirectionManagement.getX(prometheusBuildList.getWorker2().getX(), dir)][DirectionManagement.getY(prometheusBuildList.getWorker2().getY(), dir)].getBuilding());
+                coordinates.add(new Point3D(newX, newY, newZ));
+            }
+        }
+        buildColor(coordinates);
 
         Platform.runLater(() -> hintLabel.setText("Move or Build?"));
         Image image = new Image("/2DGraphics/GreenButton.png");
@@ -783,6 +818,7 @@ public class MatchController extends Controller {
             button2.setImage(image2);});
             button1.setOnMousePressed(e2 -> { });
             button2.setOnMousePressed(e2 -> { });
+            clearColor();
             e.consume();
         });
 
@@ -792,12 +828,18 @@ public class MatchController extends Controller {
             Platform.runLater(() -> {
                 label1.setText("");
                 Image image3 = new Image("/2DGraphics/RedButton.png");
-                Platform.runLater(() -> button1.setImage(image3));
+                button1.setImage(image3);
+                button2.setImage(image3);
             });
             matchScene.requestFocus();
             Platform.runLater(() -> hintLabel.setText("Choose the worker that has  to build!"));
             myWorker1 = prometheusBuildList.getWorker1();
             myWorker2 = prometheusBuildList.getWorker2();
+            clearColor();
+            ArrayList<Point3D> wCoordinates = new ArrayList<>();
+            wCoordinates.add(new Point3D(indexToCoordinateX(myWorker1.getX()), indexToCoordinateZ(mapCells[myWorker1.getX()][myWorker1.getY()].getBuilding()), indexToCoordinateY(myWorker1.getY())));
+            wCoordinates.add(new Point3D(indexToCoordinateX(myWorker2.getX()), indexToCoordinateZ(mapCells[myWorker2.getX()][myWorker2.getY()].getBuilding()), indexToCoordinateY(myWorker2.getY())));
+            workerColor(wCoordinates);
             matchScene.setOnMousePressed(e3 -> {
                 matchScene.requestFocus();
                 int[] indexes = coordinateToIndex(e3.getPickResult());
@@ -807,8 +849,18 @@ public class MatchController extends Controller {
                 }
                 if(indexes[0] == myWorker1.getX() && indexes[1] == myWorker1.getY()) {
                     socket.sendMessage(new PrometheusBuildReceiver(0));
+                    clearColor();
+                    matchScene.setOnMousePressed(e4 -> {
+                        matchScene.requestFocus();
+                        e4.consume();
+                    });
                 } else if(indexes[0] == myWorker2.getX() && indexes[1] == myWorker2.getY()) {
                     socket.sendMessage(new PrometheusBuildReceiver(1));
+                    clearColor();
+                    matchScene.setOnMousePressed(e4 -> {
+                        matchScene.requestFocus();
+                        e4.consume();
+                    });
                 } else {
                     return;
                 }
@@ -1000,7 +1052,7 @@ public class MatchController extends Controller {
 
     }
 
-    public void moveColor(ArrayList<Point3D> coordinates) {
+    private void moveColor(ArrayList<Point3D> coordinates) {
         for(Point3D coordinate : coordinates) {
             Group plane = loadModel(getClass().getResource("/3DGraphics/moveIndicator.obj"));
             plane.setTranslateX(coordinate.getX());
@@ -1008,23 +1060,45 @@ public class MatchController extends Controller {
             plane.setTranslateZ(coordinate.getZ());
             planes.getChildren().add(plane);
         }
-        matchSceneGroup.getChildren().add(planes);
+        Platform.runLater(() -> matchSceneGroup.getChildren().add(planes));
     }
 
-    public void clearColor() {
+    private void buildColor(ArrayList<Point3D> coordinates) {
+        for(Point3D coordinate : coordinates) {
+            Group plane = loadModel(getClass().getResource("/3DGraphics/buildIndicator.obj"));
+            plane.setTranslateX(coordinate.getX());
+            plane.setTranslateY(coordinate.getY()-0.1);
+            plane.setTranslateZ(coordinate.getZ());
+            planes.getChildren().add(plane);
+        }
+        Platform.runLater(() -> matchSceneGroup.getChildren().add(planes));
+    }
+
+    public void workerColor(ArrayList<Point3D> coordinates) {
+        for(Point3D coordinate : coordinates) {
+            Group plane = loadModel(getClass().getResource("/3DGraphics/circleBluIndicator.obj"));
+            plane.setTranslateX(coordinate.getX());
+            plane.setTranslateY(coordinate.getY()-0.1);
+            plane.setTranslateZ(coordinate.getZ());
+            planes.getChildren().add(plane);
+        }
+        Platform.runLater(() -> matchSceneGroup.getChildren().add(planes));
+    }
+
+    private void clearColor() {
         planes.getChildren().clear();
-        matchSceneGroup.getChildren().remove(planes);
+        Platform.runLater(() -> matchSceneGroup.getChildren().remove(planes));
     }
 
-    public static double indexToCoordinateX(int index){
+    private static double indexToCoordinateX(int index){
         return (index-2)*DELTA;
     }
 
-    public static double indexToCoordinateY(int index){
+    private static double indexToCoordinateY(int index){
         return (index-2)*DELTA*(-1);
     }
 
-    public static double indexToCoordinateZ(int index){
+    private static double indexToCoordinateZ(int index){
         switch (index) {
             case 0:
                 return 0;
@@ -1038,7 +1112,7 @@ public class MatchController extends Controller {
         return -1;
     }
 
-    public static double deltaToCoordinateZ(int oldLevel, int newLevel) {
+    private static double deltaToCoordinateZ(int oldLevel, int newLevel) {
         double oldHeight, newHeight;
         switch (oldLevel) {
             case 0:
@@ -1089,7 +1163,7 @@ public class MatchController extends Controller {
         return -1;
     }
 
-    public static int[] coordinateToIndex(PickResult pick) {
+    private static int[] coordinateToIndex(PickResult pick) {
         int[] index = new int[3];
         double x = pick.getIntersectedNode().localToScene(0,0,0).getX() + pick.getIntersectedPoint().getX();
         double y = -1 * (pick.getIntersectedNode().localToScene(0,0,0).getY() + pick.getIntersectedPoint().getY());
