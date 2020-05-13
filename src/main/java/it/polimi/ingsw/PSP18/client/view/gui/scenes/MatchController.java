@@ -1155,9 +1155,10 @@ public class MatchController extends Controller {
             plane.setTranslateX(coordinate.getX());
             plane.setTranslateY(coordinate.getY()-0.1);
             plane.setTranslateZ(coordinate.getZ());
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.translateYProperty(),-0.01)) );
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.translateYProperty(),-0.7)) );
             planes.getChildren().add(plane);
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(planes.translateYProperty(),-0.01)) );
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(800), new KeyValue(planes.translateYProperty(),-0.7)) );
+
         }
 
         Platform.runLater(() -> {
@@ -1188,25 +1189,24 @@ public class MatchController extends Controller {
             planes.getChildren().add(plane);
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleZProperty(), 0.8)));
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleXProperty(), 0.8)));
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(800), new KeyValue(plane.scaleZProperty(), 0)));
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(800), new KeyValue(plane.scaleXProperty(), 0)));
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.scaleZProperty(), 0)));
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.scaleXProperty(), 0)));
         }
-
+        /*
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), planes);
+        ft.setFromValue(10.0);
+        ft.setToValue(0.1);
+        ft.setCycleCount(Timeline.INDEFINITE);
+        //ft.setAutoReverse(true);
+        ParallelTransition pt = new ParallelTransition(planesTimeline, ft);
+        */
         Platform.runLater(() -> {
             if(!matchSceneGroup.getChildren().contains(planes)) {
                 planesTimeline.play();
                 matchSceneGroup.getChildren().add(planes);
             }
         });
-        /*
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), planes);
-        ft.setFromValue(1.0);
-        ft.setToValue(0.1);
-        ft.setCycleCount(Timeline.INDEFINITE);
-        //ft.setAutoReverse(true);
-        ParallelTransition pt = new ParallelTransition(timeline, ft);
-        */
-        planesTimeline.play();
+
     }
 
     public void workerColor(ArrayList<Point3D> coordinates) {
@@ -1218,7 +1218,7 @@ public class MatchController extends Controller {
             circle.setTranslateY(coordinate.getY()-0.01);
             circle.setTranslateZ(coordinate.getZ());
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.01)) );
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.7)) );
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.7)) );
             planes.getChildren().add(circle);
         }
 
