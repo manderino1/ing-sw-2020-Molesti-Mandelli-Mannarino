@@ -1144,6 +1144,7 @@ public class MatchController extends Controller {
         final Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.setAutoReverse(true);
+        timeline.getKeyFrames().removeAll();
         for(Point3D coordinate : coordinates) {
             Group plane = loadModel(getClass().getResource("/3DGraphics/moveIndicator.obj"));
             plane.setScaleX(0.9);
@@ -1172,16 +1173,24 @@ public class MatchController extends Controller {
 
     private void buildColor(ArrayList<Point3D> coordinates) {
         final Timeline timeline2 = new Timeline();
+        timeline2.setCycleCount(Timeline.INDEFINITE);
+        timeline2.setAutoReverse(true);
+        timeline2.getKeyFrames().removeAll();
         for(Point3D coordinate : coordinates) {
             Group plane = loadModel(getClass().getResource("/3DGraphics/buildIndicator.obj"));
             plane.setScaleX(0.9);
             plane.setScaleZ(0.9);
             plane.setTranslateX(coordinate.getX());
-            plane.setTranslateY(coordinate.getY()-0.1);
+            plane.setTranslateY(coordinate.getY()-0.01);
             plane.setTranslateZ(coordinate.getZ());
-            planes.getChildren().add(plane);
+
+            timeline2.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleZProperty(), 1)));
+            timeline2.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleXProperty(), 1)));
             timeline2.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(plane.scaleZProperty(), 0)));
             timeline2.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(plane.scaleXProperty(), 0)));
+
+            planes.getChildren().add(plane);
+
         }
         Platform.runLater(() -> {
             if(!matchSceneGroup.getChildren().contains(planes)) {
@@ -1206,13 +1215,15 @@ public class MatchController extends Controller {
         final Timeline timeline3 = new Timeline();
         timeline3.setCycleCount(Timeline.INDEFINITE);
         timeline3.setAutoReverse(true);
+        timeline3.getKeyFrames().removeAll();
         for(Point3D coordinate : coordinates) {
             Group plane = loadModel(getClass().getResource("/3DGraphics/circleBluIndicator.obj"));
             plane.setScaleX(0.9);
             plane.setScaleZ(0.9);
             plane.setTranslateX(coordinate.getX());
-            plane.setTranslateY(coordinate.getY()-0.1);
+            plane.setTranslateY(coordinate.getY()-0.01);
             plane.setTranslateZ(coordinate.getZ());
+            timeline3.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.translateYProperty(),-0.01)) );
             timeline3.getKeyFrames().add(new KeyFrame(Duration.millis(500), new KeyValue(plane.translateYProperty(),-0.5)) );
             planes.getChildren().add(plane);
 
