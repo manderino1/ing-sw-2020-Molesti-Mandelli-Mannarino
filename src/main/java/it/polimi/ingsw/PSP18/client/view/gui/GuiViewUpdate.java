@@ -1,10 +1,12 @@
 package it.polimi.ingsw.PSP18.client.view.gui;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
+import it.polimi.ingsw.PSP18.client.view.cli.CliColor;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.Match;
+import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +28,7 @@ public class GuiViewUpdate extends ViewUpdate {
     private final int PORT = 9002;
     private InetAddress host;
     private String name;
+    private Popup popup = new Popup();
 
     private ArrayList<PlayerData> playerDataArrayList = new ArrayList<>();
 
@@ -145,12 +148,43 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void matchLostUpdate(MatchLost matchLost) {
+        if(matchLost.isMe()) {
+            Platform.runLater(() -> {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/LosePopUp.fxml"));
+                try {
+                    popup.getContent().add(loader.load());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Controller controller = loader.getController();
+                controller.setView(this);
+                popup.show(stage);
+            });
+        }
 
+        for (PlayerData playerData : playerDataArrayList) {
+            if (matchLost.getMatchLost().equals(playerData.getPlayerID())) {
+                playerData.setLost();
+                updatePlayerData(null);
+            }
+        }
     }
 
     @Override
     public void matchWonUpdate(MatchWon matchWon) {
-
+        if(matchWon.isMe()) {
+            Platform.runLater(() -> {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/WinPopUp.fxml"));
+                try {
+                    popup.getContent().add(loader.load());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Controller controller = loader.getController();
+                controller.setView(this);
+                popup.show(stage);
+            });
+        }
     }
 
     @Override
@@ -239,5 +273,10 @@ public class GuiViewUpdate extends ViewUpdate {
 
     public String getName() {
         return name;
+    }
+
+    public void hidePopUp() {
+        Platform.runLater(()->popup.hide());
+        popup.getContent().clear();
     }
 }

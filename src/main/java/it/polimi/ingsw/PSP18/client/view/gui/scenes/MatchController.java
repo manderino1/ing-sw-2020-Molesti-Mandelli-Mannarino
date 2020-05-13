@@ -455,6 +455,48 @@ public class MatchController extends Controller {
         timeline.play();
     }
 
+    public void removeWorker(Worker worker) {
+        Group workerGroup = null;
+
+        switch (worker.getPlayerColor()) {
+            case BLUE:
+                switch(worker.getID()){
+                    case 0:
+                        workerGroup = workList.get("WB1");
+                        break;
+                    case 1:
+                        workerGroup = workList.get("WB2");
+                        break;
+                }
+                break;
+
+            case RED:
+                switch(worker.getID()){
+                    case 0:
+                        workerGroup = workList.get("WR1");
+                        break;
+                    case 1:
+                        workerGroup = workList.get("WR2");
+                        break;
+                }
+                break;
+
+            case GREEN:
+                switch(worker.getID()){
+                    case 0:
+                        workerGroup = workList.get("WW1");
+                        break;
+                    case 1:
+                        workerGroup = workList.get("WW2");
+                        break;
+                }
+                break;
+        }
+
+        Group finalWorkerGroup = workerGroup;
+        Platform.runLater(() -> matchSceneGroup.getChildren().remove(finalWorkerGroup));
+    }
+
     /***
      * Method used to determine if the current move is one between:
      * placeWorker : placing the worker in the initial phase of the game
@@ -481,6 +523,10 @@ public class MatchController extends Controller {
                 if (!followMessage) {
                     //Standard 1
                     newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    if(newWorker1 == null) { // Remove the worker from the board
+                        removeWorker(oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker());
+                        return;
+                    }
                     newWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
                     followMessage = true;
                     standardMove = true;
@@ -495,6 +541,10 @@ public class MatchController extends Controller {
                 if(!followMessage){
                     //Apollo and Minotaur 1
                     newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    if(newWorker1 == null) { // Remove the worker from the board
+                        removeWorker(oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker());
+                        return;
+                    }
                     newWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
                     oldWorker2 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
                     oldWorker2.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
