@@ -32,6 +32,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static java.lang.Math.max;
 
@@ -644,24 +645,30 @@ public class MatchController extends Controller {
                 return;
             }
             Worker worker;
-            ArrayList<Direction> moves;
-            int index;
+            AtomicReference<ArrayList<Direction>> moves = new AtomicReference<>();
+            AtomicReference<Integer> index = new AtomicReference<>();
             if(indexes[0] == myWorker1.getX() && indexes[1] == myWorker1.getY()) {
                 clearColor();
-                moves = moveList.getMoveList1();
+                ArrayList<Point3D> cCoordinates = new ArrayList<>();
+                cCoordinates.add(new Point3D(indexToCoordinateX(myWorker2.getX()), indexToCoordinateZ(mapCells[myWorker2.getX()][myWorker2.getY()].getBuilding()), indexToCoordinateY(myWorker2.getY())));
+                workerColor(cCoordinates);
+                moves.set(moveList.getMoveList1());
                 worker = moveList.getWorker1();
-                index = 0;
+                index.set(0);
             } else if(indexes[0] == myWorker2.getX() && indexes[1] == myWorker2.getY()) {
                 clearColor();
-                moves = moveList.getMoveList2();
+                ArrayList<Point3D> cCoordinates = new ArrayList<>();
+                cCoordinates.add(new Point3D(indexToCoordinateX(myWorker1.getX()), indexToCoordinateZ(mapCells[myWorker1.getX()][myWorker1.getY()].getBuilding()), indexToCoordinateY(myWorker1.getY())));
+                workerColor(cCoordinates);
+                moves.set(moveList.getMoveList2());
                 worker = moveList.getWorker2();
-                index = 1;
+                index.set(1);
             } else {
                 return;
             }
-            Platform.runLater(() -> hintLabel.setText("Click on a green cell"));
+            Platform.runLater(() -> hintLabel.setText("Move your worker"));
             showSingleMoveList(moveList, indexes[0], indexes[1]);
-            Worker finalWorker = worker;
+            AtomicReference<Worker> finalWorker = new AtomicReference<>(worker);
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
                 int[] newIndexes = coordinateToIndex(e2.getPickResult());
@@ -669,12 +676,34 @@ public class MatchController extends Controller {
                     // Click is out of bound
                     return;
                 }
-                for(Direction direction : moves) {
-                    int newX = DirectionManagement.getX(finalWorker.getX(), direction);
-                    int newY = DirectionManagement.getY(finalWorker.getY(), direction);
+                if((newIndexes[0] == moveList.getWorker1().getX() && newIndexes[1] == moveList.getWorker1().getY())) {
+                    clearColor();
+                    ArrayList<Point3D> cCoordinates = new ArrayList<>();
+                    cCoordinates.add(new Point3D(indexToCoordinateX(myWorker2.getX()), indexToCoordinateZ(mapCells[myWorker2.getX()][myWorker2.getY()].getBuilding()), indexToCoordinateY(myWorker2.getY())));
+                    workerColor(cCoordinates);
+                    finalWorker.set(moveList.getWorker1());
+                    moves.set(moveList.getMoveList1());
+                    showSingleMoveList(moveList, newIndexes[0], newIndexes[1]);
+                    index.set(0);
+                    return;
+                } else if((newIndexes[0] == moveList.getWorker2().getX() && newIndexes[1] == moveList.getWorker2().getY())) {
+                    clearColor();
+                    ArrayList<Point3D> cCoordinates = new ArrayList<>();
+                    cCoordinates.add(new Point3D(indexToCoordinateX(myWorker1.getX()), indexToCoordinateZ(mapCells[myWorker1.getX()][myWorker1.getY()].getBuilding()), indexToCoordinateY(myWorker1.getY())));
+                    workerColor(cCoordinates);
+                    finalWorker.set(moveList.getWorker2());
+                    moves.set(moveList.getMoveList2());
+                    showSingleMoveList(moveList, newIndexes[0], newIndexes[1]);
+                    index.set(1);
+                    return;
+                }
+
+                for(Direction direction : moves.get()) {
+                    int newX = DirectionManagement.getX(finalWorker.get().getX(), direction);
+                    int newY = DirectionManagement.getY(finalWorker.get().getY(), direction);
 
                     if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
-                        socket.sendMessage(new MoveReceiver(direction, index));
+                        socket.sendMessage(new MoveReceiver(direction, index.get()));
                         clearColor();
                         matchScene.setOnMousePressed(e3 -> {
                             matchScene.requestFocus();
@@ -1110,7 +1139,11 @@ public class MatchController extends Controller {
             plane.setTranslateZ(coordinate.getZ());
             planes.getChildren().add(plane);
         }
-        Platform.runLater(() -> matchSceneGroup.getChildren().add(planes));
+        Platform.runLater(() -> {
+            if(!matchSceneGroup.getChildren().contains(planes)) {
+                matchSceneGroup.getChildren().add(planes);
+            }
+        });
     }
 
     private void buildColor(ArrayList<Point3D> coordinates) {
@@ -1121,7 +1154,11 @@ public class MatchController extends Controller {
             plane.setTranslateZ(coordinate.getZ());
             planes.getChildren().add(plane);
         }
-        Platform.runLater(() -> matchSceneGroup.getChildren().add(planes));
+        Platform.runLater(() -> {
+            if(!matchSceneGroup.getChildren().contains(planes)) {
+                matchSceneGroup.getChildren().add(planes);
+            }
+        });
     }
 
     public void workerColor(ArrayList<Point3D> coordinates) {
@@ -1132,7 +1169,11 @@ public class MatchController extends Controller {
             plane.setTranslateZ(coordinate.getZ());
             planes.getChildren().add(plane);
         }
-        Platform.runLater(() -> matchSceneGroup.getChildren().add(planes));
+        Platform.runLater(() -> {
+            if(!matchSceneGroup.getChildren().contains(planes)) {
+                matchSceneGroup.getChildren().add(planes);
+            }
+        });
     }
 
     private void clearColor() {
