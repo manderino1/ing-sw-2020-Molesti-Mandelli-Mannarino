@@ -1155,9 +1155,9 @@ public class MatchController extends Controller {
             plane.setTranslateX(coordinate.getX());
             plane.setTranslateY(coordinate.getY()-0.1);
             plane.setTranslateZ(coordinate.getZ());
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(planes.translateYProperty(),-0.01)) );
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(planes.translateYProperty(),-0.5)) );
             planes.getChildren().add(plane);
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(planes.translateYProperty(),-0.01)) );
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(800), new KeyValue(planes.translateYProperty(),-0.7)) );
         }
 
         Platform.runLater(() -> {
@@ -1188,8 +1188,8 @@ public class MatchController extends Controller {
             planes.getChildren().add(plane);
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleZProperty(), 0.8)));
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleXProperty(), 0.8)));
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(plane.scaleZProperty(), 0)));
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(plane.scaleXProperty(), 0)));
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(800), new KeyValue(plane.scaleZProperty(), 0)));
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(800), new KeyValue(plane.scaleXProperty(), 0)));
         }
 
         Platform.runLater(() -> {
@@ -1211,15 +1211,15 @@ public class MatchController extends Controller {
 
     public void workerColor(ArrayList<Point3D> coordinates) {
         for(Point3D coordinate : coordinates) {
-            Group plane = loadModel(getClass().getResource("/3DGraphics/circleBluIndicator.obj"));
-            plane.setScaleX(0.9);
-            plane.setScaleZ(0.9);
-            plane.setTranslateX(coordinate.getX());
-            plane.setTranslateY(coordinate.getY()-0.01);
-            plane.setTranslateZ(coordinate.getZ());
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.translateYProperty(),-0.01)) );
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), new KeyValue(plane.translateYProperty(),-0.5)) );
-            planes.getChildren().add(plane);
+            Group circle = loadModel(getClass().getResource("/3DGraphics/circleBluIndicator.obj"));
+            circle.setScaleX(0.9);
+            circle.setScaleZ(0.9);
+            circle.setTranslateX(coordinate.getX());
+            circle.setTranslateY(coordinate.getY()-0.01);
+            circle.setTranslateZ(coordinate.getZ());
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.01)) );
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.7)) );
+            planes.getChildren().add(circle);
         }
 
         Platform.runLater(() -> {
@@ -1231,8 +1231,8 @@ public class MatchController extends Controller {
     }
 
     private void clearColor() {
-        planesTimeline.getKeyFrames().clear();
         planesTimeline.stop();
+        planesTimeline.getKeyFrames().clear();
         planes.getChildren().clear();
         Platform.runLater(() -> matchSceneGroup.getChildren().remove(planes));
     }
