@@ -1153,10 +1153,10 @@ public class MatchController extends Controller {
             plane.setScaleX(0.9);
             plane.setScaleZ(0.9);
             plane.setTranslateX(coordinate.getX());
-            plane.setTranslateY(coordinate.getY()-0.1);
+            plane.setTranslateY(coordinate.getY()-0.15);
             plane.setTranslateZ(coordinate.getZ());
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.translateYProperty(),-0.01)) );
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.translateYProperty(),-0.7)) );
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.15)) );
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.7)) );
             planes.getChildren().add(plane);
 
         }
@@ -1184,7 +1184,7 @@ public class MatchController extends Controller {
             plane.setScaleX(0.9);
             plane.setScaleZ(0.9);
             plane.setTranslateX(coordinate.getX());
-            plane.setTranslateY(coordinate.getY()-0.01);
+            plane.setTranslateY(coordinate.getY()-0.15);
             plane.setTranslateZ(coordinate.getZ());
             planes.getChildren().add(plane);
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleZProperty(), 0.8)));
@@ -1215,9 +1215,9 @@ public class MatchController extends Controller {
             circle.setScaleX(0.9);
             circle.setScaleZ(0.9);
             circle.setTranslateX(coordinate.getX());
-            circle.setTranslateY(coordinate.getY()-0.01);
+            circle.setTranslateY(coordinate.getY()-0.15);
             circle.setTranslateZ(coordinate.getZ());
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.01)) );
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.15)) );
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.7)) );
             planes.getChildren().add(circle);
         }
