@@ -114,7 +114,7 @@ public class MatchController extends Controller {
 
         Camera camera= new PerspectiveCamera(true);
 
-        matchScene.setFill(Color.RED);
+        matchScene.setFill(Color.AQUA);
         matchScene.setCamera(camera);
         matchScene.setRoot(matchSceneGroup);
 
@@ -141,8 +141,17 @@ public class MatchController extends Controller {
                 case UP:
                     camera.getTransforms().addAll (
                             pivot,
-                            new Rotate(cameraXAngle, Rotate.Z_AXIS),
+                            new Rotate(cameraXAngle, Rotate.X_AXIS),
                             new Rotate(-2, Rotate.X_AXIS),
+                            new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                            new Translate(0, 0, -cameraDistance)
+                    );
+                    break;
+                case DOWN:
+                    camera.getTransforms().addAll (
+                            pivot,
+                            new Rotate(cameraXAngle, Rotate.X_AXIS),
+                            new Rotate(2, Rotate.X_AXIS),
                             new Rotate(-cameraXAngle, Rotate.X_AXIS),
                             new Translate(0, 0, -cameraDistance)
                     );
@@ -1132,6 +1141,9 @@ public class MatchController extends Controller {
     }
 
     private void moveColor(ArrayList<Point3D> coordinates) {
+        final Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.setAutoReverse(true);
         for(Point3D coordinate : coordinates) {
             Group plane = loadModel(getClass().getResource("/3DGraphics/moveIndicator.obj"));
             plane.setScaleX(0.9);
@@ -1139,6 +1151,7 @@ public class MatchController extends Controller {
             plane.setTranslateX(coordinate.getX());
             plane.setTranslateY(coordinate.getY()-0.1);
             plane.setTranslateZ(coordinate.getZ());
+            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(planes.translateYProperty(),-0.5)) );
             planes.getChildren().add(plane);
         }
         Platform.runLater(() -> {
@@ -1146,11 +1159,6 @@ public class MatchController extends Controller {
                 matchSceneGroup.getChildren().add(planes);
             }
         });
-        Platform.runLater(() -> matchSceneGroup.getChildren().add(planes));
-        final Timeline timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.setAutoReverse(true);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(planes.translateYProperty(),-0.5)) );
         /*
         FadeTransition ft = new FadeTransition(Duration.millis(1000), planes);
         ft.setFromValue(10);
@@ -1163,15 +1171,17 @@ public class MatchController extends Controller {
     }
 
     private void buildColor(ArrayList<Point3D> coordinates) {
-        final Timeline timeline = new Timeline();
+        final Timeline timeline2 = new Timeline();
         for(Point3D coordinate : coordinates) {
             Group plane = loadModel(getClass().getResource("/3DGraphics/buildIndicator.obj"));
+            plane.setScaleX(0.9);
+            plane.setScaleZ(0.9);
             plane.setTranslateX(coordinate.getX());
             plane.setTranslateY(coordinate.getY()-0.1);
             plane.setTranslateZ(coordinate.getZ());
             planes.getChildren().add(plane);
-            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(plane.scaleZProperty(), 0)));
-            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(plane.scaleXProperty(), 0)));
+            timeline2.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(plane.scaleZProperty(), 0)));
+            timeline2.getKeyFrames().add(new KeyFrame(Duration.millis(1000), new KeyValue(plane.scaleXProperty(), 0)));
         }
         Platform.runLater(() -> {
             if(!matchSceneGroup.getChildren().contains(planes)) {
@@ -1179,10 +1189,8 @@ public class MatchController extends Controller {
             }
         });
 
-        Platform.runLater(() -> matchSceneGroup.getChildren().add(planes));
-
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.setAutoReverse(true);
+        timeline2.setCycleCount(Timeline.INDEFINITE);
+        timeline2.setAutoReverse(true);
         /*
         FadeTransition ft = new FadeTransition(Duration.millis(1000), planes);
         ft.setFromValue(1.0);
@@ -1191,28 +1199,29 @@ public class MatchController extends Controller {
         //ft.setAutoReverse(true);
         ParallelTransition pt = new ParallelTransition(timeline, ft);
         */
-        timeline.play();
+        timeline2.play();
     }
 
     public void workerColor(ArrayList<Point3D> coordinates) {
+        final Timeline timeline3 = new Timeline();
+        timeline3.setCycleCount(Timeline.INDEFINITE);
+        timeline3.setAutoReverse(true);
         for(Point3D coordinate : coordinates) {
             Group plane = loadModel(getClass().getResource("/3DGraphics/circleBluIndicator.obj"));
+            plane.setScaleX(0.9);
+            plane.setScaleZ(0.9);
             plane.setTranslateX(coordinate.getX());
             plane.setTranslateY(coordinate.getY()-0.1);
             plane.setTranslateZ(coordinate.getZ());
+            timeline3.getKeyFrames().add(new KeyFrame(Duration.millis(500), new KeyValue(plane.translateYProperty(),-0.5)) );
             planes.getChildren().add(plane);
+
         }
         Platform.runLater(() -> {
             if(!matchSceneGroup.getChildren().contains(planes)) {
                 matchSceneGroup.getChildren().add(planes);
             }
         });
-        Platform.runLater(() -> matchSceneGroup.getChildren().add(planes));
-        Platform.runLater(() -> matchSceneGroup.getChildren().add(planes));
-        final Timeline timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.setAutoReverse(true);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500), new KeyValue(planes.translateYProperty(),-0.5)) );
     }
 
     private void clearColor() {
