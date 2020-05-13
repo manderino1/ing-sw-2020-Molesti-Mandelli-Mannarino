@@ -6,32 +6,68 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.LostController">
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="716.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true">
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="-20.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../2DGraphics/Odyssey_UI_Backdrop.png" />
+            <Image url="@../2DGraphics/endgame_defeattrumpetleft.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="449.0" fitWidth="681.0" layoutX="-38.0" layoutY="-25.0" pickOnBounds="true" translateX="-1.0" translateY="1.0">
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="514.0" layoutY="303.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../2DGraphics/om_btnGlow.png" />
+            <Image url="@../2DGraphics/endgame_defeattrumpetleft.png" />
          </image>
       </ImageView>
-      <Label layoutX="136.0" layoutY="59.0" text="You have lost!" textFill="WHITE">
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="516.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_defeattrumpetright.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="-18.0" layoutY="162.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_defeattrumpetright.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="572.0" fitWidth="546.0" layoutX="91.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_windowdefeat.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="62.0" fitWidth="354.0" layoutX="235.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/btn_blue.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="394.0" layoutY="414.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_victorycloudright.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="11.0" layoutY="414.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_victorycloudright.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="151.0" fitWidth="363.0" layoutX="176.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/gameGodFrameName1.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="263.0" layoutY="109.0" text="DEFEAT!" textFill="WHITE">
          <font>
-            <Font size="53.0" />
+            <Font name="System Italic" size="51.0" />
          </font>
       </Label>
-      <ImageView fitHeight="151.0" fitWidth="100.0" layoutX="260.0" layoutY="313.0" onMouseClicked="#continueClick" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../2DGraphics/GreenButton.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="280.0" layoutY="330.0" mouseTransparent="true" pickOnBounds="false" text="Continue">
+      <Label layoutX="256.0" layoutY="401.0" text="PLAY AGAIN" textFill="WHITE">
          <font>
-            <Font size="15.0" />
+            <Font name="System Italic" size="37.0" />
          </font>
       </Label>
+      <ImageView fitHeight="145.0" fitWidth="150.0" layoutX="280.0" layoutY="256.0">
+         <image>
+            <Image url="@../2DGraphics/heropower_inactive.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

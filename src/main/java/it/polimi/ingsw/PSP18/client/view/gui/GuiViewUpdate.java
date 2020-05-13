@@ -6,6 +6,7 @@ import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -226,7 +227,7 @@ public class GuiViewUpdate extends ViewUpdate {
             controller = loader.getController();
             controller.setSocket(socket);
             controller.setView(this);
-            scene.setRoot(parent);
+            Platform.runLater(() -> scene.setRoot(parent));
         } catch (IOException e) {
             e.printStackTrace();
         }
