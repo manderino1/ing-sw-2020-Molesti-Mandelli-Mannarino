@@ -54,13 +54,15 @@ public class Artemis extends Divinity {
         }
 
         // Check that the move is valid
-        if((workerID == 0 && !movesWorker1.contains(direction)) || (workerID == 1 && !movesWorker2.contains(direction))) {
-            try {
-                throw new InvalidMoveException();
-            } catch (InvalidMoveException e) {
-                e.printStackTrace();
-                move();
-                return;
+        if(firstMove) {
+            if((workerID == 0 && !movesWorker1.contains(direction)) || (workerID == 1 && !movesWorker2.contains(direction))) {
+                try {
+                    throw new InvalidMoveException();
+                } catch (InvalidMoveException e) {
+                    e.printStackTrace();
+                    move();
+                    return;
+                }
             }
         }
 
@@ -75,7 +77,7 @@ public class Artemis extends Divinity {
             }
         }
         if(firstMove) {
-            moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
+            ArrayList<Direction> moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
             moves.remove(DirectionManagement.getOppositeDirection(direction));
             if (moves.size() == 0) {
                 manageLoss();

@@ -1000,6 +1000,7 @@ public class MatchController extends Controller {
                 Platform.runLater(() -> button1.setImage(image2));
                 socket.sendMessage(new MoveReceiver(null, singleMoveList.getWorkerID()));
                 button1.setOnMousePressed(e2 -> { });
+                clearColor();
                 matchScene.setOnMousePressed(e2 -> {
                     matchScene.requestFocus();
                     e2.consume();
@@ -1104,6 +1105,7 @@ public class MatchController extends Controller {
         button1.setOnMousePressed(e -> {
             Image image2 = new Image("/2DGraphics/RedButton.png");
             button1.setImage(image2);
+            clearColor();
             socket.sendMessage(new BuildReceiver(null));
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
@@ -1125,6 +1127,7 @@ public class MatchController extends Controller {
 
                 if(newIndexes[0] == newX && newIndexes[1] == newY) { // Found the valid direction
                     socket.sendMessage(new BuildReceiver(direction));
+                    clearColor();
                     matchScene.setOnMousePressed(e2 -> {
                     });
                     Image image2 = new Image("/2DGraphics/RedButton.png");
