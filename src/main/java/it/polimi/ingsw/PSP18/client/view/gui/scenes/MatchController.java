@@ -462,12 +462,10 @@ public class MatchController extends Controller {
             case BLUE:
                 switch(worker.getID()){
                     case 0:
-                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerBlue.obj"));
-                        workList.put("WB1", workerGroup);
+                        workerGroup = workList.get("WB1");
                         break;
                     case 1:
-                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerBlue.obj"));
-                        workList.put("WB2", workerGroup);
+                        workerGroup = workList.get("WB2");
                         break;
                 }
                 break;
@@ -475,12 +473,10 @@ public class MatchController extends Controller {
             case RED:
                 switch(worker.getID()){
                     case 0:
-                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerRed.obj"));
-                        workList.put("WR1", workerGroup);
+                        workerGroup = workList.get("WR1");
                         break;
                     case 1:
-                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerRed.obj"));
-                        workList.put("WR2", workerGroup);
+                        workerGroup = workList.get("WR2");
                         break;
                 }
                 break;
@@ -488,12 +484,10 @@ public class MatchController extends Controller {
             case GREEN:
                 switch(worker.getID()){
                     case 0:
-                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerWhite.obj"));
-                        workList.put("WW1", workerGroup);
+                        workerGroup = workList.get("WW1");
                         break;
                     case 1:
-                        workerGroup = loadModel(getClass().getResource("/3DGraphics/workerWhite.obj"));
-                        workList.put("WW2", workerGroup);
+                        workerGroup = workList.get("WW2");
                         break;
                 }
                 break;
@@ -529,6 +523,10 @@ public class MatchController extends Controller {
                 if (!followMessage) {
                     //Standard 1
                     newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
+                    if(newWorker1 == null) { // Remove the worker from the board
+                        removeWorker(oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker());
+                        return;
+                    }
                     newWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());
                     followMessage = true;
                     standardMove = true;

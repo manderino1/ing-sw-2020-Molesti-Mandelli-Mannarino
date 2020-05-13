@@ -149,8 +149,8 @@ public class GuiViewUpdate extends ViewUpdate {
     @Override
     public void matchLostUpdate(MatchLost matchLost) {
         if(matchLost.isMe()) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/LosePopUp.fxml"));
             Platform.runLater(() -> {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/LosePopUp.fxml"));
                 try {
                     popup.getContent().add(loader.load());
                 } catch (IOException e) {
@@ -160,12 +160,12 @@ public class GuiViewUpdate extends ViewUpdate {
                 controller.setView(this);
                 popup.show(stage);
             });
-        } else {
-            for (PlayerData playerData : playerDataArrayList) {
-                if (matchLost.getMatchLost().equals(playerData.getPlayerID())) {
-                    playerData.setLost();
-                    updatePlayerData(null);
-                }
+        }
+
+        for (PlayerData playerData : playerDataArrayList) {
+            if (matchLost.getMatchLost().equals(playerData.getPlayerID())) {
+                playerData.setLost();
+                updatePlayerData(null);
             }
         }
     }
@@ -173,8 +173,8 @@ public class GuiViewUpdate extends ViewUpdate {
     @Override
     public void matchWonUpdate(MatchWon matchWon) {
         if(matchWon.isMe()) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/WinPopUp.fxml"));
             Platform.runLater(() -> {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/WinPopUp.fxml"));
                 try {
                     popup.getContent().add(loader.load());
                 } catch (IOException e) {
