@@ -146,16 +146,28 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void matchLostUpdate(MatchLost matchLost) {
-        Controller controller = new LostController();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/LosePopUp.fxml"));
-        loader.setController(controller);
-        popup.show(stage);
-        controller.setView(this);
+        try {
+            popup.getContent().add(loader.load());
+            Controller controller = loader.getController();
+            controller.setView(this);
+            Platform.runLater(() -> popup.show(stage));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void matchWonUpdate(MatchWon matchWon) {
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/WinPopUp.fxml"));
+        try {
+            popup.getContent().add(loader.load());
+            Controller controller = loader.getController();
+            controller.setView(this);
+            Platform.runLater(() -> popup.show(stage));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -247,6 +259,7 @@ public class GuiViewUpdate extends ViewUpdate {
     }
 
     public void hidePopUp() {
-        popup.hide();
+        Platform.runLater(()->popup.hide());
+        popup.getContent().clear();
     }
 }
