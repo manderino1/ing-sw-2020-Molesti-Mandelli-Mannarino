@@ -273,10 +273,10 @@ public class Match {
         if(winner != null) {
             playerSocketMap.get(winner).sendMessage(new MatchWon(winner.getPlayerData().getPlayerID(), true));
             for(SocketThread socket : sockets) {
-                if(playerManagers.contains(socketPlayerMap.get(socket))) { // Player is still in the game
-                    if (socketPlayerMap.get(socket) != winner) {
-                        playerSocketMap.get(winner).sendMessage(new MatchLost(winner.getPlayerData().getPlayerID(), true));
-                    }
+                if (socketPlayerMap.get(socket) != winner) {
+                    playerSocketMap.get(winner).sendMessage(new MatchLost(winner.getPlayerData().getPlayerID(), true));
+                } else {
+                    playerSocketMap.get(winner).sendMessage(new MatchLost(winner.getPlayerData().getPlayerID(), false));
                 }
             }
         }
