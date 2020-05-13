@@ -53,19 +53,6 @@ public class Artemis extends Divinity {
             return;
         }
 
-        // Check that the move is valid
-        if(firstMove) {
-            if((workerID == 0 && !movesWorker1.contains(direction)) || (workerID == 1 && !movesWorker2.contains(direction))) {
-                try {
-                    throw new InvalidMoveException();
-                } catch (InvalidMoveException e) {
-                    e.printStackTrace();
-                    move();
-                    return;
-                }
-            }
-        }
-
         Worker worker = playerManager.getWorker(workerID);
         this.workerID = workerID;
         setMove(worker.getX(), worker.getY(), direction);
