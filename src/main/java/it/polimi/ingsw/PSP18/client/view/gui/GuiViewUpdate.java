@@ -162,7 +162,7 @@ public class GuiViewUpdate extends ViewUpdate {
 
                 int counter = 0;
                 for(PlayerData playerData : playerDataArrayList){
-                    if(playerData.getLost()){
+                    if(!playerData.getLost()){
                         counter++;
                     }
                 }
@@ -174,7 +174,7 @@ public class GuiViewUpdate extends ViewUpdate {
                 Controller controller = loader.getController();
                 controller.setView(this);
                 popup.show(stage);
-                if(counter == 1){
+                if(counter != 1){
                     ((PopupController)controller).setSpectate();
                 }
             });
