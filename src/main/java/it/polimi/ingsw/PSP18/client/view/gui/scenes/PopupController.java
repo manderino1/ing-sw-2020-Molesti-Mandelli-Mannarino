@@ -19,6 +19,8 @@ public class PopupController extends Controller {
     @FXML
     private Label label;
 
+    boolean finished = true;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -27,7 +29,7 @@ public class PopupController extends Controller {
 
     @FXML
     public void confirmClick() {
-        view.hidePopUp();
+        view.hidePopUp(finished);
     }
 
     @FXML
@@ -37,5 +39,9 @@ public class PopupController extends Controller {
             spectateButton.setVisible(true);
             label2.setVisible(true);
         });
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }

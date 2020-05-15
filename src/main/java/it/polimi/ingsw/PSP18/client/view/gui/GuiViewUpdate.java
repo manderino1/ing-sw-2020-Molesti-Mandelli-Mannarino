@@ -174,6 +174,7 @@ public class GuiViewUpdate extends ViewUpdate {
                 popup.show(stage);
                 if(!matchLost.isFinished()) {
                     ((PopupController) controller).setSpectate();
+                    ((PopupController) controller).setFinished(false);
                 }
             });
         }
@@ -291,8 +292,14 @@ public class GuiViewUpdate extends ViewUpdate {
         return name;
     }
 
-    public void hidePopUp() {
+    public void hidePopUp(boolean finished) {
         Platform.runLater(()->popup.hide());
         popup.getContent().clear();
+
+        if(finished) {
+            playerDataArrayList.clear();
+            switchScene("Login");
+            ((LoginController)controller).selectPlayerNumber();
+        }
     }
 }

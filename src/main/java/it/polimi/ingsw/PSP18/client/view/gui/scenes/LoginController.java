@@ -81,12 +81,12 @@ public class LoginController extends Controller {
     }
 
     @FXML
-    public void selectedTwo(MouseEvent mouseEvent) {
+    private void selectedTwo(MouseEvent mouseEvent) {
         socket.sendMessage(new PlayerNumber(2));
     }
 
     @FXML
-    public void selectedThree(MouseEvent mouseEvent) {
+    private void selectedThree(MouseEvent mouseEvent) {
         socket.sendMessage(new PlayerNumber(3));
     }
 }

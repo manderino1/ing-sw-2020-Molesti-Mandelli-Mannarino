@@ -288,9 +288,5 @@ public class Match {
             }
         }
         matchStatus = MatchStatus.MATCH_ENDED;
-        // Detach observers from map
-        for(SocketThread sock : sockets) {
-            sock.closeConnection();
-        }
     }
 }
