@@ -42,17 +42,35 @@ public class TestMatchManager {
     @Test
     public void testMatchManagement() {
         MatchManager matchManager = new MatchManager();
-        Match match1 = matchManager.getMatch();
-        matchManager.getMatch().setMatchStatus(MatchStatus.MATCH_ENDED);
-        SocketThread socketThread = new SocketThread(socket, matchManager.getMatch());
+        Match match1 = matchManager.getMatch(2);
+        matchManager.getMatch(2).setMatchStatus(MatchStatus.MATCH_ENDED);
+        SocketThread socketThread = new SocketThread(socket, matchManager);
+        socketThread.setMatch(matchManager.getMatch(2));
         socketThread.start();
-        Assert.assertNotEquals(match1, matchManager.getMatch());
-        SocketThread socketThread2 = new SocketThread(socket, matchManager.getMatch());
+        Assert.assertNotEquals(match1, matchManager.getMatch(2));
+        SocketThread socketThread2 = new SocketThread(socket, matchManager);
+        socketThread2.setMatch(matchManager.getMatch(2));
         socketThread2.start();
-        SocketThread socketThread3 = new SocketThread(socket, matchManager.getMatch());
+        SocketThread socketThread3 = new SocketThread(socket, matchManager);
+        socketThread3.setMatch(matchManager.getMatch(2));
         socketThread3.start();
-        SocketThread socketThread4 = new SocketThread(socket, matchManager.getMatch());
+        SocketThread socketThread4 = new SocketThread(socket, matchManager);
+        socketThread4.setMatch(matchManager.getMatch(2));
         socketThread4.start();
-        Assert.assertNotEquals(match1, matchManager.getMatch());
+        Assert.assertNotEquals(match1, matchManager.getMatch(2));
+        socketThread = new SocketThread(socket, matchManager);
+        socketThread.setMatch(matchManager.getMatch(3));
+        socketThread.start();
+        match1 = matchManager.getMatch(3);
+        socketThread2 = new SocketThread(socket, matchManager);
+        socketThread2.setMatch(matchManager.getMatch(3));
+        socketThread2.start();
+        socketThread3 = new SocketThread(socket, matchManager);
+        socketThread3.setMatch(matchManager.getMatch(3));
+        socketThread3.start();
+        socketThread4 = new SocketThread(socket, matchManager);
+        socketThread4.setMatch(matchManager.getMatch(3));
+        socketThread4.start();
+        Assert.assertNotEquals(match1, matchManager.getMatch(3));
     }
 }

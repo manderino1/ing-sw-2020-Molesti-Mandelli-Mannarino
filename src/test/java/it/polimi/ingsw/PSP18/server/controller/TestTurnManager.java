@@ -52,7 +52,7 @@ public class TestTurnManager {
     @Test
     public void testManageTurn() {
         Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, match);
+        SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
         match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread);
         match.addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread);
@@ -70,10 +70,10 @@ public class TestTurnManager {
     @Test
     public void testManageTurnAthena() {
         Match match = new Match();
-        SocketThread socketThread1 = new SocketThread(socket, match);
+        SocketThread socketThread1 = new SocketThread(socket, null);
         socketThread1.start();
         match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread1);
-        SocketThread socketThread2 = new SocketThread(socket, match);
+        SocketThread socketThread2 = new SocketThread(socket, null);
         socketThread2.start();
         match.addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread2);
         match.getPlayerManagers().get(0).placeWorker(0, 0);
@@ -90,10 +90,10 @@ public class TestTurnManager {
     @Test
     public void testPassTurn(){
         Match match = new Match();
-        SocketThread socketThread1 = new SocketThread(socket, match);
+        SocketThread socketThread1 = new SocketThread(socket, null);
         socketThread1.start();
         match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread1);
-        SocketThread socketThread2 = new SocketThread(socket, match);
+        SocketThread socketThread2 = new SocketThread(socket, null);
         socketThread2.start();
         match.addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread2);
         match.getPlayerManagers().get(0).placeWorker(0, 0);

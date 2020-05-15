@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientPing;
+import it.polimi.ingsw.PSP18.server.MatchManager;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Atlas;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Prometheus;
@@ -27,16 +28,17 @@ public class SocketThread extends Thread {
     BufferedReader input;
     PrintWriter output;
     Match match;
+    MatchManager manager;
 
     /***
      * Constructor for the server side socket
      * Init the buffers
      * @param clientSocket the socket reference
-     * @param match the match in which the socket will play reference
+     * @param manager the match in which the socket will play reference
      */
-    public SocketThread(Socket clientSocket, Match match) {
+    public SocketThread(Socket clientSocket, MatchManager manager) {
         this.socket = clientSocket;
-        this.match = match;
+        this.manager = manager;
         try {
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
@@ -59,20 +61,18 @@ public class SocketThread extends Thread {
                 }
             }
         }).start();
-
-        match.addSocket(this);
     }
 
     /***
      * Constructor for the server side socket
      * Init the buffers
      * @param clientSocket the socket reference
-     * @param match the match in which the socket will play reference
+     * @param manager the match in which the socket will play reference
      * @param debug true if debug mode is on, no timeout
      */
-    public SocketThread(Socket clientSocket, Match match, boolean debug) {
+    public SocketThread(Socket clientSocket, MatchManager manager, boolean debug) {
         this.socket = clientSocket;
-        this.match = match;
+        this.manager = manager;
         try {
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
@@ -97,7 +97,6 @@ public class SocketThread extends Thread {
                 }
             }).start();
         }
-        match.addSocket(this);
     }
 
     /***
@@ -245,6 +244,10 @@ public class SocketThread extends Thread {
             case DIVINITY_SELECTION:
                 DivinitySelection divinitySelection = gson.fromJson(jsonObj, DivinitySelection.class);
                 match.divinitySelection(divinitySelection.getDivinities());
+                break;
+            case PLAYER_NUMBER:
+                PlayerNumber playerNumber = gson.fromJson(jsonObj, PlayerNumber.class);
+                setMatch(manager.getMatch(playerNumber.getN()));
         }
     }
 
@@ -256,5 +259,14 @@ public class SocketThread extends Thread {
     public void sendMessage(ClientAbstractMessage msg) {
         Gson gson = new Gson();
         output.println(gson.toJson(msg));
+    }
+
+    /***
+     * Set the match reference after the number of player choice and add my reference to the match
+     * @param match the match reference to be set
+     */
+    public void setMatch(Match match) {
+        this.match = match;
+        match.addSocket(this);
     }
 }

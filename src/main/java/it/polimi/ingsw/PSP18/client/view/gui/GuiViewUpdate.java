@@ -259,6 +259,11 @@ public class GuiViewUpdate extends ViewUpdate {
         ((PickDivinity9Controller)controller).setnPlayers(divinityPick.getnOfPlayers());
     }
 
+    @Override
+    public void playerNumber() {
+
+    }
+
     public void switchScene(String name) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/FXML/" + name + ".fxml"));

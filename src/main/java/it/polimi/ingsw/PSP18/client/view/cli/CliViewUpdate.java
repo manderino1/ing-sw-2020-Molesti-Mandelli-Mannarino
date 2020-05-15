@@ -775,4 +775,27 @@ public class CliViewUpdate extends ViewUpdate {
             }
         }
     }
+
+    /***
+     * Tell the server the number of players
+     */
+    public void playerNumber() {
+        String endStr;
+
+        System.out.println("How many players do you want in your match? 2 or 3?");
+        while(true) {
+            try {
+                endStr = console.readLine();
+                if(endStr.toUpperCase().equals("2")){
+                    inputParser.sendPlayerNumber(2);
+                    return;
+                } else if(endStr.toUpperCase().equals("3")) {
+                    inputParser.sendPlayerNumber(3);
+                }
+                System.out.println("Input incorrect, retry");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

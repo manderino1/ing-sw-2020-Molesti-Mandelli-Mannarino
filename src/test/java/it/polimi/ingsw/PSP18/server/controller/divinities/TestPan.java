@@ -12,7 +12,7 @@ public class TestPan extends TestDivinity {
     @Override
     public void createPlayerManager() {
         Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, match);
+        SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Pan");
         match.addPlayer(playerManager, socketThread);

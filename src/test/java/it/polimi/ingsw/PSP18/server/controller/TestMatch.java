@@ -57,7 +57,7 @@ public class TestMatch {
 
         PlayerData playerData = new PlayerData("cipolla", Color.RED, 0);
         PlayerManager playerManager = new PlayerManager(match, playerData, "Apollo");
-        match.addPlayer(playerManager, new SocketThread(socket, match));
+        match.addPlayer(playerManager, new SocketThread(socket, null));
         Assert.assertEquals(match.getPlayerManagers().get(0), playerManager);
 
         match.setCurrentPlayer(playerManager);
@@ -71,14 +71,18 @@ public class TestMatch {
         Match match = new Match();
 
         match.setMatchStatus(MatchStatus.WAITING_FOR_PLAYERS);
+        SocketThread socketThread = new SocketThread(socket, null, true);
+        socketThread.setMatch(match);
+        SocketThread socketThread1 = new SocketThread(socket, null, true);
+        socketThread1.setMatch(match);
 
         PlayerData playerData = new PlayerData("cipolla", Color.RED, 0);
         PlayerManager playerManager = new PlayerManager(match, playerData, "Apollo");
-        match.addPlayer(playerManager, new SocketThread(socket, match));
+        match.addPlayer(playerManager, socketThread);
 
         PlayerData playerData1 = new PlayerData("cipolla2", Color.RED, 1);
         PlayerManager playerManager1 = new PlayerManager(match, playerData1, "Apollo");
-        match.addPlayer(playerManager1, new SocketThread(socket, match));
+        match.addPlayer(playerManager1, socketThread1);
 
         match.readyManagement(match.getSockets().get(0));
         match.readyManagement(match.getSockets().get(1));
@@ -88,8 +92,10 @@ public class TestMatch {
     @Test
     public void testWorkerPlacementAthena () {
         Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, match);
-        SocketThread socketThread1 = new SocketThread(socket, match);
+        SocketThread socketThread = new SocketThread(socket, null, true);
+        socketThread.setMatch(match);
+        SocketThread socketThread1 = new SocketThread(socket, null, true);
+        socketThread1.setMatch(match);
 
         PlayerData playerData = new PlayerData("cipolla", Color.RED, 0);
         PlayerManager playerManager = new PlayerManager(match, playerData);
@@ -119,8 +125,10 @@ public class TestMatch {
     @Test
     public void testWorkerPlacement () {
         Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, match);
-        SocketThread socketThread1 = new SocketThread(socket, match);
+        SocketThread socketThread = new SocketThread(socket, null, true);
+        socketThread.setMatch(match);
+        SocketThread socketThread1 = new SocketThread(socket, null, true);
+        socketThread1.setMatch(match);
 
         PlayerData playerData = new PlayerData("cipolla", Color.RED, 0);
         PlayerManager playerManager = new PlayerManager(match, playerData);

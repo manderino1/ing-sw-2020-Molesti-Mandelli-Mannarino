@@ -136,6 +136,7 @@ public class TestViewUpdate {
         socketClient.start();
         cliViewUpdate.setInputParser(new InputParser(socketClient));
 
+        socketOutContent.reset();
         cliViewUpdate.selectNick();
         Gson gson = new Gson();
         PlayerDataReceiver playerDataReceiver = gson.fromJson(socketOutContent.toString(), PlayerDataReceiver.class);
