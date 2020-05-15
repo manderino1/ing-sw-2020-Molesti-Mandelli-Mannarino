@@ -112,6 +112,8 @@ public class ObjImporter implements Importer {
         log("Reading from URL: " + url + " as polygon: " + asPolygon);
 
         ObjImporter.ObjModel model = asPolygon ? new ObjImporter.PolyObjModel(url) : new ObjImporter.ObjModel(url);
+
+        /*
         try {
             Map<String, String> env = new HashMap<>();
             env.put("create", "true");
@@ -121,6 +123,7 @@ public class ObjImporter implements Importer {
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
+        */
 
         try (Stream<String> lines = Files.lines(Paths.get(url.toURI()))) {
             lines.map(String::trim)
