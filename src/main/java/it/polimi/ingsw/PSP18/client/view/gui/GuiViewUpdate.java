@@ -1,15 +1,18 @@
 package it.polimi.ingsw.PSP18.client.view.gui;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
+import it.polimi.ingsw.PSP18.client.view.cli.CliColor;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.Match;
+import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,6 +28,7 @@ public class GuiViewUpdate extends ViewUpdate {
     private final int PORT = 9002;
     private InetAddress host;
     private String name;
+    private Popup popup = new Popup();
 
     private ArrayList<PlayerData> playerDataArrayList = new ArrayList<>();
 
@@ -44,6 +48,11 @@ public class GuiViewUpdate extends ViewUpdate {
         stage.setTitle("Santorini");
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnCloseRequest( event -> {
+            Platform.exit();
+            System.exit(0);
+        } );
     }
 
     public void setSocket(SocketClient socket) {
@@ -56,7 +65,7 @@ public class GuiViewUpdate extends ViewUpdate {
 
     /***
      * If we currently are in the match scene, calls the moveUpdate function in MatchController
-     * @param gameMapUpdate contains the new map, the last diretction, the last x and y coordinate and a boolean that signals if the move is a build or a move
+     * @param gameMapUpdate contains the new map, the last direction, the last x and y coordinate and a boolean that signals if the move is a build or a move
      */
     @Override
     public void updateMap(GameMapUpdate gameMapUpdate) {
@@ -144,12 +153,48 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void matchLostUpdate(MatchLost matchLost) {
+        for(PlayerData playerData : playerDataArrayList){
+            if (matchLost.getMatchLost().equals(playerData.getPlayerID())) {
+                playerData.setLost();
+                updatePlayerData(null);
+            }
+        }
 
+        if(matchLost.isMe()) {
+            Platform.runLater(() -> {
+                ((MatchController)controller).setLabelOnLost();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/LosePopUp.fxml"));
+                try {
+                    popup.getContent().add(loader.load());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Controller controller = loader.getController();
+                controller.setView(this);
+                popup.show(stage);
+                if(!matchLost.isFinished()) {
+                    ((PopupController) controller).setSpectate();
+                    ((PopupController) controller).setFinished(false);
+                }
+            });
+        }
     }
 
     @Override
     public void matchWonUpdate(MatchWon matchWon) {
-
+        if(matchWon.isMe()) {
+            Platform.runLater(() -> {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/WinPopUp.fxml"));
+                try {
+                    popup.getContent().add(loader.load());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Controller controller = loader.getController();
+                controller.setView(this);
+                popup.show(stage);
+            });
+        }
     }
 
     @Override
@@ -213,6 +258,13 @@ public class GuiViewUpdate extends ViewUpdate {
         ((PickDivinity9Controller)controller).setnPlayers(divinityPick.getnOfPlayers());
     }
 
+    @Override
+    public void playerNumber() {
+        if (controller.getPageID().equals("Login")) {
+            ((LoginController)controller).selectPlayerNumber();
+        }
+    }
+
     public void switchScene(String name) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/FXML/" + name + ".fxml"));
@@ -238,5 +290,16 @@ public class GuiViewUpdate extends ViewUpdate {
 
     public String getName() {
         return name;
+    }
+
+    public void hidePopUp(boolean finished) {
+        Platform.runLater(()->popup.hide());
+        popup.getContent().clear();
+
+        if(finished) {
+            playerDataArrayList.clear();
+            switchScene("Login");
+            ((LoginController)controller).selectPlayerNumber();
+        }
     }
 }

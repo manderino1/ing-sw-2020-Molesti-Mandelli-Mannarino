@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientPing;
+import it.polimi.ingsw.PSP18.server.MatchManager;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Atlas;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Prometheus;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidTurnException;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
@@ -26,16 +28,17 @@ public class SocketThread extends Thread {
     BufferedReader input;
     PrintWriter output;
     Match match;
+    MatchManager manager;
 
     /***
      * Constructor for the server side socket
      * Init the buffers
      * @param clientSocket the socket reference
-     * @param match the match in which the socket will play reference
+     * @param manager the match in which the socket will play reference
      */
-    public SocketThread(Socket clientSocket, Match match) {
+    public SocketThread(Socket clientSocket, MatchManager manager) {
         this.socket = clientSocket;
-        this.match = match;
+        this.manager = manager;
         try {
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
@@ -58,20 +61,18 @@ public class SocketThread extends Thread {
                 }
             }
         }).start();
-
-        match.addSocket(this);
     }
 
     /***
      * Constructor for the server side socket
      * Init the buffers
      * @param clientSocket the socket reference
-     * @param match the match in which the socket will play reference
+     * @param manager the match in which the socket will play reference
      * @param debug true if debug mode is on, no timeout
      */
-    public SocketThread(Socket clientSocket, Match match, boolean debug) {
+    public SocketThread(Socket clientSocket, MatchManager manager, boolean debug) {
         this.socket = clientSocket;
-        this.match = match;
+        this.manager = manager;
         try {
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
@@ -96,7 +97,6 @@ public class SocketThread extends Thread {
                 }
             }).start();
         }
-        match.addSocket(this);
     }
 
     /***
@@ -111,7 +111,7 @@ public class SocketThread extends Thread {
                     messageParse(line);
                 }
             } catch (SocketException | SocketTimeoutException e) {
-                match.endMatch();
+                match.endMatch(null);
                 System.out.println("Socket disconnected");
                 return;
             } catch (IOException e) {
@@ -154,11 +154,27 @@ public class SocketThread extends Thread {
         switch(type) {
             case MOVE_RECEIVER:
                 MoveReceiver moveReceiver = gson.fromJson(jsonObj, MoveReceiver.class);
-                match.getCurrentPlayer().getDivinity().moveReceiver(moveReceiver.getDirection(), moveReceiver.getWorkerID());
+                if(match.getCurrentSocket() == this) {
+                    match.getCurrentPlayer().getDivinity().moveReceiver(moveReceiver.getDirection(), moveReceiver.getWorkerID());
+                } else {
+                    try {
+                        throw new InvalidTurnException("Move");
+                    } catch (InvalidTurnException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case BUILD_RECEIVER:
                 BuildReceiver buildReceiver = gson.fromJson(jsonObj, BuildReceiver.class);
-                match.getCurrentPlayer().getDivinity().buildReceiver(buildReceiver.getDirection());
+                if(match.getCurrentSocket() == this) {
+                    match.getCurrentPlayer().getDivinity().buildReceiver(buildReceiver.getDirection());
+                } else {
+                    try {
+                        throw new InvalidTurnException("Build");
+                    } catch (InvalidTurnException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case PLAYER_DATA_RECEIVER:
                 PlayerDataReceiver playerDataReceiver = gson.fromJson(jsonObj, PlayerDataReceiver.class);
@@ -179,7 +195,15 @@ public class SocketThread extends Thread {
                 break;
             case ENDTURN_RECEIVER:
                 EndTurnReceiver endTurnReceiver = gson.fromJson(jsonObj, EndTurnReceiver.class);
-                match.getTurnManager().passTurn();
+                if(match.getCurrentSocket() == this) {
+                    match.getTurnManager().passTurn();
+                } else {
+                    try {
+                        throw new InvalidTurnException("End Turn");
+                    } catch (InvalidTurnException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case READY_RECEIVER:
                 ReadyReceiver readyReceiver = gson.fromJson(jsonObj, ReadyReceiver.class);
@@ -191,19 +215,39 @@ public class SocketThread extends Thread {
                 break;
             case PROMETHEUS_BUILD_RECEIVER:
                 PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(jsonObj, PrometheusBuildReceiver.class);
-                if(match.getCurrentPlayer().getDivinity() instanceof Prometheus) {
-                    ((Prometheus) match.getCurrentPlayer().getDivinity()).receiveWorker(prometheusBuildReceiver);
+                if(match.getCurrentSocket() == this) {
+                    if(match.getCurrentPlayer().getDivinity() instanceof Prometheus) {
+                        ((Prometheus) match.getCurrentPlayer().getDivinity()).receiveWorker(prometheusBuildReceiver);
+                    }
+                } else {
+                    try {
+                        throw new InvalidTurnException("Prometheus build");
+                    } catch (InvalidTurnException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case ATLAS_BUILD_RECEIVER:
                 AtlasBuildReceiver atlasBuildReceiver = gson.fromJson(jsonObj, AtlasBuildReceiver.class);
-                if(match.getCurrentPlayer().getDivinity() instanceof Atlas) {
-                    ((Atlas) match.getCurrentPlayer().getDivinity()).buildReceiver(atlasBuildReceiver.getDirection(), atlasBuildReceiver.isDome());
+                if(match.getCurrentSocket() == this) {
+                    if(match.getCurrentPlayer().getDivinity() instanceof Atlas) {
+                        ((Atlas) match.getCurrentPlayer().getDivinity()).buildReceiver(atlasBuildReceiver.getDirection(), atlasBuildReceiver.isDome());
+                    }
+                } else {
+                    try {
+                        throw new InvalidTurnException("Atlas build");
+                    } catch (InvalidTurnException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case DIVINITY_SELECTION:
                 DivinitySelection divinitySelection = gson.fromJson(jsonObj, DivinitySelection.class);
                 match.divinitySelection(divinitySelection.getDivinities());
+                break;
+            case PLAYER_NUMBER:
+                PlayerNumber playerNumber = gson.fromJson(jsonObj, PlayerNumber.class);
+                setMatch(manager.getMatch(playerNumber.getN()));
         }
     }
 
@@ -215,5 +259,14 @@ public class SocketThread extends Thread {
     public void sendMessage(ClientAbstractMessage msg) {
         Gson gson = new Gson();
         output.println(gson.toJson(msg));
+    }
+
+    /***
+     * Set the match reference after the number of player choice and add my reference to the match
+     * @param match the match reference to be set
+     */
+    public void setMatch(Match match) {
+        this.match = match;
+        match.addSocket(this);
     }
 }

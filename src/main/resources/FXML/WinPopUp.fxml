@@ -6,36 +6,76 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="702.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.PopupController">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true">
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="1.0" layoutY="293.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../2DGraphics/Odyssey_UI_Backdrop.png" />
+            <Image url="@../2DGraphics/endgame_victorytrumpets.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="449.0" fitWidth="681.0" layoutX="-38.0" layoutY="-25.0" pickOnBounds="true" translateX="-1.0" translateY="1.0">
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="507.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../2DGraphics/om_btnGlow.png" />
+            <Image url="@../2DGraphics/endgame_victorytrumpets.png" />
          </image>
       </ImageView>
-      <Label layoutX="136.0" layoutY="59.0" text="You have Won!" textFill="WHITE">
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="496.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_victorytrumpets.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="1.0" layoutY="152.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_victorytrumpets.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="572.0" fitWidth="546.0" layoutX="81.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_victorywin.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="62.0" fitWidth="354.0" layoutX="225.0" layoutY="391.0" onMouseClicked="#confirmClick" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/btn_blue.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="384.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_victorycloudright.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="1.0" layoutY="404.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_victorycloudright.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="151.0" fitWidth="363.0" layoutX="166.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/gameGodFrameName1.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="240.0" layoutY="98.0" text="VICTORY!" textFill="WHITE">
          <font>
-            <Font size="53.0" />
+            <Font name="System Italic" size="51.0" />
          </font>
       </Label>
-      <Label layoutX="270.0" layoutY="221.0" text="Continue">
+      <Label layoutX="246.0" layoutY="391.0" mouseTransparent="true" pickOnBounds="false" text="PLAY AGAIN" textFill="WHITE">
          <font>
-            <Font size="15.0" />
+            <Font name="System Italic" size="37.0" />
          </font>
       </Label>
-      <ImageView fitHeight="151.0" fitWidth="163.0" layoutX="225.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="151.0" fitWidth="141.0" layoutX="278.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/trophy_large.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="151.0" fitWidth="163.0" layoutX="219.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="151.0" fitWidth="141.0" layoutX="387.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true" rotate="-135.0">
          <image>
-            <Image url="@../2DGraphics/cl_frame_wreath.png" />
+            <Image url="@../2DGraphics/godpower_destroymark_active.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="151.0" fitWidth="141.0" layoutX="170.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true" rotate="135.0">
+         <image>
+            <Image url="@../2DGraphics/godpower_destroymark_active.png" />
          </image>
       </ImageView>
    </children>

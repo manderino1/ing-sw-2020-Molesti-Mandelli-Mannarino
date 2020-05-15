@@ -11,13 +11,13 @@ import java.util.ArrayList;
  */
 public class MatchManager {
     private SocketServer socketServer;
-    private ArrayList<Match> matches = new ArrayList<>();
+    private ArrayList<Match> matches2 = new ArrayList<>();
+    private ArrayList<Match> matches3 = new ArrayList<>();
 
     /***
      * Constructor that launch the socket server listener and init the first match
      */
     public MatchManager() {
-        this.matches.add(new Match());
         this.socketServer = new SocketServer(this);
         socketServer.start();
     }
@@ -26,17 +26,34 @@ public class MatchManager {
      * Returns che match to add the socket to
      * @return returns the active match to add the socket to
      */
-    public Match getMatch() {
-        matches.removeIf(match -> match.getMatchStatus() == MatchStatus.MATCH_ENDED); // Remove ended matches
+    public Match getMatch(int size) {
+        matches2.removeIf(match -> match.getMatchStatus() == MatchStatus.MATCH_ENDED); // Remove ended matches
+        matches3.removeIf(match -> match.getMatchStatus() == MatchStatus.MATCH_ENDED); // Remove ended matches
 
-        if(matches.size() == 0) {
-            matches.add(new Match());
+        if(matches2.size() == 0 && size == 2) {
+            matches2.add(new Match());
+            return matches2.get(matches2.size()-1);
         }
 
-        if(matches.get(matches.size()-1).getSockets().size() > 2 || matches.get(matches.size()-1).getMatchStatus() != MatchStatus.WAITING_FOR_PLAYERS) {  // Create a new match and return it
-            matches.add(new Match());
+        if(matches3.size() == 0 && size == 3) {
+            matches3.add(new Match());
+            return matches3.get(matches3.size()-1);
         }
 
-        return matches.get(matches.size()-1);
+        if(size == 2) {
+            if(matches2.get(matches2.size()-1).getSockets().size() > 1) {
+                matches2.add(new Match());
+            }
+            return matches2.get(matches2.size()-1);
+        }
+
+        if(size == 3) {
+            if(matches3.get(matches3.size()-1).getSockets().size() > 2) {
+                matches3.add(new Match());
+            }
+            return matches3.get(matches3.size()-1);
+        }
+
+        return null;
     }
 }

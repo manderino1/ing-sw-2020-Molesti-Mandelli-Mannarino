@@ -53,30 +53,18 @@ public class Artemis extends Divinity {
             return;
         }
 
-        // Check that the move is valid
-        if((workerID == 0 && !movesWorker1.contains(direction)) || (workerID == 1 && !movesWorker2.contains(direction))) {
-            try {
-                throw new InvalidMoveException();
-            } catch (InvalidMoveException e) {
-                e.printStackTrace();
-                move();
-                return;
-            }
-        }
-
         Worker worker = playerManager.getWorker(workerID);
         this.workerID = workerID;
         setMove(worker.getX(), worker.getY(), direction);
 
         if(checkForVictory(workerID)){
-            for(SocketThread socket : playerManager.getMatch().getSockets()) {
-                socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));
+            if(checkForVictory(workerID)){
+                playerManager.getMatch().endMatch(playerManager);
+                return;
             }
-            playerManager.getMatch().endMatch();
-            return;
         }
         if(firstMove) {
-            moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
+            ArrayList<Direction> moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
             moves.remove(DirectionManagement.getOppositeDirection(direction));
             if (moves.size() == 0) {
                 manageLoss();

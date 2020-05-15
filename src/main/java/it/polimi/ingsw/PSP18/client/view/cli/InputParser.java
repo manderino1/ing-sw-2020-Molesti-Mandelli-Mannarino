@@ -140,4 +140,11 @@ public class InputParser {
     public void sendDivinities(ArrayList<String> divinities) {
         socket.sendMessage(new DivinitySelection(divinities));
     }
+
+    /***
+     * Send the requested number of player
+     */
+    public void sendPlayerNumber(int n) {
+        socket.sendMessage(new PlayerNumber(n));
+    }
 }

@@ -47,6 +47,14 @@ public class Demeter extends Divinity {
      */
     public void buildReceiver(Direction direction) {
         if (direction == null) { // If he doesn't want to move
+            if(firstBuild) {
+                try {
+                    throw new InvalidBuildException();
+                } catch (InvalidBuildException e) {
+                    build();
+                    return;
+                }
+            }
             playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
             return;
         }
