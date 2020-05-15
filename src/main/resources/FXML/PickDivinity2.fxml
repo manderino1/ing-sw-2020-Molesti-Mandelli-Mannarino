@@ -13,12 +13,12 @@
             <Image url="@../2DGraphics/Odyssey_UI_Backdrop.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="divinitySelected1" fitHeight="310.0" fitWidth="215.0" layoutX="155.0" layoutY="205.0" onDragEntered="#hoverEnter" onDragExited="#hoverExit" onMouseClicked="#divinityClick1" pickOnBounds="true" visible="false">
+      <ImageView fx:id="divinitySelected1" fitHeight="310.0" fitWidth="215.0" layoutX="155.0" layoutY="205.0" onMouseClicked="#divinityClick1" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" visible="false">
          <image>
             <Image url="@../2DGraphics/Athena.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="divinitySelected2" fitHeight="310.0" fitWidth="215.0" layoutX="911.0" layoutY="205.0" onDragEntered="#hoverEnter" onDragExited="#hoverExit" onMouseClicked="#divinityClick2" pickOnBounds="true" visible="false">
+      <ImageView fx:id="divinitySelected2" fitHeight="310.0" fitWidth="215.0" layoutX="911.0" layoutY="205.0" onMouseClicked="#divinityClick2" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" visible="false">
          <image>
             <Image url="@../2DGraphics/Athena.png" />
          </image>
@@ -35,12 +35,12 @@
       </Label>
       <Pane layoutX="925.0" layoutY="541.0" prefHeight="149.0" prefWidth="188.0" style="-fx-background-color: black;" />
       <Pane layoutX="168.0" layoutY="537.0" prefHeight="149.0" prefWidth="188.0" style="-fx-background-color: black;" />
-      <ImageView fx:id="divinityBox1" fitHeight="341.0" fitWidth="300.0" layoutX="136.0" layoutY="189.0" onMouseClicked="#divinityClick1" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="divinityBox1" fitHeight="341.0" fitWidth="300.0" layoutX="136.0" layoutY="189.0" mouseTransparent="true" onMouseClicked="#divinityClick1" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../2DGraphics/frame_yellow.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="divinityBox2" fitHeight="341.0" fitWidth="300.0" layoutX="927.0" layoutY="189.0" onMouseClicked="#divinityClick2" pickOnBounds="true" preserveRatio="true" translateX="-35.0" visible="false">
+      <ImageView fx:id="divinityBox2" fitHeight="341.0" fitWidth="300.0" layoutX="927.0" layoutY="189.0" mouseTransparent="true" onMouseClicked="#divinityClick2" pickOnBounds="true" preserveRatio="true" translateX="-35.0" visible="false">
          <image>
             <Image url="@../2DGraphics/frame_yellow.png" />
          </image>
