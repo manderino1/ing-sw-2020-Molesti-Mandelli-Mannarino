@@ -281,9 +281,9 @@ public class Match {
             }
             for(SocketThread socket : sockets) {
                 if (socketPlayerMap.get(socket) != winner) {
-                    socket.sendMessage(new MatchLost(loserID, true));
+                    socket.sendMessage(new MatchLost(loserID, true, true));
                 } else {
-                    socket.sendMessage(new MatchLost(loserID, false));
+                    socket.sendMessage(new MatchLost(loserID, false, true));
                 }
             }
         }

@@ -1,4 +1,5 @@
 open module it.polimi.ingsw.PSP18 {
+    uses org.fxyz3d.importers.Importer;
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;

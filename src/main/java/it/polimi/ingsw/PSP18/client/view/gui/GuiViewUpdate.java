@@ -60,7 +60,7 @@ public class GuiViewUpdate extends ViewUpdate {
 
     /***
      * If we currently are in the match scene, calls the moveUpdate function in MatchController
-     * @param gameMapUpdate contains the new map, the last diretction, the last x and y coordinate and a boolean that signals if the move is a build or a move
+     * @param gameMapUpdate contains the new map, the last direction, the last x and y coordinate and a boolean that signals if the move is a build or a move
      */
     @Override
     public void updateMap(GameMapUpdate gameMapUpdate) {
@@ -159,13 +159,6 @@ public class GuiViewUpdate extends ViewUpdate {
             Platform.runLater(() -> {
                 ((MatchController)controller).setLabelOnLost();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/LosePopUp.fxml"));
-
-                int counter = 0;
-                for(PlayerData playerData : playerDataArrayList){
-                    if(!playerData.getLost()){
-                        counter++;
-                    }
-                }
                 try {
                     popup.getContent().add(loader.load());
                 } catch (IOException e) {
@@ -174,8 +167,8 @@ public class GuiViewUpdate extends ViewUpdate {
                 Controller controller = loader.getController();
                 controller.setView(this);
                 popup.show(stage);
-                if(counter != 1){
-                    ((PopupController)controller).setSpectate();
+                if(!matchLost.isFinished()) {
+                    ((PopupController) controller).setSpectate();
                 }
             });
         }
@@ -261,7 +254,9 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void playerNumber() {
-
+        if (controller.getPageID().equals("Login")) {
+            ((LoginController)controller).selectPlayerNumber();
+        }
     }
 
     public void switchScene(String name) {

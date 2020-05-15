@@ -4,11 +4,18 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchLost;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PopupController extends Controller {
+    @FXML
+    private ImageView defeatLogo;
+    @FXML
+    private ImageView spectateButton;
+    @FXML
+    private Label label2;
     @FXML
     private Label label;
 
@@ -25,6 +32,10 @@ public class PopupController extends Controller {
 
     @FXML
     public void setSpectate(){
-        Platform.runLater(() -> label.setText("SPECTATE"));
+        Platform.runLater(() -> {
+            defeatLogo.setVisible(false);
+            spectateButton.setVisible(true);
+            label2.setVisible(true);
+        });
     }
 }

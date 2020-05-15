@@ -7,15 +7,25 @@ public class MatchLost extends ClientAbstractMessage{
 
     private String playerID;
     private boolean me;
+    private boolean isFinished;
 
     /***
      * Init the type of the message and the ID of the player that has lost
      * @param playerID the player ID
      */
-    public MatchLost(String playerID, boolean me){
+    public MatchLost(String playerID, boolean me, boolean isFinished){
         this.type=ClientMessageType.MATCH_LOST;
         this.playerID=playerID;
         this.me = me;
+        this.isFinished = isFinished;
+    }
+
+    /***
+     * Returns boolean isFinished
+     * @return true if the match is ended
+     */
+    public boolean isFinished() {
+        return isFinished;
     }
 
     /***

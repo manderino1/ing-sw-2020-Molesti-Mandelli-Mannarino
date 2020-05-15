@@ -63,10 +63,20 @@
             <Font name="System Italic" size="37.0" />
          </font>
       </Label>
-      <ImageView fitHeight="145.0" fitWidth="150.0" layoutX="280.0" layoutY="256.0">
+      <ImageView fx:id="defeatLogo" fitHeight="145.0" fitWidth="150.0" layoutX="280.0" layoutY="256.0">
          <image>
             <Image url="@../2DGraphics/heropower_inactive.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="spectateButton" fitHeight="62.0" fitWidth="354.0" layoutX="235.0" layoutY="298.0" onMouseClicked="#confirmClick" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../2DGraphics/btn_blue.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="label2" alignment="CENTER" contentDisplay="CENTER" layoutX="252.0" layoutY="302.0" mouseTransparent="true" pickOnBounds="false" prefHeight="54.0" prefWidth="205.0" text="SPECTATE" textAlignment="CENTER" textFill="WHITE" translateY="-5.0" visible="false">
+         <font>
+            <Font name="System Italic" size="37.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

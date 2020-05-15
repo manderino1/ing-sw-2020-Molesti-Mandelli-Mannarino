@@ -257,7 +257,11 @@ public class Divinity {
      */
     protected void manageLoss() {
         if(playerManager.getMatch().getPlayerManagers().size() == 2) {
-            playerManager.getMatch().endMatch(playerManager.getMatch().getPlayerManagers().get(0));
+            if(playerManager.getMatch().getPlayerManagers().get(0) == playerManager){
+                playerManager.getMatch().endMatch(playerManager.getMatch().getPlayerManagers().get(1));
+            } else {
+                playerManager.getMatch().endMatch(playerManager.getMatch().getPlayerManagers().get(0));
+            }
             return;
         }
 
@@ -273,9 +277,9 @@ public class Divinity {
 
         for(SocketThread socket : playerManager.getMatch().getSockets()) {
             if(socket == playerManager.getMatch().getCurrentSocket()) {
-                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID(), true));
+                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID(), true, false));
             } else {
-                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID(), false));
+                socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID(), false, false));
             }
         }
 
