@@ -4,8 +4,10 @@ import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PlayerNumber;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.CacheHint;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
