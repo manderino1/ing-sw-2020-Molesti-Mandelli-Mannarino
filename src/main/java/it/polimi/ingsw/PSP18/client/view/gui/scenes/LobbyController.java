@@ -16,29 +16,33 @@ import java.util.ResourceBundle;
 
 public class LobbyController extends Controller {
     @FXML
-    public Text firstPlayerReady;
+    private Text firstPlayerReady;
     @FXML
-    public Text secondPlayerReady;
+    private Text secondPlayerReady;
     @FXML
-    public Text secondPlayer;
+    private Text secondPlayer;
     @FXML
-    public Text firstPlayer;
+    private Text firstPlayer;
     @FXML
-    public ImageView firstPlayerDivinity;
+    private ImageView firstPlayerDivinity;
     @FXML
-    public ImageView secondPlayerDivinity;
+    private ImageView secondPlayerDivinity;
     @FXML
-    public ImageView yellowBox2;
+    private ImageView yellowBox2;
     @FXML
-    public ImageView blueBox2;
+    private ImageView blueBox2;
     @FXML
-    public Text nick1;
+    private Text nick1;
     @FXML
-    public ImageView yellowBox1;
+    private ImageView yellowBox1;
     @FXML
-    public ImageView blueBox1;
+    private ImageView blueBox1;
     @FXML
-    public Text nick2;
+    private Text nick2;
+    @FXML
+    private Text firstReadyStatus;
+    @FXML
+    private Text secondReadyStatus;
     @FXML
     private ImageView readyButton;
     @FXML
@@ -97,16 +101,16 @@ public class LobbyController extends Controller {
         boolean firstNickInput = true;
         for (PlayerData playerData : players){
             if (!playerData.getPlayerID().equals(nicknameBar.getText()) && firstNickInput) {
-                updateSinglePlayer(playerData, blueBox1, nick1, firstPlayer, firstPlayerReady, firstPlayerDivinity, yellowBox1);
+                updateSinglePlayer(playerData, blueBox1, nick1, firstPlayer, firstPlayerReady, firstPlayerDivinity, yellowBox1, firstReadyStatus);
                 firstNickInput = false;
 
             } else if (!playerData.getPlayerID().equals(nicknameBar.getText()) && !firstNickInput && !playerData.getPlayerID().equals(firstPlayer.getText()) ) {
-                updateSinglePlayer(playerData, blueBox2, nick2, secondPlayer, secondPlayerReady, secondPlayerDivinity, yellowBox2);
+                updateSinglePlayer(playerData, blueBox2, nick2, secondPlayer, secondPlayerReady, secondPlayerDivinity, yellowBox2, secondReadyStatus);
             }
         }
     }
 
-    private void updateSinglePlayer(PlayerData playerData, ImageView blueBox2, Text nick2, Text secondPlayer, Text secondPlayerReady, ImageView secondPlayerDivinity, ImageView yellowBox2) {
+    private void updateSinglePlayer(PlayerData playerData, ImageView blueBox2, Text nick2, Text secondPlayer, Text secondPlayerReady, ImageView secondPlayerDivinity, ImageView yellowBox2, Text secondReadyStatus) {
         Platform.runLater(() -> {
             blueBox2.setVisible(true);
             nick2.setVisible(true);
@@ -115,6 +119,15 @@ public class LobbyController extends Controller {
             int playOrder = playerData.getPlayOrder() + 1;
             secondPlayerReady.setText("Play Order: " + playOrder);
             secondPlayerReady.setVisible(true);
+        });
+
+        Platform.runLater(() -> {
+            if(playerData.getReady()){
+                secondReadyStatus.setText("Ready!");
+            } else {
+                secondReadyStatus.setText("Not ready!");
+            }
+            secondReadyStatus.setVisible(true);
         });
 
         if(playerData.getDivinity() == null){

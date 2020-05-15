@@ -244,7 +244,7 @@
             <Font size="25.0" />
          </font>
       </Text>
-      <Text fx:id="firstPlayerReady" layoutX="250.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" visible="false" wrappingWidth="260.0">
+      <Text fx:id="firstPlayerReady" layoutX="250.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" translateY="-7.0" visible="false" wrappingWidth="260.0">
          <font>
             <Font size="25.0" />
          </font>
@@ -259,7 +259,17 @@
             <Font size="25.0" />
          </font>
       </Text>
-      <Text fx:id="secondPlayerReady" layoutX="250.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" visible="false" wrappingWidth="260.0">
+      <Text fx:id="secondPlayerReady" layoutX="250.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" translateY="-5.0" visible="false" wrappingWidth="260.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fx:id="firstReadyStatus" layoutX="250.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" translateY="-7.0" visible="false" wrappingWidth="260.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fx:id="secondReadyStatus" layoutX="250.0" layoutY="520.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ready" translateY="-5.0" visible="false" wrappingWidth="260.0">
          <font>
             <Font size="25.0" />
          </font>
