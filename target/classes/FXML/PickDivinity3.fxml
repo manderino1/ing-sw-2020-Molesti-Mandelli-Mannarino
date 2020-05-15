@@ -13,17 +13,17 @@
             <Image url="@../2DGraphics/Odyssey_UI_Backdrop.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="divinitySelected1" fitHeight="310.0" fitWidth="215.0" layoutX="155.0" layoutY="205.0" onMouseClicked="#divinityClick1" pickOnBounds="true" visible="false">
+      <ImageView fx:id="divinitySelected1" fitHeight="310.0" fitWidth="215.0" layoutX="155.0" layoutY="205.0" onDragEntered="#hoverEnter" onDragExited="#hoverExit" onMouseClicked="#divinityClick1" pickOnBounds="true" visible="false">
          <image>
             <Image url="@../2DGraphics/Athena.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="divinitySelected2" fitHeight="310.0" fitWidth="215.0" layoutX="533.0" layoutY="205.0" onMouseClicked="#divinityClick2" pickOnBounds="true" visible="false">
+      <ImageView fx:id="divinitySelected2" fitHeight="310.0" fitWidth="215.0" layoutX="533.0" layoutY="205.0" onDragEntered="#hoverEnter" onDragExited="#hoverExit" onMouseClicked="#divinityClick2" pickOnBounds="true" visible="false">
          <image>
             <Image url="@../2DGraphics/Athena.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="divinitySelected3" fitHeight="310.0" fitWidth="215.0" layoutX="911.0" layoutY="205.0" onMouseClicked="#divinityClick3" pickOnBounds="true" visible="false">
+      <ImageView fx:id="divinitySelected3" fitHeight="310.0" fitWidth="215.0" layoutX="911.0" layoutY="205.0" onDragEntered="#hoverEnter" onDragExited="#hoverExit" onMouseClicked="#divinityClick3" pickOnBounds="true" visible="false">
          <image>
             <Image url="@../2DGraphics/Athena.png" />
          </image>
@@ -33,7 +33,7 @@
             <Image url="@../2DGraphics/cm_backingstone.png" />
          </image>
       </ImageView>
-      <Label layoutX="509.0" layoutY="31.0" prefHeight="134.0" prefWidth="262.0" text="Pick a divintiy">
+      <Label layoutX="509.0" layoutY="31.0" prefHeight="134.0" prefWidth="262.0" text="Pick a divinty">
          <font>
             <Font size="43.0" />
          </font>

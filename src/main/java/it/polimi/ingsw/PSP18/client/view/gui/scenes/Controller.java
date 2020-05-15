@@ -4,8 +4,8 @@ import it.polimi.ingsw.PSP18.client.view.gui.GuiViewUpdate;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import javafx.fxml.Initializable;
 import javafx.scene.CacheHint;
+import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
@@ -36,12 +36,12 @@ public abstract class Controller implements Initializable {
         ColorAdjust blackout = new ColorAdjust();
         blackout.setBrightness(-0.2);
 
-        ((ImageView)mouseEvent.getSource()).setEffect(blackout);
-        ((ImageView)mouseEvent.getSource()).setCache(true);
-        ((ImageView)mouseEvent.getSource()).setCacheHint(CacheHint.SPEED);
+        ((Node)mouseEvent.getSource()).setEffect(blackout);
+        ((Node)mouseEvent.getSource()).setCache(true);
+        ((Node)mouseEvent.getSource()).setCacheHint(CacheHint.SPEED);
     }
 
     public void hoverExit(MouseEvent mouseEvent) {
-        ((ImageView)mouseEvent.getSource()).setEffect(null);
+        ((Node)mouseEvent.getSource()).setEffect(null);
     }
 }
