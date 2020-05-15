@@ -791,6 +791,7 @@ public class CliViewUpdate extends ViewUpdate {
                     return;
                 } else if(endStr.toUpperCase().equals("3")) {
                     inputParser.sendPlayerNumber(3);
+                    return;
                 }
                 System.out.println("Input incorrect, retry");
             } catch (IOException e) {

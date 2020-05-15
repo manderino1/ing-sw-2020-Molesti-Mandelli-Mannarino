@@ -48,6 +48,11 @@ public class GuiViewUpdate extends ViewUpdate {
         stage.setTitle("Santorini");
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnCloseRequest( event -> {
+            Platform.exit();
+            System.exit(0);
+        } );
     }
 
     public void setSocket(SocketClient socket) {
