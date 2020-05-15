@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.PickDivinity9Controller">
+   <children>
+      <ImageView fitHeight="1037.0" fitWidth="1280.0" layoutY="-240.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/Odyssey_UI_Backdrop.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="584.0" fitWidth="188.0" layoutX="546.0" layoutY="-152.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+         <image>
+            <Image url="@../2DGraphics/cm_backingstone.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="topText" alignment="CENTER" layoutX="456.0" layoutY="31.0" prefHeight="134.0" prefWidth="369.0" text="Pick divinities for the game">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="167.0" fitWidth="371.0" layoutX="155.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/Athena.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="370.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/Minotaur.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="585.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/Hephaestus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="800.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/Pan.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="1015.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/Atlas.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="167.0" fitWidth="371.0" layoutX="258.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/Demeter.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="473.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/Artemis.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="688.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/Apollo.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="903.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/Prometheus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="188.0" fitWidth="132.0" layoutX="358.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/frame_yellow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="188.0" fitWidth="132.0" layoutX="573.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/frame_yellow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="188.0" fitWidth="132.0" layoutX="792.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/frame_yellow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="188.0" fitWidth="132.0" layoutX="1007.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/frame_yellow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="188.0" fitWidth="132.0" layoutX="246.0" layoutY="457.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/frame_yellow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="188.0" fitWidth="132.0" layoutX="461.0" layoutY="457.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/frame_yellow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="188.0" fitWidth="132.0" layoutX="676.0" layoutY="457.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/frame_yellow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="188.0" fitWidth="132.0" layoutX="143.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/frame_yellow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="188.0" fitWidth="132.0" layoutX="891.0" layoutY="457.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/frame_yellow.png" />
+         </image>
+      </ImageView>
+      <CheckBox fx:id="athenaCheckbox" layoutX="190.0" layoutY="378.0" mnemonicParsing="false" onMouseClicked="#checkboxClick" prefHeight="70.0" prefWidth="37.0">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="minotaurCheckbox" layoutX="406.0" layoutY="378.0" mnemonicParsing="false" onMouseClicked="#checkboxClick" prefHeight="70.0" prefWidth="37.0">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="hephaestusCheckbox" layoutX="620.0" layoutY="378.0" mnemonicParsing="false" onMouseClicked="#checkboxClick" prefHeight="70.0" prefWidth="37.0">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="panCheckbox" layoutX="840.0" layoutY="378.0" mnemonicParsing="false" onMouseClicked="#checkboxClick" prefHeight="70.0" prefWidth="37.0">
+         <font>
+            <Font size="27.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </CheckBox>
+      <CheckBox fx:id="atlasCheckbox" layoutX="1055.0" layoutY="378.0" mnemonicParsing="false" onMouseClicked="#checkboxClick" prefHeight="70.0" prefWidth="37.0" textFill="#070606">
+         <font>
+            <Font size="27.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </CheckBox>
+      <CheckBox fx:id="demeterCheckbox" layoutX="294.0" layoutY="620.0" mnemonicParsing="false" onMouseClicked="#checkboxClick" prefHeight="70.0" prefWidth="37.0">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="artemisCheckbox" layoutX="513.0" layoutY="620.0" mnemonicParsing="false" onMouseClicked="#checkboxClick" prefHeight="70.0" prefWidth="37.0">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="apolloCheckbox" layoutX="724.0" layoutY="620.0" mnemonicParsing="false" onMouseClicked="#checkboxClick" prefHeight="70.0" prefWidth="37.0">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="prometheusCheckbox" layoutX="939.0" layoutY="620.0" mnemonicParsing="false" onMouseClicked="#checkboxClick" prefHeight="70.0" prefWidth="37.0">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </CheckBox>
+      <ImageView fx:id="nextButton" fitHeight="47.0" fitWidth="157.0" layoutX="1080.0" layoutY="597.0" onMouseClicked="#confirmClick" pickOnBounds="true">
+         <image>
+            <Image url="@../2DGraphics/RedButton.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="1136.0" layoutY="605.0" onMouseClicked="#confirmClick" prefHeight="30.0" prefWidth="45.0" text="Next">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
