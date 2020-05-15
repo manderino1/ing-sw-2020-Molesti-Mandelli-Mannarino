@@ -7,9 +7,11 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class PickDivinity9Controller extends Controller {
@@ -18,17 +20,30 @@ public class PickDivinity9Controller extends Controller {
     @FXML
     private CheckBox demeterCheckbox, artemisCheckbox, apolloCheckbox, prometheusCheckbox;
     @FXML
+    private ImageView athena, minotaur, hephaestus, pan, atlas, demeter, artemis, apollo, prometheus;
+    @FXML
     private ImageView nextButton;
     @FXML
     private Label topText;
 
     private int nPlayers; // TODO: Add check in the message
     private boolean sendOK = false, sent = false;
+    private HashMap<ImageView, CheckBox> checkBoxHashMap = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
         this.pageID = "PickDivinity9";
+
+        checkBoxHashMap.put(athena, athenaCheckbox);
+        checkBoxHashMap.put(minotaur, minotaurCheckbox);
+        checkBoxHashMap.put(hephaestus, hephaestusCheckbox);
+        checkBoxHashMap.put(pan, panCheckbox);
+        checkBoxHashMap.put(atlas, atlasCheckbox);
+        checkBoxHashMap.put(demeter, demeterCheckbox);
+        checkBoxHashMap.put(artemis, artemisCheckbox);
+        checkBoxHashMap.put(apollo, apolloCheckbox);
+        checkBoxHashMap.put(prometheus, prometheusCheckbox);
     }
 
     @FXML
@@ -110,10 +125,15 @@ public class PickDivinity9Controller extends Controller {
         }
     }
 
+
+
     public void setnPlayers(int nPlayers) {
         this.nPlayers = nPlayers;
         Platform.runLater(() -> topText.setText("Pick " + nPlayers + " divinities for the game"));
     }
 
-
+    public void divinityClick(MouseEvent mouseEvent) {
+        checkBoxHashMap.get((ImageView)mouseEvent.getSource()).fire();
+        checkboxClick();
+    }
 }

@@ -25,47 +25,47 @@
             <Font size="25.0" />
          </font>
       </Label>
-      <ImageView fitHeight="167.0" fitWidth="371.0" layoutX="155.0" layoutY="218.0" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="athena" fitHeight="167.0" fitWidth="371.0" layoutX="155.0" layoutY="218.0" onMouseClicked="#divinityClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/Athena.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="370.0" layoutY="218.0" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="minotaur" fitHeight="167.0" fitWidth="135.0" layoutX="370.0" layoutY="218.0" onMouseClicked="#divinityClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/Minotaur.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="585.0" layoutY="218.0" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="hephaestus" fitHeight="167.0" fitWidth="135.0" layoutX="585.0" layoutY="218.0" onMouseClicked="#divinityClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/Hephaestus.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="800.0" layoutY="218.0" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="pan" fitHeight="167.0" fitWidth="135.0" layoutX="800.0" layoutY="218.0" onMouseClicked="#divinityClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/Pan.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="1015.0" layoutY="218.0" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="atlas" fitHeight="167.0" fitWidth="135.0" layoutX="1015.0" layoutY="218.0" onMouseClicked="#divinityClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/Atlas.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="167.0" fitWidth="371.0" layoutX="258.0" layoutY="463.0" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="demeter" fitHeight="167.0" fitWidth="371.0" layoutX="258.0" layoutY="463.0" onMouseClicked="#divinityClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/Demeter.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="473.0" layoutY="463.0" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="artemis" fitHeight="167.0" fitWidth="135.0" layoutX="473.0" layoutY="463.0" onMouseClicked="#divinityClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/Artemis.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="688.0" layoutY="463.0" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="apollo" fitHeight="167.0" fitWidth="135.0" layoutX="688.0" layoutY="463.0" onMouseClicked="#divinityClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/Apollo.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="167.0" fitWidth="135.0" layoutX="903.0" layoutY="463.0" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="prometheus" fitHeight="167.0" fitWidth="135.0" layoutX="903.0" layoutY="463.0" onMouseClicked="#divinityClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/Prometheus.png" />
          </image>

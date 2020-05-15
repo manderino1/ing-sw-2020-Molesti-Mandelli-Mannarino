@@ -29,7 +29,7 @@
          </font>
       </Label>
       <Pane layoutX="547.0" layoutY="537.0" prefHeight="149.0" prefWidth="188.0" style="-fx-background-color: black;" />
-      <ImageView fx:id="divinityBox" fitHeight="341.0" fitWidth="300.0" layoutX="514.0" layoutY="189.0" onMouseClicked="#divinityClick" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="divinityBox" fitHeight="341.0" fitWidth="300.0" layoutX="514.0" layoutY="189.0" mouseTransparent="true" onMouseClicked="#divinityClick" preserveRatio="true" visible="false">
          <image>
             <Image url="@../2DGraphics/frame_yellow.png" />
          </image>
