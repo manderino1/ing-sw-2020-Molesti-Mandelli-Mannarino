@@ -1111,6 +1111,7 @@ public class MatchController extends Controller {
             button1.setImage(image2);
             clearColor();
             socket.sendMessage(new BuildReceiver(null));
+            button1.setOnMousePressed(e2 -> { });
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
                 e2.consume();
