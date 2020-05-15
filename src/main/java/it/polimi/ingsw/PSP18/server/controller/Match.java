@@ -272,18 +272,19 @@ public class Match {
     public void endMatch(PlayerManager winner) {
         if(winner != null) {
             playerSocketMap.get(winner).sendMessage(new MatchWon(winner.getPlayerData().getPlayerID(), true));
-            String loserID = null;
+            ArrayList<String> loserIDs = new ArrayList<>();
             for(SocketThread socket : sockets) {
                 if (socketPlayerMap.get(socket) != winner) {
-                    loserID = socketPlayerMap.get(socket).getPlayerData().getPlayerID();
-                    break;
+                    loserIDs.add(socketPlayerMap.get(socket).getPlayerData().getPlayerID());
                 }
             }
             for(SocketThread socket : sockets) {
-                if (socketPlayerMap.get(socket) != winner) {
-                    socket.sendMessage(new MatchLost(loserID, true, true));
-                } else {
-                    socket.sendMessage(new MatchLost(loserID, false, true));
+                for(String loserID : loserIDs) {
+                    if (socketPlayerMap.get(socket).getPlayerData().getPlayerID().equals(loserID)) {
+                        socket.sendMessage(new MatchLost(loserID, true, true));
+                    } else {
+                        socket.sendMessage(new MatchLost(loserID, false, true));
+                    }
                 }
             }
         }
