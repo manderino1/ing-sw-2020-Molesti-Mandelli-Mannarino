@@ -144,6 +144,14 @@ public class SocketClient extends Thread {
     }
 
     /***
+     * Get the ip and the port of the server
+     * @return the ip and the port
+     */
+    public InetSocketAddress getIP() {
+        return new InetSocketAddress(socket.getInetAddress(), socket.getPort());
+    }
+
+    /***
      * Parse the input message from the server and call the correct function into the client view
      * Has a switch case for all the different message types that extends ClientAbstractMessage
      * @param msg the input message to parse
@@ -238,15 +246,5 @@ public class SocketClient extends Thread {
     public void sendMessage(ServerAbstractMessage msg) {
         Gson gson = new Gson();
         output.println(gson.toJson(msg));
-    }
-
-    public void reconnect(){
-        InetAddress address = socket.getInetAddress();
-        int port = socket.getPort();
-        try {
-            socket.connect(new InetSocketAddress(address, port));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

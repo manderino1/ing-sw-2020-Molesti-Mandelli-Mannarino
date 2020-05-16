@@ -32,8 +32,8 @@ public class PopupController extends Controller {
     @FXML
     public void confirmClick() {
         if(label.getText().equals("RECONNECT")){
-            view.hidePopUp(true);
-            socket.reconnect();
+            view.hidePopUp(false);
+            view.reconnect();
         } else {
             view.hidePopUp(finished);
         }

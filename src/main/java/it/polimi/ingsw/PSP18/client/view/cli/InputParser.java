@@ -1,9 +1,12 @@
 package it.polimi.ingsw.PSP18.client.view.cli;
 
+import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 
 /***
@@ -148,7 +151,13 @@ public class InputParser {
         socket.sendMessage(new PlayerNumber(n));
     }
 
-    public void reconnect(){
-        socket.reconnect();
+    public void reconnect(ViewUpdate view){
+        try {
+            Socket sock = new Socket(socket.getIP().getHostName(), socket.getIP().getPort());
+            socket = new SocketClient(sock, view);
+            socket.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

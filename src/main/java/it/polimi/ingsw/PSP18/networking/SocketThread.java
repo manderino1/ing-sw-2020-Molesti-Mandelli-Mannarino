@@ -16,6 +16,7 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientAbstractMessage;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -111,7 +112,9 @@ public class SocketThread extends Thread {
                     messageParse(line);
                 }
             } catch (SocketException | SocketTimeoutException e) {
-                match.endMatch(null);
+                if(match != null) {
+                    match.endMatch(null);
+                }
                 System.out.println("Socket disconnected");
                 return;
             } catch (IOException e) {

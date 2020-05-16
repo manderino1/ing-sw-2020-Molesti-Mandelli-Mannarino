@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class GuiViewUpdate extends ViewUpdate {
@@ -316,5 +317,18 @@ public class GuiViewUpdate extends ViewUpdate {
             controller.setView(this);
             popup.show(stage);
         });
+    }
+
+    public void reconnect() {
+        playerDataArrayList.clear();
+        try {
+            Socket sock = new Socket(socket.getIP().getHostName(), socket.getIP().getPort());
+            socket = new SocketClient(sock, this);
+            socket.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        switchScene("Login");
+        ((LoginController)controller).selectPlayerNumber();
     }
 }

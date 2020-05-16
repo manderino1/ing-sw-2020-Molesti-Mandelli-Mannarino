@@ -809,7 +809,7 @@ public class CliViewUpdate extends ViewUpdate {
             try {
                 endStr = console.readLine();
                 if(endStr.toUpperCase().equals("RECONNECT")){
-                    inputParser.reconnect();
+                    inputParser.reconnect(this);
                     return;
                 }
                 System.out.println("Input incorrect, retry");
