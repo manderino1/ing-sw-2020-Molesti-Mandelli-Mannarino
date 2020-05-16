@@ -17,10 +17,28 @@ public class TurnManager {
     }
 
     /***
+     * constructor of the class, start managing the turn of the players in the current match
+     * @param match the object that deals with the current match
+     */
+    public TurnManager(Match match, int indexCurrentPlayer) {
+        this.match = match;
+        setupTurn(indexCurrentPlayer);
+    }
+
+    /***
      * Called in the constructor, initializes the turn order
      */
     private void setupTurn() {
         indexCurrentPlayer = 0;
+        match.setCurrentPlayer(match.getPlayerManagers().get(indexCurrentPlayer));
+        manageTurn(); // Start the match
+    }
+
+    /***
+     * Called in the constructor, initializes the turn order
+     */
+    private void setupTurn(int indexCurrentPlayer) {
+        this.indexCurrentPlayer = indexCurrentPlayer;
         match.setCurrentPlayer(match.getPlayerManagers().get(indexCurrentPlayer));
         manageTurn(); // Start the match
     }

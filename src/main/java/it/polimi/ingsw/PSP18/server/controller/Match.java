@@ -9,6 +9,7 @@ import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidDivinityExcepti
 import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidWorkerPositionException;
 import it.polimi.ingsw.PSP18.server.backup.PlayerDataBackup;
 import it.polimi.ingsw.PSP18.server.backup.PlayerManagerBackup;
+import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.model.MatchStatus;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
@@ -172,8 +173,12 @@ public class Match {
         // Check if there is a match saved with these players
         boolean hasBackup = backupCheck();
         // If i manage to arrive here all the players are ready, i can start the divinity selection phase
-        matchStatus = MatchStatus.DIVINITIES_SELECTION;
-        playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(divinities, playerManagers.size()));
+        if(!hasBackup) {
+            matchStatus = MatchStatus.DIVINITIES_SELECTION;
+            playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(divinities, playerManagers.size()));
+        } else {
+            backupRestore();
+        }
     }
 
     /***
@@ -317,6 +322,10 @@ public class Match {
         }
     }
 
+    /***
+     * Check for an existent backup
+     * @return true if there is a backup in memory
+     */
     private boolean backupCheck() {
         try {
             FileReader fileReader = new FileReader("match.bak");
@@ -334,17 +343,38 @@ public class Match {
                     return false;
                 }
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
+    private void backupRestore() {
+        try {
+            FileReader fileReader = new FileReader("match.bak");
+            Gson gson = new Gson();
+            MatchBackup matchBackup = gson.fromJson(fileReader, MatchBackup.class);
+            boolean athena = false;
             // Match backupped with same nicknames, restore it
-            for(PlayerManagerBackup playerBackupped : matchBackup.getPlayerManagers()) {
-                for(PlayerManager playerConnected : playerManagers) {
+            for (PlayerManagerBackup playerBackupped : matchBackup.getPlayerManagers()) {
+                for (PlayerManager playerConnected : playerManagers) {
                     if (playerConnected.getPlayerData().getPlayerID().equals(playerBackupped.getPlayerData().getPlayerID())) {
+                        if(playerBackupped.getPlayerData().getDivinity().equals("Athena")) {
+                            athena = true;
+                        }
                         PlayerData playerData = new PlayerData(playerBackupped.getPlayerData().getPlayerID(), playerBackupped.getPlayerData().getPlayerColor(), playerBackupped.getPlayerData().getPlayOrder());
-                        // TODO: Add other fields
+                        if(playerBackupped.getPlayerData().getReady()) {
+                            playerData.setReady();
+                        }
+                        playerData.setDivinity(playerBackupped.getPlayerData().getDivinity());
+                        if(playerBackupped.getPlayerData().getHasLost()) {
+                            playerData.setLost();
+                        }
+                        playerData.setLastMove(playerBackupped.getPlayerData().getLastMove());
                         PlayerManager playerManager = new PlayerManager(this, playerData, playerBackupped.getPlayerData().getDivinity());
                         playerManagers.add(playerManager);
                         SocketThread socket = playerSocketMap.get(playerConnected);
-                        playerSocketMap.remove(playerManager);
+                        playerSocketMap.remove(playerConnected);
                         playerSocketMap.put(playerManager, socket);
                         socketPlayerMap.remove(socket);
                         socketPlayerMap.put(playerSocketMap.get(playerConnected), playerManager);
@@ -353,10 +383,37 @@ public class Match {
                     }
                 }
             }
+            matchStatus = matchBackup.getMatchStatus();
+            gameMap.setMapCells(matchBackup.getGameMap());
+
+            // Find the workers and insert them
+            HashMap<Color, PlayerManager> hashColor = new HashMap<>();
+            for(PlayerManager player : playerManagers) {
+                hashColor.put(player.getPlayerData().getPlayerColor(), player);
+            }
+            for(int i=0; i<=4; i++) {
+                for(int j=0; j<=4; j++) {
+                    if(gameMap.getCell(i,j).getWorker() != null) {
+                        hashColor.get(gameMap.getCell(i,j).getWorker().getPlayerColor()).setWorkers(gameMap.getCell(i,j).getWorker(), gameMap.getCell(i,j).getWorker().getID());
+                    }
+                }
+            }
+
+            // Reset the observers
+            for(SocketThread sock : sockets) {
+                for(PlayerManager player : playerManagers) {
+                    player.getPlayerData().attach(new PlayerDataObserver(sock));
+                }
+                gameMap.attach(new MapObserver(sock));
+            }
+
+            if(athena) {
+                turnManager = new TurnManagerAthena(this);
+            } else {
+                turnManager = new TurnManager(this);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-        return true;
     }
 }

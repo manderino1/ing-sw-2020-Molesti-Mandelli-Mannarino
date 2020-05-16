@@ -59,6 +59,14 @@ public class GameMap {
     }
 
     /***
+     * Set a new map into the game
+     * @param mapCells the array of map cells
+     */
+    public void setMapCells(Cell[][] mapCells) {
+        this.mapCells = mapCells;
+    }
+
+    /***
      * Place a dome into the selected cell
      * @param x the x coordinate of the cell to modify
      * @param y the y coordinate of the cell to modify
