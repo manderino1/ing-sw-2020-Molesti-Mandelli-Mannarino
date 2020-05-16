@@ -5,8 +5,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
+import java.security.KeyStore;
 import java.util.ResourceBundle;
 
 public class PopupController extends Controller {
@@ -29,7 +31,12 @@ public class PopupController extends Controller {
 
     @FXML
     public void confirmClick() {
-        view.hidePopUp(finished);
+        if(label.getText().equals("RECONNECT")){
+            view.hidePopUp(true);
+            socket.reconnect();
+        } else {
+            view.hidePopUp(finished);
+        }
     }
 
     @FXML

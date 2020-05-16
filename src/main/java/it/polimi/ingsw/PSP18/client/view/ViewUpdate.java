@@ -26,4 +26,5 @@ public abstract class ViewUpdate {
     public abstract void atlasBuildUpdate(AtlasBuildList atlasBuildList);
     public abstract void divinitySelection(DivinityPick divinityPick);
     public abstract void playerNumber();
+    public abstract void serverDisconnected();
 }

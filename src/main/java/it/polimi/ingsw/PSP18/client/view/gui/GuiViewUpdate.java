@@ -302,4 +302,19 @@ public class GuiViewUpdate extends ViewUpdate {
             ((LoginController)controller).selectPlayerNumber();
         }
     }
+
+    @Override
+    public void serverDisconnected(){
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/ReconnectPopUp.fxml"));
+            try {
+                popup.getContent().add(loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Controller controller = loader.getController();
+            controller.setView(this);
+            popup.show(stage);
+        });
+    }
 }

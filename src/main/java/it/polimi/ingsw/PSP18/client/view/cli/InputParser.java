@@ -147,4 +147,8 @@ public class InputParser {
     public void sendPlayerNumber(int n) {
         socket.sendMessage(new PlayerNumber(n));
     }
+
+    public void reconnect(){
+        socket.reconnect();
+    }
 }
