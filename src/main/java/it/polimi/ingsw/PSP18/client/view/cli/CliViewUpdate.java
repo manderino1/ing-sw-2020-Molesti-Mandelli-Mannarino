@@ -799,4 +799,23 @@ public class CliViewUpdate extends ViewUpdate {
             }
         }
     }
+
+    @Override
+    public void serverDisconnected(){
+        String endStr;
+
+        System.out.println("Type 'reconnect' to play another game.");
+        while(true) {
+            try {
+                endStr = console.readLine();
+                if(endStr.toUpperCase().equals("RECONNECT")){
+                    inputParser.reconnect(this);
+                    return;
+                }
+                System.out.println("Input incorrect, retry");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class GuiViewUpdate extends ViewUpdate {
@@ -301,5 +302,33 @@ public class GuiViewUpdate extends ViewUpdate {
             switchScene("Login");
             ((LoginController)controller).selectPlayerNumber();
         }
+    }
+
+    @Override
+    public void serverDisconnected(){
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/ReconnectPopUp.fxml"));
+            try {
+                popup.getContent().add(loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Controller controller = loader.getController();
+            controller.setView(this);
+            popup.show(stage);
+        });
+    }
+
+    public void reconnect() {
+        playerDataArrayList.clear();
+        try {
+            Socket sock = new Socket(socket.getIP().getHostName(), socket.getIP().getPort());
+            socket = new SocketClient(sock, this);
+            socket.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        switchScene("Login");
+        ((LoginController)controller).selectPlayerNumber();
     }
 }
