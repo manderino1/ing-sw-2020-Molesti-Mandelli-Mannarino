@@ -24,7 +24,8 @@ public class TestPrometheus extends TestDivinity {
     @Override
     public void createPlayerManager() {
         Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, match);
+        SocketThread socketThread = new SocketThread(socket, null);
+        socketThread.setMatch(match);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Prometheus");
         match.addPlayer(playerManager, socketThread);
@@ -106,9 +107,9 @@ public class TestPrometheus extends TestDivinity {
     public void buildReceiver(){
         playerManager.getMatch().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
-        playerManager.placeWorker(0,1);
+        playerManager.placeWorker(0,2);
         socketOutContent.reset();
+        playerManager.getDivinity().build();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
-
     }
 }

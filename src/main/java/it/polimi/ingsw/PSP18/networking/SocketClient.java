@@ -221,6 +221,9 @@ public class SocketClient extends Thread {
                 DivinityPick divinityPick = gson.fromJson(jsonObj, DivinityPick.class);
                 viewUpdate.divinitySelection(divinityPick);
                 break;
+            case PLAYER_NUMBER_READY:
+                viewUpdate.playerNumber();
+                break;
         }
     }
 

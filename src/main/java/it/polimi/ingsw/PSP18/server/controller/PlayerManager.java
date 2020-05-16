@@ -58,8 +58,8 @@ public class PlayerManager {
             case "Demeter":
                 divinity = new Demeter(divinityName, this);
                 break;
-            case "Ephaestus":
-                divinity = new Ephaestus(divinityName, this);
+            case "Hephaestus":
+                divinity = new Hephaestus(divinityName, this);
                 break;
             case "Minotaur":
                 divinity = new Minotaur(divinityName, this);

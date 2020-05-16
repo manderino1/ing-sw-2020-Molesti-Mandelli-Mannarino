@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PrometheusBuildReceiver;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidBuildException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class Prometheus extends Divinity{
         this.raiseForbidden = raiseForbidden;
         ArrayList<Direction> moves1 = checkBuildingMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY());
         ArrayList<Direction> moves2 = checkBuildingMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY());
-        playerManager.getMatch().getCurrentSocket().sendMessage(new PrometheusBuildList(moves1, moves2));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new PrometheusBuildList(moves1, moves2, playerManager.getWorker(0), playerManager.getWorker(1)));
     }
 
     /***
@@ -54,8 +55,8 @@ public class Prometheus extends Divinity{
      */
     @Override
     protected void move() {
-        ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden, firstBuild);
-        ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden, firstBuild);
+        movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden, firstBuild);
+        movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden, firstBuild);
 
         // Check if the player has lost
         if (movesWorker1.size() == 0 && movesWorker2.size() == 0) {
@@ -66,13 +67,13 @@ public class Prometheus extends Divinity{
         if(firstBuild) {
             firstBuild = false;
             if(workerID == 0) {
-                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker1, workerID, false));
+                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker1, workerID, false, playerManager.getWorker(workerID)));
             }
             if(workerID == 1) {
-                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker2, workerID, false));
+                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker2, workerID, false, playerManager.getWorker(workerID)));
             }
         } else {
-            playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
+            playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));
         }
     }
 
@@ -82,14 +83,14 @@ public class Prometheus extends Divinity{
     @Override
     protected void build() {
         Worker worker = playerManager.getWorker(workerID);
-        ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
+        moves = checkBuildingMoves(worker.getX(), worker.getY());
 
         if (moves.size() == 0) {
             manageLoss();
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves, worker));
     }
 
     /***
@@ -98,6 +99,17 @@ public class Prometheus extends Divinity{
      */
     @Override
     public void buildReceiver(Direction direction) {
+        // Check if the build direction is valid
+        if(!moves.contains(direction)) {
+            try {
+                throw new InvalidBuildException();
+            } catch (InvalidBuildException e) {
+                e.printStackTrace();
+                build();
+                return;
+            }
+        }
+
         Worker worker = playerManager.getWorker(workerID);
         Integer newX = DirectionManagement.getX(worker.getX(), direction);
         Integer newY = DirectionManagement.getY(worker.getY(), direction);

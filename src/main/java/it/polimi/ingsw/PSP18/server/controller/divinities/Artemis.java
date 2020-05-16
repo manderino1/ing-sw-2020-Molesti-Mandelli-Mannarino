@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 
@@ -27,8 +28,8 @@ public class Artemis extends Divinity {
      */
     @Override
     protected void move() {
-        ArrayList<Direction> movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
-        ArrayList<Direction> movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
+        movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);
+        movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);
 
         // Check if the player has lost
         if (movesWorker1.size() == 0 && movesWorker2.size() == 0) {
@@ -36,7 +37,7 @@ public class Artemis extends Divinity {
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));
         this.firstMove = true;
     }
 
@@ -57,11 +58,10 @@ public class Artemis extends Divinity {
         setMove(worker.getX(), worker.getY(), direction);
 
         if(checkForVictory(workerID)){
-            for(SocketThread socket : playerManager.getMatch().getSockets()) {
-                socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));
+            if(checkForVictory(workerID)){
+                playerManager.getMatch().endMatch(playerManager);
+                return;
             }
-            playerManager.getMatch().endMatch();
-            return;
         }
         if(firstMove) {
             ArrayList<Direction> moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);
@@ -71,7 +71,7 @@ public class Artemis extends Divinity {
                 return;
             }
             firstMove = false;
-            playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID, true));
+            playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID, true, playerManager.getWorker(workerID)));
         }
         else {
             build();

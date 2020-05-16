@@ -51,7 +51,8 @@ public class TestDivinity {
 
     public void createPlayerManager() {
         Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, match);
+        SocketThread socketThread = new SocketThread(socket, null);
+        socketThread.setMatch(match);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test1",Color.RED, 0), "Divinity");
         match.addPlayer(playerManager, socketThread);
@@ -94,6 +95,8 @@ public class TestDivinity {
         playerManager.placeWorker(2, 4);
         playerManager.placeWorker(3, 2);
 
+
+        playerManager.getDivinity().move();
         playerManager.getDivinity().moveReceiver(Direction.UP, 0);
         Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(2,3).getWorker());
 

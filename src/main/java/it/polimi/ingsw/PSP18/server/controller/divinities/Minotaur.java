@@ -37,8 +37,8 @@ public class Minotaur extends Divinity{
             Integer newY = DirectionManagement.getY(oldY, dir);
 
             if(newX != -1 && newY != -1) {
-                boolean xIsInRange = newX + (newX - oldX) <= 5 && newX + (newX - oldX) >= 0;
-                boolean yIsInRange = newY + (newY - oldY) <= 5 && newY + (newY - oldY) >= 0;
+                boolean xIsInRange = newX + (newX - oldX) < 5 && newX + (newX - oldX) >= 0;
+                boolean yIsInRange = newY + (newY - oldY) < 5 && newY + (newY - oldY) >= 0;
 
                 if (!raiseForbidden) {
                     if (!playerManager.getGameMap().getCell(newX, newY).getDome() &&

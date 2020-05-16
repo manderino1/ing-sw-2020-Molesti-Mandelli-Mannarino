@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP18.server.view;
 import it.polimi.ingsw.PSP18.server.model.Cell;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
+import it.polimi.ingsw.PSP18.server.model.Direction;
+import it.polimi.ingsw.PSP18.server.model.GameMap;
 
 /***
  * Observes a gameMap and is notified every time there is a change into the map
@@ -20,9 +22,9 @@ public class MapObserver {
 
     /***
      * Send to the client the updated map
-     * @param mapCells the game map
+     * @param map the game map
      */
-    public void update(Cell[][] mapCells) {
-        socket.sendMessage(new GameMapUpdate(mapCells));
+    public void update(GameMap map) {
+        socket.sendMessage(new GameMapUpdate(map));
     }
 }

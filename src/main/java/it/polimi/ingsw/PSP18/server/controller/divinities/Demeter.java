@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidBuildException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 
@@ -28,14 +29,14 @@ public class Demeter extends Divinity {
     @Override
     protected void build() {
         Worker worker = playerManager.getWorker(workerID);
-        ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
+        moves = checkBuildingMoves(worker.getX(), worker.getY());
 
         if (moves.size() == 0) {
             manageLoss();
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));
+        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves, worker));
 
         firstBuild = true;
     }
@@ -46,8 +47,31 @@ public class Demeter extends Divinity {
      */
     public void buildReceiver(Direction direction) {
         if (direction == null) { // If he doesn't want to move
+            if(firstBuild) {
+                try {
+                    throw new InvalidBuildException();
+                } catch (InvalidBuildException e) {
+                    build();
+                    return;
+                }
+            }
             playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
             return;
+        }
+
+        // Check if the build direction is valid
+        if(!moves.contains(direction)) {
+            try {
+                throw new InvalidBuildException();
+            } catch (InvalidBuildException e) {
+                e.printStackTrace();
+                if(firstBuild) {
+                    build();
+                } else {
+                    playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));
+                }
+                return;
+            }
         }
 
         Worker worker = playerManager.getWorker(workerID);
@@ -62,10 +86,10 @@ public class Demeter extends Divinity {
         playerManager.setBuild(newX, newY, dome);
 
         if (firstBuild) {
-            ArrayList<Direction> moves = checkBuildingMoves(worker.getX(), worker.getY());
+            moves = checkBuildingMoves(worker.getX(), worker.getY());
             moves.remove(direction);
             firstBuild = false;
-            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));
+            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves, worker));
         }
         else{
             firstBuild=true;

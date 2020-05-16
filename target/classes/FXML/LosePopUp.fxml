@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="716.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.PopupController">
+   <children>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="-20.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_defeattrumpetleft.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="514.0" layoutY="303.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_defeattrumpetleft.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="516.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_defeattrumpetright.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="-18.0" layoutY="162.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_defeattrumpetright.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="572.0" fitWidth="546.0" layoutX="91.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_windowdefeat.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="62.0" fitWidth="354.0" layoutX="235.0" layoutY="401.0" onMouseClicked="#confirmClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/btn_blue.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="394.0" layoutY="414.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_victorycloudright.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="223.0" fitWidth="311.0" layoutX="11.0" layoutY="414.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/endgame_victorycloudright.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="151.0" fitWidth="363.0" layoutX="176.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../2DGraphics/gameGodFrameName1.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="263.0" layoutY="109.0" text="DEFEAT!" textFill="WHITE">
+         <font>
+            <Font name="System Italic" size="51.0" />
+         </font>
+      </Label>
+      <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="256.0" layoutY="401.0" mouseTransparent="true" pickOnBounds="false" prefHeight="54.0" prefWidth="205.0" text="PLAY AGAIN" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Italic" size="37.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="defeatLogo" fitHeight="145.0" fitWidth="150.0" layoutX="280.0" layoutY="256.0">
+         <image>
+            <Image url="@../2DGraphics/heropower_inactive.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="spectateButton" fitHeight="62.0" fitWidth="354.0" layoutX="235.0" layoutY="298.0" onMouseClicked="#confirmClick" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../2DGraphics/btn_blue.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="label2" alignment="CENTER" contentDisplay="CENTER" layoutX="252.0" layoutY="302.0" mouseTransparent="true" pickOnBounds="false" prefHeight="54.0" prefWidth="205.0" text="SPECTATE" textAlignment="CENTER" textFill="WHITE" translateY="-5.0" visible="false">
+         <font>
+            <Font name="System Italic" size="37.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

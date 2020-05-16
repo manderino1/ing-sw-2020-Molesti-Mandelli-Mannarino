@@ -289,6 +289,7 @@ public class CliViewUpdate extends ViewUpdate {
         if(playerDataUpdate != null) {
             for(PlayerData player : playerDataArrayList) {
                 if (player.getPlayerID().equals(playerDataUpdate.getPlayerID())) {
+                    player.setDivinity(playerDataUpdate.getDivinity());
                     present = true;
                     break;
                 }
@@ -298,6 +299,7 @@ public class CliViewUpdate extends ViewUpdate {
                 playerData.setDivinity(playerDataUpdate.getDivinity());
                 playerDataArrayList.add(playerData);
             }
+
         }
 
         for(PlayerData player : playerDataArrayList) {
@@ -604,6 +606,16 @@ public class CliViewUpdate extends ViewUpdate {
                 divinity = console.readLine();
                 for(String div : divinityPick.getDivinities()) {
                     if (div.toUpperCase().equals(divinity.toUpperCase())) {
+                        boolean alreadyPres = false;
+                        for(String pres : picked) {
+                            if (pres.toUpperCase().equals(divinity.toUpperCase())) {
+                                alreadyPres = true;
+                                break;
+                            }
+                        }
+                        if(alreadyPres) {
+                            break;
+                        }
                         found = true;
                         picked.add(div.substring(0, 1).toUpperCase() + div.toLowerCase().substring(1));
                         remaining--;
@@ -755,6 +767,30 @@ public class CliViewUpdate extends ViewUpdate {
                 endStr = console.readLine();
                 if(endStr.toUpperCase().equals("END")) {
                     inputParser.endTurnSignal();
+                    return;
+                }
+                System.out.println("Input incorrect, retry");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /***
+     * Tell the server the number of players
+     */
+    public void playerNumber() {
+        String endStr;
+
+        System.out.println("How many players do you want in your match? 2 or 3?");
+        while(true) {
+            try {
+                endStr = console.readLine();
+                if(endStr.toUpperCase().equals("2")){
+                    inputParser.sendPlayerNumber(2);
+                    return;
+                } else if(endStr.toUpperCase().equals("3")) {
+                    inputParser.sendPlayerNumber(3);
                     return;
                 }
                 System.out.println("Input incorrect, retry");

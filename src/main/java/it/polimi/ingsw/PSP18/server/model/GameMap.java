@@ -9,6 +9,8 @@ import java.util.ArrayList;
  */
 public class GameMap {
     private Cell[][] mapCells = new Cell[5][5];
+    private boolean lastActionIsBuild;
+    private int lastActionX, lastActionY;
     private ArrayList<MapObserver> observers = new ArrayList<>();
 
     /***
@@ -48,6 +50,9 @@ public class GameMap {
      * @param worker the reference to the eventual worker in the cell, null if not present
      */
     public void setCell(int x, int y, Integer building, Worker worker) {
+        this.lastActionX = x;
+        this.lastActionY = y;
+        this.lastActionIsBuild = !mapCells[x][y].getBuilding().equals(building);
         mapCells[x][y].setBuilding(building);
         mapCells[x][y].setWorker(worker);
         notifyObservers();
@@ -59,6 +64,9 @@ public class GameMap {
      * @param y the y coordinate of the cell to modify
      */
     public void setDome(int x, int y) {
+        this.lastActionX = x;
+        this.lastActionY = y;
+        this.lastActionIsBuild = true;
         mapCells[x][y].setDome();
         notifyObservers();
     }
@@ -85,7 +93,31 @@ public class GameMap {
      */
     public void notifyObservers() {
         for(MapObserver observer : observers) {
-            observer.update(mapCells);
+            observer.update(this);
         }
+    }
+
+    /***
+     * Get the x coordinate of the last action
+     * @return the x coordinate of the last action
+     */
+    public int getLastActionX() {
+        return lastActionX;
+    }
+
+    /***
+     * Get the y coordinate of the last action
+     * @return the y coordinate of the last action
+     */
+    public int getLastActionY() {
+        return lastActionY;
+    }
+
+    /***
+     * True if the last action is a build
+     * @return true if last action is a build
+     */
+    public boolean isLastActionIsBuild() {
+        return lastActionIsBuild;
     }
 }

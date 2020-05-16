@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP18.networking;
 
+import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerNumberReady;
 import it.polimi.ingsw.PSP18.server.MatchManager;
 import it.polimi.ingsw.PSP18.server.controller.Match;
 
@@ -79,11 +80,13 @@ public class SocketServer extends Thread {
             }
             // new thread for a client
             if(!debug) {
-                SocketThread newThread = new SocketThread(socket, manager.getMatch());
+                SocketThread newThread = new SocketThread(socket, manager);
                 newThread.start();
+                newThread.sendMessage(new PlayerNumberReady());
             } else {
-                SocketThread newThread = new SocketThread(socket, manager.getMatch(), true);
+                SocketThread newThread = new SocketThread(socket, manager, true);
                 newThread.start();
+                newThread.sendMessage(new PlayerNumberReady());
             }
         }
     }

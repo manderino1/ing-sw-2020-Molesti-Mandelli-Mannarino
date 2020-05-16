@@ -21,5 +21,6 @@ public enum ClientMessageType {
     END_TURN,
     ATLAS_BUILD_LIST,
     PING,
-    DIVINITY_PICK
+    DIVINITY_PICK,
+    PLAYER_NUMBER_READY
 }
