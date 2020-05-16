@@ -21,6 +21,8 @@ import javafx.scene.input.PickResult;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
@@ -143,22 +145,28 @@ public class MatchController extends Controller {
         matchScene.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
             switch (event.getCode()){
                 case UP:
-                    camera.getTransforms().addAll (
-                            pivot,
-                            new Rotate(cameraXAngle, Rotate.X_AXIS),
-                            new Rotate(-2, Rotate.X_AXIS),
-                            new Rotate(-cameraXAngle, Rotate.X_AXIS),
-                            new Translate(0, 0, -cameraDistance)
-                    );
+                    if (cameraXAngle<=90) {
+                        camera.getTransforms().addAll(
+                                pivot,
+                                new Rotate(cameraXAngle, Rotate.X_AXIS),
+                                new Rotate(-2, Rotate.X_AXIS),
+                                new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                                new Translate(0, 0, -cameraDistance)
+                        );
+                        cameraXAngle = cameraXAngle + 2;
+                    }
                     break;
                 case DOWN:
-                    camera.getTransforms().addAll (
-                            pivot,
-                            new Rotate(cameraXAngle, Rotate.X_AXIS),
-                            new Rotate(2, Rotate.X_AXIS),
-                            new Rotate(-cameraXAngle, Rotate.X_AXIS),
-                            new Translate(0, 0, -cameraDistance)
-                    );
+                    if (cameraXAngle>=30) {
+                        camera.getTransforms().addAll(
+                                pivot,
+                                new Rotate(cameraXAngle, Rotate.X_AXIS),
+                                new Rotate(2, Rotate.X_AXIS),
+                                new Rotate(-cameraXAngle, Rotate.X_AXIS),
+                                new Translate(0, 0, -cameraDistance)
+                        );
+                    }
+                    cameraXAngle=cameraXAngle - 2;
                     break;
             }
         });
@@ -847,7 +855,7 @@ public class MatchController extends Controller {
             double newZ = indexToCoordinateY(indexes1[1]);
             double newY = indexToCoordinateZ(mapCells[indexes1[0]][indexes1[1]].getBuilding());
             coordinates.add(new Point3D(newX, newY, newZ));
-            workerColor(coordinates);
+            placeWorkerColor(coordinates);
             Platform.runLater(() -> hintLabel.setText("Place the second worker"));
             matchScene.setOnMousePressed(e2 -> {
                 matchScene.requestFocus();
@@ -1150,15 +1158,36 @@ public class MatchController extends Controller {
 
     private void moveColor(ArrayList<Point3D> coordinates) {
         for(Point3D coordinate : coordinates) {
-            Group plane = loadModel(getClass().getResource("/3DGraphics/moveIndicator.obj"));
+            Box box = new Box(2.5,1.5,2.5);
+            PhongMaterial mat = new PhongMaterial();
+            mat.setDiffuseColor(Color.RED);
+            Group placeholder = new Group(box);
+            box.setMaterial(mat);
+            placeholder.setOpacity(0.0);
+
+            Group plane1 = loadModel(getClass().getResource("/3DGraphics/moveIndicator.obj"));
+            Group plane2 = loadModel(getClass().getResource("/3DGraphics/moveIndicator2.obj"));
+            plane2.setVisible(false);
+
+            onMouseOver(placeholder,plane1,plane2);
+            Group plane = new Group();
+            plane.getChildren().add(plane1);
+            plane.getChildren().add(plane2);
+
             plane.setScaleX(0.9);
             plane.setScaleZ(0.9);
             plane.setTranslateX(coordinate.getX());
             plane.setTranslateY(coordinate.getY()-0.15);
             plane.setTranslateZ(coordinate.getZ());
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.15)) );
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.7)) );
+            placeholder.setScaleX(0.9);
+            placeholder.setScaleZ(0.9);
+            placeholder.setTranslateX(coordinate.getX());
+            placeholder.setTranslateY(coordinate.getY()-0.15);
+            placeholder.setTranslateZ(coordinate.getZ());
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.15,Interpolator.EASE_BOTH)) );
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.7,Interpolator.EASE_BOTH)) );
             planes.getChildren().add(plane);
+            planes.getChildren().add(placeholder);
 
         }
 
@@ -1181,17 +1210,38 @@ public class MatchController extends Controller {
 
     private void buildColor(ArrayList<Point3D> coordinates) {
         for(Point3D coordinate : coordinates) {
-            Group plane = loadModel(getClass().getResource("/3DGraphics/buildIndicator.obj"));
+            Box box = new Box(2.5,1,2.5);
+            PhongMaterial mat = new PhongMaterial();
+            mat.setDiffuseColor(Color.RED);
+            Group placeholder = new Group(box);
+            box.setMaterial(mat);
+            placeholder.setOpacity(0.0);
+
+            Group plane1 = loadModel(getClass().getResource("/3DGraphics/buildIndicator.obj"));
+            Group plane2 = loadModel(getClass().getResource("/3DGraphics/buildIndicator2.obj"));
+            plane2.setVisible(false);
+
+            onMouseOver(placeholder,plane1,plane2);
+            Group plane = new Group();
+            plane.getChildren().add(plane1);
+            plane.getChildren().add(plane2);
+
+            placeholder.setScaleX(0.9);
+            placeholder.setScaleZ(0.9);
+            placeholder.setTranslateX(coordinate.getX());
+            placeholder.setTranslateY(coordinate.getY()-0.15);
+            placeholder.setTranslateZ(coordinate.getZ());
             plane.setScaleX(0.9);
             plane.setScaleZ(0.9);
             plane.setTranslateX(coordinate.getX());
             plane.setTranslateY(coordinate.getY()-0.15);
             plane.setTranslateZ(coordinate.getZ());
             planes.getChildren().add(plane);
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleZProperty(), 0.8)));
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleXProperty(), 0.8)));
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.scaleZProperty(), 0)));
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.scaleXProperty(), 0)));
+            planes.getChildren().add(placeholder);
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleZProperty(), 0.8,Interpolator.EASE_BOTH)));
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleXProperty(), 0.8,Interpolator.EASE_BOTH)));
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.scaleZProperty(), 0.15,Interpolator.EASE_BOTH)));
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.scaleXProperty(), 0.15,Interpolator.EASE_BOTH)));
         }
         /*
         FadeTransition ft = new FadeTransition(Duration.millis(1000), planes);
@@ -1212,7 +1262,50 @@ public class MatchController extends Controller {
 
     public void workerColor(ArrayList<Point3D> coordinates) {
         for(Point3D coordinate : coordinates) {
+            Box box = new Box(2.5,1.5,2.5);
+            PhongMaterial mat = new PhongMaterial();
+            mat.setDiffuseColor(Color.RED);
+            Group placeholder = new Group(box);
+            box.setMaterial(mat);
+            placeholder.setOpacity(0.0);
+
+            Group plane1 = loadModel(getClass().getResource("/3DGraphics/circleBluIndicator.obj"));
+            Group plane2 = loadModel(getClass().getResource("/3DGraphics/buildIndicator.obj"));
+            plane2.setVisible(false);
+            onMouseOver(placeholder,plane1,plane2);
+            Group circle = new Group();
+            circle.getChildren().add(plane1);
+            circle.getChildren().add(plane2);
+
+            placeholder.setScaleX(0.9);
+            placeholder.setScaleZ(0.9);
+            placeholder.setTranslateX(coordinate.getX());
+            placeholder.setTranslateY(coordinate.getY()-0.15);
+            placeholder.setTranslateZ(coordinate.getZ());
+
+            circle.setScaleX(0.9);
+            circle.setScaleZ(0.9);
+            circle.setTranslateX(coordinate.getX());
+            circle.setTranslateY(coordinate.getY()-0.15);
+            circle.setTranslateZ(coordinate.getZ());
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.15,Interpolator.EASE_BOTH)) );
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.7,Interpolator.EASE_BOTH)) );
+            planes.getChildren().add(circle);
+            planes.getChildren().add(placeholder);
+        }
+
+        Platform.runLater(() -> {
+            if(!matchSceneGroup.getChildren().contains(planes)) {
+                planesTimeline.play();
+                matchSceneGroup.getChildren().add(planes);
+            }
+        });
+    }
+
+    public void placeWorkerColor(ArrayList<Point3D> coordinates) {
+        for(Point3D coordinate : coordinates) {
             Group circle = loadModel(getClass().getResource("/3DGraphics/circleBluIndicator.obj"));
+
             circle.setScaleX(0.9);
             circle.setScaleZ(0.9);
             circle.setTranslateX(coordinate.getX());
@@ -1341,5 +1434,17 @@ public class MatchController extends Controller {
             index[2] = 3;
         }
         return index;
+    }
+    public void onMouseOver(Node placeholder, Node node1, Node node2) {
+        placeholder.setOnMouseEntered(me -> {
+            node1.setVisible(false);
+            node2.setVisible(true);
+
+        });
+
+        placeholder.setOnMouseExited(me -> {
+            node1.setVisible(true);
+            node2.setVisible(false);
+        });
     }
 }
