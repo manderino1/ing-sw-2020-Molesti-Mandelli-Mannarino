@@ -207,7 +207,7 @@ public class MatchController extends Controller {
         Boolean dome = mapCells[oldX][oldY].getDome();
         final Timeline timeline = new Timeline();
 
-        switch( mapCells[oldX][oldY].getBuilding()) {
+        switch(mapCells[oldX][oldY].getBuilding()) {
             case 0:
                 block = loadModel(getClass().getResource("/3DGraphics/Dome.obj"));
                 break;
@@ -463,9 +463,10 @@ public class MatchController extends Controller {
         Group finalWorkerGroup = workerGroup;
         Platform.runLater(() -> matchSceneGroup.getChildren().add(finalWorkerGroup));
 
+        int level = mapCells[worker.getX()][worker.getY()].getBuilding();
         timeline.setCycleCount(1);
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
-                new KeyValue (workerGroup.translateYProperty(), 0, Interpolator.EASE_OUT)));
+                new KeyValue (workerGroup.translateYProperty(), indexToCoordinateZ(level), Interpolator.EASE_OUT)));
         timeline.play();
     }
 
@@ -588,6 +589,52 @@ public class MatchController extends Controller {
                         followMessage = false;
                         apolloMoveUpdate(newWorker1, oldWorker2, oldWorker1, newWorker2);
                     }
+                }
+            }
+        }
+    }
+
+    public void fullMapUpdate(GameMapUpdate gameMapUpdate) {
+        mapCells = gameMapUpdate.getGameMap();
+
+        for(int i=0; i<=4; i++) {
+            for(int j=0; j<=4; j++) {
+                // Load the buildings
+
+                Cell cell = gameMapUpdate.getGameMap()[i][j];
+                for (int k = 0; k < cell.getBuilding(); k++) {
+                    Group block = null;
+                    final Timeline timeline = new Timeline();
+
+
+                    if(k==1) {
+                        block = loadModel(getClass().getResource("/3DGraphics/BuildingBlock01.obj"));
+                    } else if (k==2) {
+                        block = loadModel(getClass().getResource("/3DGraphics/BuildingBlock02.obj"));
+                    } else if (k==3) {
+                        block = loadModel(getClass().getResource("/3DGraphics/BuildingBlock03.obj"));
+                    }
+
+                    if(block != null) {
+                        block.setTranslateY(-20);
+                        block.setTranslateX(indexToCoordinateX(i));
+                        block.setTranslateZ(indexToCoordinateY(j));
+                        Group finalBlock = block;
+                        Platform.runLater(() -> matchSceneGroup.getChildren().add(finalBlock));
+
+                        timeline.setCycleCount(1);
+                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
+                                new KeyValue (block.translateYProperty(), 0,Interpolator.EASE_OUT)));
+                        timeline.play();
+                    }
+                }
+
+                if(cell.getBuilding() > 0 || cell.getDome()) {
+                    buildUpdate(i, j);
+                }
+
+                if(mapCells[i][j].getWorker() != null) {
+                    placeWorkerUpdate(mapCells[i][j].getWorker());
                 }
             }
         }

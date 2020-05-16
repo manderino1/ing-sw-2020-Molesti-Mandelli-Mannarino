@@ -73,7 +73,7 @@ public class GuiViewUpdate extends ViewUpdate {
             ((MatchController)controller).mapUpdate(gameMapUpdate);
         } else {
             switchScene("Match");
-            ((MatchController)controller).mapUpdate(gameMapUpdate);
+            ((MatchController)controller).fullMapUpdate(gameMapUpdate);
             ((MatchController)controller).updatePlayers(playerDataArrayList);
         }
     }

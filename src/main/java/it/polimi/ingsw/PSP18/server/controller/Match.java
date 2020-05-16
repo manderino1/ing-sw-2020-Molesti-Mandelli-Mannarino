@@ -428,6 +428,7 @@ public class Match {
                     player.getPlayerData().attach(new PlayerDataObserver(sock));
                 }
                 gameMap.attach(new MapObserver(sock));
+                sock.sendMessage(new StartMatch());
             }
 
             if(athena) {
