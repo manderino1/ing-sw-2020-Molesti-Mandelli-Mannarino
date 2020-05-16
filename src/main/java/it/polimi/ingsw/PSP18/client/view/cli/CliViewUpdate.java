@@ -289,6 +289,8 @@ public class CliViewUpdate extends ViewUpdate {
         if(playerDataUpdate != null) {
             for(PlayerData player : playerDataArrayList) {
                 if (player.getPlayerID().equals(playerDataUpdate.getPlayerID())) {
+                    player.setPlayerColor(playerDataUpdate.getPlayerColor());
+                    player.setPlayOrder(playerDataUpdate.getPlayOrder());
                     player.setDivinity(playerDataUpdate.getDivinity());
                     present = true;
                     break;

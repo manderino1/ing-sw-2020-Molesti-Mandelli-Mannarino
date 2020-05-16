@@ -14,6 +14,15 @@ public class TurnManagerAthena extends TurnManager {
     }
 
     /***
+     * constructor of the class, start managing the turn of the players in the current match
+     * @param match the object that deals with the current match
+     * @param indexCurrentPlayer the index of the player that has to play, for restoring
+     */
+    public TurnManagerAthena(Match match, int indexCurrentPlayer) {
+        super(match, indexCurrentPlayer);
+    }
+
+    /***
      * When the following turn starts call the manage turn function
      * bool is true if athena moved up last turn
      */

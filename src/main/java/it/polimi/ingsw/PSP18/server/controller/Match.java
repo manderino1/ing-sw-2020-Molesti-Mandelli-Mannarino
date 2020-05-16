@@ -16,10 +16,7 @@ import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import it.polimi.ingsw.PSP18.server.view.MapObserver;
 import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /***
@@ -38,6 +35,7 @@ public class Match {
     private Integer divinitySelectionIndex = 0;
     private Integer workerPlacementIndex = 0;
     private ArrayList<String> divinities;
+    private int playerN;
 
     /***
      * Match constructor, initializes the arrayLists and the game map
@@ -51,6 +49,11 @@ public class Match {
         matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
         String[] divArray = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur", "Pan", "Prometheus"};
         divinities = new ArrayList<>(Arrays.asList(divArray));
+    }
+
+    public Match(int playerN){
+        this();
+        this.playerN = playerN;
     }
 
     /***
@@ -166,7 +169,7 @@ public class Match {
     public void readyManagement(SocketThread socket) {
         socketPlayerMap.get(socket).getPlayerData().setReady();
         for(PlayerManager player : playerManagers) {
-            if(!player.getPlayerData().getReady() || playerManagers.size() != sockets.size() || playerManagers.size() <= 1) {
+            if(!player.getPlayerData().getReady() || playerManagers.size() != playerN || playerManagers.size() <= 1) {
                 return;
             }
         }
@@ -312,7 +315,21 @@ public class Match {
      */
     public void updateFile() {
         try {
-            FileWriter myWriter = new FileWriter("match.bak", false);
+            File directory = new File("Backups");
+            if (! directory.exists()){
+                directory.mkdir();
+            }
+            String fileName = "Backups/match_";
+            ArrayList<String> names = new ArrayList<>();
+            for(PlayerManager player : playerManagers) {
+                names.add(player.getPlayerData().getPlayerID());
+            }
+            names.sort(String::compareToIgnoreCase);
+            for(String name: names) {
+                fileName = fileName.concat(name);
+            }
+            fileName = fileName.concat(".bak");
+            FileWriter myWriter = new FileWriter(fileName, false);
             Gson gson = new Gson();
             myWriter.write(gson.toJson(new MatchBackup(playerManagers, turnManager.getIndexCurrentPlayer(), matchStatus, gameMap.getMapCells())));
             myWriter.flush();
@@ -328,30 +345,36 @@ public class Match {
      */
     private boolean backupCheck() {
         try {
-            FileReader fileReader = new FileReader("match.bak");
-            Gson gson = new Gson();
-            MatchBackup matchBackup = gson.fromJson(fileReader, MatchBackup.class);
-            for(PlayerManagerBackup playerBackupped : matchBackup.getPlayerManagers()) {
-                boolean found = false;
-                for(PlayerManager playerConnected : playerManagers) {
-                    if (playerConnected.getPlayerData().getPlayerID().equals(playerBackupped.getPlayerData().getPlayerID())) {
-                        found = true;
-                        break;
-                    }
-                }
-                if(!found) {
-                    return false;
-                }
+            String fileName = "Backups/match_";
+            ArrayList<String> names = new ArrayList<>();
+            for(PlayerManager player : playerManagers) {
+                names.add(player.getPlayerData().getPlayerID());
             }
+            names.sort(String::compareToIgnoreCase);
+            for(String name: names) {
+                fileName = fileName.concat(name);
+            }
+            fileName = fileName.concat(".bak");
+            FileReader fileReader = new FileReader(fileName);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            return false;
         }
         return true;
     }
 
     private void backupRestore() {
         try {
-            FileReader fileReader = new FileReader("match.bak");
+            String fileName = "Backups/match_";
+            ArrayList<String> names = new ArrayList<>();
+            for(PlayerManager player : playerManagers) {
+                names.add(player.getPlayerData().getPlayerID());
+            }
+            names.sort(String::compareToIgnoreCase);
+            for(String name: names) {
+                fileName = fileName.concat(name);
+            }
+            fileName = fileName.concat(".bak");
+            FileReader fileReader = new FileReader(fileName);
             Gson gson = new Gson();
             MatchBackup matchBackup = gson.fromJson(fileReader, MatchBackup.class);
             boolean athena = false;
@@ -408,9 +431,9 @@ public class Match {
             }
 
             if(athena) {
-                turnManager = new TurnManagerAthena(this);
+                turnManager = new TurnManagerAthena(this, matchBackup.getIndexCurrentPlayer());
             } else {
-                turnManager = new TurnManager(this);
+                turnManager = new TurnManager(this, matchBackup.getIndexCurrentPlayer());
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

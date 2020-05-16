@@ -105,6 +105,22 @@ public class PlayerData {
     }
 
     /***
+     * Set the new player color on backup restore
+     * @param playerColor restore the new player backup
+     */
+    public void setPlayerColor(Color playerColor) {
+        this.playerColor = playerColor;
+    }
+
+    /***
+     * Set the new play order on backup restore
+     * @param playOrder restore the new play order
+     */
+    public void setPlayOrder(Integer playOrder) {
+        this.playOrder = playOrder;
+    }
+
+    /***
      * Adds an observer
      * @param observer the new observer reference
      */
