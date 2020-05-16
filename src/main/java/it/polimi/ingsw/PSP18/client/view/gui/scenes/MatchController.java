@@ -602,7 +602,7 @@ public class MatchController extends Controller {
                 // Load the buildings
 
                 Cell cell = gameMapUpdate.getGameMap()[i][j];
-                for (int k = 0; k < cell.getBuilding(); k++) {
+                for (int k = 0; k <= cell.getBuilding(); k++) {
                     Group block = null;
                     final Timeline timeline = new Timeline();
 
@@ -629,7 +629,7 @@ public class MatchController extends Controller {
                     }
                 }
 
-                if(cell.getBuilding() > 0 || cell.getDome()) {
+                if(cell.getDome()) {
                     buildUpdate(i, j);
                 }
 
