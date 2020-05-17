@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class GameMap {
     private Cell[][] mapCells = new Cell[5][5];
     private boolean lastActionIsBuild;
-    private int lastActionX, lastActionY;
+    private int lastActionX = -1, lastActionY = -1;
     private ArrayList<MapObserver> observers = new ArrayList<>();
 
     /***

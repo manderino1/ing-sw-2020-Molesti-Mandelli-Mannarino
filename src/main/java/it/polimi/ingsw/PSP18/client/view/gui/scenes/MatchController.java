@@ -524,6 +524,9 @@ public class MatchController extends Controller {
     public void mapUpdate(GameMapUpdate gameMapUpdate){
         Cell[][] oldMap = mapCells;
         mapCells = gameMapUpdate.getGameMap();
+        if(gameMapUpdate.getLastActionX() == -1 && gameMapUpdate.getLastActionY() == -1) {
+            return;
+        }
         if(!matchStarted){
             newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();
             if(newWorker1 != null) {
@@ -1082,8 +1085,12 @@ public class MatchController extends Controller {
                     if (!playerData.getLost()) {
                         Platform.runLater(() -> {
                             nick3.setText(playerData.getPlayerID());
-                            Image image2 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                            divinity3.setImage(image2);
+                            if(playerData.getDivinity() != null) {
+                                Platform.runLater(() -> {
+                                    Image image2 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                                    divinity3.setImage(image2);
+                                });
+                            }
                         });
                     } else {
                         Platform.runLater(() -> {
@@ -1106,8 +1113,12 @@ public class MatchController extends Controller {
             if (!playerData.getLost()) {
                 Platform.runLater(() -> {
                     nick1.setText(playerData.getPlayerID());
-                    Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                    divinity1.setImage(image);
+                    if(playerData.getDivinity() != null) {
+                        Platform.runLater(() -> {
+                            Image image = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                            divinity1.setImage(image);
+                        });
+                    }
                 });
             } else {
                 Platform.runLater(() -> {
@@ -1125,8 +1136,12 @@ public class MatchController extends Controller {
             if (!playerData.getLost()) {
                 Platform.runLater(() -> {
                     nick2.setText(playerData.getPlayerID());
-                    Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
-                    divinity2.setImage(image1);
+                    if(playerData.getDivinity() != null) {
+                        Platform.runLater(() -> {
+                            Image image1 = new Image("/2DGraphics/" + playerData.getDivinity() + ".png");
+                            divinity2.setImage(image1);
+                        });
+                    }
                 });
             } else {
                 Platform.runLater(() -> {
