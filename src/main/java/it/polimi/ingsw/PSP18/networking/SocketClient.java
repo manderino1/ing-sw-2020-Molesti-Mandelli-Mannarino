@@ -111,6 +111,8 @@ public class SocketClient extends Thread {
                 String line = input.readLine();    // reads a line of text
                 if(line != null) {
                     messageParse(line);
+                } else {
+                    throw new SocketException();
                 }
             } catch (SocketException | SocketTimeoutException e) {
                 System.out.println("Server has closed connection with you");

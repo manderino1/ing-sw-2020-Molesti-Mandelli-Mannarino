@@ -31,6 +31,7 @@ public class Launcher {
         try {
             host = InetAddress.getByName(address);
             Socket socket = new Socket(host, PORT);
+            socket.setSoTimeout(10000);
             socketClient = new SocketClient (socket, cliViewUpdate);
             cliViewUpdate.setInputParser(new InputParser(socketClient));
             socketClient.start();

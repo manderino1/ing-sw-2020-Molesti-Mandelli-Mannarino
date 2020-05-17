@@ -306,7 +306,12 @@ public class Match {
                     }
                 }
             }
+        } else {
+            for(SocketThread sock : sockets) {
+                sock.closeConnection();
+            }
         }
+
         matchStatus = MatchStatus.MATCH_ENDED;
     }
 
