@@ -1,81 +1,98 @@
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\SocketThread.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\MoveReceiver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\SingleMoveList.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\BuildList.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\PlayerDataUpdate.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\DivinityPick.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\EndTurnReceiver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\ViewUpdate.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\PlayerDataReceiver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\Move.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Hephaestus.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\PlayerManager.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\MatchStatus.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\ReadyReceiver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\Direction.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Prometheus.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\view\MapObserver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\MatchReady.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\DivinityList.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\cli\CliColor.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\DivinityReceiver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\Cell.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\cli\InputParser.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\FlagMoveReceiver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\TurnManager.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\Launcher.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Artemis.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\AtlasBuildReceiver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\BuildReceiver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\GameMapUpdate.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\GuiViewUpdate.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\DirectionManagement.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\SocketClient.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\LoginController.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Apollo.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\PickDivinity9Controller.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\Client2.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\DivinitySelection.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\ClientMessageType.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Demeter.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\GameMap.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\ClientAbstractMessage.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\EndTurnAvaiable.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\WaitingNick.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\PlayerData.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\BuildListFlag.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\WorkerReceiver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\ClientGui2.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\PlaceReady.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\ServerMessageType.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\Worker.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\ServerPing.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\TurnManagerAthena.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\ServerAbstractMessage.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\PrometheusBuildList.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\StartMatch.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\Color.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\MoveList.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\module-info.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\SocketServer.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\Client3.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Minotaur.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\MatchWon.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Athena.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Atlas.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\ClientPing.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\Controller.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\GuiLauncher.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Divinity.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\Match.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\ClientGui.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Pan.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\AtlasBuildList.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\Server.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\MatchManager.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\view\PlayerDataObserver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\MatchLost.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\cli\CliViewUpdate.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\LobbyController.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\PrometheusBuildReceiver.java
-C:\Users\Utente\Desktop\progetto ing SW\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\Client1.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\exceptions\InvalidDivinityException.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\EndTurnReceiver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\ViewUpdate.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\Worker.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\view\MapObserver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\PickDivinity1Controller.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\DivinityPick.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Prometheus.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\WorkerReceiver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\MatchManager.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\MatchController.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\cli\CliColor.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\FlagMoveReceiver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\GameMapUpdate.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Minotaur.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\exceptions\InvalidMoveException.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\AtlasBuildList.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\ReadyReceiver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Atlas.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\utils\Importer3D.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\exceptions\InvalidTurnException.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\Cell.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\BuildListFlag.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\Client1.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\DivinitySelection.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\GuiViewUpdate.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\AtlasBuildReceiver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\DivinityList.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\ServerMessageType.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\PopupController.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\Client2.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\Controller.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Demeter.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\GuiLauncher.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\SocketClient.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\SingleMoveList.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\DivinityReceiver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Hephaestus.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\cli\InputParser.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\PlaceReady.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\LoginController.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\MatchLost.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\utils\ObjImporter.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\DirectionManagement.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\PickDivinity2Controller.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\BuildList.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\PlayerDataReceiver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\MatchStatus.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\WaitingRoomController.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\Launcher.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Pan.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\ClientPing.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\ClientGui3.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\ClientAbstractMessage.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\ClientMessageType.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\Direction.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\PickDivinity9Controller.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\ServerAbstractMessage.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\WaitingNick.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Artemis.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\MoveReceiver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\Color.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\PrometheusBuildList.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\PlayerNumberReady.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\ClientGui2.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\MatchWon.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\PlayerDataUpdate.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\PlayerNumber.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\module-info.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\PlayerData.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Divinity.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Apollo.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\Move.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\exceptions\InvalidBuildException.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\view\PlayerDataObserver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\ClientGui.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\PlayerManager.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\MatchReady.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\GameMap.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\EndTurnAvaiable.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\TurnManagerAthena.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\PrometheusBuildReceiver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\LobbyController.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\Match.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\utils\MtlReader.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\TurnManager.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\BuildReceiver.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\ServerPing.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\exceptions\InvalidWorkerPositionException.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Athena.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\SocketThread.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\MoveList.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\Client3.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\StartMatch.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\PickDivinity3Controller.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\cli\CliViewUpdate.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\SocketServer.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\Server.java

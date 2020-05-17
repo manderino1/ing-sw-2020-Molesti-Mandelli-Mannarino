@@ -113,17 +113,19 @@ public class ObjImporter implements Importer {
 
         ObjImporter.ObjModel model = asPolygon ? new ObjImporter.PolyObjModel(url) : new ObjImporter.ObjModel(url);
 
-        /*
-        try {
-            Map<String, String> env = new HashMap<>();
-            env.put("create", "true");
-            FileSystem zipfs = FileSystems.newFileSystem(url.toURI(), env);
-        } catch(FileSystemAlreadyExistsException ignored) {
 
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
+        if(url.getProtocol().equals("jar")) {
+            try {
+                Map<String, String> env = new HashMap<>();
+                env.put("create", "true");
+                FileSystem zipfs = FileSystems.newFileSystem(url.toURI(), env);
+            } catch(FileSystemAlreadyExistsException ignored) {
+
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
-        */
+
 
         try (Stream<String> lines = Files.lines(Paths.get(url.toURI()))) {
             lines.map(String::trim)

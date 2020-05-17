@@ -53,7 +53,7 @@ public class Launcher {
      * @param args launch arguments, not used
      */
     public static void main(String[] args) {
-        if(args[0].toUpperCase().equals("CLI")) {
+        if(args.length > 0 && args[0].toUpperCase().equals("CLI")) {
             System.out.println("Insert the server ip address:");
             java.io.BufferedReader console = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
             try {
@@ -62,10 +62,8 @@ public class Launcher {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (args[0].toUpperCase().equals("GUI")) {
-            Application.launch(GuiLauncher.class);
         } else {
-            System.out.println("Not valid option, use cli or gui");
+            Application.launch(GuiLauncher.class);
         }
     }
 }

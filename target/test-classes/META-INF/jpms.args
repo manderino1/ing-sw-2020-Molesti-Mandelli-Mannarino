@@ -1,0 +1,4 @@
+--patch-module
+it.polimi.ingsw.PSP18=_
+--add-reads
+it.polimi.ingsw.PSP18=ALL-UNNAMED
