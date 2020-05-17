@@ -31,25 +31,25 @@ public class MatchManager {
         matches3.removeIf(match -> match.getMatchStatus() == MatchStatus.MATCH_ENDED); // Remove ended matches
 
         if(matches2.size() == 0 && size == 2) {
-            matches2.add(new Match());
+            matches2.add(new Match(2));
             return matches2.get(matches2.size()-1);
         }
 
         if(matches3.size() == 0 && size == 3) {
-            matches3.add(new Match());
+            matches3.add(new Match(3));
             return matches3.get(matches3.size()-1);
         }
 
         if(size == 2) {
             if(matches2.get(matches2.size()-1).getSockets().size() > 1) {
-                matches2.add(new Match());
+                matches2.add(new Match(2));
             }
             return matches2.get(matches2.size()-1);
         }
 
         if(size == 3) {
             if(matches3.get(matches3.size()-1).getSockets().size() > 2) {
-                matches3.add(new Match());
+                matches3.add(new Match(3));
             }
             return matches3.get(matches3.size()-1);
         }

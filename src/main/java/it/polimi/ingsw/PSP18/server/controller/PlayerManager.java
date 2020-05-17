@@ -106,6 +106,14 @@ public class PlayerManager {
     }
 
     /***
+     * Set the workers when restoring the backup
+     * @param worker the worker 1 reference
+     */
+    public void setWorkers(Worker worker, int id) {
+        this.workers[id] = worker;
+    }
+
+    /***
      * Build up a floor on the selected cell or place a dome on it
      * @param X the x coordinate of the building cell
      * @param Y the y coordinate of the building cell

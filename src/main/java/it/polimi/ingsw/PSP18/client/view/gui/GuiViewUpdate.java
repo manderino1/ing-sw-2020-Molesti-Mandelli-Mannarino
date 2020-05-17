@@ -74,7 +74,7 @@ public class GuiViewUpdate extends ViewUpdate {
             ((MatchController)controller).mapUpdate(gameMapUpdate);
         } else {
             switchScene("Match");
-            ((MatchController)controller).mapUpdate(gameMapUpdate);
+            ((MatchController)controller).fullMapUpdate(gameMapUpdate);
             ((MatchController)controller).updatePlayers(playerDataArrayList);
         }
     }
@@ -83,6 +83,8 @@ public class GuiViewUpdate extends ViewUpdate {
     public void moveUpdate(MoveList movelist) {
         if (controller.getPageID().equals("Match")) {
             ((MatchController)controller).showMoveList(movelist);
+        } else {
+            switchScene("Match");
         }
     }
 
@@ -92,6 +94,8 @@ public class GuiViewUpdate extends ViewUpdate {
         if(playerDataUpdate != null) {
             for(PlayerData player : playerDataArrayList) {
                 if (player.getPlayerID().equals(playerDataUpdate.getPlayerID())) {
+                    player.setPlayerColor(playerDataUpdate.getPlayerColor());
+                    player.setPlayOrder(playerDataUpdate.getPlayOrder());
                     player.setDivinity(playerDataUpdate.getDivinity());
                     if (playerDataUpdate.getReady()) {
                         player.setReady();
@@ -222,6 +226,8 @@ public class GuiViewUpdate extends ViewUpdate {
     public void prometheusBuildListUpdate(PrometheusBuildList prometheusBuildList) {
         if (controller.getPageID().equals("Match")) {
             ((MatchController)controller).prometheusBuildShow(prometheusBuildList);
+        } else {
+            switchScene("Match");
         }
     }
 
