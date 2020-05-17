@@ -75,6 +75,9 @@ public class ObjImporter implements Importer {
     private static float scale = 1;
     private static boolean flatXZ = false;
 
+    private static Map<URL, PolygonMesh> meshMap = new HashMap<>();
+    private static Map<URL, Material> materialMap = new HashMap<>();
+
     static void log(String string) {
         if (debug) {
             System.out.println(string);
@@ -126,16 +129,20 @@ public class ObjImporter implements Importer {
             }
         }
 
+        if(meshMap.get(url) == null) {
+            try (Stream<String> lines = Files.lines(Paths.get(url.toURI()))) {
+                lines.map(String::trim)
+                        .filter(l -> !l.isEmpty() && !l.startsWith("#"))
+                        .forEach(model::parseLine);
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
 
-        try (Stream<String> lines = Files.lines(Paths.get(url.toURI()))) {
-            lines.map(String::trim)
-                    .filter(l -> !l.isEmpty() && !l.startsWith("#"))
-                    .forEach(model::parseLine);
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
+            model.addMesh(model.key);
+        } else {
+            model.addExistentMesh(model.key);
         }
 
-        model.addMesh(model.key);
 
         log("Totally loaded " + (model.vertices.size() / 3.) + " vertices, "
                 + (model.uvs.size() / 2.) + " uvs, "
@@ -192,7 +199,7 @@ public class ObjImporter implements Importer {
         private ObservableIntegerArray faces = FXCollections.observableIntegerArray();
         private ObservableIntegerArray faceNormals = FXCollections.observableIntegerArray();
 
-        private final URL url;
+        protected final URL url;
 
         ObjModel(URL url) {
             this.url = url;
@@ -319,6 +326,9 @@ public class ObjImporter implements Importer {
             facesStart = faces.size();
             facesNormalStart = faceNormals.size();
             smoothingGroupsStart = smoothingGroups.size();
+        }
+
+        protected void addExistentMesh(String key) {
         }
 
         private void parseGroupName(String value) {
@@ -581,6 +591,19 @@ public class ObjImporter implements Importer {
             facesStart = facesPolygon.size();
             facesNormalStart = faceNormalsPolygon.size();
             smoothingGroupsStart = smoothingGroups.size();
+
+            meshMap.put(url, mesh);
+            materialMap.put(url, material);
+        }
+
+        @Override
+        protected void addExistentMesh(String key) {
+            PolygonMesh mesh = meshMap.get(url);
+            polygonMeshes.put(key, mesh);
+            meshNames.add(key);
+            addMaterial(key, materialMap.get(url));
+            facesStart = mesh.getFaceElementSize();
+            smoothingGroupsStart = mesh.getFaceSmoothingGroups().size();
         }
 
         @Override
