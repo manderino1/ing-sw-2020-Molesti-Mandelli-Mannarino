@@ -33,7 +33,7 @@
             <Image url="@../2DGraphics/endgame_windowdefeat.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="62.0" fitWidth="354.0" layoutX="235.0" layoutY="401.0" onMouseClicked="#confirmClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="62.0" fitWidth="354.0" layoutX="235.0" layoutY="401.0" onMouseClicked="#againClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/btn_blue.png" />
          </image>
@@ -68,7 +68,7 @@
             <Image url="@../2DGraphics/heropower_inactive.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="spectateButton" fitHeight="62.0" fitWidth="354.0" layoutX="235.0" layoutY="298.0" onMouseClicked="#confirmClick" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="spectateButton" fitHeight="62.0" fitWidth="354.0" layoutX="235.0" layoutY="298.0" onMouseClicked="#spectateClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../2DGraphics/btn_blue.png" />
          </image>

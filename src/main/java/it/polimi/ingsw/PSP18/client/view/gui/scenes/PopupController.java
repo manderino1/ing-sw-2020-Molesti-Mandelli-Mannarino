@@ -30,13 +30,19 @@ public class PopupController extends Controller {
     }
 
     @FXML
-    public void confirmClick() {
-        if(label.getText().equals("RECONNECT")){
-            view.hidePopUp(false);
-            view.reconnect();
-        } else {
-            view.hidePopUp(finished);
-        }
+    public void spectateClick() {
+        view.hidePopUp(false);
+    }
+
+    @FXML
+    public void againClick() {
+        view.hidePopUp(true);
+    }
+
+    @FXML
+    public void reconnectClick() {
+        view.hidePopUp(false);
+        view.reconnect();
     }
 
     @FXML
