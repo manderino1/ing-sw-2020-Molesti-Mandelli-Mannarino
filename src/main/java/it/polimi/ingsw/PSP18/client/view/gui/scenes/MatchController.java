@@ -1250,7 +1250,6 @@ public class MatchController extends Controller {
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.7,Interpolator.EASE_BOTH)) );
             planes.getChildren().add(plane);
             planes.getChildren().add(placeholder);
-
         }
 
         Platform.runLater(() -> {
