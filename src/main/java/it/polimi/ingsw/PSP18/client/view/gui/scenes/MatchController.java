@@ -1248,8 +1248,10 @@ public class MatchController extends Controller {
             placeholder.setTranslateZ(coordinate.getZ());
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.15,Interpolator.EASE_BOTH)) );
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.7,Interpolator.EASE_BOTH)) );
-            planes.getChildren().add(plane);
-            planes.getChildren().add(placeholder);
+            Platform.runLater(() -> {
+                planes.getChildren().add(plane);
+                planes.getChildren().add(placeholder);
+            });
         }
 
         Platform.runLater(() -> {
@@ -1297,8 +1299,10 @@ public class MatchController extends Controller {
             plane.setTranslateX(coordinate.getX());
             plane.setTranslateY(coordinate.getY()-0.15);
             plane.setTranslateZ(coordinate.getZ());
-            planes.getChildren().add(plane);
-            planes.getChildren().add(placeholder);
+            Platform.runLater(() -> {
+                planes.getChildren().add(plane);
+                planes.getChildren().add(placeholder);
+            });
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleZProperty(), 0.8,Interpolator.EASE_BOTH)));
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleXProperty(), 0.8,Interpolator.EASE_BOTH)));
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.scaleZProperty(), 0.15,Interpolator.EASE_BOTH)));
@@ -1351,8 +1355,10 @@ public class MatchController extends Controller {
             circle.setTranslateZ(coordinate.getZ());
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.15,Interpolator.EASE_BOTH)) );
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.7,Interpolator.EASE_BOTH)) );
-            planes.getChildren().add(circle);
-            planes.getChildren().add(placeholder);
+            Platform.runLater(() -> {
+                planes.getChildren().add(circle);
+                planes.getChildren().add(placeholder);
+            });
         }
 
         Platform.runLater(() -> {
@@ -1374,7 +1380,9 @@ public class MatchController extends Controller {
             circle.setTranslateZ(coordinate.getZ());
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.15)) );
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.7)) );
-            planes.getChildren().add(circle);
+            Platform.runLater(() -> {
+                planes.getChildren().add(circle);
+            });
         }
 
         Platform.runLater(() -> {

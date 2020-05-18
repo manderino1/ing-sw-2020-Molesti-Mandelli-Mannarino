@@ -36,6 +36,7 @@ public class Match {
     private Integer workerPlacementIndex = 0;
     private ArrayList<String> divinities;
     private int playerN;
+    private String fileName;
 
     /***
      * Match constructor, initializes the arrayLists and the game map
@@ -273,6 +274,17 @@ public class Match {
         for(SocketThread socket : sockets) {
             socket.sendMessage(new StartMatch());
         }
+        // Set the backup file path
+        String fileName = "Backups/match_";
+        ArrayList<String> names = new ArrayList<>();
+        for(PlayerManager player : playerManagers) {
+            names.add(player.getPlayerData().getPlayerID());
+        }
+        names.sort(String::compareToIgnoreCase);
+        for(String name: names) {
+            fileName = fileName.concat(name);
+        }
+        this.fileName = fileName.concat(".bak");
         // Search for Athena
         for (PlayerManager player : playerManagers) {
             if(player.getDivinityName().equals("Athena")) {
@@ -306,6 +318,10 @@ public class Match {
                     }
                 }
             }
+
+            // Cancel the backup file of the match because the match has ended
+            File f = new File(fileName);
+            f.delete();
         } else {
             for(SocketThread sock : sockets) {
                 sock.closeConnection();
@@ -324,16 +340,6 @@ public class Match {
             if (! directory.exists()){
                 directory.mkdir();
             }
-            String fileName = "Backups/match_";
-            ArrayList<String> names = new ArrayList<>();
-            for(PlayerManager player : playerManagers) {
-                names.add(player.getPlayerData().getPlayerID());
-            }
-            names.sort(String::compareToIgnoreCase);
-            for(String name: names) {
-                fileName = fileName.concat(name);
-            }
-            fileName = fileName.concat(".bak");
             FileWriter myWriter = new FileWriter(fileName, false);
             Gson gson = new Gson();
             myWriter.write(gson.toJson(new MatchBackup(playerManagers, turnManager.getIndexCurrentPlayer(), matchStatus, gameMap.getMapCells())));
@@ -360,7 +366,7 @@ public class Match {
                 fileName = fileName.concat(name);
             }
             fileName = fileName.concat(".bak");
-            FileReader fileReader = new FileReader(fileName);
+            new FileReader(fileName);
         } catch (FileNotFoundException e) {
             return false;
         }
@@ -378,8 +384,8 @@ public class Match {
             for(String name: names) {
                 fileName = fileName.concat(name);
             }
-            fileName = fileName.concat(".bak");
-            FileReader fileReader = new FileReader(fileName);
+            this.fileName = fileName.concat(".bak");
+            FileReader fileReader = new FileReader(this.fileName);
             Gson gson = new Gson();
             MatchBackup matchBackup = gson.fromJson(fileReader, MatchBackup.class);
             boolean athena = false;
@@ -440,6 +446,11 @@ public class Match {
                 turnManager = new TurnManagerAthena(this, matchBackup.getIndexCurrentPlayer());
             } else {
                 turnManager = new TurnManager(this, matchBackup.getIndexCurrentPlayer());
+            }
+            try {
+                fileReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
