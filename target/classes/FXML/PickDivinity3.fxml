@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.PickDivinity3Controller">
+<Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP18.client.view.gui.scenes.PickDivinity3Controller">
    <children>
       <ImageView fitHeight="1037.0" fitWidth="1280.0" layoutY="-240.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -18,12 +18,12 @@
             <Image url="@../2DGraphics/Athena.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="divinitySelected2" fitHeight="310.0" fitWidth="215.0" layoutX="533.0" layoutY="205.0" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" visible="false">
+      <ImageView fx:id="divinitySelected2" fitHeight="310.0" fitWidth="215.0" layoutX="533.0" layoutY="205.0" onMouseClicked="#divinityClick2" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" visible="false">
          <image>
             <Image url="@../2DGraphics/Athena.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="divinitySelected3" fitHeight="310.0" fitWidth="215.0" layoutX="911.0" layoutY="205.0" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" visible="false">
+      <ImageView fx:id="divinitySelected3" fitHeight="310.0" fitWidth="215.0" layoutX="911.0" layoutY="205.0" onMouseClicked="#divinityClick3" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" visible="false">
          <image>
             <Image url="@../2DGraphics/Athena.png" />
          </image>
@@ -41,17 +41,17 @@
       <Pane layoutX="925.0" layoutY="541.0" prefHeight="149.0" prefWidth="188.0" style="-fx-background-color: black;" />
       <Pane layoutX="547.0" layoutY="537.0" prefHeight="149.0" prefWidth="188.0" style="-fx-background-color: black;" />
       <Pane layoutX="168.0" layoutY="537.0" prefHeight="149.0" prefWidth="188.0" style="-fx-background-color: black;" />
-      <ImageView fx:id="divinityBox1" fitHeight="341.0" fitWidth="300.0" layoutX="136.0" layoutY="189.0" mouseTransparent="true" onMouseClicked="#divinityClick1" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="divinityBox1" fitHeight="341.0" fitWidth="300.0" layoutX="136.0" layoutY="189.0" mouseTransparent="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../2DGraphics/frame_yellow.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="divinityBox2" fitHeight="341.0" fitWidth="300.0" layoutX="514.0" layoutY="189.0" mouseTransparent="true" onMouseClicked="#divinityClick2" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="divinityBox2" fitHeight="341.0" fitWidth="300.0" layoutX="514.0" layoutY="189.0" mouseTransparent="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../2DGraphics/frame_yellow.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="divinityBox3" fitHeight="341.0" fitWidth="300.0" layoutX="927.0" layoutY="189.0" mouseTransparent="true" onMouseClicked="#divinityClick3" pickOnBounds="true" preserveRatio="true" translateX="-35.0" visible="false">
+      <ImageView fx:id="divinityBox3" fitHeight="341.0" fitWidth="300.0" layoutX="927.0" layoutY="189.0" mouseTransparent="true" preserveRatio="true" translateX="-35.0" visible="false">
          <image>
             <Image url="@../2DGraphics/frame_yellow.png" />
          </image>
