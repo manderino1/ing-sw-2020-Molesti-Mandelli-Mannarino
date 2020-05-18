@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * this is the class that implements the Prometheus' powers
  */
 public class Prometheus extends Divinity{
-    boolean firstBuild;
+    private boolean firstBuild;
 
     /***
      * Constructor of the class, initialize name and playerManager in Divinity

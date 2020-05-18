@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * this is the class that implements Artemis's powers
  */
 public class Artemis extends Divinity {
-    boolean raiseForbidden, firstMove;
+    private boolean firstMove;
     /***
      * Constructor of the class, initialize name and playerManager in Divinity
      * @param name the name of the divinity

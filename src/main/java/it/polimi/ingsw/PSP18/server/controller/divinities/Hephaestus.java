@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * this is the class that implements Hephaestus' powers
  */
 public class Hephaestus extends Divinity{
-    boolean firstBuild;
+    private boolean firstBuild;
     /***
      * Constructor of the class, initialize name and playerManager in Divinity
      * @param name the name of the divinity
