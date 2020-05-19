@@ -34,11 +34,13 @@ public class Match {
     private ArrayList<String> divinities;
     private int playerN;
     private String fileName;
+    private BackupManager backupManager;
 
     /***
      * Match constructor, initializes the arrayLists and the game map
      */
     public Match(){
+        backupManager= new BackupManager(this);
         playerManagers = new ArrayList<>();
         sockets = new ArrayList<>();
         playerSocketMap = new HashMap<>();
@@ -159,6 +161,9 @@ public class Match {
     public TurnManager getTurnManager() {
         return turnManager;
     }
+    public void setTurnManager(TurnManager turnManager) {
+        this.turnManager= turnManager;
+    }
 
     /***
      * Wait for all the players to be ready and then start the divinity selection phase
@@ -172,13 +177,13 @@ public class Match {
             }
         }
         // Check if there is a match saved with these players
-        boolean hasBackup = backupCheck();
+        boolean hasBackup = backupManager.backupCheck();
         // If i manage to arrive here all the players are ready, i can start the divinity selection phase
         if(!hasBackup) {
             matchStatus = MatchStatus.DIVINITIES_SELECTION;
             playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(divinities, playerManagers.size()));
         } else {
-            backupRestore();
+            backupManager.backupRestore();
         }
     }
 
@@ -308,138 +313,5 @@ public class Match {
         }
 
         matchStatus = MatchStatus.MATCH_ENDED;
-    }
-
-    /***
-     * Every end of turn update the match backup
-     */
-    public void updateFile() {
-        try {
-            File directory = new File("Backups");
-            if (! directory.exists()){
-                directory.mkdir();
-            }
-            FileWriter myWriter = new FileWriter(fileName, false);
-            Gson gson = new Gson();
-            myWriter.write(gson.toJson(new MatchBackup(playerManagers, turnManager.getIndexCurrentPlayer(), matchStatus, gameMap.getMapCells())));
-            myWriter.flush();
-            myWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /***
-     * Check for an existent backup
-     * @return true if there is a backup in memory
-     */
-    private boolean backupCheck() {
-        try {
-            String fileName = "Backups/match_";
-            ArrayList<String> names = new ArrayList<>();
-            for(PlayerManager player : playerManagers) {
-                names.add(player.getPlayerData().getPlayerID());
-            }
-            names.sort(String::compareToIgnoreCase);
-            for(String name: names) {
-                fileName = fileName.concat(name);
-            }
-            fileName = fileName.concat(".bak");
-            new FileReader(fileName);
-        } catch (FileNotFoundException e) {
-            return false;
-        }
-        return true;
-    }
-
-    private void backupRestore() {
-        try {
-            String fileName = "Backups/match_";
-            ArrayList<String> names = new ArrayList<>();
-            for(PlayerManager player : playerManagers) {
-                names.add(player.getPlayerData().getPlayerID());
-            }
-            names.sort(String::compareToIgnoreCase);
-            for(String name: names) {
-                fileName = fileName.concat(name);
-            }
-            this.fileName = fileName.concat(".bak");
-            FileReader fileReader = new FileReader(this.fileName);
-            Gson gson = new Gson();
-            MatchBackup matchBackup = gson.fromJson(fileReader, MatchBackup.class);
-            boolean athena = false;
-            // Match backupped with same nicknames, restore it
-            for (PlayerManagerBackup playerBackupped : matchBackup.getPlayerManagers()) {
-                for (PlayerManager playerConnected : playerManagers) {
-                    if (playerConnected.getPlayerData().getPlayerID().equals(playerBackupped.getPlayerData().getPlayerID())) {
-                        if(playerBackupped.getPlayerData().getDivinity().equals("Athena")) {
-                            athena = true;
-                        }
-                        PlayerData playerData = new PlayerData(playerBackupped.getPlayerData().getPlayerID(), playerBackupped.getPlayerData().getPlayerColor(), playerBackupped.getPlayerData().getPlayOrder());
-                        if(playerBackupped.getPlayerData().getReady()) {
-                            playerData.setReady();
-                        }
-                        playerData.setDivinity(playerBackupped.getPlayerData().getDivinity());
-                        if(playerBackupped.getPlayerData().getHasLost()) {
-                            playerData.setLost();
-                        }
-                        playerData.setLastMove(playerBackupped.getPlayerData().getLastMove());
-                        PlayerManager playerManager = new PlayerManager(this, playerData, playerBackupped.getPlayerData().getDivinity());
-                        playerManagers.add(playerManager);
-                        SocketThread socket = playerSocketMap.get(playerConnected);
-                        playerSocketMap.remove(playerConnected);
-                        playerSocketMap.put(playerManager, socket);
-                        socketPlayerMap.remove(socket);
-                        socketPlayerMap.put(playerSocketMap.get(playerConnected), playerManager);
-                        playerManagers.remove(playerConnected);
-                        break;
-                    }
-                }
-            }
-            matchStatus = matchBackup.getMatchStatus();
-            gameMap.setMapCells(matchBackup.getGameMap());
-
-            // Find the workers and insert them
-            HashMap<Color, PlayerManager> hashColor = new HashMap<>();
-            for(PlayerManager player : playerManagers) {
-                hashColor.put(player.getPlayerData().getPlayerColor(), player);
-            }
-            for(int i=0; i<=4; i++) {
-                for(int j=0; j<=4; j++) {
-                    if(gameMap.getCell(i,j).getWorker() != null) {
-                        hashColor.get(gameMap.getCell(i,j).getWorker().getPlayerColor()).setWorkers(gameMap.getCell(i,j).getWorker(), gameMap.getCell(i,j).getWorker().getID());
-                    }
-                }
-            }
-
-            // Reset the observers
-            for(SocketThread sock : sockets) {
-                for(PlayerManager player : playerManagers) {
-                    player.getPlayerData().attach(new PlayerDataObserver(sock));
-                }
-                gameMap.attach(new MapObserver(sock));
-                sock.sendMessage(new StartMatch());
-            }
-
-            if(athena) {
-                turnManager = new TurnManagerAthena(this, matchBackup.getIndexCurrentPlayer());
-            } else {
-                turnManager = new TurnManager(this, matchBackup.getIndexCurrentPlayer());
-            }
-            try {
-                fileReader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void detachSocket(SocketThread socket) {
-        for(PlayerManager player : playerManagers) {
-            player.getPlayerData().detachSocket(socket);
-        }
-        gameMap.detachSocket(socket);
     }
 }
