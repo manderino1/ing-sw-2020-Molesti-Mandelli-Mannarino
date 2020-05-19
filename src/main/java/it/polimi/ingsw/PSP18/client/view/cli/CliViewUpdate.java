@@ -280,7 +280,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * The message that ask the player to insert his data
+     * Update the player data of the connected players
      * @param playerDataUpdate the message that asks for the player's data
      */
     @Override
@@ -397,8 +397,8 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * Aks the player where he wants to move
-     * @param buildList the message that asks for the player move
+     * Aks the player where he wants to build
+     * @param buildList the message that asks for the player build
      */
     @Override
     public void buildUpdate(BuildList buildList) {
@@ -802,6 +802,9 @@ public class CliViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Used to reconnect on disconnection
+     */
     @Override
     public void serverDisconnected(){
         String endStr;
