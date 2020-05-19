@@ -58,10 +58,10 @@ public class TestMatch {
         PlayerData playerData = new PlayerData("cipolla", Color.RED, 0);
         PlayerManager playerManager = new PlayerManager(match, playerData, "Apollo");
         match.addPlayer(playerManager, new SocketThread(socket, null));
-        Assert.assertEquals(match.getPlayerManagers().get(0), playerManager);
+        Assert.assertEquals(match.getMatchSocket().getPlayerManagers().get(0), playerManager);
 
         match.setCurrentPlayer(playerManager);
-        Assert.assertEquals(match.getCurrentPlayer(), playerManager);
+        Assert.assertEquals(match.getMatchSocket().getCurrentPlayer(), playerManager);
 
         TurnManager turnManager = match.getTurnManager();
     }
@@ -111,7 +111,7 @@ public class TestMatch {
         ArrayList<String> div = new ArrayList<>();
         div.add("Athena");
         div.add("Apollo");
-        match.divinitySelection(div);
+        match.getMatchSetUp().divinitySelection(div);
 
         match.divinityCreation(match.getSockets().get(0), "Athena");
         match.divinityCreation(match.getSockets().get(1), "Apollo");
@@ -144,7 +144,7 @@ public class TestMatch {
         ArrayList<String> div = new ArrayList<>();
         div.add("Atlas");
         div.add("Apollo");
-        match.divinitySelection(div);
+        match.getMatchSetUp().divinitySelection(div);
 
         match.divinityCreation(match.getSockets().get(0), "Atlas");
         match.divinityCreation(match.getSockets().get(1), "Apollo");
@@ -154,7 +154,7 @@ public class TestMatch {
 
         Assert.assertEquals(MatchStatus.MATCH_STARTED, match.getMatchStatus());
 
-        match.endMatch(null);
+        match.getMatchRun().endMatch(null);
         Assert.assertEquals(MatchStatus.MATCH_ENDED, match.getMatchStatus());
     }
 }

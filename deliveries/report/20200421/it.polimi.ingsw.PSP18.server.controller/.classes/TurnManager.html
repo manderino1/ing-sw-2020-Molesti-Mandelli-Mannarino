@@ -88,7 +88,7 @@
 <i>14</i>&nbsp;     */
 <i>15</i>&nbsp;    private void setupTurn() {
 <b class="fc"><i>16</i>&nbsp;        indexCurrentPlayer = 0;</b>
-<b class="fc"><i>17</i>&nbsp;        match.setCurrentPlayer(match.getPlayerManagers().get(indexCurrentPlayer));</b>
+<b class="fc"><i>17</i>&nbsp;        match.setCurrentPlayer(match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer));</b>
 <b class="fc"><i>18</i>&nbsp;        manageTurn(); // Start the match</b>
 <b class="fc"><i>19</i>&nbsp;    }</b>
 <i>20</i>&nbsp;
@@ -96,13 +96,13 @@
 <i>22</i>&nbsp;     * Called form the parser, when a signal is received to end turn switch the turn to the following player
 <i>23</i>&nbsp;     */
 <i>24</i>&nbsp;    public void passTurn() {
-<b class="nc"><i>25</i>&nbsp;        if(match.getPlayerManagers().contains(match.getCurrentPlayer())) {</b>
+<b class="nc"><i>25</i>&nbsp;        if(match.getMatchSocket().getPlayerManagers().contains(match.getCurrentPlayer())) {</b>
 <b class="nc"><i>26</i>&nbsp;            indexCurrentPlayer = indexCurrentPlayer + 1;</b>
 <i>27</i>&nbsp;        }
-<b class="nc"><i>28</i>&nbsp;        if(indexCurrentPlayer == match.getPlayerManagers().size()) {</b>
+<b class="nc"><i>28</i>&nbsp;        if(indexCurrentPlayer == match.getMatchSocket().getPlayerManagers().size()) {</b>
 <b class="nc"><i>29</i>&nbsp;            indexCurrentPlayer = 0;</b>
 <i>30</i>&nbsp;        }
-<b class="nc"><i>31</i>&nbsp;        match.setCurrentPlayer(match.getPlayerManagers().get(indexCurrentPlayer));</b>
+<b class="nc"><i>31</i>&nbsp;        match.setCurrentPlayer(match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer));</b>
 <b class="nc"><i>32</i>&nbsp;        manageTurn();</b>
 <b class="nc"><i>33</i>&nbsp;    }</b>
 <i>34</i>&nbsp;
@@ -111,7 +111,7 @@
 <i>37</i>&nbsp;     * from the correct player manager
 <i>38</i>&nbsp;     */
 <i>39</i>&nbsp;    public void manageTurn(){
-<b class="fc"><i>40</i>&nbsp;        this.match.getPlayerManagers().get(indexCurrentPlayer).manageTurn(false);</b>
+<b class="fc"><i>40</i>&nbsp;        this.match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer).manageTurn(false);</b>
 <b class="fc"><i>41</i>&nbsp;    }</b>
 <i>42</i>&nbsp;}
 </div>

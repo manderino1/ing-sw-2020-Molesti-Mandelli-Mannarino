@@ -161,23 +161,23 @@
 <b class="nc"><i>87</i>&nbsp;        switch(type) {</b>
 <i>88</i>&nbsp;            case MOVE_RECEIVER:
 <b class="nc"><i>89</i>&nbsp;                MoveReceiver moveReceiver = gson.fromJson(jsonObj, MoveReceiver.class);</b>
-<b class="nc"><i>90</i>&nbsp;                match.getCurrentPlayer().getDivinity().moveReceiver(moveReceiver.getDirection(), moveReceiver.getWorkerID());</b>
+<b class="nc"><i>90</i>&nbsp;                match.getMatchSocket().getCurrentPlayer().getDivinity().moveReceiver(moveReceiver.getDirection(), moveReceiver.getWorkerID());</b>
 <b class="nc"><i>91</i>&nbsp;                break;</b>
 <i>92</i>&nbsp;            case BUILD_RECEIVER:
 <b class="nc"><i>93</i>&nbsp;                BuildReceiver buildReceiver = gson.fromJson(jsonObj, BuildReceiver.class);</b>
-<b class="nc"><i>94</i>&nbsp;                match.getCurrentPlayer().getDivinity().buildReceiver(buildReceiver.getDirection());</b>
+<b class="nc"><i>94</i>&nbsp;                match.getMatchSocket().getCurrentPlayer().getDivinity().buildReceiver(buildReceiver.getDirection());</b>
 <b class="nc"><i>95</i>&nbsp;                break;</b>
 <i>96</i>&nbsp;            case PLAYER_DATA_RECEIVER:
 <b class="nc"><i>97</i>&nbsp;                PlayerDataReceiver playerDataReceiver = gson.fromJson(jsonObj, PlayerDataReceiver.class);</b>
 <b class="nc"><i>98</i>&nbsp;                Color playerColor = Color.RED;</b>
-<b class="nc"><i>99</i>&nbsp;                if(match.getPlayerManagers().size() == 0) {</b>
+<b class="nc"><i>99</i>&nbsp;                if(match.getMatchSocket().getPlayerManagers().size() == 0) {</b>
 <b class="nc"><i>100</i>&nbsp;                    playerColor = Color.RED;</b>
-<b class="nc"><i>101</i>&nbsp;                } else if (match.getPlayerManagers().size() == 1) {</b>
+<b class="nc"><i>101</i>&nbsp;                } else if (match.getMatchSocket().getPlayerManagers().size() == 1) {</b>
 <b class="nc"><i>102</i>&nbsp;                    playerColor = Color.BLUE;</b>
-<b class="nc"><i>103</i>&nbsp;                } else if(match.getPlayerManagers().size() == 2) {</b>
+<b class="nc"><i>103</i>&nbsp;                } else if(match.getMatchSocket().getPlayerManagers().size() == 2) {</b>
 <b class="nc"><i>104</i>&nbsp;                    playerColor = Color.GREEN;</b>
 <i>105</i>&nbsp;                }
-<b class="nc"><i>106</i>&nbsp;                PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerColor, match.getPlayerManagers().size());</b>
+<b class="nc"><i>106</i>&nbsp;                PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerColor, match.getMatchSocket().getPlayerManagers().size());</b>
 <b class="nc"><i>107</i>&nbsp;                match.addPlayer(new PlayerManager(match, playerData), this);</b>
 <b class="nc"><i>108</i>&nbsp;                break;</b>
 <i>109</i>&nbsp;            case DIVINITY_RECEIVER:
@@ -198,14 +198,14 @@
 <b class="nc"><i>124</i>&nbsp;                break;</b>
 <i>125</i>&nbsp;            case PROMETHEUS_BUILD_RECEIVER:
 <b class="nc"><i>126</i>&nbsp;                PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(jsonObj, PrometheusBuildReceiver.class);</b>
-<b class="nc"><i>127</i>&nbsp;                if(match.getCurrentPlayer().getDivinity() instanceof Prometheus) {</b>
-<b class="nc"><i>128</i>&nbsp;                    ((Prometheus) match.getCurrentPlayer().getDivinity()).receiveWorker(prometheusBuildReceiver);</b>
+<b class="nc"><i>127</i>&nbsp;                if(match.getMatchSocket().getCurrentPlayer().getDivinity() instanceof Prometheus) {</b>
+<b class="nc"><i>128</i>&nbsp;                    ((Prometheus) match.getMatchSocket().getCurrentPlayer().getDivinity()).receiveWorker(prometheusBuildReceiver);</b>
 <i>129</i>&nbsp;                }
 <i>130</i>&nbsp;                break;
 <i>131</i>&nbsp;            case ATLAS_BUILD_RECEIVER:
 <b class="nc"><i>132</i>&nbsp;                AtlasBuildReceiver atlasBuildReceiver = gson.fromJson(jsonObj, AtlasBuildReceiver.class);</b>
-<b class="nc"><i>133</i>&nbsp;                if(match.getCurrentPlayer().getDivinity() instanceof Atlas) {</b>
-<b class="nc"><i>134</i>&nbsp;                    ((Atlas) match.getCurrentPlayer().getDivinity()).buildReceiver(atlasBuildReceiver.getDirection(), atlasBuildReceiver.isDome());</b>
+<b class="nc"><i>133</i>&nbsp;                if(match.getMatchSocket().getCurrentPlayer().getDivinity() instanceof Atlas) {</b>
+<b class="nc"><i>134</i>&nbsp;                    ((Atlas) match.getMatchSocket().getCurrentPlayer().getDivinity()).buildReceiver(atlasBuildReceiver.getDirection(), atlasBuildReceiver.isDome());</b>
 <i>135</i>&nbsp;                }
 <i>136</i>&nbsp;                break;
 <i>137</i>&nbsp;        }

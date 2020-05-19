@@ -34,10 +34,10 @@ public class TurnManagerAthena extends TurnManager {
             }
         }
 
-        if(match.getPlayerManagers().get(indexCurrentPlayer).getDivinityName().equals("Athena")) { // Athena can go up
-            match.getPlayerManagers().get(indexCurrentPlayer).manageTurn(false);
+        if(match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer).getDivinityName().equals("Athena")) { // Athena can go up
+            match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer).manageTurn(false);
         } else { // Call the manager with the correct raiseForbidden parameter
-            match.getPlayerManagers().get(indexCurrentPlayer).manageTurn(bool);
+            match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer).manageTurn(bool);
         }
     }
 }

@@ -113,7 +113,7 @@ public class SocketThread extends Thread {
                 }
             } catch (SocketException | SocketTimeoutException e) {
                 if(match != null) {
-                    match.endMatch(null);
+                    match.getMatchRun().endMatch(null);
                 }
                 System.out.println("Socket disconnected");
                 return;
@@ -157,73 +157,73 @@ public class SocketThread extends Thread {
         switch(type) {
             case MOVE_RECEIVER:
                 MoveReceiver moveReceiver = gson.fromJson(jsonObj, MoveReceiver.class);
-                if(match.getCurrentSocket() == this) {
-                    match.getCurrentPlayer().getDivinity().moveReceiver(moveReceiver.getDirection(), moveReceiver.getWorkerID());
+                if(match.getMatchSocket().getCurrentSocket() == this) {
+                    match.getMatchSocket().getCurrentPlayer().getDivinity().moveReceiver(moveReceiver.getDirection(), moveReceiver.getWorkerID());
                 }
                 break;
             case BUILD_RECEIVER:
                 BuildReceiver buildReceiver = gson.fromJson(jsonObj, BuildReceiver.class);
-                if(match.getCurrentSocket() == this) {
-                    match.getCurrentPlayer().getDivinity().buildReceiver(buildReceiver.getDirection());
+                if(match.getMatchSocket().getCurrentSocket() == this) {
+                    match.getMatchSocket().getCurrentPlayer().getDivinity().buildReceiver(buildReceiver.getDirection());
                 }
                 break;
             case PLAYER_DATA_RECEIVER:
                 PlayerDataReceiver playerDataReceiver = gson.fromJson(jsonObj, PlayerDataReceiver.class);
                 Color playerColor = Color.RED;
-                if(match.getPlayerManagers().size() == 0) {
+                if(match.getMatchSocket().getPlayerManagers().size() == 0) {
                     playerColor = Color.RED;
-                } else if (match.getPlayerManagers().size() == 1) {
+                } else if (match.getMatchSocket().getPlayerManagers().size() == 1) {
                     playerColor = Color.BLUE;
-                } else if(match.getPlayerManagers().size() == 2) {
+                } else if(match.getMatchSocket().getPlayerManagers().size() == 2) {
                     playerColor = Color.GREEN;
                 }
-                PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerColor, match.getPlayerManagers().size());
-                match.addPlayer(new PlayerManager(match, playerData), this);
+                PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerColor, match.getMatchSocket().getPlayerManagers().size());
+                match.getMatchSocket().addPlayer(new PlayerManager(match, playerData), this);
                 break;
             case DIVINITY_RECEIVER:
                 DivinityReceiver divinityReceiver = gson.fromJson(jsonObj, DivinityReceiver.class);
-                match.divinityCreation(this, divinityReceiver.getDivinity());
+                match.getMatchSetUp().divinityCreation(this, divinityReceiver.getDivinity());
                 break;
             case ENDTURN_RECEIVER:
                 EndTurnReceiver endTurnReceiver = gson.fromJson(jsonObj, EndTurnReceiver.class);
-                if(match.getCurrentSocket() == this) {
-                    match.getTurnManager().passTurn();
+                if(match.getMatchSocket().getCurrentSocket() == this) {
+                    match.getMatchRun().getTurnManager().passTurn();
                 }
                 break;
             case READY_RECEIVER:
                 ReadyReceiver readyReceiver = gson.fromJson(jsonObj, ReadyReceiver.class);
-                match.readyManagement(this);
+                match.getMatchSocket().readyManagement(this);
                 break;
             case WORKER_RECEIVER:
                 WorkerReceiver workerReceiver = gson.fromJson(jsonObj, WorkerReceiver.class);
-                match.workerPlacement(this, workerReceiver);
+                match.getMatchRun().workerPlacement(this, workerReceiver);
                 break;
             case PROMETHEUS_BUILD_RECEIVER:
                 PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(jsonObj, PrometheusBuildReceiver.class);
-                if(match.getCurrentSocket() == this) {
-                    if(match.getCurrentPlayer().getDivinity() instanceof Prometheus) {
-                        ((Prometheus) match.getCurrentPlayer().getDivinity()).receiveWorker(prometheusBuildReceiver);
+                if(match.getMatchSocket().getCurrentSocket() == this) {
+                    if(match.getMatchSocket().getCurrentPlayer().getDivinity() instanceof Prometheus) {
+                        ((Prometheus) match.getMatchSocket().getCurrentPlayer().getDivinity()).receiveWorker(prometheusBuildReceiver);
                     }
                 }
                 break;
             case ATLAS_BUILD_RECEIVER:
                 AtlasBuildReceiver atlasBuildReceiver = gson.fromJson(jsonObj, AtlasBuildReceiver.class);
-                if(match.getCurrentSocket() == this) {
-                    if(match.getCurrentPlayer().getDivinity() instanceof Atlas) {
-                        ((Atlas) match.getCurrentPlayer().getDivinity()).buildReceiver(atlasBuildReceiver.getDirection(), atlasBuildReceiver.isDome());
+                if(match.getMatchSocket().getCurrentSocket() == this) {
+                    if(match.getMatchSocket().getCurrentPlayer().getDivinity() instanceof Atlas) {
+                        ((Atlas) match.getMatchSocket().getCurrentPlayer().getDivinity()).buildReceiver(atlasBuildReceiver.getDirection(), atlasBuildReceiver.isDome());
                     }
                 }
                 break;
             case DIVINITY_SELECTION:
                 DivinitySelection divinitySelection = gson.fromJson(jsonObj, DivinitySelection.class);
-                match.divinitySelection(divinitySelection.getDivinities());
+                match.getMatchSetUp().divinitySelection(divinitySelection.getDivinities());
                 break;
             case PLAYER_NUMBER:
                 PlayerNumber playerNumber = gson.fromJson(jsonObj, PlayerNumber.class);
                 setMatch(manager.getMatch(playerNumber.getN()));
                 break;
             case REPLAY:
-                match.detachSocket(this);
+                match.getMatchSocket().detachSocket(this);
                 sendMessage(new PlayerNumberReady());
         }
     }
@@ -244,6 +244,6 @@ public class SocketThread extends Thread {
      */
     public void setMatch(Match match) {
         this.match = match;
-        match.addSocket(this);
+        match.getMatchSocket().addSocket(this);
     }
 }
