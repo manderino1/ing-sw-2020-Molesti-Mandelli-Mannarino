@@ -8,14 +8,18 @@ import it.polimi.ingsw.PSP18.server.model.MatchStatus;
 import it.polimi.ingsw.PSP18.server.view.MapObserver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MatchSetUp {
 
     private Match match;
     private ArrayList<String> divinitySelection = new ArrayList<>();
     private Integer divinitySelectionIndex = 0;
+    private ArrayList<String> divinities;
 
     public MatchSetUp(Match match){
+        String[] divArray = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur", "Pan", "Prometheus"};
+        divinities = new ArrayList<>(Arrays.asList(divArray));
         this.match = match;
     }
 
@@ -29,21 +33,20 @@ public class MatchSetUp {
     public void divinityCreation(SocketThread socket, String divinity) {
         // Check that the divinity selection is correct
         if(!divinitySelection.contains(divinity)) {
-            match.getMatchSocket().getPlayerSocketMap.get(match.getMatchSocket().getPlayerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
+            match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
         }
-        match.getMatchSocket().getSocketPlayerMap.get(socket).divinityCreation(divinity); // use to change divinity
-        if(divinitySelectionIndex == match.getMatchSocket().getPlayerManagers.size()) {
+        match.getMatchSocket().getSocketPlayerMap().get(socket).divinityCreation(divinity); // use to change divinity
+        if(divinitySelectionIndex == match.getMatchSocket().getPlayerManagers().size()) {
             // Set observers
-            for(SocketThread sock : sockets) {
-                gameMap.attach(new MapObserver(sock));
+            for(SocketThread sock : match.getMatchSocket().getSockets()) {
+                match.getMatchRun().getGameMap().attach(new MapObserver(sock));
             }
 
-            match.getMatchStatus = MatchStatus.WORKER_SETUP;
-            playerSocketMap.get(playerManagers.get(workerPlacementIndex)).sendMessage(new PlaceReady());
-            workerPlacementIndex++;
+            match.setMatchStatus(MatchStatus.WORKER_SETUP);
+            match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(0)).sendMessage(new PlaceReady());
         } else {
             divinitySelection.remove(divinity);
-            playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
+            match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
             divinitySelectionIndex++;
         }
     }
@@ -51,11 +54,11 @@ public class MatchSetUp {
     public void divinitySelection(ArrayList<String> divinities) {
         for(String divinity : divinities) {
             if(!this.divinities.contains(divinity)) {
-                playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(divinities, playerManagers.size()));
+                match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(match.getMatchSocket().getPlayerManagers().size()-1)).sendMessage(new DivinityPick(divinities, match.getMatchSocket().getPlayerManagers().size()));
             }
         }
         divinitySelection = divinities;
-        playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinities));
+        match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinities));
         divinitySelectionIndex++;
     }
     public ArrayList<String> getDivinitySelection(){
