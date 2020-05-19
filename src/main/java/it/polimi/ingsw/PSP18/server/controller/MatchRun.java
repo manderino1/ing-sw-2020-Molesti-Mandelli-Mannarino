@@ -11,25 +11,26 @@ import it.polimi.ingsw.PSP18.server.model.MatchStatus;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 
 public class MatchRun {
     private TurnManager turnManager;
     private GameMap gameMap;
-    private Integer workerPlacementIndex = 0;
+    private Integer workerPlacementIndex = 1;
     private Match match;
     private int playerN;
 
     /***
-     * Match constructor, initializes the arrayLists and the game map
+     * MatchRun constructor, initializes all the attributes used during a game game
      */
     public MatchRun(Match match){
         gameMap = new GameMap();
         this.match = match;
     }
 
+    /***
+     * MatchRun constructor with the number of players playing
+     */
     public MatchRun(Match match, int playerN){
         this(match);
         this.playerN = playerN;
@@ -51,6 +52,9 @@ public class MatchRun {
         return turnManager;
     }
 
+    /***
+     * Set the turn manager reference
+     */
     public void setTurnManager(TurnManager turnManager) {
         this.turnManager = turnManager;
     }
@@ -108,6 +112,10 @@ public class MatchRun {
         turnManager = new TurnManager(match);
     }
 
+    /***
+     * Method used to end the match, sends to the winner the WinningPopUp and to the losers the LostPopUp
+     * @param winner the player that has won
+     */
     public void endMatch(PlayerManager winner) {
         if(winner != null) {
             match.getMatchSocket().getPlayerSocketMap().get(winner).sendMessage(new MatchWon(winner.getPlayerData().getPlayerID(), true));

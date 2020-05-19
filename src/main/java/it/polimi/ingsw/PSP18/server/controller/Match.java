@@ -39,7 +39,11 @@ public class Match {
     }
 
     public Match(int playerN){
-        this();
+        matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
+        MatchSocket matchSocket = new MatchSocket(this, playerN);
+        BackupManager backupManager = new BackupManager(this, playerN);
+        MatchSetUp matchSetUp = new MatchSetUp(this, playerN);
+        MatchRun matchRun = new MatchRun(this, playerN);
         this.playerN = playerN;
     }
 
