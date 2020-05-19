@@ -35,7 +35,7 @@ public class MatchManager {
             return sizeMap.get(size).get(sizeMap.get(size).size()-1);
         }
 
-        if(sizeMap.get(size).get(sizeMap.get(size).size()-1).getSockets().size() >= size) { // If the match is full create a new one
+        if(sizeMap.get(size).get(sizeMap.get(size).size()-1).getMatchSocket().getSockets().size() >= size) { // If the match is full create a new one
             sizeMap.get(size).add(new Match(size));
         }
         return sizeMap.get(size).get(sizeMap.get(size).size()-1); // Return the last match in the array list

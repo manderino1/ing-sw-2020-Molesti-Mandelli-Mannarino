@@ -28,7 +28,7 @@ public class TurnManagerAthena extends TurnManager {
      */
     @Override
     public void manageTurn(){
-        for(PlayerManager player : match.getPlayerManagers()) {
+        for(PlayerManager player : match.getMatchSocket().getPlayerManagers()) {
             if(player.getDivinityName().equals("Athena")) { // Update Athena movement
                 bool = (player.getPlayerData().getLastMove().getLevel() == 1);
             }

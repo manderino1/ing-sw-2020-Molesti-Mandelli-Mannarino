@@ -30,7 +30,7 @@ public class TurnManager {
      */
     private void setupTurn() {
         indexCurrentPlayer = 0;
-        match.setCurrentPlayer(match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer));
+        match.getMatchSocket().setCurrentPlayer(match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer));
         manageTurn(); // Start the match
     }
 
@@ -41,7 +41,7 @@ public class TurnManager {
      */
     private void setupTurn(int indexCurrentPlayer) {
         this.indexCurrentPlayer = indexCurrentPlayer;
-        match.setCurrentPlayer(match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer));
+        match.getMatchSocket().setCurrentPlayer(match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer));
         manageTurn(); // Start the match
     }
 
@@ -49,14 +49,14 @@ public class TurnManager {
      * Called form the parser, when a signal is received to end turn switch the turn to the following player
      */
     public void passTurn() {
-        if(match.getMatchSocket().getPlayerManagers().contains(match.getCurrentPlayer())) {
+        if(match.getMatchSocket().getPlayerManagers().contains(match.getMatchSocket().getCurrentPlayer())) {
             indexCurrentPlayer = indexCurrentPlayer + 1;
         }
         if(indexCurrentPlayer == match.getMatchSocket().getPlayerManagers().size()) {
             indexCurrentPlayer = 0; // If I reached the end of the array go back
         }
-        match.setCurrentPlayer(match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer));
-        match.updateFile();
+        match.getMatchSocket().setCurrentPlayer(match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer));
+        match.getBackupManager().updateFile();
         manageTurn();
     }
 

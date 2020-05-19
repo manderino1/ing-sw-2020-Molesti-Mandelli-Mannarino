@@ -52,15 +52,15 @@ public class TestMatch {
 
         match.setMatchStatus(MatchStatus.MATCH_STARTED);
         Assert.assertEquals(match.getMatchStatus(), MatchStatus.MATCH_STARTED);
-        match.getGameMap().setCell(1,1,0,null);
-        Assert.assertNull(match.getGameMap().getCell(1, 1).getWorker());
+        match.getMatchRun().getGameMap().setCell(1,1,0,null);
+        Assert.assertNull(match.getMatchRun().getGameMap().getCell(1, 1).getWorker());
 
         PlayerData playerData = new PlayerData("cipolla", Color.RED, 0);
         PlayerManager playerManager = new PlayerManager(match, playerData, "Apollo");
         match.addPlayer(playerManager, new SocketThread(socket, null));
         Assert.assertEquals(match.getMatchSocket().getPlayerManagers().get(0), playerManager);
 
-        match.setCurrentPlayer(playerManager);
+        match.getMatchSocket().setCurrentPlayer(playerManager);
         Assert.assertEquals(match.getMatchSocket().getCurrentPlayer(), playerManager);
 
         TurnManager turnManager = match.getTurnManager();
