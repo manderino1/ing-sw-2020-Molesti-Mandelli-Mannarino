@@ -178,23 +178,23 @@
 <b class="nc"><i>104</i>&nbsp;                    playerColor = Color.GREEN;</b>
 <i>105</i>&nbsp;                }
 <b class="nc"><i>106</i>&nbsp;                PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerColor, match.getMatchSocket().getPlayerManagers().size());</b>
-<b class="nc"><i>107</i>&nbsp;                match.addPlayer(new PlayerManager(match, playerData), this);</b>
+<b class="nc"><i>107</i>&nbsp;                match.getMatchSocket().addPlayer(new PlayerManager(match, playerData), this);</b>
 <b class="nc"><i>108</i>&nbsp;                break;</b>
 <i>109</i>&nbsp;            case DIVINITY_RECEIVER:
 <b class="nc"><i>110</i>&nbsp;                DivinityReceiver divinityReceiver = gson.fromJson(jsonObj, DivinityReceiver.class);</b>
-<b class="nc"><i>111</i>&nbsp;                match.divinityCreation(this, divinityReceiver.getDivinity());</b>
+<b class="nc"><i>111</i>&nbsp;                match.getMatchSetUp().divinityCreation(this, divinityReceiver.getDivinity());</b>
 <b class="nc"><i>112</i>&nbsp;                break;</b>
 <i>113</i>&nbsp;            case ENDTURN_RECEIVER:
 <b class="nc"><i>114</i>&nbsp;                EndTurnReceiver endTurnReceiver = gson.fromJson(jsonObj, EndTurnReceiver.class);</b>
-<b class="nc"><i>115</i>&nbsp;                match.getTurnManager().passTurn();</b>
+<b class="nc"><i>115</i>&nbsp;                match.getMatchRun().getTurnManager().passTurn();</b>
 <b class="nc"><i>116</i>&nbsp;                break;</b>
 <i>117</i>&nbsp;            case READY_RECEIVER:
 <b class="nc"><i>118</i>&nbsp;                ReadyReceiver readyReceiver = gson.fromJson(jsonObj, ReadyReceiver.class);</b>
-<b class="nc"><i>119</i>&nbsp;                match.readyManagement(this);</b>
+<b class="nc"><i>119</i>&nbsp;                match.getMatchSetUp().readyManagement(this);</b>
 <b class="nc"><i>120</i>&nbsp;                break;</b>
 <i>121</i>&nbsp;            case WORKER_RECEIVER:
 <b class="nc"><i>122</i>&nbsp;                WorkerReceiver workerReceiver = gson.fromJson(jsonObj, WorkerReceiver.class);</b>
-<b class="nc"><i>123</i>&nbsp;                match.workerPlacement(this, workerReceiver);</b>
+<b class="nc"><i>123</i>&nbsp;                match.getMatchRun().workerPlacement(this, workerReceiver);</b>
 <b class="nc"><i>124</i>&nbsp;                break;</b>
 <i>125</i>&nbsp;            case PROMETHEUS_BUILD_RECEIVER:
 <b class="nc"><i>126</i>&nbsp;                PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(jsonObj, PrometheusBuildReceiver.class);</b>

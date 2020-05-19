@@ -40,11 +40,13 @@ public class BackupManager {
             if (! directory.exists()){
                 directory.mkdir();
             }
-            FileWriter myWriter = new FileWriter(fileName, false);
-            Gson gson = new Gson();
-            myWriter.write(gson.toJson(new it.polimi.ingsw.PSP18.server.backup.MatchBackup(match.getMatchSocket().getPlayerManagers(), match.getMatchRun().getTurnManager().getIndexCurrentPlayer(), match.getMatchStatus(), match.getMatchRun().getGameMap().getMapCells())));
-            myWriter.flush();
-            myWriter.close();
+            if(fileName != null) {
+                FileWriter myWriter = new FileWriter(fileName, false);
+                Gson gson = new Gson();
+                myWriter.write(gson.toJson(new it.polimi.ingsw.PSP18.server.backup.MatchBackup(match.getMatchSocket().getPlayerManagers(), match.getMatchRun().getTurnManager().getIndexCurrentPlayer(), match.getMatchStatus(), match.getMatchRun().getGameMap().getMapCells())));
+                myWriter.flush();
+                myWriter.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -163,9 +165,11 @@ public class BackupManager {
         }
         match.getMatchRun().getGameMap().detachSocket(socket);
     }
+
     public void setFileName(String fileName){
         this.fileName = fileName;
     }
+
     public String getFileName(){
         return fileName;
     }

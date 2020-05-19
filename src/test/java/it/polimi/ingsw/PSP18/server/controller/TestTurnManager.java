@@ -54,8 +54,8 @@ public class TestTurnManager {
         Match match = new Match();
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread);
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread);
+        match.getMatchSocket().addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread);
+        match.getMatchSocket().addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread);
         match.getMatchSocket().getPlayerManagers().get(0).placeWorker(0, 0);
         match.getMatchSocket().getPlayerManagers().get(0).placeWorker(1, 0);
         match.getMatchSocket().getPlayerManagers().get(1).placeWorker(0, 1);
@@ -72,10 +72,10 @@ public class TestTurnManager {
         Match match = new Match();
         SocketThread socketThread1 = new SocketThread(socket, null);
         socketThread1.start();
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread1);
+        match.getMatchSocket().addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread1);
         SocketThread socketThread2 = new SocketThread(socket, null);
         socketThread2.start();
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread2);
+        match.getMatchSocket().addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread2);
         match.getMatchSocket().getPlayerManagers().get(0).placeWorker(0, 0);
         match.getMatchSocket().getPlayerManagers().get(0).placeWorker(4, 0);
         match.getMatchSocket().getPlayerManagers().get(1).placeWorker(0, 4);
@@ -92,10 +92,10 @@ public class TestTurnManager {
         Match match = new Match();
         SocketThread socketThread1 = new SocketThread(socket, null);
         socketThread1.start();
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread1);
+        match.getMatchSocket().addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread1);
         SocketThread socketThread2 = new SocketThread(socket, null);
         socketThread2.start();
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread2);
+        match.getMatchSocket().addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread2);
         match.getMatchSocket().getPlayerManagers().get(0).placeWorker(0, 0);
         match.getMatchSocket().getPlayerManagers().get(0).placeWorker(4, 0);
         match.getMatchSocket().getPlayerManagers().get(1).placeWorker(0, 4);

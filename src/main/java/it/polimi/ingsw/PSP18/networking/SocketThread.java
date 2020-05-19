@@ -192,7 +192,7 @@ public class SocketThread extends Thread {
                 break;
             case READY_RECEIVER:
                 ReadyReceiver readyReceiver = gson.fromJson(jsonObj, ReadyReceiver.class);
-                match.getMatchSocket().readyManagement(this);
+                match.getMatchSetUp().readyManagement(this);
                 break;
             case WORKER_RECEIVER:
                 WorkerReceiver workerReceiver = gson.fromJson(jsonObj, WorkerReceiver.class);

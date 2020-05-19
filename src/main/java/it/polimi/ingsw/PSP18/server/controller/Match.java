@@ -33,18 +33,18 @@ public class Match {
      */
     public Match(){
         matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
-        MatchSocket matchSocket = new MatchSocket(this);
-        BackupManager backupManager = new BackupManager(this);
-        MatchSetUp matchSetUp = new MatchSetUp(this);
-        MatchRun matchRun = new MatchRun(this);
+        matchSocket = new MatchSocket(this);
+        backupManager = new BackupManager(this);
+        matchSetUp = new MatchSetUp(this);
+        matchRun = new MatchRun(this);
     }
 
     public Match(int playerN){
         matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
-        MatchSocket matchSocket = new MatchSocket(this, playerN);
-        BackupManager backupManager = new BackupManager(this, playerN);
-        MatchSetUp matchSetUp = new MatchSetUp(this, playerN);
-        MatchRun matchRun = new MatchRun(this, playerN);
+        matchSocket = new MatchSocket(this, playerN);
+        backupManager = new BackupManager(this, playerN);
+        matchSetUp = new MatchSetUp(this, playerN);
+        matchRun = new MatchRun(this, playerN);
         this.playerN = playerN;
     }
 

@@ -57,18 +57,18 @@ public class TestMatch {
 
         PlayerData playerData = new PlayerData("cipolla", Color.RED, 0);
         PlayerManager playerManager = new PlayerManager(match, playerData, "Apollo");
-        match.addPlayer(playerManager, new SocketThread(socket, null));
+        match.getMatchSocket().addPlayer(playerManager, new SocketThread(socket, null));
         Assert.assertEquals(match.getMatchSocket().getPlayerManagers().get(0), playerManager);
 
         match.getMatchSocket().setCurrentPlayer(playerManager);
         Assert.assertEquals(match.getMatchSocket().getCurrentPlayer(), playerManager);
 
-        TurnManager turnManager = match.getTurnManager();
+        TurnManager turnManager = match.getMatchRun().getTurnManager();
     }
 
     @Test
     public void testReady() {
-        Match match = new Match();
+        Match match = new Match(2);
 
         match.setMatchStatus(MatchStatus.WAITING_FOR_PLAYERS);
         SocketThread socketThread = new SocketThread(socket, null, true);
@@ -78,14 +78,14 @@ public class TestMatch {
 
         PlayerData playerData = new PlayerData("cipolla", Color.RED, 0);
         PlayerManager playerManager = new PlayerManager(match, playerData, "Apollo");
-        match.addPlayer(playerManager, socketThread);
+        match.getMatchSocket().addPlayer(playerManager, socketThread);
 
         PlayerData playerData1 = new PlayerData("cipolla2", Color.RED, 1);
         PlayerManager playerManager1 = new PlayerManager(match, playerData1, "Apollo");
-        match.addPlayer(playerManager1, socketThread1);
+        match.getMatchSocket().addPlayer(playerManager1, socketThread1);
 
-        match.readyManagement(match.getSockets().get(0));
-        match.readyManagement(match.getSockets().get(1));
+        match.getMatchSetUp().readyManagement(match.getMatchSocket().getSockets().get(0));
+        match.getMatchSetUp().readyManagement(match.getMatchSocket().getSockets().get(1));
         Assert.assertEquals(match.getMatchStatus(), MatchStatus.DIVINITIES_SELECTION);
     }
 
@@ -102,22 +102,22 @@ public class TestMatch {
         PlayerData playerData1 = new PlayerData("cipolla2", Color.BLUE, 1);
         PlayerManager playerManager1 = new PlayerManager(match, playerData1);
 
-        match.addPlayer(playerManager, socketThread);
-        match.addPlayer(playerManager1, socketThread1);
+        match.getMatchSocket().addPlayer(playerManager, socketThread);
+        match.getMatchSocket().addPlayer(playerManager1, socketThread1);
 
-        match.readyManagement(match.getSockets().get(0));
-        match.readyManagement(match.getSockets().get(1));
+        match.getMatchSetUp().readyManagement(match.getMatchSocket().getSockets().get(0));
+        match.getMatchSetUp().readyManagement(match.getMatchSocket().getSockets().get(1));
 
         ArrayList<String> div = new ArrayList<>();
         div.add("Athena");
         div.add("Apollo");
         match.getMatchSetUp().divinitySelection(div);
 
-        match.divinityCreation(match.getSockets().get(0), "Athena");
-        match.divinityCreation(match.getSockets().get(1), "Apollo");
+        match.getMatchSetUp().divinityCreation(match.getMatchSocket().getSockets().get(0), "Athena");
+        match.getMatchSetUp().divinityCreation(match.getMatchSocket().getSockets().get(1), "Apollo");
 
-        match.workerPlacement(match.getSockets().get(0), new WorkerReceiver(1,0, 2, 1));
-        match.workerPlacement(match.getSockets().get(1), new WorkerReceiver(2,0, 3, 1));
+        match.getMatchRun().workerPlacement(match.getMatchSocket().getSockets().get(0), new WorkerReceiver(1,0, 2, 1));
+        match.getMatchRun().workerPlacement(match.getMatchSocket().getSockets().get(1), new WorkerReceiver(2,0, 3, 1));
 
         Assert.assertEquals(MatchStatus.MATCH_STARTED, match.getMatchStatus());
     }
@@ -135,22 +135,22 @@ public class TestMatch {
         PlayerData playerData1 = new PlayerData("cipolla2", Color.BLUE, 1);
         PlayerManager playerManager1 = new PlayerManager(match, playerData1);
 
-        match.addPlayer(playerManager, socketThread);
-        match.addPlayer(playerManager1, socketThread1);
+        match.getMatchSocket().addPlayer(playerManager, socketThread);
+        match.getMatchSocket().addPlayer(playerManager1, socketThread1);
 
-        match.readyManagement(match.getSockets().get(0));
-        match.readyManagement(match.getSockets().get(1));
+        match.getMatchSetUp().readyManagement(match.getMatchSocket().getSockets().get(0));
+        match.getMatchSetUp().readyManagement(match.getMatchSocket().getSockets().get(1));
 
         ArrayList<String> div = new ArrayList<>();
         div.add("Atlas");
         div.add("Apollo");
         match.getMatchSetUp().divinitySelection(div);
 
-        match.divinityCreation(match.getSockets().get(0), "Atlas");
-        match.divinityCreation(match.getSockets().get(1), "Apollo");
+        match.getMatchSetUp().divinityCreation(match.getMatchSocket().getSockets().get(0), "Atlas");
+        match.getMatchSetUp().divinityCreation(match.getMatchSocket().getSockets().get(1), "Apollo");
 
-        match.workerPlacement(match.getSockets().get(0), new WorkerReceiver(1,0, 2, 1));
-        match.workerPlacement(match.getSockets().get(1), new WorkerReceiver(2,0, 3, 1));
+        match.getMatchRun().workerPlacement(match.getMatchSocket().getSockets().get(0), new WorkerReceiver(1,0, 2, 1));
+        match.getMatchRun().workerPlacement(match.getMatchSocket().getSockets().get(1), new WorkerReceiver(2,0, 3, 1));
 
         Assert.assertEquals(MatchStatus.MATCH_STARTED, match.getMatchStatus());
 

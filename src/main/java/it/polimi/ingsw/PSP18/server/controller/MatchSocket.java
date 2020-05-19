@@ -131,28 +131,6 @@ public class MatchSocket {
         match.getMatchRun().getGameMap().detachSocket(socket);
     }
 
-    /***
-     * Wait for all the players to be ready and then start the divinity selection phase
-     * @param socket the reference to the socket
-     */
-    public void readyManagement(SocketThread socket) {
-        socketPlayerMap.get(socket).getPlayerData().setReady();
-        for(PlayerManager player : playerManagers) {
-            if(!player.getPlayerData().getReady() || playerManagers.size() != playerN || playerManagers.size() <= 1) {
-                return;
-            }
-        }
-        // Check if there is a match saved with these players
-        boolean hasBackup = match.getBackupManager().backupCheck();
-        // If i manage to arrive here all the players are ready, i can start the divinity selection phase
-        if(!hasBackup) {
-            match.setMatchStatus(MatchStatus.DIVINITIES_SELECTION);
-            playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(match.getMatchSetUp().getDivinitySelection(), playerManagers.size()));
-        } else {
-            match.getBackupManager().backupRestore();
-        }
-    }
-
     public HashMap<PlayerManager, SocketThread> getPlayerSocketMap() {
         return playerSocketMap;
     }

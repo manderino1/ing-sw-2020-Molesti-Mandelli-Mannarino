@@ -51,11 +51,11 @@ public class TestDivinity {
 
     public void createPlayerManager() {
         Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, null);
+        SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.setMatch(match);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test1",Color.RED, 0), "Divinity");
-        match.addPlayer(playerManager, socketThread);
+        match.getMatchSocket().addPlayer(playerManager, socketThread);
     }
 
     /***
@@ -72,7 +72,7 @@ public class TestDivinity {
      */
     @Test
     public void testManageTurn() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
 
         playerManager.placeWorker(2,1);
         playerManager.placeWorker(3,2);
@@ -91,7 +91,7 @@ public class TestDivinity {
         playerManager.getMatch().getMatchRun().getGameMap().getCell(2,1).setBuilding(3);
 
 
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(2, 4);
         playerManager.placeWorker(3, 2);
 
@@ -109,7 +109,7 @@ public class TestDivinity {
 
     @Test
     public void testBuild() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
@@ -130,7 +130,7 @@ public class TestDivinity {
 
     @Test
     public void testManageLoss () {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 

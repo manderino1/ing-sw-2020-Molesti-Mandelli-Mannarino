@@ -25,7 +25,11 @@ public class CliViewUpdate extends ViewUpdate {
      * @param console a bufferedreader with inputstream to send
      */
     public CliViewUpdate(BufferedReader console) {
-        this.console = Objects.requireNonNullElseGet(console, () -> new BufferedReader(new InputStreamReader(System.in)));
+        if(console == null) {
+            this.console = new BufferedReader(new InputStreamReader(System.in));
+        } else {
+            this.console = console;
+        }
     }
 
     /***

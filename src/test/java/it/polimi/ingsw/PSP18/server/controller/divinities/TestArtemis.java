@@ -22,9 +22,9 @@ public class TestArtemis extends TestDivinity {
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Artemis");
-        match.addPlayer(playerManager, socketThread);
+        match.getMatchSocket().addPlayer(playerManager, socketThread);
         playerManager1 = new PlayerManager(match, new PlayerData("Test11", Color.BLUE, 1), "Artemis");
-        match.addPlayer(playerManager1, socketThread);
+        match.getMatchSocket().addPlayer(playerManager1, socketThread);
     }
 
     /***
@@ -38,7 +38,7 @@ public class TestArtemis extends TestDivinity {
 
     @Test
     public void testMove() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(3,1);
 
@@ -56,7 +56,7 @@ public class TestArtemis extends TestDivinity {
         playerManager.getMatch().getMatchRun().getGameMap().getCell(2,1).setBuilding(3);
 
 
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(2, 4);
         playerManager.placeWorker(3, 2);
 

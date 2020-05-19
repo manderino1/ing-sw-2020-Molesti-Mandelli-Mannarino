@@ -15,7 +15,7 @@ public class TestPan extends TestDivinity {
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Pan");
-        match.addPlayer(playerManager, socketThread);
+        match.getMatchSocket().addPlayer(playerManager, socketThread);
     }
 
     /***
@@ -29,7 +29,7 @@ public class TestPan extends TestDivinity {
 
     @Test
     public void testCheckForVictory() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
         playerManager.getMatch().getMatchRun().getGameMap().getCell(2, 1).setBuilding(3);
