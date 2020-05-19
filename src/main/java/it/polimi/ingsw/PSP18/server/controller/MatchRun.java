@@ -135,6 +135,9 @@ public class MatchRun {
                 }
             }
 
+            // Clean the socket list
+            match.getMatchSocket().getSockets().clear();
+
             // Cancel the backup file of the match because the match has ended
             if(match.getBackupManager().getFileName() != null) {
                 File f = new File(match.getBackupManager().getFileName());
