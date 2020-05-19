@@ -51,9 +51,9 @@ public class TestArtemis extends TestDivinity {
 
     @Test
     public void testMoveReceiver() {
-        playerManager.getMatch().getGameMap().getCell(2,3).setBuilding(1);
-        playerManager.getMatch().getGameMap().getCell(2,2).setBuilding(2);
-        playerManager.getMatch().getGameMap().getCell(2,1).setBuilding(3);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(2,3).setBuilding(1);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(2,2).setBuilding(2);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(2,1).setBuilding(3);
 
 
         playerManager.getMatch().setCurrentPlayer(playerManager);
@@ -62,14 +62,14 @@ public class TestArtemis extends TestDivinity {
 
         playerManager.getDivinity().move();
         playerManager.getDivinity().moveReceiver(Direction.UP, 0);
-        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(2,3).getWorker());
+        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(2,3).getWorker());
 
         playerManager.getDivinity().move();
         playerManager.getDivinity().moveReceiver(Direction.UP, 0);
-        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(2,2).getWorker());
+        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(2,2).getWorker());
 
         playerManager.getDivinity().moveReceiver(null, 1);
-        Assert.assertEquals(playerManager.getWorker(1), playerManager.getMatch().getGameMap().getCell(3,2).getWorker());
+        Assert.assertEquals(playerManager.getWorker(1), playerManager.getMatch().getMatchRun().getGameMap().getCell(3,2).getWorker());
 
         playerManager.getDivinity().moveReceiver(Direction.UP, 0);
     }

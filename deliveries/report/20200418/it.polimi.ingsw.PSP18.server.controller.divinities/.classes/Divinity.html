@@ -133,7 +133,7 @@
 <b class="nc"><i>59</i>&nbsp;            return;</b>
 <i>60</i>&nbsp;        }
 <i>61</i>&nbsp;
-<b class="fc"><i>62</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));</b>
+<b class="fc"><i>62</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));</b>
 <b class="fc"><i>63</i>&nbsp;    }</b>
 <i>64</i>&nbsp;
 <i>65</i>&nbsp;    /***
@@ -147,10 +147,10 @@
 <b class="nc"><i>73</i>&nbsp;        setMove(worker.getX(), worker.getY(), direction);</b>
 <i>74</i>&nbsp;
 <b class="nc"><i>75</i>&nbsp;        if(checkForVictory()){</b>
-<b class="nc"><i>76</i>&nbsp;            for(SocketThread socket : playerManager.getMatch().getSockets()) {</b>
+<b class="nc"><i>76</i>&nbsp;            for(SocketThread socket : playerManager.getMatch().getMatchSocket().getSockets()) {</b>
 <b class="nc"><i>77</i>&nbsp;                socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));</b>
 <b class="nc"><i>78</i>&nbsp;            }</b>
-<b class="nc"><i>79</i>&nbsp;            playerManager.getMatch().endMatch();</b>
+<b class="nc"><i>79</i>&nbsp;            playerManager.getMatch().getMatchRun().endMatch();</b>
 <b class="nc"><i>80</i>&nbsp;            return;</b>
 <i>81</i>&nbsp;        }
 <i>82</i>&nbsp;
@@ -169,7 +169,7 @@
 <b class="nc"><i>95</i>&nbsp;            return;</b>
 <i>96</i>&nbsp;        }
 <i>97</i>&nbsp;
-<b class="nc"><i>98</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));</b>
+<b class="nc"><i>98</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves));</b>
 <b class="nc"><i>99</i>&nbsp;    }</b>
 <i>100</i>&nbsp;
 <i>101</i>&nbsp;    /***
@@ -188,7 +188,7 @@
 <i>114</i>&nbsp;        }
 <i>115</i>&nbsp;
 <b class="nc"><i>116</i>&nbsp;        playerManager.setBuild(newX, newY, dome);</b>
-<b class="nc"><i>117</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
+<b class="nc"><i>117</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
 <b class="nc"><i>118</i>&nbsp;    }</b>
 <i>119</i>&nbsp;
 <i>120</i>&nbsp;    /***
@@ -303,11 +303,11 @@
 <i>229</i>&nbsp;     * Send the match loss message to all players and remove workers, skip the player turn
 <i>230</i>&nbsp;     */
 <i>231</i>&nbsp;    protected void manageLoss() {
-<b class="nc"><i>232</i>&nbsp;        for(SocketThread socket : playerManager.getMatch().getSockets()) {</b>
+<b class="nc"><i>232</i>&nbsp;        for(SocketThread socket : playerManager.getMatch().getMatchSocket().getSockets()) {</b>
 <b class="nc"><i>233</i>&nbsp;            socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID()));</b>
 <b class="nc"><i>234</i>&nbsp;        }</b>
 <i>235</i>&nbsp;
-<b class="nc"><i>236</i>&nbsp;        playerManager.getMatch().getPlayerManagers().remove(playerManager.getMatch().getCurrentPlayer());</b>
+<b class="nc"><i>236</i>&nbsp;        playerManager.getMatch().getMatchSocket().getPlayerManagers().remove(playerManager.getMatch().getMatchSocket().getCurrentPlayer());</b>
 <i>237</i>&nbsp;
 <b class="nc"><i>238</i>&nbsp;        Integer x1 = playerManager.getWorker(0).getX();</b>
 <b class="nc"><i>239</i>&nbsp;        Integer y1 = playerManager.getWorker(0).getY();</b>
@@ -316,13 +316,13 @@
 <b class="nc"><i>242</i>&nbsp;        playerManager.getGameMap().setCell(x1, y1, playerManager.getGameMap().getCell( x1, y1).getBuilding(), null);</b>
 <b class="nc"><i>243</i>&nbsp;        playerManager.getGameMap().setCell(x2, y2, playerManager.getGameMap().getCell( x2, y2).getBuilding(), null);</b>
 <i>244</i>&nbsp;
-<b class="nc"><i>245</i>&nbsp;        if(playerManager.getMatch().getPlayerManagers().size() == 1) {</b>
-<b class="nc"><i>246</i>&nbsp;            for(SocketThread socket : playerManager.getMatch().getSockets()) {</b>
-<b class="nc"><i>247</i>&nbsp;                socket.sendMessage(new MatchWon(playerManager.getMatch().getPlayerManagers().get(0).getPlayerData().getPlayerID()));</b>
+<b class="nc"><i>245</i>&nbsp;        if(playerManager.getMatch().getMatchSocket().getPlayerManagers().size() == 1) {</b>
+<b class="nc"><i>246</i>&nbsp;            for(SocketThread socket : playerManager.getMatch().getMatchSocket().getSockets()) {</b>
+<b class="nc"><i>247</i>&nbsp;                socket.sendMessage(new MatchWon(playerManager.getMatch().getMatchSocket().getPlayerManagers().get(0).getPlayerData().getPlayerID()));</b>
 <b class="nc"><i>248</i>&nbsp;            }</b>
 <i>249</i>&nbsp;        }
 <i>250</i>&nbsp;
-<b class="nc"><i>251</i>&nbsp;        playerManager.getMatch().getTurnManager().passTurn();</b>
+<b class="nc"><i>251</i>&nbsp;        playerManager.getMatch().getMatchRun().getTurnManager().passTurn();</b>
 <b class="nc"><i>252</i>&nbsp;    }</b>
 <i>253</i>&nbsp;}
 </div>

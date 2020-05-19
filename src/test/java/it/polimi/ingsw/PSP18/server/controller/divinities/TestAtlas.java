@@ -46,6 +46,6 @@ public class TestAtlas extends TestDivinity {
 
         socketOutContent.reset();
         ((Atlas) playerManager.getDivinity()).buildReceiver(Direction.DOWN, false);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).getBuilding());
     }
 }

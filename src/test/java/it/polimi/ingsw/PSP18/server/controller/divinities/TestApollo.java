@@ -63,13 +63,13 @@ public class TestApollo extends TestDivinity {
         playerManager.placeWorker(0,0);
 
         playerManager.getDivinity().setMove(1,1, Direction.UP);
-        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(1,0).getWorker());
+        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(1,0).getWorker());
 
         playerManager1.placeWorker(1,1);
         playerManager1.placeWorker(1,4);
 
         playerManager.getDivinity().setMove(1,0, Direction.DOWN);
-        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(1,1).getWorker());
-        Assert.assertEquals(playerManager1.getWorker(0), playerManager.getMatch().getGameMap().getCell(1,0).getWorker());
+        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(1,1).getWorker());
+        Assert.assertEquals(playerManager1.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(1,0).getWorker());
     }
 }

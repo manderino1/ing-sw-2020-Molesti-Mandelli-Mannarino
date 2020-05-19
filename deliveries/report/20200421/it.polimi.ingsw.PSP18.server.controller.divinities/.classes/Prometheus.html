@@ -98,7 +98,7 @@
 <b class="fc"><i>24</i>&nbsp;        this.raiseForbidden = raiseForbidden;</b>
 <b class="fc"><i>25</i>&nbsp;        ArrayList&lt;Direction&gt; moves1 = checkBuildingMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY());</b>
 <b class="fc"><i>26</i>&nbsp;        ArrayList&lt;Direction&gt; moves2 = checkBuildingMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY());</b>
-<b class="fc"><i>27</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new PrometheusBuildList(moves1, moves2));</b>
+<b class="fc"><i>27</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new PrometheusBuildList(moves1, moves2));</b>
 <b class="fc"><i>28</i>&nbsp;    }</b>
 <i>29</i>&nbsp;
 <i>30</i>&nbsp;    /***
@@ -133,13 +133,13 @@
 <b class="fc"><i>59</i>&nbsp;        if(firstBuild) {</b>
 <b class="nc"><i>60</i>&nbsp;            firstBuild = false;</b>
 <b class="nc"><i>61</i>&nbsp;            if(workerID == 0) {</b>
-<b class="nc"><i>62</i>&nbsp;                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker1, workerID, false));</b>
+<b class="nc"><i>62</i>&nbsp;                playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker1, workerID, false));</b>
 <i>63</i>&nbsp;            }
 <b class="nc"><i>64</i>&nbsp;            if(workerID == 1) {</b>
-<b class="nc"><i>65</i>&nbsp;                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker2, workerID, false));</b>
+<b class="nc"><i>65</i>&nbsp;                playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker2, workerID, false));</b>
 <i>66</i>&nbsp;            }
 <i>67</i>&nbsp;        } else {
-<b class="fc"><i>68</i>&nbsp;            playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));</b>
+<b class="fc"><i>68</i>&nbsp;            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));</b>
 <i>69</i>&nbsp;        }
 <b class="fc"><i>70</i>&nbsp;    }</b>
 <i>71</i>&nbsp;
@@ -156,7 +156,7 @@
 <b class="fc"><i>82</i>&nbsp;            return;</b>
 <i>83</i>&nbsp;        }
 <i>84</i>&nbsp;
-<b class="fc"><i>85</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));</b>
+<b class="fc"><i>85</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves));</b>
 <b class="fc"><i>86</i>&nbsp;    }</b>
 <i>87</i>&nbsp;
 <i>88</i>&nbsp;    /***
@@ -171,7 +171,7 @@
 <b class="fc"><i>97</i>&nbsp;        boolean dome = false;</b>
 <i>98</i>&nbsp;
 <i>99</i>&nbsp;        // If the height of the building cell is 3 a dome has to be placed
-<b class="fc"><i>100</i>&nbsp;        if (playerManager.getMatch().getGameMap().getCell(newX, newY).getBuilding() == 3) {</b>
+<b class="fc"><i>100</i>&nbsp;        if (playerManager.getMatch().getMatchRun().getGameMap().getCell(newX, newY).getBuilding() == 3) {</b>
 <b class="nc"><i>101</i>&nbsp;            dome = true;</b>
 <i>102</i>&nbsp;        }
 <b class="fc"><i>103</i>&nbsp;        playerManager.setBuild(newX, newY, dome);</b>
@@ -180,7 +180,7 @@
 <b class="nc"><i>106</i>&nbsp;            move();</b>
 <i>107</i>&nbsp;        }
 <i>108</i>&nbsp;        else {
-<b class="fc"><i>109</i>&nbsp;            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
+<b class="fc"><i>109</i>&nbsp;            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
 <i>110</i>&nbsp;        }
 <b class="fc"><i>111</i>&nbsp;    }</b>
 <i>112</i>&nbsp;

@@ -105,7 +105,7 @@
 <b class="nc"><i>31</i>&nbsp;            return;</b>
 <i>32</i>&nbsp;        }
 <i>33</i>&nbsp;
-<b class="nc"><i>34</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));</b>
+<b class="nc"><i>34</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves));</b>
 <i>35</i>&nbsp;
 <b class="nc"><i>36</i>&nbsp;        firstBuild = true;</b>
 <b class="nc"><i>37</i>&nbsp;    }</b>
@@ -136,7 +136,7 @@
 <b class="nc"><i>62</i>&nbsp;            moves.add(direction);</b>
 <b class="nc"><i>63</i>&nbsp;            firstBuild = false;</b>
 <i>64</i>&nbsp;
-<b class="nc"><i>65</i>&nbsp;            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));</b>
+<b class="nc"><i>65</i>&nbsp;            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves));</b>
 <i>66</i>&nbsp;        }
 <b class="nc"><i>67</i>&nbsp;    }</b>
 <i>68</i>&nbsp;}

@@ -104,7 +104,7 @@
 <b class="nc"><i>30</i>&nbsp;            return;</b>
 <i>31</i>&nbsp;        }
 <i>32</i>&nbsp;
-<b class="fc"><i>33</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));</b>
+<b class="fc"><i>33</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));</b>
 <b class="fc"><i>34</i>&nbsp;        this.firstMove = true;</b>
 <b class="fc"><i>35</i>&nbsp;    }</b>
 <i>36</i>&nbsp;
@@ -125,10 +125,10 @@
 <b class="fc"><i>51</i>&nbsp;        setMove(worker.getX(), worker.getY(), direction);</b>
 <i>52</i>&nbsp;
 <b class="fc"><i>53</i>&nbsp;        if(checkForVictory(workerID)){</b>
-<b class="fc"><i>54</i>&nbsp;            for(SocketThread socket : playerManager.getMatch().getSockets()) {</b>
+<b class="fc"><i>54</i>&nbsp;            for(SocketThread socket : playerManager.getMatch().getMatchSocket().getSockets()) {</b>
 <b class="fc"><i>55</i>&nbsp;                socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));</b>
 <b class="fc"><i>56</i>&nbsp;            }</b>
-<b class="fc"><i>57</i>&nbsp;            playerManager.getMatch().endMatch();</b>
+<b class="fc"><i>57</i>&nbsp;            playerManager.getMatch().getMatchRun().endMatch();</b>
 <b class="fc"><i>58</i>&nbsp;            return;</b>
 <i>59</i>&nbsp;        }
 <b class="fc"><i>60</i>&nbsp;        if(firstMove) {</b>
@@ -139,7 +139,7 @@
 <b class="nc"><i>65</i>&nbsp;                return;</b>
 <i>66</i>&nbsp;            }
 <b class="fc"><i>67</i>&nbsp;            firstMove = false;</b>
-<b class="fc"><i>68</i>&nbsp;            playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID, true));</b>
+<b class="fc"><i>68</i>&nbsp;            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID, true));</b>
 <b class="fc"><i>69</i>&nbsp;        }</b>
 <i>70</i>&nbsp;        else {
 <b class="fc"><i>71</i>&nbsp;            build();</b>

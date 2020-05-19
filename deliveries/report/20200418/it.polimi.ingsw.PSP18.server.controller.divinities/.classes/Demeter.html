@@ -103,7 +103,7 @@
 <b class="nc"><i>29</i>&nbsp;            return;</b>
 <i>30</i>&nbsp;        }
 <i>31</i>&nbsp;
-<b class="nc"><i>32</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));</b>
+<b class="nc"><i>32</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves));</b>
 <i>33</i>&nbsp;
 <b class="nc"><i>34</i>&nbsp;        firstBuild = true;</b>
 <b class="nc"><i>35</i>&nbsp;    }</b>
@@ -132,7 +132,7 @@
 <b class="nc"><i>58</i>&nbsp;            ArrayList&lt;Direction&gt; moves = checkBuildingMoves(worker.getX(), worker.getY());</b>
 <b class="nc"><i>59</i>&nbsp;            moves.remove(direction);</b>
 <b class="nc"><i>60</i>&nbsp;            firstBuild = false;</b>
-<b class="nc"><i>61</i>&nbsp;            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));</b>
+<b class="nc"><i>61</i>&nbsp;            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildListFlag(moves));</b>
 <i>62</i>&nbsp;        }
 <b class="nc"><i>63</i>&nbsp;    }</b>
 <i>64</i>&nbsp;}

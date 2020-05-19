@@ -35,7 +35,7 @@ public class Artemis extends Divinity {
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));
+        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));
         this.firstMove = true;
     }
 
@@ -57,7 +57,7 @@ public class Artemis extends Divinity {
 
         if(checkForVictory(workerID)){
             if(checkForVictory(workerID)){
-                playerManager.getMatch().endMatch(playerManager);
+                playerManager.getMatch().getMatchRun().endMatch(playerManager);
                 return;
             }
         }
@@ -69,7 +69,7 @@ public class Artemis extends Divinity {
                 return;
             }
             firstMove = false;
-            playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID, true, playerManager.getWorker(workerID)));
+            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID, true, playerManager.getWorker(workerID)));
         }
         else {
             build();

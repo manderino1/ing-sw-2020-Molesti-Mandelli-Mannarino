@@ -97,11 +97,11 @@ public class TestPrometheus extends TestDivinity {
 
         socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).getBuilding());
 
-        playerManager.getMatch().getGameMap().getCell(1,0).setBuilding(3);
-        playerManager.getMatch().getGameMap().getCell(0,1).setBuilding(2);
-        playerManager.getMatch().getGameMap().getCell(1,1).setBuilding(3);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,0).setBuilding(3);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).setBuilding(2);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,1).setBuilding(3);
     }
     @Test
     public void buildReceiver(){
