@@ -5,20 +5,21 @@ import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.MatchStatus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /***
  * Manages the multiple matches running into the server
  */
 public class MatchManager {
-    private SocketServer socketServer;
-    private ArrayList<Match> matches2 = new ArrayList<>();
-    private ArrayList<Match> matches3 = new ArrayList<>();
+    private HashMap<Integer, ArrayList<Match>> sizeMap = new HashMap<>();
 
     /***
      * Constructor that launch the socket server listener and init the first match
      */
     public MatchManager() {
-        this.socketServer = new SocketServer(this);
+        SocketServer socketServer = new SocketServer(this);
+        sizeMap.put(2, new ArrayList<>());
+        sizeMap.put(3, new ArrayList<>());
         socketServer.start();
     }
 
@@ -27,33 +28,16 @@ public class MatchManager {
      * @return returns the active match to add the socket to
      */
     public Match getMatch(int size) {
-        matches2.removeIf(match -> match.getMatchStatus() == MatchStatus.MATCH_ENDED); // Remove ended matches
-        matches3.removeIf(match -> match.getMatchStatus() == MatchStatus.MATCH_ENDED); // Remove ended matches
+        sizeMap.get(size).removeIf(match -> match.getMatchStatus() == MatchStatus.MATCH_ENDED); // Remove ended 2 player matches
 
-        if(matches2.size() == 0 && size == 2) {
-            matches2.add(new Match(2));
-            return matches2.get(matches2.size()-1);
+        if(sizeMap.get(size).size() == 0) { // If there isn't a match create it
+            sizeMap.get(size).add(new Match(size));
+            return sizeMap.get(size).get(sizeMap.get(size).size()-1);
         }
 
-        if(matches3.size() == 0 && size == 3) {
-            matches3.add(new Match(3));
-            return matches3.get(matches3.size()-1);
+        if(sizeMap.get(size).get(sizeMap.get(size).size()-1).getSockets().size() >= size) { // If the match is full create a new one
+            sizeMap.get(size).add(new Match(size));
         }
-
-        if(size == 2) {
-            if(matches2.get(matches2.size()-1).getSockets().size() > 1) {
-                matches2.add(new Match(2));
-            }
-            return matches2.get(matches2.size()-1);
-        }
-
-        if(size == 3) {
-            if(matches3.get(matches3.size()-1).getSockets().size() > 2) {
-                matches3.add(new Match(3));
-            }
-            return matches3.get(matches3.size()-1);
-        }
-
-        return null;
+        return sizeMap.get(size).get(sizeMap.get(size).size()-1); // Return the last match in the array list
     }
 }

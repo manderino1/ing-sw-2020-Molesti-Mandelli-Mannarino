@@ -58,8 +58,6 @@ public class MatchController extends Controller {
     @FXML
     private Label label2;
     @FXML
-    private Pane leftBar;
-    @FXML
     private ImageView divinity1;
     @FXML
     private Label nick1;
@@ -71,8 +69,6 @@ public class MatchController extends Controller {
     private ImageView divinity3;
     @FXML
     private Label nick3;
-    @FXML
-    private GridPane lowBar;
     @FXML
     private SubScene matchScene;
     private Group matchSceneGroup = new Group();
@@ -1014,7 +1010,7 @@ public class MatchController extends Controller {
                 } else {
                     return;
                 }
-                Platform.runLater(() -> { label2.setText("End Turn"); });
+                Platform.runLater(() -> label2.setText("End Turn"));
                 e3.consume();
             });
             e.consume();

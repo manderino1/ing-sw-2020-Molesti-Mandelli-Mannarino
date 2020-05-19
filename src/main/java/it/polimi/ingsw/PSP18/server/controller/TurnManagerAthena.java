@@ -29,14 +29,14 @@ public class TurnManagerAthena extends TurnManager {
     @Override
     public void manageTurn(){
         for(PlayerManager player : match.getPlayerManagers()) {
-            if(player.getDivinityName().equals("Athena")) {
+            if(player.getDivinityName().equals("Athena")) { // Update Athena movement
                 bool = (player.getPlayerData().getLastMove().getLevel() == 1);
             }
         }
 
-        if(match.getPlayerManagers().get(indexCurrentPlayer).getDivinityName().equals("Athena")) {
+        if(match.getPlayerManagers().get(indexCurrentPlayer).getDivinityName().equals("Athena")) { // Athena can go up
             match.getPlayerManagers().get(indexCurrentPlayer).manageTurn(false);
-        } else {
+        } else { // Call the manager with the correct raiseForbidden parameter
             match.getPlayerManagers().get(indexCurrentPlayer).manageTurn(bool);
         }
     }

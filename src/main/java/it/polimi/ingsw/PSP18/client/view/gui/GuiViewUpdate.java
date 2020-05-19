@@ -1,13 +1,10 @@
 package it.polimi.ingsw.PSP18.client.view.gui;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
-import it.polimi.ingsw.PSP18.client.view.cli.CliColor;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.Replay;
-import it.polimi.ingsw.PSP18.server.controller.Match;
-import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +14,6 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -27,8 +23,6 @@ public class GuiViewUpdate extends ViewUpdate {
     private Controller controller;
     private Parent parent;
     private SocketClient socket;
-    private final int PORT = 9002;
-    private InetAddress host;
     private String name;
     private Popup popup = new Popup();
 
@@ -115,12 +109,16 @@ public class GuiViewUpdate extends ViewUpdate {
             }
         }
 
-        if(controller.getPageID().equals("Lobby")) {
-            ((LobbyController)controller).updatePlayers(playerDataArrayList);
-        } else if (controller.getPageID().equals("WaitingRoom")) {
-            ((WaitingRoomController)controller).updatePlayers(playerDataArrayList);
-        } else if (controller.getPageID().equals("Match")) {
-            ((MatchController)controller).updatePlayers(playerDataArrayList);
+        switch (controller.getPageID()) {
+            case "Lobby":
+                ((LobbyController) controller).updatePlayers(playerDataArrayList);
+                break;
+            case "WaitingRoom":
+                ((WaitingRoomController) controller).updatePlayers(playerDataArrayList);
+                break;
+            case "Match":
+                ((MatchController) controller).updatePlayers(playerDataArrayList);
+                break;
         }
     }
 
@@ -136,7 +134,6 @@ public class GuiViewUpdate extends ViewUpdate {
     @Override
     public void selectDivinity(DivinityList divinityList) {
         ArrayList<String> divinities = divinityList.getDivinities();
-        String nextScene;
         if(divinities.size() == 3) {
             switchScene("PickDivinity3");
             ((PickDivinity3Controller)controller).showChoices(divinityList);
@@ -268,12 +265,10 @@ public class GuiViewUpdate extends ViewUpdate {
 
     @Override
     public void playerNumber() {
-        if (controller.getPageID().equals("Login")) {
-            ((LoginController)controller).selectPlayerNumber();
-        } else {
+        if (!controller.getPageID().equals("Login")) {
             switchScene("Login");
-            ((LoginController)controller).selectPlayerNumber();
         }
+        ((LoginController)controller).selectPlayerNumber();
     }
 
     public void switchScene(String name) {

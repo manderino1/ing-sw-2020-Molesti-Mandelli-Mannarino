@@ -36,6 +36,8 @@ public class TurnManager {
 
     /***
      * Called in the constructor, initializes the turn order
+     * Can accept the actual current player to restore backup
+     * @param indexCurrentPlayer the player that has to play index
      */
     private void setupTurn(int indexCurrentPlayer) {
         this.indexCurrentPlayer = indexCurrentPlayer;
@@ -51,7 +53,7 @@ public class TurnManager {
             indexCurrentPlayer = indexCurrentPlayer + 1;
         }
         if(indexCurrentPlayer == match.getPlayerManagers().size()) {
-            indexCurrentPlayer = 0;
+            indexCurrentPlayer = 0; // If I reached the end of the array go back
         }
         match.setCurrentPlayer(match.getPlayerManagers().get(indexCurrentPlayer));
         match.updateFile();
