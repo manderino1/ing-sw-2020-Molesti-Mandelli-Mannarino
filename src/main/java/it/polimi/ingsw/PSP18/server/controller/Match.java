@@ -23,12 +23,9 @@ public class Match {
     private TurnManager turnManager;
     private MatchStatus matchStatus;
     private GameMap gameMap;
-    private ArrayList<String> divinitySelection = new ArrayList<>();
-    private Integer divinitySelectionIndex = 0;
     private Integer workerPlacementIndex = 0;
     private ArrayList<String> divinities;
     private int playerN;
-    private String fileName;
 
     private MatchSocket matchSocket;
     private BackupManager backupManager;
@@ -40,10 +37,6 @@ public class Match {
      */
     public Match(){
         backupManager= new BackupManager(this);
-        playerManagers = new ArrayList<>();
-        sockets = new ArrayList<>();
-        playerSocketMap = new HashMap<>();
-        socketPlayerMap = new HashMap<>();
         gameMap = new GameMap();
         matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
         String[] divArray = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur", "Pan", "Prometheus"};
@@ -95,45 +88,6 @@ public class Match {
         this.turnManager= turnManager;
     }
 
-    /***
-     * Create the divinity of the player that decided which divinity to use
-     * If there are no more players that have to choose the divinity start the match
-     * If there are other players, ask the next to choose the divinity
-     * @param socket the socket reference, used to get the correct player
-     * @param divinity string that represent the divinity to be created
-     */
-    public void divinityCreation(SocketThread socket, String divinity) {
-        // Check that the divinity selection is correct
-        if(!divinitySelection.contains(divinity)) {
-            playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
-        }
-        socketPlayerMap.get(socket).divinityCreation(divinity); // use to change divinity
-        if(divinitySelectionIndex == playerManagers.size()) {
-            // Set observers
-            for(SocketThread sock : sockets) {
-                gameMap.attach(new MapObserver(sock));
-            }
-
-            matchStatus = MatchStatus.WORKER_SETUP;
-            playerSocketMap.get(playerManagers.get(workerPlacementIndex)).sendMessage(new PlaceReady());
-            workerPlacementIndex++;
-        } else {
-            divinitySelection.remove(divinity);
-            playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
-            divinitySelectionIndex++;
-        }
-    }
-
-    public void divinitySelection(ArrayList<String> divinities) {
-        for(String divinity : divinities) {
-            if(!this.divinities.contains(divinity)) {
-                playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(divinities, playerManagers.size()));
-            }
-        }
-        divinitySelection = divinities;
-        playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinities));
-        divinitySelectionIndex++;
-    }
 
     /***
      * method that recieve the worker placed form the player in the client and place them in actual gameMap in the server
