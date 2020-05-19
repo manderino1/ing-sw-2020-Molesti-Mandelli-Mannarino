@@ -20,7 +20,7 @@ public class MatchSocket {
     private Match match;
 
     /***
-     * Match constructor, initializes the arrayLists and the game map
+     * MatchSocket constructor, initializes the sockets, playerManagers, and the two HasMaps
      */
     public MatchSocket(Match match){
         playerManagers = new ArrayList<>();
@@ -30,6 +30,9 @@ public class MatchSocket {
         this.match = match;
     }
 
+    /***
+     * MatchSocket constructor with the number of players
+     */
     public MatchSocket(Match match, int playerN){
         this(match);
         this.playerN = playerN;
@@ -109,10 +112,18 @@ public class MatchSocket {
         this.currentPlayer = currentPlayer;
     }
 
+    /***
+     * Returns the current player socket
+     * @return the current player socket
+     */
     public SocketThread getCurrentSocket() {
         return playerSocketMap.get(currentPlayer);
     }
 
+    /***
+     * Detaches the observers to a player
+     * @param socket the player that needs his observers detached
+     */
     public void detachSocket(SocketThread socket) {
         for(PlayerManager player : playerManagers) {
             player.getPlayerData().detachSocket(socket);
@@ -136,7 +147,7 @@ public class MatchSocket {
         // If i manage to arrive here all the players are ready, i can start the divinity selection phase
         if(!hasBackup) {
             match.setMatchStatus(MatchStatus.DIVINITIES_SELECTION);
-            playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(match.getMatchSetup().divinities, playerManagers.size()));
+            playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(match.getMatchSetUp().getDivinitySelection(), playerManagers.size()));
         } else {
             match.getBackupManager().backupRestore();
         }

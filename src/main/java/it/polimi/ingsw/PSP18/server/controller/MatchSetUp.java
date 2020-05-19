@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MatchSetUp {
-
+    private int playerN;
     private Match match;
     private ArrayList<String> divinitySelection = new ArrayList<>();
     private Integer divinitySelectionIndex = 0;
@@ -21,6 +21,11 @@ public class MatchSetUp {
         String[] divArray = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur", "Pan", "Prometheus"};
         divinities = new ArrayList<>(Arrays.asList(divArray));
         this.match = match;
+    }
+
+    public MatchSetUp(Match match, int playerN){
+        this(match);
+        this.playerN = playerN;
     }
 
     /***

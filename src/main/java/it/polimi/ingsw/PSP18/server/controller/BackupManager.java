@@ -20,9 +20,15 @@ public class BackupManager {
 
     private String fileName;
     private Match match;
+    private int playerN;
 
     public BackupManager(Match match){
         this.match = match;
+    }
+
+    public BackupManager(Match match, int playerN){
+        this(match);
+        this.playerN = playerN;
     }
 
     /***
