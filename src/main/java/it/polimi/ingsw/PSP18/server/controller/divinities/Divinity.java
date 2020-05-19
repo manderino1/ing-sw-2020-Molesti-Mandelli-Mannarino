@@ -4,8 +4,6 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
-import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidBuildException;
-import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Move;
 import it.polimi.ingsw.PSP18.server.model.Worker;
@@ -79,13 +77,7 @@ public class Divinity {
 
         // Check that the move is valid
         if((workerID == 0 && !movesWorker1.contains(direction)) || (workerID == 1 && !movesWorker2.contains(direction))) {
-            try {
-                throw new InvalidMoveException();
-            } catch (InvalidMoveException e) {
-                e.printStackTrace();
-                move();
-                return;
-            }
+            move();
         }
 
         // If it's valid start the program
@@ -123,13 +115,7 @@ public class Divinity {
 
         // Check if the build direction is valid
         if(!moves.contains(direction)) {
-            try {
-                throw new InvalidBuildException();
-            } catch (InvalidBuildException e) {
-                e.printStackTrace();
-                build();
-                return;
-            }
+            build();
         }
 
         Integer newX = DirectionManagement.getX(worker.getX(), direction);

@@ -4,7 +4,6 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
-import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 

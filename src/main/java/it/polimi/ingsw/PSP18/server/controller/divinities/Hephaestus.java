@@ -4,7 +4,6 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
-import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidBuildException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 
@@ -53,16 +52,10 @@ public class Hephaestus extends Divinity{
 
         // Check if the build direction is valid
         if(!moves.contains(direction)) {
-            try {
-                throw new InvalidBuildException();
-            } catch (InvalidBuildException e) {
-                e.printStackTrace();
-                if(firstBuild) {
-                    build();
-                } else {
-                    playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));
-                }
-                return;
+            if(firstBuild) {
+                build();
+            } else {
+                playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));
             }
         }
 

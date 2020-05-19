@@ -5,7 +5,6 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PrometheusBuildReceiver;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
-import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidBuildException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 import java.util.ArrayList;
@@ -101,13 +100,7 @@ public class Prometheus extends Divinity{
     public void buildReceiver(Direction direction) {
         // Check if the build direction is valid
         if(!moves.contains(direction)) {
-            try {
-                throw new InvalidBuildException();
-            } catch (InvalidBuildException e) {
-                e.printStackTrace();
-                build();
-                return;
-            }
+            build();
         }
 
         Worker worker = playerManager.getWorker(workerID);

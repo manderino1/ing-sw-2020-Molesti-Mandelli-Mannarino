@@ -5,9 +5,6 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.WorkerReceiver;
 import it.polimi.ingsw.PSP18.server.backup.MatchBackup;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
-import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidDivinityException;
-import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidWorkerPositionException;
-import it.polimi.ingsw.PSP18.server.backup.PlayerDataBackup;
 import it.polimi.ingsw.PSP18.server.backup.PlayerManagerBackup;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
@@ -195,13 +192,7 @@ public class Match {
     public void divinityCreation(SocketThread socket, String divinity) {
         // Check that the divinity selection is correct
         if(!divinitySelection.contains(divinity)) {
-            try {
-                throw new InvalidDivinityException();
-            } catch (InvalidDivinityException e) {
-                e.printStackTrace();
-                playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
-                return;
-            }
+            playerSocketMap.get(playerManagers.get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
         }
         socketPlayerMap.get(socket).divinityCreation(divinity); // use to change divinity
         if(divinitySelectionIndex == playerManagers.size()) {
@@ -223,13 +214,7 @@ public class Match {
     public void divinitySelection(ArrayList<String> divinities) {
         for(String divinity : divinities) {
             if(!this.divinities.contains(divinity)) {
-                try {
-                    throw new InvalidDivinityException();
-                } catch (InvalidDivinityException e) {
-                    e.printStackTrace();
-                    playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(divinities, playerManagers.size()));
-                    return;
-                }
+                playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(divinities, playerManagers.size()));
             }
         }
         divinitySelection = divinities;
@@ -244,13 +229,7 @@ public class Match {
      */
     public void workerPlacement(SocketThread socket, WorkerReceiver workers) {
         if(gameMap.getCell(workers.getX1(), workers.getY1()).getWorker() != null || gameMap.getCell(workers.getX2(), workers.getY2()).getWorker() != null) {
-            try {
-                throw new InvalidWorkerPositionException();
-            } catch (InvalidWorkerPositionException e) {
-                e.printStackTrace();
-                playerSocketMap.get(playerManagers.get(workerPlacementIndex)).sendMessage(new PlaceReady());
-                return;
-            }
+            playerSocketMap.get(playerManagers.get(workerPlacementIndex)).sendMessage(new PlaceReady());
         }
         socketPlayerMap.get(socket).placeWorker(workers.getX1(), workers.getY1());
         socketPlayerMap.get(socket).placeWorker(workers.getX2(), workers.getY2());

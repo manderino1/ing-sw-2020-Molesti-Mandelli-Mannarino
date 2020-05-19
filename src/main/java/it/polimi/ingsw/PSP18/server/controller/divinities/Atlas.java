@@ -5,7 +5,6 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.EndTurnAvaiable;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
-import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidBuildException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 
@@ -51,13 +50,7 @@ public class Atlas extends Divinity{
 
         // Check if the build direction is valid
         if(!moves.contains(direction)) {
-            try {
-                throw new InvalidBuildException();
-            } catch (InvalidBuildException e) {
-                e.printStackTrace();
-                build();
-                return;
-            }
+            build();
         }
 
         /*
