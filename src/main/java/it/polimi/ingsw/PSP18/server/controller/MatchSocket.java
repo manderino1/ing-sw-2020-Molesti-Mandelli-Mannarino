@@ -4,12 +4,10 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.DivinityPick;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchReady;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.WaitingNick;
-import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.model.MatchStatus;
 import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class MatchSocket {
@@ -134,13 +132,21 @@ public class MatchSocket {
             }
         }
         // Check if there is a match saved with these players
-        boolean hasBackup = match.getMatchBackup().backupCheck();
+        boolean hasBackup = match.getBackupManager().backupCheck();
         // If i manage to arrive here all the players are ready, i can start the divinity selection phase
         if(!hasBackup) {
             match.setMatchStatus(MatchStatus.DIVINITIES_SELECTION);
             playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(match.getMatchSetup().divinities, playerManagers.size()));
         } else {
-            match.getMatchBackup().backupRestore();
+            match.getBackupManager().backupRestore();
         }
+    }
+
+    public HashMap<PlayerManager, SocketThread> getPlayerSocketMap() {
+        return playerSocketMap;
+    }
+
+    public HashMap<SocketThread, PlayerManager> getSocketPlayerMap() {
+        return socketPlayerMap;
     }
 }
