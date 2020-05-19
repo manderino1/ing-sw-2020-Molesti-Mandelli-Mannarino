@@ -456,4 +456,11 @@ public class Match {
             e.printStackTrace();
         }
     }
+
+    public void detachSocket(SocketThread socket) {
+        for(PlayerManager player : playerManagers) {
+            player.getPlayerData().detachSocket(socket);
+        }
+        gameMap.detachSocket(socket);
+    }
 }

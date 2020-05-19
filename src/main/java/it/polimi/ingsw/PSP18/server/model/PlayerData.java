@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP18.server.model;
 
+import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 
 import java.util.ArrayList;
@@ -143,6 +144,23 @@ public class PlayerData {
     public void notifyObservers() {
         for(PlayerDataObserver observer : observers) {
             observer.update(this);
+        }
+    }
+
+    /***
+     * Detach the observers corresponding with the given socket
+     * @param socket the socket to remove
+     */
+    public void detachSocket(SocketThread socket) {
+        ArrayList<PlayerDataObserver> toRemove = new ArrayList<>();
+        for(PlayerDataObserver observer : observers) {
+            if(observer.getSocket().equals(socket)) {
+                toRemove.add(observer);
+            }
+        }
+
+        for(PlayerDataObserver observer : toRemove) {
+            detach(observer);
         }
     }
 

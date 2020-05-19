@@ -25,4 +25,12 @@ public class PlayerDataObserver {
     public void update(PlayerData playerData) {
         socket.sendMessage(new PlayerDataUpdate(playerData));
     }
+
+    /***
+     * Get the attached socket
+     * @return the socket reference
+     */
+    public SocketThread getSocket() {
+        return socket;
+    }
 }

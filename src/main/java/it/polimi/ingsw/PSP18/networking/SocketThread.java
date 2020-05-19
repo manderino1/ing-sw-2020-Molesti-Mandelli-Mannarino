@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientPing;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerNumberReady;
 import it.polimi.ingsw.PSP18.server.MatchManager;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Atlas;
@@ -251,6 +252,10 @@ public class SocketThread extends Thread {
             case PLAYER_NUMBER:
                 PlayerNumber playerNumber = gson.fromJson(jsonObj, PlayerNumber.class);
                 setMatch(manager.getMatch(playerNumber.getN()));
+                break;
+            case REPLAY:
+                match.detachSocket(this);
+                sendMessage(new PlayerNumberReady());
         }
     }
 

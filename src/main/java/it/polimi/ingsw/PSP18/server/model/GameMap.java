@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP18.server.model;
 
+import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.server.view.MapObserver;
+import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 
 import java.util.ArrayList;
 
@@ -102,6 +104,23 @@ public class GameMap {
     public void notifyObservers() {
         for(MapObserver observer : observers) {
             observer.update(this);
+        }
+    }
+
+    /***
+     * Detach the observers corresponding with the given socket
+     * @param socket the socket to remove
+     */
+    public void detachSocket(SocketThread socket) {
+        ArrayList<MapObserver> toRemove = new ArrayList<>();
+        for(MapObserver observer : observers) {
+            if(observer.getSocket().equals(socket)) {
+                toRemove.add(observer);
+            }
+        }
+
+        for(MapObserver observer : toRemove) {
+            detach(observer);
         }
     }
 

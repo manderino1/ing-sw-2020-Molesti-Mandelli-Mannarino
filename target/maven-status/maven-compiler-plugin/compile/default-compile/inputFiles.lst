@@ -30,6 +30,7 @@ D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\PopupController.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\Client2.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\Controller.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\backup\PlayerManagerBackup.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\divinities\Demeter.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\GuiLauncher.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\SocketClient.java
@@ -53,6 +54,7 @@ D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\debug\ClientGui3.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\ClientAbstractMessage.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toclient\ClientMessageType.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\backup\MatchBackup.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\model\Direction.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\PickDivinity9Controller.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\ServerAbstractMessage.java
@@ -81,6 +83,7 @@ D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\TurnManagerAthena.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\networking\messages\toserver\PrometheusBuildReceiver.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\LobbyController.java
+D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\backup\PlayerDataBackup.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\Match.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\client\view\gui\scenes\utils\MtlReader.java
 D:\Dynamis\ProgettoIngSw\ing-sw-2020-Molesti-Mandelli-Mannarino\src\main\java\it\polimi\ingsw\PSP18\server\controller\TurnManager.java

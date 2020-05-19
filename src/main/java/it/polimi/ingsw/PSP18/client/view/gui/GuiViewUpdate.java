@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP18.client.view.cli.CliColor;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+import it.polimi.ingsw.PSP18.networking.messages.toserver.Replay;
 import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
@@ -269,6 +270,9 @@ public class GuiViewUpdate extends ViewUpdate {
     public void playerNumber() {
         if (controller.getPageID().equals("Login")) {
             ((LoginController)controller).selectPlayerNumber();
+        } else {
+            switchScene("Login");
+            ((LoginController)controller).selectPlayerNumber();
         }
     }
 
@@ -305,8 +309,7 @@ public class GuiViewUpdate extends ViewUpdate {
 
         if(finished) {
             playerDataArrayList.clear();
-            switchScene("Login");
-            ((LoginController)controller).selectPlayerNumber();
+            socket.sendMessage(new Replay());
         }
     }
 
