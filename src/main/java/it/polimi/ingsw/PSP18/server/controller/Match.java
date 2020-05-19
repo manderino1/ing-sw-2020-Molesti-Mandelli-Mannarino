@@ -20,12 +20,7 @@ import java.util.*;
  * class that deals with the information of the current match
  */
 public class Match {
-    private ArrayList<PlayerManager> playerManagers;
     private TurnManager turnManager;
-    private ArrayList<SocketThread> sockets;
-    private HashMap<PlayerManager, SocketThread> playerSocketMap;
-    private HashMap<SocketThread, PlayerManager> socketPlayerMap;
-    private PlayerManager currentPlayer;
     private MatchStatus matchStatus;
     private GameMap gameMap;
     private ArrayList<String> divinitySelection = new ArrayList<>();
@@ -34,7 +29,11 @@ public class Match {
     private ArrayList<String> divinities;
     private int playerN;
     private String fileName;
+
+    private MatchSocket matchSocket;
     private BackupManager backupManager;
+    private MatchRun matchRun;
+    private MatchSetUp matchSetUp;
 
     /***
      * Match constructor, initializes the arrayLists and the game map
@@ -49,6 +48,11 @@ public class Match {
         matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
         String[] divArray = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur", "Pan", "Prometheus"};
         divinities = new ArrayList<>(Arrays.asList(divArray));
+
+        MatchSocket matchSocket = new MatchSocket(this);
+        BackupManager backupManager = new BackupManager(this);
+        MatchSetUp matchSetUp = new MatchSetUp(this);
+        MatchRun matchRun = new MatchRun(this);
     }
 
     public Match(int playerN){
@@ -62,22 +66,6 @@ public class Match {
      */
     public GameMap getGameMap() {
         return gameMap;
-    }
-
-    /***
-     * Return the list of the player managers into the match
-     * @return the player managers list
-     */
-    public ArrayList<PlayerManager> getPlayerManagers() {
-        return playerManagers;
-    }
-
-    /***
-     * Return the list of the sockets paired to the connected clients into the match
-     * @return the list of sockets
-     */
-    public ArrayList<SocketThread> getSockets() {
-        return sockets;
     }
 
     /***
@@ -97,64 +85,6 @@ public class Match {
     }
 
     /***
-     * Add a player to the players list
-     * @param player the playermanager player reference
-     * @param socket the socket reference
-     */
-    public void addPlayer(PlayerManager player, SocketThread socket){
-        for(PlayerManager playerPresent : playerManagers) {
-            if (player.getPlayerData().getPlayerID().equals(playerPresent.getPlayerData().getPlayerID())) {
-                socket.sendMessage(new WaitingNick());
-                return;
-            }
-        }
-
-        // Subscribe the current player to all the existing players
-        for(PlayerManager exPlayer : playerManagers) {
-            exPlayer.getPlayerData().attach(new PlayerDataObserver(socket));
-        }
-
-        playerManagers.add(player);
-        playerSocketMap.put(player, socket);
-        socketPlayerMap.put(socket, player);
-
-        // Subscribe all the existing players to the new player
-        for(PlayerManager exPlayer : playerManagers) {
-            player.getPlayerData().attach(new PlayerDataObserver(playerSocketMap.get(exPlayer)));
-        }
-
-        socket.sendMessage(new MatchReady());
-    }
-
-    /***
-     * Add a socket to the sockets list and register the observers
-     * related to the socket and client connection
-     * @param socket the socket reference
-     */
-    public void addSocket(SocketThread socket){
-        if(sockets.size() <= 2 && matchStatus == MatchStatus.WAITING_FOR_PLAYERS) {
-            sockets.add(socket);
-            socket.sendMessage(new WaitingNick());
-        }
-    }
-
-    /***
-     * Get the current playing player
-     * @return che current player playing the turn
-     */
-    public PlayerManager getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    /***
-     * Set the new current player at the turn change
-     * @param currentPlayer the new currently playing player
-     */
-    public void setCurrentPlayer(PlayerManager currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
-    /***
      * Get the turn manager reference
      * @return the turn manager reference
      */
@@ -163,28 +93,6 @@ public class Match {
     }
     public void setTurnManager(TurnManager turnManager) {
         this.turnManager= turnManager;
-    }
-
-    /***
-     * Wait for all the players to be ready and then start the divinity selection phase
-     * @param socket the reference to the socket
-     */
-    public void readyManagement(SocketThread socket) {
-        socketPlayerMap.get(socket).getPlayerData().setReady();
-        for(PlayerManager player : playerManagers) {
-            if(!player.getPlayerData().getReady() || playerManagers.size() != playerN || playerManagers.size() <= 1) {
-                return;
-            }
-        }
-        // Check if there is a match saved with these players
-        boolean hasBackup = backupManager.backupCheck();
-        // If i manage to arrive here all the players are ready, i can start the divinity selection phase
-        if(!hasBackup) {
-            matchStatus = MatchStatus.DIVINITIES_SELECTION;
-            playerSocketMap.get(playerManagers.get(playerManagers.size()-1)).sendMessage(new DivinityPick(divinities, playerManagers.size()));
-        } else {
-            backupManager.backupRestore();
-        }
     }
 
     /***
@@ -280,10 +188,6 @@ public class Match {
         turnManager = new TurnManager(this);
     }
 
-    public SocketThread getCurrentSocket() {
-        return playerSocketMap.get(currentPlayer);
-    }
-
     public void endMatch(PlayerManager winner) {
         if(winner != null) {
             playerSocketMap.get(winner).sendMessage(new MatchWon(winner.getPlayerData().getPlayerID(), true));
@@ -313,5 +217,20 @@ public class Match {
         }
 
         matchStatus = MatchStatus.MATCH_ENDED;
+    }
+    public BackupManager getBackupManager(){
+        return backupManager;
+    }
+
+    public MatchSocket getMatchSocket(){
+        return matchSocket;
+    }
+
+    public MatchRun getMatchRun() {
+        return matchRun;
+    }
+
+    public MatchSetUp getMatchSetUp() {
+        return matchSetUp;
     }
 }
