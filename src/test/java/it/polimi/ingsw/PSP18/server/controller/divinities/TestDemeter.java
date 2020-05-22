@@ -15,8 +15,8 @@ import org.junit.Test;
 public class TestDemeter extends TestDivinity {
     @Override
     public void createPlayerManager() {
-        MatchSocket matchSocket = new MatchSocket(2);
-        MatchRun matchRun = new MatchRun(matchSocket);
+        matchSocket = new MatchSocket(2);
+        matchRun = new MatchRun(matchSocket);
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
         playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Demeter", matchSocket);
@@ -36,9 +36,6 @@ public class TestDemeter extends TestDivinity {
 
     @Test
     public void testBuild() {
-        MatchSocket matchSocket = new MatchSocket(2);
-        MatchRun matchRun = new MatchRun(matchSocket);
-        
         matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);

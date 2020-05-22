@@ -14,8 +14,8 @@ public class TestApollo extends TestDivinity {
     private PlayerManager playerManager1;
     @Override
     public void createPlayerManager() {
-        MatchSocket matchSocket = new MatchSocket(2);
-        MatchRun matchRun = new MatchRun(matchSocket);
+        matchSocket = new MatchSocket(2);
+        matchRun = new MatchRun(matchSocket);
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.setMatchSocket(matchSocket);
         socketThread.start();
@@ -31,20 +31,19 @@ public class TestApollo extends TestDivinity {
      */
     @Override
     public void testGetName() {
-        MatchSocket matchSocket = new MatchSocket(2);
-        MatchRun matchRun = new MatchRun(matchSocket);
+        matchSocket = new MatchSocket(2);
+        matchRun = new MatchRun(matchSocket);
         Divinity divinity = new Divinity("Apollo", playerManager, matchSocket, matchRun);
         Assert.assertEquals(playerManager.getDivinityName(), divinity.getName());
     }
 
     @Test
     public void testCheckMovementMoves() {
-        MatchSocket matchSocket = new MatchSocket(2);
-        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
 
         socketOutContent.reset();
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.manageTurn(false);
         Gson gson = new Gson();
         MoveList moveList = gson.fromJson(socketOutContent.toString(), MoveList.class);
@@ -58,8 +57,6 @@ public class TestApollo extends TestDivinity {
 
     @Test
     public void testUpdateMoveCells() {
-        MatchSocket matchSocket = new MatchSocket(2);
-        MatchRun matchRun = new MatchRun(matchSocket);
         matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(1,1);
         playerManager.placeWorker(0,0);

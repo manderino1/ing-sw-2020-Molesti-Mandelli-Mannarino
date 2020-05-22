@@ -114,7 +114,6 @@ public class TestDivinity {
 
     @Test
     public void testBuild() {
-        
         matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);

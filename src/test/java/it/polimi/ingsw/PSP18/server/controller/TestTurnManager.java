@@ -61,7 +61,7 @@ public class TestTurnManager {
         matchSocket.getPlayerManagers().get(0).placeWorker(1, 0);
         matchSocket.getPlayerManagers().get(1).placeWorker(0, 1);
         matchSocket.getPlayerManagers().get(1).placeWorker(1, 1);
-        TurnManager turnManager = new TurnManager(matchSocket, null);
+        TurnManager turnManager = new TurnManager(matchSocket, new BackupManager(matchSocket, matchRun));
         turnManager.manageTurn();
     }
 
@@ -82,7 +82,7 @@ public class TestTurnManager {
         matchSocket.getPlayerManagers().get(0).placeWorker(4, 0);
         matchSocket.getPlayerManagers().get(1).placeWorker(0, 4);
         matchSocket.getPlayerManagers().get(1).placeWorker(4, 4);
-        TurnManager turnManager = new TurnManagerAthena(matchSocket, null);
+        TurnManager turnManager = new TurnManagerAthena(matchSocket, new BackupManager(matchSocket, matchRun));
         turnManager.manageTurn();
         Move move = new Move(Direction.DOWN, 2);
         matchSocket.getPlayerManagers().get(0).getPlayerData().setLastMove(move);
@@ -103,7 +103,7 @@ public class TestTurnManager {
         matchSocket.getPlayerManagers().get(0).placeWorker(4, 0);
         matchSocket.getPlayerManagers().get(1).placeWorker(0, 4);
         matchSocket.getPlayerManagers().get(1).placeWorker(4, 4);
-        TurnManager turnManager = new TurnManagerAthena(matchSocket, null);
+        TurnManager turnManager = new TurnManagerAthena(matchSocket, new BackupManager(matchSocket, matchRun));
         turnManager.passTurn();
         turnManager.passTurn();
     }

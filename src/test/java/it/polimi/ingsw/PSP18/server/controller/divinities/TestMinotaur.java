@@ -14,8 +14,8 @@ public class TestMinotaur extends TestDivinity {
     private PlayerManager playerManager1;
     @Override
     public void createPlayerManager() {
-        MatchSocket matchSocket = new MatchSocket(2);
-        MatchRun matchRun = new MatchRun(matchSocket);
+        matchSocket = new MatchSocket(2);
+        matchRun = new MatchRun(matchSocket);
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
         playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Minotaur", matchSocket);
@@ -38,9 +38,6 @@ public class TestMinotaur extends TestDivinity {
 
     @Test
     public void testCheckMovementMoves() {
-        MatchSocket matchSocket = new MatchSocket(2);
-        MatchRun matchRun = new MatchRun(matchSocket);
-        
         matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
@@ -59,9 +56,6 @@ public class TestMinotaur extends TestDivinity {
 
     @Test
     public void testUpdateMoveCells() {
-        MatchSocket matchSocket = new MatchSocket(2);
-        MatchRun matchRun = new MatchRun(matchSocket);
-
         matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(1,1);
         playerManager.placeWorker(0,0);

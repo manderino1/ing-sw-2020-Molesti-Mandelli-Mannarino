@@ -11,8 +11,8 @@ import org.junit.Assert;
 public class TestAthena extends TestDivinity {
     @Override
     public void createPlayerManager() {
-        MatchSocket matchSocket = new MatchSocket(2);
-        MatchRun matchRun = new MatchRun(matchSocket);
+        matchSocket = new MatchSocket(2);
+        matchRun = new MatchRun(matchSocket);
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
         playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Athena", matchSocket);
