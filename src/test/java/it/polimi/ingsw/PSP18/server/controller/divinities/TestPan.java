@@ -1,11 +1,9 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import it.polimi.ingsw.PSP18.networking.SocketThread;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class TestPan extends TestDivinity {

@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TestTurnManager {
-    private Match match;
+    private MatchSocket matchSocket;
     private ByteArrayOutputStream socketOutContent = new ByteArrayOutputStream();
     private InputStream socketInContent = new InputStream() {
         @Override
@@ -29,7 +29,7 @@ public class TestTurnManager {
 
     @Before
     public void createGameManager() {
-        match = new Match();
+        matchSocket = new MatchSocket();
     }
 
     @Before

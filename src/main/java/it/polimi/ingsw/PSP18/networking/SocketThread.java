@@ -10,13 +10,11 @@ import it.polimi.ingsw.PSP18.server.controller.*;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Atlas;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Prometheus;
 import it.polimi.ingsw.PSP18.server.model.Color;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientAbstractMessage;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
 
 import java.io.*;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -223,10 +221,10 @@ public class SocketThread extends Thread {
             case PLAYER_NUMBER:
                 PlayerNumber playerNumber = gson.fromJson(jsonObj, PlayerNumber.class);
                 //TODO:passa la cosa giusta a setmatchSocket
-                setMatchSocket(manager.getMatch(playerNumber.getN()));
+                setMatchSocket(manager.getMatchSocket(playerNumber.getN()));
                 break;
             case REPLAY:
-                matchSocket.detachSocket(this);
+                matchRun.detachSocket(this);
                 sendMessage(new PlayerNumberReady());
         }
     }
@@ -248,5 +246,21 @@ public class SocketThread extends Thread {
     public void setMatchSocket(MatchSocket matchSocket) {
         this.matchSocket = matchSocket;
         matchSocket.addSocket(this);
+    }
+
+    /***
+     * Set the match setup reference at the start of the match
+     * @param matchSetup object used during the setup phase of the match
+     */
+    public void setMatchSetup(MatchSetUp matchSetup) {
+        this.matchSetup = matchSetup;
+    }
+
+    /***
+     * Set the match reference on the game phase of the match
+     * @param matchRun object used during the game phase of the match
+     */
+    public void setMatchRun(MatchRun matchRun) {
+        this.matchRun = matchRun;
     }
 }

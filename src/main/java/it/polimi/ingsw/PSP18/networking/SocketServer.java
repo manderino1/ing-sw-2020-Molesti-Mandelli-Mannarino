@@ -2,7 +2,6 @@ package it.polimi.ingsw.PSP18.networking;
 
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerNumberReady;
 import it.polimi.ingsw.PSP18.server.MatchManager;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 
 import java.io.IOException;
 import java.net.ServerSocket;

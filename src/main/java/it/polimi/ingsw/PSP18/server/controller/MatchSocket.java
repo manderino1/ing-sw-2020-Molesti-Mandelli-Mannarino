@@ -17,16 +17,18 @@ public class MatchSocket {
     private HashMap<PlayerManager, SocketThread> playerSocketMap;
     private HashMap<SocketThread, PlayerManager> socketPlayerMap;
     private PlayerManager currentPlayer;
+    private MatchSetUp matchSetUp;
 
     /***
      * MatchSocket constructor, initializes the sockets, playerManagers, and the two HasMaps
      */
-    public MatchSocket(){
+    public MatchSocket(int playerN){
         matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
         playerManagers = new ArrayList<>();
         sockets = new ArrayList<>();
         playerSocketMap = new HashMap<>();
         socketPlayerMap = new HashMap<>();
+        matchSetUp = new MatchSetUp(this, playerN);
     }
 
     /***
@@ -81,8 +83,9 @@ public class MatchSocket {
      * @param socket the socket reference
      */
     public void addSocket(SocketThread socket){
-        if(sockets.size() <= 2 && match.getMatchStatus() == MatchStatus.WAITING_FOR_PLAYERS) {
+        if(sockets.size() <= 2 && matchStatus == MatchStatus.WAITING_FOR_PLAYERS) {
             sockets.add(socket);
+            socket.setMatchSetup(matchSetUp);
             socket.sendMessage(new WaitingNick());
         }
     }
@@ -109,17 +112,6 @@ public class MatchSocket {
      */
     public SocketThread getCurrentSocket() {
         return playerSocketMap.get(currentPlayer);
-    }
-
-    /***
-     * Detaches the observers to a player
-     * @param socket the player that needs his observers detached
-     */
-    public void detachSocket(SocketThread socket) {
-        for(PlayerManager player : playerManagers) {
-            player.getPlayerData().detachSocket(socket);
-        }
-        match.getMatchRun().getGameMap().detachSocket(socket);
     }
 
     public HashMap<PlayerManager, SocketThread> getPlayerSocketMap() {

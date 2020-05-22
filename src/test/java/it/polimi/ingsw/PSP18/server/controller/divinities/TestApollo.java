@@ -1,17 +1,12 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.PSP18.client.view.cli.CliViewUpdate;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class TestApollo extends TestDivinity {
     private PlayerManager playerManager1;

@@ -35,7 +35,7 @@ public class Hephaestus extends Divinity{
             return;
         }
 
-        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves, worker));
+        matchSocket.getCurrentSocket().sendMessage(new BuildList(moves, worker));
 
         firstBuild = true;
     }
@@ -46,7 +46,7 @@ public class Hephaestus extends Divinity{
      */
     public void buildReceiver(Direction direction) {
         if (direction == null) { // If he doesn't want to move
-            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());
+            matchSocket.getCurrentSocket().sendMessage(new EndTurnAvaiable());
             return;
         }
 
@@ -55,7 +55,7 @@ public class Hephaestus extends Divinity{
             if(firstBuild) {
                 build();
             } else {
-                playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));
+                matchSocket.getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));
             }
         }
 
@@ -76,11 +76,11 @@ public class Hephaestus extends Divinity{
             moves.add(direction);
             firstBuild = false;
 
-            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildListFlag(moves, worker));
+            matchSocket.getCurrentSocket().sendMessage(new BuildListFlag(moves, worker));
         }
         else{
             firstBuild=true;
-            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());
+            matchSocket.getCurrentSocket().sendMessage(new EndTurnAvaiable());
         }
     }
 }

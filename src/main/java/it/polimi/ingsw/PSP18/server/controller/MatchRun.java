@@ -146,6 +146,17 @@ public class MatchRun {
         matchSocket.setMatchStatus(MatchStatus.MATCH_ENDED);
     }
 
+    /***
+     * Detaches the observers to a player
+     * @param socket the player that needs his observers detached
+     */
+    public void detachSocket(SocketThread socket) {
+        for(PlayerManager player : matchSocket.getPlayerManagers()) {
+            player.getPlayerData().detachSocket(socket);
+        }
+        gameMap.detachSocket(socket);
+    }
+
     public String getFileName() {
         return fileName;
     }

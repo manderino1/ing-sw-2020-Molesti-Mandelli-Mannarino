@@ -5,13 +5,10 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PrometheusBuildList;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PrometheusBuildReceiver;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;

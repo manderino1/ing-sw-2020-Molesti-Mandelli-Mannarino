@@ -2,9 +2,6 @@ package it.polimi.ingsw.PSP18.server.controller;
 
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.WorkerReceiver;
-import it.polimi.ingsw.PSP18.server.controller.Match;
-import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
-import it.polimi.ingsw.PSP18.server.controller.TurnManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.MatchStatus;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
@@ -15,7 +12,6 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 

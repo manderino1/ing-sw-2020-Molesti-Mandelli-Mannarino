@@ -2,16 +2,12 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Direction;
-import it.polimi.ingsw.PSP18.server.model.GameMap;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class TestArtemis extends TestDivinity {
