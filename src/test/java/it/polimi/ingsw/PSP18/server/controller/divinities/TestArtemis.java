@@ -14,13 +14,13 @@ public class TestArtemis extends TestDivinity {
     private PlayerManager playerManager1;
     @Override
     public void createPlayerManager() {
-        Match match = new Match();
+        MatchSocket matchSocket = new MatchSocket(2);;
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
-        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Artemis");
-        match.getMatchSocket().addPlayer(playerManager, socketThread);
-        playerManager1 = new PlayerManager(match, new PlayerData("Test11", Color.BLUE, 1), "Artemis");
-        match.getMatchSocket().addPlayer(playerManager1, socketThread);
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Artemis");
+        matchSocket.addPlayer(playerManager, socketThread);
+        playerManager1 = new PlayerManager(matchRun, new PlayerData("Test11", Color.BLUE, 1), "Artemis");
+        matchSocket.addPlayer(playerManager1, socketThread);
     }
 
     /***

@@ -17,8 +17,7 @@ public class PlayerManager {
      * 
      * @param playerData data of the player
      */
-    public PlayerManager(MatchRun matchRun, PlayerData playerData) {
-        this.matchRun = matchRun;
+    public PlayerManager(PlayerData playerData) {
         this.playerData = playerData;
     }
 
@@ -28,47 +27,47 @@ public class PlayerManager {
      * @param playerData data of the player
      * @param divinity the name of the choosen divinity
      */
-    public PlayerManager(MatchRun matchRun, PlayerData playerData, String divinity) {
+    public PlayerManager(MatchRun matchRun, PlayerData playerData, String divinity, MatchSocket matchSocket) {
         this.matchRun = matchRun;
         this.playerData = playerData;
-        divinityCreation(divinity);
+        divinityCreation(divinity, matchSocket);
     }
 
     /***
      * Called from the constructor, create a divinity of the correct type given by the player
      * @param divinityName string representing the name of the divinity to be created
      */
-    public void divinityCreation(String divinityName) {
+    public void divinityCreation(String divinityName, MatchSocket matchSocket) {
         switch(divinityName) {
             case "Divinity":
-                divinity = new Divinity(divinityName, this);
+                divinity = new Divinity(divinityName, this, matchSocket, matchRun);
                 break;
             case "Apollo":
-                divinity = new Apollo(divinityName, this);
+                divinity = new Apollo(divinityName, this, matchSocket, matchRun);
                 break;
             case "Artemis":
-                divinity = new Artemis(divinityName, this);
+                divinity = new Artemis(divinityName, this, matchSocket, matchRun);
                 break;
             case "Athena":
-                divinity = new Athena(divinityName, this);
+                divinity = new Athena(divinityName, this, matchSocket, matchRun);
                 break;
             case "Atlas":
-                divinity = new Atlas(divinityName, this);
+                divinity = new Atlas(divinityName, this, matchSocket, matchRun);
                 break;
             case "Demeter":
-                divinity = new Demeter(divinityName, this);
+                divinity = new Demeter(divinityName, this, matchSocket, matchRun);
                 break;
             case "Hephaestus":
-                divinity = new Hephaestus(divinityName, this);
+                divinity = new Hephaestus(divinityName, this, matchSocket, matchRun);
                 break;
             case "Minotaur":
-                divinity = new Minotaur(divinityName, this);
+                divinity = new Minotaur(divinityName, this, matchSocket, matchRun);
                 break;
             case "Pan":
-                divinity = new Pan(divinityName, this);
+                divinity = new Pan(divinityName, this, matchSocket, matchRun);
                 break;
             case "Prometheus":
-                divinity = new Prometheus(divinityName, this);
+                divinity = new Prometheus(divinityName, this, matchSocket, matchRun);
                 break;
         }
         playerData.setDivinity(divinityName);
@@ -172,5 +171,13 @@ public class PlayerManager {
      */
     public Divinity getDivinity() {
         return divinity;
+    }
+
+    /***
+     * On match start set matchRun reference
+     * @param matchRun matchRun reference
+     */
+    public void setMatchRun(MatchRun matchRun) {
+        this.matchRun = matchRun;
     }
 }

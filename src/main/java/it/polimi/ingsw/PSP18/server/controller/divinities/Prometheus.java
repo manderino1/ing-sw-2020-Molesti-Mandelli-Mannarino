@@ -4,6 +4,8 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PrometheusBuildReceiver;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
@@ -19,8 +21,8 @@ public class Prometheus extends Divinity{
      * @param name the name of the divinity
      * @param playerManager the object that has this divinity
      */
-    public Prometheus(String name, PlayerManager playerManager) {
-        super(name, playerManager);
+    public Prometheus(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
+        super(name, playerManager, matchSocket, matchRun);
     }
 
     /***

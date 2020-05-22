@@ -2,6 +2,8 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
@@ -17,8 +19,8 @@ public class Artemis extends Divinity {
      * @param name the name of the divinity
      * @param playerManager the object that has this divinity
      */
-    public Artemis(String name, PlayerManager playerManager) {
-        super(name, playerManager);
+    public Artemis(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
+        super(name, playerManager, matchSocket, matchRun);
     }
 
     /***

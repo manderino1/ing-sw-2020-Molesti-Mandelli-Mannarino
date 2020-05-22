@@ -178,7 +178,7 @@ public class SocketThread extends Thread {
                     playerColor = Color.GREEN;
                 }
                 PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerColor, matchSocket.getPlayerManagers().size());
-                matchSocket.addPlayer(new PlayerManager(matchRun, playerData), this);
+                matchSocket.addPlayer(new PlayerManager(playerData), this);
                 break;
             case DIVINITY_RECEIVER:
                 DivinityReceiver divinityReceiver = gson.fromJson(jsonObj, DivinityReceiver.class);

@@ -38,8 +38,13 @@ public class MatchSetUp {
         }
         // Check if there is a match saved with these players
         matchRun = new MatchRun(matchSocket);
+        // Set match run references to sockets
         for(SocketThread sock : matchSocket.getSockets()) {
-            socket.setMatchRun(matchRun);
+            sock.setMatchRun(matchRun);
+        }
+        // Set match run references to playerManagers
+        for(PlayerManager player : matchSocket.getPlayerManagers()) {
+            player.setMatchRun(matchRun);
         }
         boolean hasBackup = BackupManager.backupCheck(matchSocket.getPlayerManagers());
         // If i manage to arrive here all the players are ready, i can start the divinity selection phase
@@ -64,7 +69,7 @@ public class MatchSetUp {
         if(!divinitySelection.contains(divinity)) {
             matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
         }
-        matchSocket.getSocketPlayerMap().get(socket).divinityCreation(divinity); // use to change divinity
+        matchSocket.getSocketPlayerMap().get(socket).divinityCreation(divinity, matchSocket); // use to change divinity
         if(divinitySelectionIndex == matchSocket.getPlayerManagers().size()) {
             // Set observers
             for(SocketThread sock : matchSocket.getSockets()) {

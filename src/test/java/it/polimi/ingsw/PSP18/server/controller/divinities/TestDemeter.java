@@ -13,11 +13,11 @@ import org.junit.Test;
 public class TestDemeter extends TestDivinity {
     @Override
     public void createPlayerManager() {
-        Match match = new Match();
+        MatchSocket matchSocket = new MatchSocket(2);;
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
-        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Demeter");
-        match.getMatchSocket().addPlayer(playerManager, socketThread);
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Demeter");
+        matchSocket.addPlayer(playerManager, socketThread);
     }
 
     /***

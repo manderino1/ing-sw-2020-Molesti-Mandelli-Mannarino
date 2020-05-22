@@ -9,11 +9,11 @@ import org.junit.Assert;
 public class TestAthena extends TestDivinity {
     @Override
     public void createPlayerManager() {
-        Match match = new Match();
+        MatchSocket matchSocket = new MatchSocket(2);;
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
-        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Athena");
-        match.getMatchSocket().addPlayer(playerManager, socketThread);
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Athena");
+        matchSocket.addPlayer(playerManager, socketThread);
     }
 
     /***

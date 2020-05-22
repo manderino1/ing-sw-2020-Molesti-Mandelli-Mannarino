@@ -4,6 +4,8 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.AtlasBuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.EndTurnAvaiable;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
@@ -18,8 +20,8 @@ public class Atlas extends Divinity{
      * @param name the name of the divinity
      * @param playerManager the object that has this divinity
      */
-    public Atlas(String name, PlayerManager playerManager) {
-        super(name, playerManager);
+    public Atlas(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
+        super(name, playerManager, matchSocket, matchRun);
     }
 
     @Override

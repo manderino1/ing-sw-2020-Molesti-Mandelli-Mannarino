@@ -20,12 +20,12 @@ public class TestPrometheus extends TestDivinity {
 
     @Override
     public void createPlayerManager() {
-        Match match = new Match();
+        MatchSocket matchSocket = new MatchSocket(2);;
         SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.setMatch(match);
         socketThread.start();
-        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Prometheus");
-        match.getMatchSocket().addPlayer(playerManager, socketThread);
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Prometheus");
+        matchSocket.addPlayer(playerManager, socketThread);
     }
 
     /***

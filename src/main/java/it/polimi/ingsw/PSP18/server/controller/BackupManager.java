@@ -100,7 +100,7 @@ public class BackupManager {
                             playerData.setLost();
                         }
                         playerData.setLastMove(playerBackupped.getPlayerData().getLastMove());
-                        PlayerManager playerManager = new PlayerManager(matchRun, playerData, playerBackupped.getPlayerData().getDivinity());
+                        PlayerManager playerManager = new PlayerManager(matchRun, playerData, playerBackupped.getPlayerData().getDivinity(), matchSocket);
                         matchSocket.getPlayerManagers().add(playerManager);
                         SocketThread socket = matchSocket.getPlayerSocketMap().get(playerConnected);
                         matchSocket.getPlayerSocketMap().remove(playerConnected);

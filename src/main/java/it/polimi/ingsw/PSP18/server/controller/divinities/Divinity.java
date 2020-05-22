@@ -32,9 +32,11 @@ public class Divinity {
      * @param name name of the divinity
      * @param playerManager player manager that has this divinity
      */
-    public Divinity(String name, PlayerManager playerManager) {
+    public Divinity(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
         this.name = name;
         this.playerManager = playerManager;
+        this.matchSocket = matchSocket;
+        this.matchRun = matchRun;
     }
 
     /***

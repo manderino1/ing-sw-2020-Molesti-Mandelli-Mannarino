@@ -93,7 +93,7 @@ public class MatchRun {
             fileName = fileName.concat(name);
         }
 
-        fileName = (fileName.concat(".bak"));
+        this.fileName = (fileName.concat(".bak"));
         BackupManager backupManager = new BackupManager(matchSocket, this);
         // Search for Athena
         for (PlayerManager player : matchSocket.getPlayerManagers()) {
