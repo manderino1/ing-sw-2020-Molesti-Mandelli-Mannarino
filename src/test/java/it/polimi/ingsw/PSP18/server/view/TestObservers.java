@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP18.server.view;
 import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
@@ -49,7 +50,7 @@ public class TestObservers {
     @Test
     public void testGameMapObs() {
         GameMap map = new GameMap();
-        MatchSocket matchSocket = new MatchSocket(2);;
+        MatchSocket matchSocket = new MatchSocket(2);
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
         MapObserver mapObserver = new MapObserver(socketThread);

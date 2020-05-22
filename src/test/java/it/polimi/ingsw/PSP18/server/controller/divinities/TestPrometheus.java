@@ -6,6 +6,8 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PrometheusBuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PrometheusBuildReceiver;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
 import org.junit.Assert;
@@ -20,11 +22,12 @@ public class TestPrometheus extends TestDivinity {
 
     @Override
     public void createPlayerManager() {
-        MatchSocket matchSocket = new MatchSocket(2);;
+        matchSocket = new MatchSocket(2);
+        matchRun = new MatchRun(matchSocket);
         SocketThread socketThread = new SocketThread(socket, null, true);
-        socketThread.setMatch(match);
+        socketThread.setMatchSocket(matchSocket);
         socketThread.start();
-        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Prometheus");
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Prometheus", matchSocket);
         matchSocket.addPlayer(playerManager, socketThread);
     }
 
@@ -33,13 +36,14 @@ public class TestPrometheus extends TestDivinity {
      */
     @Override
     public void testGetName() {
-        Divinity divinity = new Divinity("Prometheus", playerManager);
+        MatchSocket matchSocket = new MatchSocket(2);
+        Divinity divinity = new Divinity( "Prometheus", playerManager, matchSocket, new MatchRun(matchSocket));
         Assert.assertEquals(playerManager.getDivinityName(), divinity.getName());
     }
 
     @Test
     public void testManageTurn() {
-        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0, 0);
         playerManager.placeWorker(0, 1);
         socketOutContent.reset();
@@ -60,7 +64,7 @@ public class TestPrometheus extends TestDivinity {
     }
     @Test
     public void testReceiveWorker(){
-        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
         socketOutContent.reset();
@@ -82,7 +86,7 @@ public class TestPrometheus extends TestDivinity {
     }
     @Test
     public void build(){
-        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
@@ -94,15 +98,15 @@ public class TestPrometheus extends TestDivinity {
 
         socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), matchRun.getGameMap().getCell(0,1).getBuilding());
 
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,0).setBuilding(3);
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).setBuilding(2);
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,1).setBuilding(3);
+        matchRun.getGameMap().getCell(1,0).setBuilding(3);
+        matchRun.getGameMap().getCell(0,1).setBuilding(2);
+        matchRun.getGameMap().getCell(1,1).setBuilding(3);
     }
     @Test
     public void buildReceiver(){
-        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,2);
         socketOutContent.reset();
