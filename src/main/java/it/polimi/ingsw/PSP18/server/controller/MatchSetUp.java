@@ -12,19 +12,16 @@ import java.util.Arrays;
 
 public class MatchSetUp {
     private int playerN;
-    private Match match;
     private ArrayList<String> divinitySelection = new ArrayList<>();
     private Integer divinitySelectionIndex = 0;
     private ArrayList<String> divinities;
+    private MatchSocket matchSocket;
+    private MatchRun matchRun;
 
-    public MatchSetUp(Match match){
+    public MatchSetUp(MatchSocket matchSocket, int playerN){
         String[] divArray = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur", "Pan", "Prometheus"};
         divinities = new ArrayList<>(Arrays.asList(divArray));
-        this.match = match;
-    }
-
-    public MatchSetUp(Match match, int playerN){
-        this(match);
+        this.matchSocket = matchSocket;
         this.playerN = playerN;
     }
 
@@ -33,20 +30,30 @@ public class MatchSetUp {
      * @param socket the reference to the socket
      */
     public void readyManagement(SocketThread socket) {
-        match.getMatchSocket().getSocketPlayerMap().get(socket).getPlayerData().setReady();
-        for(PlayerManager player : match.getMatchSocket().getPlayerManagers()) {
-            if(!player.getPlayerData().getReady() || match.getMatchSocket().getPlayerManagers().size() != playerN || match.getMatchSocket().getPlayerManagers().size() <= 1) {
+        matchSocket.getSocketPlayerMap().get(socket).getPlayerData().setReady();
+        for(PlayerManager player : matchSocket.getPlayerManagers()) {
+            if(!player.getPlayerData().getReady() || matchSocket.getPlayerManagers().size() != playerN || matchSocket.getPlayerManagers().size() <= 1) {
                 return;
             }
         }
         // Check if there is a match saved with these players
-        boolean hasBackup = match.getBackupManager().backupCheck();
+        matchRun = new MatchRun(matchSocket);
+        // Set match run references to sockets
+        for(SocketThread sock : matchSocket.getSockets()) {
+            sock.setMatchRun(matchRun);
+        }
+        // Set match run references to playerManagers
+        for(PlayerManager player : matchSocket.getPlayerManagers()) {
+            player.setMatchRun(matchRun);
+        }
+        boolean hasBackup = BackupManager.backupCheck(matchSocket.getPlayerManagers());
         // If i manage to arrive here all the players are ready, i can start the divinity selection phase
         if(!hasBackup) {
-            match.setMatchStatus(MatchStatus.DIVINITIES_SELECTION);
-            match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(match.getMatchSocket().getPlayerManagers().size()-1)).sendMessage(new DivinityPick(divinities, match.getMatchSocket().getPlayerManagers().size()));
+            matchSocket.setMatchStatus(MatchStatus.DIVINITIES_SELECTION);
+            matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(matchSocket.getPlayerManagers().size()-1)).sendMessage(new DivinityPick(divinities, matchSocket.getPlayerManagers().size()));
         } else {
-            match.getBackupManager().backupRestore();
+            BackupManager backupManager = new BackupManager(matchSocket, matchRun);
+            backupManager.backupRestore();
         }
     }
 
@@ -60,20 +67,20 @@ public class MatchSetUp {
     public void divinityCreation(SocketThread socket, String divinity) {
         // Check that the divinity selection is correct
         if(!divinitySelection.contains(divinity)) {
-            match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
+            matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
         }
-        match.getMatchSocket().getSocketPlayerMap().get(socket).divinityCreation(divinity); // use to change divinity
-        if(divinitySelectionIndex == match.getMatchSocket().getPlayerManagers().size()) {
+        matchSocket.getSocketPlayerMap().get(socket).divinityCreation(divinity, matchSocket); // use to change divinity
+        if(divinitySelectionIndex == matchSocket.getPlayerManagers().size()) {
             // Set observers
-            for(SocketThread sock : match.getMatchSocket().getSockets()) {
-                match.getMatchRun().getGameMap().attach(new MapObserver(sock));
+            for(SocketThread sock : matchSocket.getSockets()) {
+                matchRun.getGameMap().attach(new MapObserver(sock));
             }
 
-            match.setMatchStatus(MatchStatus.WORKER_SETUP);
-            match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(0)).sendMessage(new PlaceReady());
+            matchSocket.setMatchStatus(MatchStatus.WORKER_SETUP);
+            matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(0)).sendMessage(new PlaceReady());
         } else {
             divinitySelection.remove(divinity);
-            match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
+            matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));
             divinitySelectionIndex++;
         }
     }
@@ -81,11 +88,11 @@ public class MatchSetUp {
     public void divinitySelection(ArrayList<String> divinities) {
         for(String divinity : divinities) {
             if(!this.divinities.contains(divinity)) {
-                match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(match.getMatchSocket().getPlayerManagers().size()-1)).sendMessage(new DivinityPick(divinities, match.getMatchSocket().getPlayerManagers().size()));
+                matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(matchSocket.getPlayerManagers().size()-1)).sendMessage(new DivinityPick(divinities, matchSocket.getPlayerManagers().size()));
             }
         }
         divinitySelection = divinities;
-        match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinities));
+        matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinities));
         divinitySelectionIndex++;
     }
 }

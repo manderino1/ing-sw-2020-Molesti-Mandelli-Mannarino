@@ -88,17 +88,17 @@
 <i>14</i>&nbsp;    public void manageTurn(){
 <i>15</i>&nbsp;        int indexPreviousPlayer;
 <b class="nc"><i>16</i>&nbsp;        if(indexCurrentPlayer == 0) {</b>
-<b class="nc"><i>17</i>&nbsp;            indexPreviousPlayer = match.getMatchSocket().getPlayerManagers().size() - 1;</b>
+<b class="nc"><i>17</i>&nbsp;            indexPreviousPlayer = matchSocket.getPlayerManagers().size() - 1;</b>
 <i>18</i>&nbsp;        } else {
 <b class="nc"><i>19</i>&nbsp;            indexPreviousPlayer = indexCurrentPlayer - 1;</b>
 <i>20</i>&nbsp;        }
-<b class="nc"><i>21</i>&nbsp;        if (match.getMatchSocket().getPlayerManagers().get(indexPreviousPlayer).getPlayerData().getLastMove()==null){</b>
+<b class="nc"><i>21</i>&nbsp;        if (matchSocket.getPlayerManagers().get(indexPreviousPlayer).getPlayerData().getLastMove()==null){</b>
 <b class="nc"><i>22</i>&nbsp;            bool = false;</b>
 <i>23</i>&nbsp;        }
 <i>24</i>&nbsp;        else{
-<b class="nc"><i>25</i>&nbsp;            bool = (match.getMatchSocket().getPlayerManagers().get(indexPreviousPlayer).getPlayerData().getLastMove().getLevel() == 1) &amp;&amp; (match.getMatchSocket().getPlayerManagers().get(indexPreviousPlayer).getDivinityName().equals(&quot;Athena&quot;));</b>
+<b class="nc"><i>25</i>&nbsp;            bool = (matchSocket.getPlayerManagers().get(indexPreviousPlayer).getPlayerData().getLastMove().getLevel() == 1) &amp;&amp; (matchSocket.getPlayerManagers().get(indexPreviousPlayer).getDivinityName().equals(&quot;Athena&quot;));</b>
 <i>26</i>&nbsp;        }
-<b class="nc"><i>27</i>&nbsp;        match.getMatchSocket().getPlayerManagers().get(indexCurrentPlayer).manageTurn(bool);</b>
+<b class="nc"><i>27</i>&nbsp;        matchSocket.getPlayerManagers().get(indexCurrentPlayer).manageTurn(bool);</b>
 <b class="nc"><i>28</i>&nbsp;    }</b>
 <i>29</i>&nbsp;}
 </div>

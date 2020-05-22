@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BackupManager {
-
-
     private MatchSocket matchSocket;
     private MatchRun matchRun;
 
@@ -51,11 +49,11 @@ public class BackupManager {
      * Check for an existent backup
      * @return true if there is a backup in memory
      */
-    public boolean backupCheck() {
+    public static boolean backupCheck(ArrayList<PlayerManager> players) {
         try {
             String fileName = "Backups/match_";
             ArrayList<String> names = new ArrayList<>();
-            for(PlayerManager player : matchSocket.getPlayerManagers()) {
+            for(PlayerManager player : players) {
                 names.add(player.getPlayerData().getPlayerID());
             }
             names.sort(String::compareToIgnoreCase);
@@ -102,7 +100,7 @@ public class BackupManager {
                             playerData.setLost();
                         }
                         playerData.setLastMove(playerBackupped.getPlayerData().getLastMove());
-                        PlayerManager playerManager = new PlayerManager(matchRun, playerData, playerBackupped.getPlayerData().getDivinity());
+                        PlayerManager playerManager = new PlayerManager(matchRun, playerData, playerBackupped.getPlayerData().getDivinity(), matchSocket);
                         matchSocket.getPlayerManagers().add(playerManager);
                         SocketThread socket = matchSocket.getPlayerSocketMap().get(playerConnected);
                         matchSocket.getPlayerSocketMap().remove(playerConnected);
@@ -152,12 +150,5 @@ public class BackupManager {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    public void detachSocket(SocketThread socket) {
-        for(PlayerManager player : matchSocket.getPlayerManagers()) {
-            player.getPlayerData().detachSocket(socket);
-        }
-        matchRun.getGameMap().detachSocket(socket);
     }
 }

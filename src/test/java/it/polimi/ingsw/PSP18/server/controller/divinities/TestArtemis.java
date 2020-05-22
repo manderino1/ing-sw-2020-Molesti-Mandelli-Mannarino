@@ -2,29 +2,25 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Direction;
-import it.polimi.ingsw.PSP18.server.model.GameMap;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class TestArtemis extends TestDivinity {
     private PlayerManager playerManager1;
     @Override
     public void createPlayerManager() {
-        Match match = new Match();
+        MatchSocket matchSocket = new MatchSocket(2);;
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
-        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Artemis");
-        match.getMatchSocket().addPlayer(playerManager, socketThread);
-        playerManager1 = new PlayerManager(match, new PlayerData("Test11", Color.BLUE, 1), "Artemis");
-        match.getMatchSocket().addPlayer(playerManager1, socketThread);
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Artemis");
+        matchSocket.addPlayer(playerManager, socketThread);
+        playerManager1 = new PlayerManager(matchRun, new PlayerData("Test11", Color.BLUE, 1), "Artemis");
+        matchSocket.addPlayer(playerManager1, socketThread);
     }
 
     /***

@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
@@ -18,8 +20,8 @@ public class Demeter extends Divinity {
      * @param name the name of the divinity
      * @param playerManager the object that has this divinity
      */
-    public Demeter(String name, PlayerManager playerManager) {
-        super(name, playerManager);
+    public Demeter(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
+        super(name, playerManager, matchSocket, matchRun);
     }
 
     /***
@@ -35,7 +37,7 @@ public class Demeter extends Divinity {
             return;
         }
 
-        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves, worker));
+        matchSocket.getCurrentSocket().sendMessage(new BuildList(moves, worker));
 
         firstBuild = true;
     }
@@ -49,7 +51,7 @@ public class Demeter extends Divinity {
             if(firstBuild) {
                 build();
             }
-            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());
+            matchSocket.getCurrentSocket().sendMessage(new EndTurnAvaiable());
             return;
         }
 
@@ -58,7 +60,7 @@ public class Demeter extends Divinity {
             if(firstBuild) {
                 build();
             } else {
-                playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));
+                matchSocket.getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));
             }
         }
 
@@ -77,11 +79,11 @@ public class Demeter extends Divinity {
             moves = checkBuildingMoves(worker.getX(), worker.getY());
             moves.remove(direction);
             firstBuild = false;
-            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildListFlag(moves, worker));
+            matchSocket.getCurrentSocket().sendMessage(new BuildListFlag(moves, worker));
         }
         else{
             firstBuild=true;
-            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());
+            matchSocket.getCurrentSocket().sendMessage(new EndTurnAvaiable());
         }
     }
 }

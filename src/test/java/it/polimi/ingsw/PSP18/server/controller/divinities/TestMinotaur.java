@@ -2,27 +2,24 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class TestMinotaur extends TestDivinity {
     private PlayerManager playerManager1;
     @Override
     public void createPlayerManager() {
-        Match match = new Match();
+        MatchSocket matchSocket = new MatchSocket(2);;
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
-        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Minotaur");
-        match.getMatchSocket().addPlayer(playerManager, socketThread);
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Minotaur");
+        matchSocket.addPlayer(playerManager, socketThread);
 
-        playerManager1 = new PlayerManager(match, new PlayerData("Test1", Color.BLUE, 1), "Apollo");
-        match.getMatchSocket().addPlayer(playerManager1, socketThread);
+        playerManager1 = new PlayerManager(matchRun, new PlayerData("Test1", Color.BLUE, 1), "Apollo");
+        matchSocket.addPlayer(playerManager1, socketThread);
     }
 
     /***
