@@ -29,6 +29,28 @@ public class MatchSetUp {
     }
 
     /***
+     * Wait for all the players to be ready and then start the divinity selection phase
+     * @param socket the reference to the socket
+     */
+    public void readyManagement(SocketThread socket) {
+        match.getMatchSocket().getSocketPlayerMap().get(socket).getPlayerData().setReady();
+        for(PlayerManager player : match.getMatchSocket().getPlayerManagers()) {
+            if(!player.getPlayerData().getReady() || match.getMatchSocket().getPlayerManagers().size() != playerN || match.getMatchSocket().getPlayerManagers().size() <= 1) {
+                return;
+            }
+        }
+        // Check if there is a match saved with these players
+        boolean hasBackup = match.getBackupManager().backupCheck();
+        // If i manage to arrive here all the players are ready, i can start the divinity selection phase
+        if(!hasBackup) {
+            match.setMatchStatus(MatchStatus.DIVINITIES_SELECTION);
+            match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(match.getMatchSocket().getPlayerManagers().size()-1)).sendMessage(new DivinityPick(divinities, match.getMatchSocket().getPlayerManagers().size()));
+        } else {
+            match.getBackupManager().backupRestore();
+        }
+    }
+
+    /***
      * Create the divinity of the player that decided which divinity to use
      * If there are no more players that have to choose the divinity start the match
      * If there are other players, ask the next to choose the divinity
@@ -65,8 +87,5 @@ public class MatchSetUp {
         divinitySelection = divinities;
         match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinities));
         divinitySelectionIndex++;
-    }
-    public ArrayList<String> getDivinitySelection(){
-        return divinitySelection;
     }
 }

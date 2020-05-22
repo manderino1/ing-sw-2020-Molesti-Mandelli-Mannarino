@@ -84,12 +84,12 @@ public class PlayerManager {
     public void placeWorker(Integer x, Integer y) {
         if(workers[0] == null) {
             workers[0] = new Worker(x, y, 0, playerData.getPlayerColor());
-            match.getGameMap().setCell(x, y, match.getGameMap().getCell(x,y).getBuilding(), workers[0]);
+            match.getMatchRun().getGameMap().setCell(x, y, match.getMatchRun().getGameMap().getCell(x,y).getBuilding(), workers[0]);
             //TODO: throw exception if cell is occupied
         }
         else if (workers[1] == null) {
             workers[1] = new Worker(x, y, 1, playerData.getPlayerColor());
-            match.getGameMap().setCell(x, y, match.getGameMap().getCell(x,y).getBuilding(), workers[1]);
+            match.getMatchRun().getGameMap().setCell(x, y, match.getMatchRun().getGameMap().getCell(x,y).getBuilding(), workers[1]);
         }
         else {
             //TODO: throw exception if too many workers
@@ -121,10 +121,10 @@ public class PlayerManager {
      */
     public void setBuild(Integer X, Integer Y, Boolean dome) {
         if(dome) {
-            match.getGameMap().setDome(X, Y);
+            match.getMatchRun().getGameMap().setDome(X, Y);
         }
         else {
-            match.getGameMap().setCell(X, Y, match.getGameMap().getCell(X, Y).getBuilding()+1, match.getGameMap().getCell(X, Y).getWorker());
+            match.getMatchRun().getGameMap().setCell(X, Y, match.getMatchRun().getGameMap().getCell(X, Y).getBuilding()+1, match.getMatchRun().getGameMap().getCell(X, Y).getWorker());
         }
     }
 
@@ -141,7 +141,7 @@ public class PlayerManager {
      * @return a copy of the map
      */
     public GameMap getGameMap() {
-        return match.getGameMap();
+        return match.getMatchRun().getGameMap();
     }
 
     /***

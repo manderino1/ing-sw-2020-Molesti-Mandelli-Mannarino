@@ -1,13 +1,10 @@
 package it.polimi.ingsw.PSP18.client.view.gui;
 
 import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
-import it.polimi.ingsw.PSP18.client.view.cli.CliColor;
 import it.polimi.ingsw.PSP18.client.view.gui.scenes.*;
 import it.polimi.ingsw.PSP18.networking.SocketClient;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.Replay;
-import it.polimi.ingsw.PSP18.server.controller.Match;
-import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -17,23 +14,26 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/***
+ * Class used for the management of the gui
+ */
 public class GuiViewUpdate extends ViewUpdate {
     private Stage stage;
     private Scene scene;
     private Controller controller;
     private Parent parent;
     private SocketClient socket;
-    private final int PORT = 9002;
-    private InetAddress host;
     private String name;
     private Popup popup = new Popup();
 
     private ArrayList<PlayerData> playerDataArrayList = new ArrayList<>();
 
+    /***
+     * Constructor that init the javafx scene
+     */
     public GuiViewUpdate() {
         FXMLLoader loader;
         loader = new FXMLLoader();
@@ -57,6 +57,10 @@ public class GuiViewUpdate extends ViewUpdate {
         } );
     }
 
+    /***
+     * Set the socket value
+     * @param socket socket reference
+     */
     public void setSocket(SocketClient socket) {
         this.socket = socket;
     }
@@ -80,6 +84,10 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Ask to the player which worker needs to be move and where
+     * @param movelist the message that says that the player needs to move
+     */
     @Override
     public void moveUpdate(MoveList movelist) {
         if (controller.getPageID().equals("Match")) {
@@ -89,6 +97,10 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Update the player data of the connected players and show them to the User
+     * @param playerDataUpdate the message that asks for the player's data
+     */
     @Override
     public void updatePlayerData(PlayerDataUpdate playerDataUpdate) {
         boolean present = false;
@@ -115,15 +127,22 @@ public class GuiViewUpdate extends ViewUpdate {
             }
         }
 
-        if(controller.getPageID().equals("Lobby")) {
-            ((LobbyController)controller).updatePlayers(playerDataArrayList);
-        } else if (controller.getPageID().equals("WaitingRoom")) {
-            ((WaitingRoomController)controller).updatePlayers(playerDataArrayList);
-        } else if (controller.getPageID().equals("Match")) {
-            ((MatchController)controller).updatePlayers(playerDataArrayList);
+        switch (controller.getPageID()) {
+            case "Lobby":
+                ((LobbyController) controller).updatePlayers(playerDataArrayList);
+                break;
+            case "WaitingRoom":
+                ((WaitingRoomController) controller).updatePlayers(playerDataArrayList);
+                break;
+            case "Match":
+                ((MatchController) controller).updatePlayers(playerDataArrayList);
+                break;
         }
     }
 
+    /***
+     * Ask the player to insert his nick
+     */
     @Override
     public void selectNick() {
         if(controller.getPageID().equals("Lobby")) { // Do not invert the two ifs
@@ -133,10 +152,13 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Asks the player to chose his divinity
+     * @param divinityList the message that asks for the player divinity
+     */
     @Override
     public void selectDivinity(DivinityList divinityList) {
         ArrayList<String> divinities = divinityList.getDivinities();
-        String nextScene;
         if(divinities.size() == 3) {
             switchScene("PickDivinity3");
             ((PickDivinity3Controller)controller).showChoices(divinityList);
@@ -150,6 +172,10 @@ public class GuiViewUpdate extends ViewUpdate {
 
     }
 
+    /***
+     * Aks the player where he wants to build
+     * @param buildList the message that asks for the player build
+     */
     @Override
     public void buildUpdate(BuildList buildList) {
         if(controller.getPageID().equals("Match")) {
@@ -157,6 +183,10 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Notify the player that he has lost
+     * @param matchLost the message that notify the player that he has lost
+     */
     @Override
     public void matchLostUpdate(MatchLost matchLost) {
         for(PlayerData playerData : playerDataArrayList){
@@ -186,6 +216,10 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Notify the player that he has won
+     * @param matchWon the message that notify the player that he has won
+     */
     @Override
     public void matchWonUpdate(MatchWon matchWon) {
         if(matchWon.isMe()) {
@@ -203,6 +237,10 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Notify the player that the match has started
+     * @param startMatch empty message
+     */
     @Override
     public void startMatch(StartMatch startMatch) {
         if (controller.getPageID().equals("Match")) {
@@ -210,11 +248,19 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Asks the player when they are ready
+     * @param matchReady the message that asks if players are ready
+     */
     @Override
     public void matchReadyUpdate(MatchReady matchReady) {
         ((LobbyController)controller).unlockReady();
     }
 
+    /***
+     * Set the worker reference
+     * @param placeReady empty message
+     */
     @Override
     public void setWorker(PlaceReady placeReady) {
         if (!controller.getPageID().equals("Match")) {
@@ -223,6 +269,10 @@ public class GuiViewUpdate extends ViewUpdate {
         ((MatchController)controller).placeWorkerInit();
     }
 
+    /***
+     * Method used in case prometheus wants to build before the movement
+     * @param prometheusBuildList contains two sets of possible moves one for each worker
+     */
     @Override
     public void prometheusBuildListUpdate(PrometheusBuildList prometheusBuildList) {
         if (controller.getPageID().equals("Match")) {
@@ -232,6 +282,10 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * In case the player already moved and his hero can move again
+     * @param singleMoveList a set of possible moves
+     */
     @Override
     public void singleMoveUpdate(SingleMoveList singleMoveList) {
         if (controller.getPageID().equals("Match")) {
@@ -239,6 +293,10 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * In case a divinity wants to move again using his special ability
+     * @param buildListFlag a set of possible building moves
+     */
     @Override
     public void buildListFlagUpdate(BuildListFlag buildListFlag) {
         if (controller.getPageID().equals("Match")) {
@@ -246,6 +304,10 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Method used to end the current turn
+     * @param endTurnAvaiable message used to end the turn
+     */
     @Override
     public void endTurn(EndTurnAvaiable endTurnAvaiable) {
         if (controller.getPageID().equals("Match")) {
@@ -253,6 +315,10 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * Method used in case atlas wants to build using his power
+     * @param atlasBuildList message containing a list of possible building moves
+     */
     @Override
     public void atlasBuildUpdate(AtlasBuildList atlasBuildList) {
         if (controller.getPageID().equals("Match")) {
@@ -260,20 +326,25 @@ public class GuiViewUpdate extends ViewUpdate {
         }
     }
 
+    /***
+     * The user has to select n divinities from this list
+     * @param divinityPick the list of divinities to pick from
+     */
     @Override
     public void divinitySelection(DivinityPick divinityPick) {
         switchScene("PickDivinity9");
         ((PickDivinity9Controller)controller).setnPlayers(divinityPick.getnOfPlayers());
     }
 
+    /***
+     * Tell the server the number of players
+     */
     @Override
     public void playerNumber() {
-        if (controller.getPageID().equals("Login")) {
-            ((LoginController)controller).selectPlayerNumber();
-        } else {
+        if (!controller.getPageID().equals("Login")) {
             switchScene("Login");
-            ((LoginController)controller).selectPlayerNumber();
         }
+        ((LoginController)controller).selectPlayerNumber();
     }
 
     public void switchScene(String name) {

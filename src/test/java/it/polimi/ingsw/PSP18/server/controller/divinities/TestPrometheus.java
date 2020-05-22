@@ -24,11 +24,11 @@ public class TestPrometheus extends TestDivinity {
     @Override
     public void createPlayerManager() {
         Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, null);
+        SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.setMatch(match);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Prometheus");
-        match.addPlayer(playerManager, socketThread);
+        match.getMatchSocket().addPlayer(playerManager, socketThread);
     }
 
     /***
@@ -42,7 +42,7 @@ public class TestPrometheus extends TestDivinity {
 
     @Test
     public void testManageTurn() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0, 0);
         playerManager.placeWorker(0, 1);
         socketOutContent.reset();
@@ -63,7 +63,7 @@ public class TestPrometheus extends TestDivinity {
     }
     @Test
     public void testReceiveWorker(){
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
         socketOutContent.reset();
@@ -85,7 +85,7 @@ public class TestPrometheus extends TestDivinity {
     }
     @Test
     public void build(){
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
@@ -97,15 +97,15 @@ public class TestPrometheus extends TestDivinity {
 
         socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).getBuilding());
 
-        playerManager.getMatch().getGameMap().getCell(1,0).setBuilding(3);
-        playerManager.getMatch().getGameMap().getCell(0,1).setBuilding(2);
-        playerManager.getMatch().getGameMap().getCell(1,1).setBuilding(3);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,0).setBuilding(3);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).setBuilding(2);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,1).setBuilding(3);
     }
     @Test
     public void buildReceiver(){
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,2);
         socketOutContent.reset();

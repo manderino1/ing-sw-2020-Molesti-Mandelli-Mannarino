@@ -98,7 +98,7 @@
 <b class="nc"><i>24</i>&nbsp;        this.raiseForbidden = raiseForbidden;</b>
 <b class="nc"><i>25</i>&nbsp;        ArrayList&lt;Direction&gt; moves1 = checkBuildingMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY());</b>
 <b class="nc"><i>26</i>&nbsp;        ArrayList&lt;Direction&gt; moves2 = checkBuildingMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY());</b>
-<b class="nc"><i>27</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new PrometheusBuildList(moves1, moves2));</b>
+<b class="nc"><i>27</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new PrometheusBuildList(moves1, moves2));</b>
 <b class="nc"><i>28</i>&nbsp;    }</b>
 <i>29</i>&nbsp;
 <i>30</i>&nbsp;    /***
@@ -130,7 +130,7 @@
 <b class="nc"><i>56</i>&nbsp;            return;</b>
 <i>57</i>&nbsp;        }
 <i>58</i>&nbsp;
-<b class="nc"><i>59</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));</b>
+<b class="nc"><i>59</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));</b>
 <b class="nc"><i>60</i>&nbsp;    }</b>
 <i>61</i>&nbsp;
 <i>62</i>&nbsp;    /***
@@ -146,7 +146,7 @@
 <b class="nc"><i>72</i>&nbsp;            return;</b>
 <i>73</i>&nbsp;        }
 <i>74</i>&nbsp;
-<b class="nc"><i>75</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));</b>
+<b class="nc"><i>75</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves));</b>
 <b class="nc"><i>76</i>&nbsp;    }</b>
 <i>77</i>&nbsp;
 <i>78</i>&nbsp;    /***

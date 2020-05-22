@@ -31,7 +31,7 @@ public class Prometheus extends Divinity{
         this.raiseForbidden = raiseForbidden;
         ArrayList<Direction> moves1 = checkBuildingMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY());
         ArrayList<Direction> moves2 = checkBuildingMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY());
-        playerManager.getMatch().getCurrentSocket().sendMessage(new PrometheusBuildList(moves1, moves2, playerManager.getWorker(0), playerManager.getWorker(1)));
+        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new PrometheusBuildList(moves1, moves2, playerManager.getWorker(0), playerManager.getWorker(1)));
     }
 
     /***
@@ -66,13 +66,13 @@ public class Prometheus extends Divinity{
         if(firstBuild) {
             firstBuild = false;
             if(workerID == 0) {
-                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker1, workerID, false, playerManager.getWorker(workerID)));
+                playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker1, workerID, false, playerManager.getWorker(workerID)));
             }
             if(workerID == 1) {
-                playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker2, workerID, false, playerManager.getWorker(workerID)));
+                playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new SingleMoveList(movesWorker2, workerID, false, playerManager.getWorker(workerID)));
             }
         } else {
-            playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));
+            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));
         }
     }
 
@@ -89,7 +89,7 @@ public class Prometheus extends Divinity{
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves, worker));
+        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves, worker));
     }
 
     /***
@@ -109,7 +109,7 @@ public class Prometheus extends Divinity{
         boolean dome = false;
 
         // If the height of the building cell is 3 a dome has to be placed
-        if (playerManager.getMatch().getGameMap().getCell(newX, newY).getBuilding() == 3) {
+        if (playerManager.getMatch().getMatchRun().getGameMap().getCell(newX, newY).getBuilding() == 3) {
             dome = true;
         }
         playerManager.setBuild(newX, newY, dome);
@@ -118,7 +118,7 @@ public class Prometheus extends Divinity{
             move();
         }
         else {
-            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
+            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());
         }
     }
 

@@ -135,9 +135,14 @@ public class MatchRun {
                 }
             }
 
+            // Clean the socket list
+            match.getMatchSocket().getSockets().clear();
+
             // Cancel the backup file of the match because the match has ended
-            File f = new File(match.getBackupManager().getFileName());
-            f.delete();
+            if(match.getBackupManager().getFileName() != null) {
+                File f = new File(match.getBackupManager().getFileName());
+                f.delete();
+            }
         } else {
             for(SocketThread sock : match.getMatchSocket().getSockets()) {
                 sock.closeConnection();

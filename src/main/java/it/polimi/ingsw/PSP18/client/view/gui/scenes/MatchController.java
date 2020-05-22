@@ -38,6 +38,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static java.lang.Math.max;
 
+/***
+ * Manages the 3d scene of the gui
+ * Is opened when the match starts
+ */
 public class MatchController extends Controller {
     @FXML
     private Pane color1;
@@ -58,8 +62,6 @@ public class MatchController extends Controller {
     @FXML
     private Label label2;
     @FXML
-    private Pane leftBar;
-    @FXML
     private ImageView divinity1;
     @FXML
     private Label nick1;
@@ -71,8 +73,6 @@ public class MatchController extends Controller {
     private ImageView divinity3;
     @FXML
     private Label nick3;
-    @FXML
-    private GridPane lowBar;
     @FXML
     private SubScene matchScene;
     private Group matchSceneGroup = new Group();
@@ -92,7 +92,12 @@ public class MatchController extends Controller {
     private Worker newWorker1, newWorker2, oldWorker1, oldWorker2;
 
     private Worker myWorker1, myWorker2;
-    
+
+    /***
+     * Initialize the 3d objects required for the graphic
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -198,6 +203,11 @@ public class MatchController extends Controller {
         });
     }
 
+    /***
+     * Load the required 3d model
+     * @param url the 3d model location
+     * @return the loaded 3d model
+     */
     public Group loadModel(URL url) {
         Model3D model;
         try {
@@ -210,6 +220,11 @@ public class MatchController extends Controller {
         return null;
     }
 
+    /***
+     * Used to update the 3d scene on a new build
+     * @param oldX x coordinate of the build location
+     * @param oldY y coordinate of the build location
+     */
     public void buildUpdate(int oldX, int oldY){
         Group block;
         Boolean dome = mapCells[oldX][oldY].getDome();
@@ -267,6 +282,11 @@ public class MatchController extends Controller {
         timeline.play();
     }
 
+    /***
+     * Update the 3d scene on a standard move
+     * @param oldWork the old worker reference
+     * @param newWork the new worker reference
+     */
     public void standardMoveUpdate(Worker oldWork, Worker newWork){
         final Timeline timeline = new Timeline();
         Group workerSelected = pickWorker(oldWork);
@@ -287,6 +307,13 @@ public class MatchController extends Controller {
         timeline.play();
     }
 
+    /***
+     * Update the 3d scene on a move where the two players are switched up
+     * @param newWork1 the first worker new reference
+     * @param oldWork2 the second worker old reference
+     * @param oldWork1 the first worker old reference
+     * @param newWork2 the second worker new reference
+     */
     public void apolloMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWork2){
         final Timeline timeline = new Timeline();
         final Timeline enemyTimeline = new Timeline();
@@ -333,6 +360,11 @@ public class MatchController extends Controller {
         parallelTransition.play();
     }
 
+    /***
+     * Given a worker returns the object into the 3d scene that represents the worker
+     * @param oldWork the old worker reference
+     * @return the created worker
+     */
     public Group pickWorker(Worker oldWork){
         Group workerSelected = null;
         switch (oldWork.getPlayerColor()){
@@ -372,6 +404,13 @@ public class MatchController extends Controller {
         return workerSelected;
     }
 
+    /***
+     * Update the 3d scene on a move where the second player is pushed away by the first
+     * @param newWork1 the first worker new reference
+     * @param oldWork2 the second worker old reference
+     * @param oldWork1 the first worker old reference
+     * @param newWork2 the second worker new reference
+     */
     public void minotaurMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWork2){
         final Timeline timeline = new Timeline();
         final Timeline enemyTimeline = new Timeline();
@@ -417,6 +456,10 @@ public class MatchController extends Controller {
 
     }
 
+    /***
+     * Update the 3d scene for worker placement
+     * @param worker the worker reference
+     */
     public void placeWorkerUpdate(Worker worker){
         Group workerGroup = null;
 
@@ -478,6 +521,10 @@ public class MatchController extends Controller {
         timeline.play();
     }
 
+    /***
+     * Remove a worker from the map when a player has lost
+     * @param worker the reference of the worker to be removed
+     */
     public void removeWorker(Worker worker) {
         Group workerGroup = null;
 
@@ -605,6 +652,10 @@ public class MatchController extends Controller {
         }
     }
 
+    /***
+     * Reload the full map on backup restore
+     * @param gameMapUpdate the map reference
+     */
     public void fullMapUpdate(GameMapUpdate gameMapUpdate) {
         mapCells = gameMapUpdate.getGameMap();
 
@@ -651,10 +702,18 @@ public class MatchController extends Controller {
         }
     }
 
+    /***
+     * Set the match as started
+     * @param matchStarted always true
+     */
     public void setMatchStarted(boolean matchStarted) {
         this.matchStarted = matchStarted;
     }
 
+    /***
+     * Show the build possibilities of the player on the 3d scene
+     * @param buildList the list of possible builds
+     */
     public void showBuildList(BuildList buildList) {
         ArrayList<Point3D> coordinates = new ArrayList<>();
         for (Direction dir : buildList.getBuildlist()) {
@@ -670,6 +729,10 @@ public class MatchController extends Controller {
         buildColor(coordinates);
     }
 
+    /***
+     * Manage the player build choice
+     * @param buildList the list of possible build directions
+     */
     public void standardBuildList(BuildList buildList) {
         showBuildList(buildList);
         Platform.runLater(() -> hintLabel.setText("Choose where to build!"));
@@ -697,7 +760,10 @@ public class MatchController extends Controller {
         });
     }
 
-    // Show both move lists
+    /***
+     * Manage the player move choice
+     * @param moveList the list of the player possible moves
+     */
     public void showMoveList(MoveList moveList) {
         myWorker1 = moveList.getWorker1();
         myWorker2 = moveList.getWorker2();
@@ -788,7 +854,12 @@ public class MatchController extends Controller {
         });
     }
 
-    // Show only one move list after the click
+    /***
+     * Show the possible moves of a player given the list and the worker original position
+     * @param moveList the list of possible move directions
+     * @param x the x worker coordinate
+     * @param y the y worker coordinate
+     */
     private void showSingleMoveList(MoveList moveList, int x, int y) {
         ArrayList<Point3D> coordinates = new ArrayList<>();
         if(moveList.getWorker1().getX() == x && moveList.getWorker1().getY() == y) {
@@ -820,6 +891,10 @@ public class MatchController extends Controller {
         moveColor(coordinates);
     }
 
+    /***
+     * Manage a build where a dome can be built at any level
+     * @param buildList the list of possible build directions
+     */
     public void atlasBuild(AtlasBuildList buildList) {
         Platform.runLater(() -> label1.setText("Dome"));
         showBuildList(buildList);
@@ -873,6 +948,9 @@ public class MatchController extends Controller {
         });
     }
 
+    /***
+     * Enable the end turn command
+     */
     public void showEndTurn() {
         Platform.runLater(() -> hintLabel.setText("End your turn!"));
         Image image = new Image("/2DGraphics/GreenButton.png");
@@ -891,6 +969,9 @@ public class MatchController extends Controller {
         });
     }
 
+    /***
+     * Manage the placement of the workers into the map
+     */
     public void placeWorkerInit() {
         Platform.runLater(() -> hintLabel.setText("Place the first worker"));
         matchScene.setOnMousePressed(e -> {
@@ -928,6 +1009,10 @@ public class MatchController extends Controller {
         });
     }
 
+    /***
+     * Manage a turn where the player can build both before and after the move
+     * @param prometheusBuildList the list of possible builds before the move
+     */
     public void prometheusBuildShow(PrometheusBuildList prometheusBuildList) {
         ArrayList<Point3D> coordinates = new ArrayList<>();
         for (Direction dir : prometheusBuildList.getBuildlist1()) {
@@ -1014,13 +1099,17 @@ public class MatchController extends Controller {
                 } else {
                     return;
                 }
-                Platform.runLater(() -> { label2.setText("End Turn"); });
+                Platform.runLater(() -> label2.setText("End Turn"));
                 e3.consume();
             });
             e.consume();
         });
     }
 
+    /***
+     * Manage a move where the source of the movement is a single worker
+     * @param singleMoveList the direction of possible moves of the worker
+     */
     public void singleMoveUpdate(SingleMoveList singleMoveList) {
         MoveList moveList = new MoveList(singleMoveList.getMoveList(), null, singleMoveList.getWorker(), null);
         showSingleMoveList(moveList, singleMoveList.getWorker().getX(), singleMoveList.getWorker().getY());
@@ -1075,6 +1164,10 @@ public class MatchController extends Controller {
         }
     }
 
+    /***
+     * Update the player data into the sidebar
+     * @param players the list of players into the game
+     */
     public void updatePlayers(ArrayList<PlayerData> players) {
         if (players.size() == 2) {
             for (PlayerData playerData : players) {
@@ -1116,6 +1209,10 @@ public class MatchController extends Controller {
         }
     }
 
+    /***
+     * Update the data of a single player into the sidebar
+     * @param playerData the player data
+     */
     private void updateSinglePlayerData(PlayerData playerData) {
         if (playerData.getPlayOrder() == 0) {
             if (!playerData.getLost()) {
@@ -1165,6 +1262,10 @@ public class MatchController extends Controller {
         }
     }
 
+    /***
+     * Manage a build where the player can skip the build phase
+     * @param buildList the list of possible builds
+     */
     public void optionalBuildUpdate(BuildListFlag buildList) {
         showBuildList(buildList);
         Platform.runLater(()->
@@ -1218,6 +1319,10 @@ public class MatchController extends Controller {
 
     }
 
+    /***
+     * Manage cell colouring on move cells
+     * @param coordinates the list of the cells to color
+     */
     private void moveColor(ArrayList<Point3D> coordinates) {
         for(Point3D coordinate : coordinates) {
             Box box = new Box(2.5,1.5,2.5);
@@ -1271,6 +1376,10 @@ public class MatchController extends Controller {
          */
     }
 
+    /***
+     * Manage cell colouring on build cells
+     * @param coordinates the list of the cells to color
+     */
     private void buildColor(ArrayList<Point3D> coordinates) {
         for(Point3D coordinate : coordinates) {
             Box box = new Box(2.5,1,2.5);
@@ -1325,6 +1434,10 @@ public class MatchController extends Controller {
 
     }
 
+    /***
+     * Manage cell colouring on worker cells
+     * @param coordinates the list of the cells to color
+     */
     public void workerColor(ArrayList<Point3D> coordinates) {
         for(Point3D coordinate : coordinates) {
             Box box = new Box(2.5,1.5,2.5);
@@ -1369,6 +1482,10 @@ public class MatchController extends Controller {
         });
     }
 
+    /***
+     * Manage cell colouring on worker init cells
+     * @param coordinates the list of the cells to color
+     */
     public void placeWorkerColor(ArrayList<Point3D> coordinates) {
         for(Point3D coordinate : coordinates) {
             Group circle = loadModel(getClass().getResource("/3DGraphics/circleBluIndicator.obj"));
@@ -1393,6 +1510,9 @@ public class MatchController extends Controller {
         });
     }
 
+    /***
+     * Clear all the cell color
+     */
     private void clearColor() {
         planesTimeline.stop();
         planesTimeline.getKeyFrames().clear();
@@ -1400,6 +1520,9 @@ public class MatchController extends Controller {
         Platform.runLater(() -> matchSceneGroup.getChildren().remove(planes));
     }
 
+    /***
+     * Set bottom bar label when a player has lost
+     */
     public void setLabelOnLost(){
         Platform.runLater(() -> {
             hintLabel.setText("You have lost!");
@@ -1407,14 +1530,29 @@ public class MatchController extends Controller {
         });
     }
 
+    /***
+     * Convert the cell x index into the 3d coordinate
+     * @param index cell index
+     * @return the 3d coordinate
+     */
     private static double indexToCoordinateX(int index){
         return (index-2)*DELTA;
     }
 
+    /***
+     * Convert the cell y index into the 3d coordinate
+     * @param index cell index
+     * @return the 3d coordinate
+     */
     private static double indexToCoordinateY(int index){
         return (index-2)*DELTA*(-1);
     }
 
+    /***
+     * Convert the building level into 3d coordiante
+     * @param index building level
+     * @return the 3d coordinate
+     */
     private static double indexToCoordinateZ(int index){
         switch (index) {
             case 0:
@@ -1429,6 +1567,12 @@ public class MatchController extends Controller {
         return -1;
     }
 
+    /***
+     * Return the 3d coordinate delta between two building levels
+     * @param oldLevel old building level
+     * @param newLevel new building level
+     * @return the 3d coordinate of the delta
+     */
     private static double deltaToCoordinateZ(int oldLevel, int newLevel) {
         double oldHeight, newHeight;
         switch (oldLevel) {
@@ -1466,6 +1610,11 @@ public class MatchController extends Controller {
         return newHeight-oldHeight;
     }
 
+    /***
+     * Convert the building level into 3d coordiante
+     * @param level building level
+     * @return the 3d coordinate
+     */
     public static double levelToCoordZ(int level) {
         switch (level) {
             case 0:
@@ -1480,6 +1629,11 @@ public class MatchController extends Controller {
         return -1;
     }
 
+    /***
+     * Return the cell coordinates of a click into the 3d space
+     * @param pick the 3d coordinates
+     * @return the cell indexes, size of the array is 3, indexes are x-y-z
+     */
     private static int[] coordinateToIndex(PickResult pick) {
         int[] index = new int[3];
         double x = pick.getIntersectedNode().localToScene(0,0,0).getX() + pick.getIntersectedPoint().getX();
@@ -1504,6 +1658,13 @@ public class MatchController extends Controller {
         }
         return index;
     }
+
+    /***
+     * Set correct object visible on mouse hovering
+     * @param placeholder placeholder reference
+     * @param node1 top node reference
+     * @param node2 bottom node reference
+     */
     public void onMouseOver(Node placeholder, Node node1, Node node2) {
         placeholder.setOnMouseEntered(me -> {
             node1.setVisible(false);

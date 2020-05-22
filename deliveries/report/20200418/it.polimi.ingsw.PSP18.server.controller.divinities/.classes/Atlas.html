@@ -99,7 +99,7 @@
 <b class="nc"><i>25</i>&nbsp;            return;</b>
 <i>26</i>&nbsp;        }
 <i>27</i>&nbsp;
-<b class="nc"><i>28</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new AtlasBuildList(moves));</b>
+<b class="nc"><i>28</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new AtlasBuildList(moves));</b>
 <b class="nc"><i>29</i>&nbsp;    }</b>
 <i>30</i>&nbsp;
 <i>31</i>&nbsp;    /***
@@ -121,7 +121,7 @@
 <i>47</i>&nbsp;        }
 <i>48</i>&nbsp;
 <b class="nc"><i>49</i>&nbsp;        playerManager.setBuild(newX, newY, dome);</b>
-<b class="nc"><i>50</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
+<b class="nc"><i>50</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
 <b class="nc"><i>51</i>&nbsp;    }</b>
 <i>52</i>&nbsp;}
 <i>53</i>&nbsp;

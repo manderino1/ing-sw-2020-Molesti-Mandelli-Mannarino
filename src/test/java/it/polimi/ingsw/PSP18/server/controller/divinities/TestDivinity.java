@@ -51,11 +51,11 @@ public class TestDivinity {
 
     public void createPlayerManager() {
         Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, null);
+        SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.setMatch(match);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test1",Color.RED, 0), "Divinity");
-        match.addPlayer(playerManager, socketThread);
+        match.getMatchSocket().addPlayer(playerManager, socketThread);
     }
 
     /***
@@ -72,7 +72,7 @@ public class TestDivinity {
      */
     @Test
     public void testManageTurn() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
 
         playerManager.placeWorker(2,1);
         playerManager.placeWorker(3,2);
@@ -86,30 +86,30 @@ public class TestDivinity {
 
     @Test
     public void testMoveReceiver() {
-        playerManager.getMatch().getGameMap().getCell(2,3).setBuilding(1);
-        playerManager.getMatch().getGameMap().getCell(2,2).setBuilding(2);
-        playerManager.getMatch().getGameMap().getCell(2,1).setBuilding(3);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(2,3).setBuilding(1);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(2,2).setBuilding(2);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(2,1).setBuilding(3);
 
 
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(2, 4);
         playerManager.placeWorker(3, 2);
 
 
         playerManager.getDivinity().move();
         playerManager.getDivinity().moveReceiver(Direction.UP, 0);
-        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(2,3).getWorker());
+        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(2,3).getWorker());
 
         playerManager.getDivinity().move();
         playerManager.getDivinity().moveReceiver(Direction.UP, 0);
-        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(2,2).getWorker());
+        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(2,2).getWorker());
 
         playerManager.getDivinity().moveReceiver(Direction.UP, 0);
     }
 
     @Test
     public void testBuild() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
@@ -121,22 +121,22 @@ public class TestDivinity {
 
         socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).getBuilding());
 
-        playerManager.getMatch().getGameMap().getCell(1,0).setBuilding(3);
-        playerManager.getMatch().getGameMap().getCell(0,1).setBuilding(2);
-        playerManager.getMatch().getGameMap().getCell(1,1).setBuilding(3);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,0).setBuilding(3);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).setBuilding(2);
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,1).setBuilding(3);
     }
 
     @Test
     public void testManageLoss () {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
-        playerManager.getMatch().getGameMap().getCell(1,0).setDome();
-        playerManager.getMatch().getGameMap().getCell(0,1).setDome();
-        playerManager.getMatch().getGameMap().getCell(1,1).setDome();
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,0).setDome();
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).setDome();
+        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,1).setDome();
 
         socketOutContent.reset();
         playerManager.getDivinity().build();

@@ -22,10 +22,10 @@ public class TestApollo extends TestDivinity {
         socketThread.setMatch(match);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test", Color.RED, 0), "Apollo");
-        match.addPlayer(playerManager, socketThread);
+        match.getMatchSocket().addPlayer(playerManager, socketThread);
 
         playerManager1 = new PlayerManager(match, new PlayerData("Test1", Color.BLUE, 1), "Apollo");
-        match.addPlayer(playerManager1, socketThread);
+        match.getMatchSocket().addPlayer(playerManager1, socketThread);
     }
 
     /***
@@ -39,7 +39,7 @@ public class TestApollo extends TestDivinity {
 
     @Test
     public void testCheckMovementMoves() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
 
@@ -58,18 +58,18 @@ public class TestApollo extends TestDivinity {
     @Test
     public void testUpdateMoveCells() {
 
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(1,1);
         playerManager.placeWorker(0,0);
 
         playerManager.getDivinity().setMove(1,1, Direction.UP);
-        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(1,0).getWorker());
+        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(1,0).getWorker());
 
         playerManager1.placeWorker(1,1);
         playerManager1.placeWorker(1,4);
 
         playerManager.getDivinity().setMove(1,0, Direction.DOWN);
-        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getGameMap().getCell(1,1).getWorker());
-        Assert.assertEquals(playerManager1.getWorker(0), playerManager.getMatch().getGameMap().getCell(1,0).getWorker());
+        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(1,1).getWorker());
+        Assert.assertEquals(playerManager1.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(1,0).getWorker());
     }
 }

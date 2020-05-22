@@ -370,7 +370,8 @@ public class TestViewUpdate {
     public void testEndTurn() {
         ByteArrayInputStream testIn = new ByteArrayInputStream("als\nEnd\n".getBytes());
 
-        CliViewUpdate cliViewUpdate = new CliViewUpdate(new BufferedReader(new InputStreamReader(testIn)));
+        BufferedReader br = new BufferedReader(new InputStreamReader(testIn));
+        CliViewUpdate cliViewUpdate = new CliViewUpdate(br);
         SocketClient socketClient = new SocketClient(socket, cliViewUpdate);
         socketClient.start();
         cliViewUpdate.setInputParser(new InputParser(socketClient));

@@ -35,7 +35,7 @@ public class Demeter extends Divinity {
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves, worker));
+        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves, worker));
 
         firstBuild = true;
     }
@@ -49,7 +49,7 @@ public class Demeter extends Divinity {
             if(firstBuild) {
                 build();
             }
-            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
+            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());
             return;
         }
 
@@ -58,7 +58,7 @@ public class Demeter extends Divinity {
             if(firstBuild) {
                 build();
             } else {
-                playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));
+                playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));
             }
         }
 
@@ -77,11 +77,11 @@ public class Demeter extends Divinity {
             moves = checkBuildingMoves(worker.getX(), worker.getY());
             moves.remove(direction);
             firstBuild = false;
-            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves, worker));
+            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildListFlag(moves, worker));
         }
         else{
             firstBuild=true;
-            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
+            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());
         }
     }
 }

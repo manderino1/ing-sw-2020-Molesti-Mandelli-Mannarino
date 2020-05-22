@@ -103,7 +103,7 @@
 <b class="fc"><i>29</i>&nbsp;            return;</b>
 <i>30</i>&nbsp;        }
 <i>31</i>&nbsp;
-<b class="fc"><i>32</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new BuildList(moves));</b>
+<b class="fc"><i>32</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves));</b>
 <i>33</i>&nbsp;
 <b class="fc"><i>34</i>&nbsp;        firstBuild = true;</b>
 <b class="fc"><i>35</i>&nbsp;    }</b>
@@ -114,7 +114,7 @@
 <i>40</i>&nbsp;     */
 <i>41</i>&nbsp;    public void buildReceiver(Direction direction) {
 <b class="fc"><i>42</i>&nbsp;        if (direction == null) { // If he doesn&#39;t want to move</b>
-<b class="fc"><i>43</i>&nbsp;            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
+<b class="fc"><i>43</i>&nbsp;            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
 <b class="fc"><i>44</i>&nbsp;            return;</b>
 <i>45</i>&nbsp;        }
 <i>46</i>&nbsp;
@@ -135,11 +135,11 @@
 <b class="fc"><i>61</i>&nbsp;            moves.add(direction);</b>
 <b class="fc"><i>62</i>&nbsp;            firstBuild = false;</b>
 <i>63</i>&nbsp;
-<b class="fc"><i>64</i>&nbsp;            playerManager.getMatch().getCurrentSocket().sendMessage(new BuildListFlag(moves));</b>
+<b class="fc"><i>64</i>&nbsp;            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildListFlag(moves));</b>
 <b class="fc"><i>65</i>&nbsp;        }</b>
 <i>66</i>&nbsp;        else{
 <b class="nc"><i>67</i>&nbsp;            firstBuild=true;</b>
-<b class="nc"><i>68</i>&nbsp;            playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
+<b class="nc"><i>68</i>&nbsp;            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
 <i>69</i>&nbsp;        }
 <b class="fc"><i>70</i>&nbsp;    }</b>
 <i>71</i>&nbsp;}

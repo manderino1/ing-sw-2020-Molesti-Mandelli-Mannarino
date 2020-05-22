@@ -1,27 +1,34 @@
 package it.polimi.ingsw.PSP18.server.controller;
 
+import it.polimi.ingsw.PSP18.server.backup.MatchBackup;
+
 /***
  * class that articulates the players' turns
  */
 public class TurnManager {
-    protected Match match;
+    protected MatchSocket matchSocket;
+    protected BackupManager backupManager;
     protected Integer indexCurrentPlayer;
 
     /***
      * constructor of the class, start managing the turn of the players in the current match
-     * @param match the object that deals with the current match
+     * @param matchSocket reference to the class that manages sockets and players
+     * @param backupManager  reference to the class that manages backup, to backup at the end of turn
      */
-    public TurnManager(Match match) {
-        this.match = match;
+    public TurnManager(MatchSocket matchSocket, BackupManager backupManager) {
+        this.matchSocket = matchSocket;
+        this.backupManager = backupManager;
         setupTurn();
     }
 
     /***
      * constructor of the class, start managing the turn of the players in the current match
-     * @param match the object that deals with the current match
+     * @param matchSocket reference to the class that manages sockets and players
+     * @param backupManager  reference to the class that manages backup, to backup at the end of turn
      */
-    public TurnManager(Match match, int indexCurrentPlayer) {
-        this.match = match;
+    public TurnManager(MatchSocket matchSocket, BackupManager backupManager, int indexCurrentPlayer) {
+        this.matchSocket = matchSocket;
+        this.backupManager = backupManager;
         setupTurn(indexCurrentPlayer);
     }
 
@@ -30,16 +37,18 @@ public class TurnManager {
      */
     private void setupTurn() {
         indexCurrentPlayer = 0;
-        match.setCurrentPlayer(match.getPlayerManagers().get(indexCurrentPlayer));
+        matchSocket.setCurrentPlayer(matchSocket.getPlayerManagers().get(indexCurrentPlayer));
         manageTurn(); // Start the match
     }
 
     /***
      * Called in the constructor, initializes the turn order
+     * Can accept the actual current player to restore backup
+     * @param indexCurrentPlayer the player that has to play index
      */
     private void setupTurn(int indexCurrentPlayer) {
         this.indexCurrentPlayer = indexCurrentPlayer;
-        match.setCurrentPlayer(match.getPlayerManagers().get(indexCurrentPlayer));
+        matchSocket.setCurrentPlayer(matchSocket.getPlayerManagers().get(indexCurrentPlayer));
         manageTurn(); // Start the match
     }
 
@@ -47,14 +56,14 @@ public class TurnManager {
      * Called form the parser, when a signal is received to end turn switch the turn to the following player
      */
     public void passTurn() {
-        if(match.getPlayerManagers().contains(match.getCurrentPlayer())) {
+        if(matchSocket.getPlayerManagers().contains(matchSocket.getCurrentPlayer())) {
             indexCurrentPlayer = indexCurrentPlayer + 1;
         }
-        if(indexCurrentPlayer == match.getPlayerManagers().size()) {
-            indexCurrentPlayer = 0;
+        if(indexCurrentPlayer == matchSocket.getPlayerManagers().size()) {
+            indexCurrentPlayer = 0; // If I reached the end of the array go back
         }
-        match.setCurrentPlayer(match.getPlayerManagers().get(indexCurrentPlayer));
-        match.updateFile();
+        matchSocket.setCurrentPlayer(matchSocket.getPlayerManagers().get(indexCurrentPlayer));
+        backupManager.updateFile();
         manageTurn();
     }
 
@@ -63,7 +72,7 @@ public class TurnManager {
      * from the correct player manager
      */
     public void manageTurn(){
-        this.match.getPlayerManagers().get(indexCurrentPlayer).manageTurn(false);
+        this.matchSocket.getPlayerManagers().get(indexCurrentPlayer).manageTurn(false);
     }
 
     /***

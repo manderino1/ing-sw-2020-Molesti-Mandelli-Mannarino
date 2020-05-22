@@ -20,7 +20,7 @@ public class TestAtlas extends TestDivinity {
         SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.start();
         playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Atlas");
-        match.addPlayer(playerManager, socketThread);
+        match.getMatchSocket().addPlayer(playerManager, socketThread);
     }
 
     /***
@@ -34,7 +34,7 @@ public class TestAtlas extends TestDivinity {
 
     @Test
     public void testBuild() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
@@ -46,6 +46,6 @@ public class TestAtlas extends TestDivinity {
 
         socketOutContent.reset();
         ((Atlas) playerManager.getDivinity()).buildReceiver(Direction.DOWN, false);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).getBuilding());
     }
 }
