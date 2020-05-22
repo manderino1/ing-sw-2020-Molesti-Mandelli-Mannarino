@@ -18,7 +18,6 @@ import java.util.HashMap;
 public class BackupManager {
 
 
-    private String fileName;
     private MatchSocket matchSocket;
     private MatchRun matchRun;
 
@@ -36,8 +35,8 @@ public class BackupManager {
             if (! directory.exists()){
                 directory.mkdir();
             }
-            if(fileName != null) {
-                FileWriter myWriter = new FileWriter(fileName, false);
+            if(matchRun.getFileName() != null) {
+                FileWriter myWriter = new FileWriter(matchRun.getFileName(), false);
                 Gson gson = new Gson();
                 myWriter.write(gson.toJson(new it.polimi.ingsw.PSP18.server.backup.MatchBackup(matchSocket.getPlayerManagers(), matchRun.getTurnManager().getIndexCurrentPlayer(), matchSocket.getMatchStatus(), matchRun.getGameMap().getMapCells())));
                 myWriter.flush();
@@ -82,8 +81,8 @@ public class BackupManager {
             for(String name: names) {
                 fileName = fileName.concat(name);
             }
-            this.fileName = fileName.concat(".bak");
-            FileReader fileReader = new FileReader(this.fileName);
+            matchRun.setFileName(fileName.concat(".bak"));
+            FileReader fileReader = new FileReader(this.matchRun.getFileName());
             Gson gson = new Gson();
             it.polimi.ingsw.PSP18.server.backup.MatchBackup matchBackup = gson.fromJson(fileReader, it.polimi.ingsw.PSP18.server.backup.MatchBackup.class);
             boolean athena = false;
@@ -160,13 +159,5 @@ public class BackupManager {
             player.getPlayerData().detachSocket(socket);
         }
         matchRun.getGameMap().detachSocket(socket);
-    }
-
-    public void setFileName(String fileName){
-        this.fileName = fileName;
-    }
-
-    public String getFileName(){
-        return fileName;
     }
 }

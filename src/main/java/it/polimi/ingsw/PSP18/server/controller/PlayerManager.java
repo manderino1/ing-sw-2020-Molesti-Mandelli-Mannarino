@@ -7,29 +7,29 @@ import it.polimi.ingsw.PSP18.server.model.*;
  * class that deals with the layer information such as divinity and turns
  */
 public class PlayerManager {
-    private Match match;
+    private MatchRun matchRun;
     private Worker[] workers = new Worker[2];
     private PlayerData playerData;
     private Divinity divinity;
 
     /***
      * Class constructor, initializes the  and the playerData
-     * @param match the match reference (unique for all players)
+     * 
      * @param playerData data of the player
      */
-    public PlayerManager(Match match, PlayerData playerData) {
-        this.match = match;
+    public PlayerManager(MatchRun matchRun, PlayerData playerData) {
+        this.matchRun = matchRun;
         this.playerData = playerData;
     }
 
     /***
      * Class constructor, initializes the  and the playerData
-     * @param match the match reference (unique for all players)
+     * 
      * @param playerData data of the player
      * @param divinity the name of the choosen divinity
      */
-    public PlayerManager(Match match, PlayerData playerData, String divinity) {
-        this.match = match;
+    public PlayerManager(MatchRun matchRun, PlayerData playerData, String divinity) {
+        this.matchRun = matchRun;
         this.playerData = playerData;
         divinityCreation(divinity);
     }
@@ -84,12 +84,12 @@ public class PlayerManager {
     public void placeWorker(Integer x, Integer y) {
         if(workers[0] == null) {
             workers[0] = new Worker(x, y, 0, playerData.getPlayerColor());
-            match.getMatchRun().getGameMap().setCell(x, y, match.getMatchRun().getGameMap().getCell(x,y).getBuilding(), workers[0]);
+            matchRun.getGameMap().setCell(x, y, matchRun.getGameMap().getCell(x,y).getBuilding(), workers[0]);
             //TODO: throw exception if cell is occupied
         }
         else if (workers[1] == null) {
             workers[1] = new Worker(x, y, 1, playerData.getPlayerColor());
-            match.getMatchRun().getGameMap().setCell(x, y, match.getMatchRun().getGameMap().getCell(x,y).getBuilding(), workers[1]);
+            matchRun.getGameMap().setCell(x, y, matchRun.getGameMap().getCell(x,y).getBuilding(), workers[1]);
         }
         else {
             //TODO: throw exception if too many workers
@@ -121,10 +121,10 @@ public class PlayerManager {
      */
     public void setBuild(Integer X, Integer Y, Boolean dome) {
         if(dome) {
-            match.getMatchRun().getGameMap().setDome(X, Y);
+            matchRun.getGameMap().setDome(X, Y);
         }
         else {
-            match.getMatchRun().getGameMap().setCell(X, Y, match.getMatchRun().getGameMap().getCell(X, Y).getBuilding()+1, match.getMatchRun().getGameMap().getCell(X, Y).getWorker());
+            matchRun.getGameMap().setCell(X, Y, matchRun.getGameMap().getCell(X, Y).getBuilding()+1, matchRun.getGameMap().getCell(X, Y).getWorker());
         }
     }
 
@@ -141,7 +141,7 @@ public class PlayerManager {
      * @return a copy of the map
      */
     public GameMap getGameMap() {
-        return match.getMatchRun().getGameMap();
+        return matchRun.getGameMap();
     }
 
     /***
@@ -172,13 +172,5 @@ public class PlayerManager {
      */
     public Divinity getDivinity() {
         return divinity;
-    }
-
-    /***
-     * Returns the match reference
-     * @return match reference
-     */
-    public Match getMatch() {
-        return match;
     }
 }

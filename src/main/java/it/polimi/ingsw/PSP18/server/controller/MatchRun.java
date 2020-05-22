@@ -17,23 +17,15 @@ public class MatchRun {
     private TurnManager turnManager;
     private GameMap gameMap;
     private Integer workerPlacementIndex = 1;
-    private Match match;
-    private int playerN;
+    private MatchSocket matchSocket;
+    private String fileName;
 
     /***
      * MatchRun constructor, initializes all the attributes used during a game game
      */
-    public MatchRun(Match match){
+    public MatchRun(MatchSocket matchSocket){
         gameMap = new GameMap();
-        this.match = match;
-    }
-
-    /***
-     * MatchRun constructor with the number of players playing
-     */
-    public MatchRun(Match match, int playerN){
-        this(match);
-        this.playerN = playerN;
+        this.matchSocket = matchSocket;
     }
 
     /***
@@ -66,14 +58,14 @@ public class MatchRun {
      */
     public void workerPlacement(SocketThread socket, WorkerReceiver workers) {
         if(gameMap.getCell(workers.getX1(), workers.getY1()).getWorker() != null || gameMap.getCell(workers.getX2(), workers.getY2()).getWorker() != null) {
-            match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(workerPlacementIndex)).sendMessage(new PlaceReady());
+            matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(workerPlacementIndex)).sendMessage(new PlaceReady());
         }
-        match.getMatchSocket().getSocketPlayerMap().get(socket).placeWorker(workers.getX1(), workers.getY1());
-        match.getMatchSocket().getSocketPlayerMap().get(socket).placeWorker(workers.getX2(), workers.getY2());
-        if(workerPlacementIndex == match.getMatchSocket().getPlayerManagers().size()) {
+        matchSocket.getSocketPlayerMap().get(socket).placeWorker(workers.getX1(), workers.getY1());
+        matchSocket.getSocketPlayerMap().get(socket).placeWorker(workers.getX2(), workers.getY2());
+        if(workerPlacementIndex == matchSocket.getPlayerManagers().size()) {
             startMatch();
         } else {
-            match.getMatchSocket().getPlayerSocketMap().get(match.getMatchSocket().getPlayerManagers().get(workerPlacementIndex)).sendMessage(new PlaceReady());
+            matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(workerPlacementIndex)).sendMessage(new PlaceReady());
             workerPlacementIndex++;
         }
     }
@@ -85,31 +77,33 @@ public class MatchRun {
      */
     private void startMatch() {
         // Sort players by order
-        match.getMatchSocket().getPlayerManagers().sort(Comparator.comparingInt(o -> o.getPlayerData().getPlayOrder()));
-        match.setMatchStatus(MatchStatus.MATCH_STARTED);
-        for(SocketThread socket : match.getMatchSocket().getSockets()) {
+        matchSocket.getPlayerManagers().sort(Comparator.comparingInt(o -> o.getPlayerData().getPlayOrder()));
+        matchSocket.setMatchStatus(MatchStatus.MATCH_STARTED);
+        for(SocketThread socket : matchSocket.getSockets()) {
             socket.sendMessage(new StartMatch());
         }
         // Set the backup file path
         String fileName = "Backups/match_";
         ArrayList<String> names = new ArrayList<>();
-        for(PlayerManager player : match.getMatchSocket().getPlayerManagers()) {
+        for(PlayerManager player : matchSocket.getPlayerManagers()) {
             names.add(player.getPlayerData().getPlayerID());
         }
         names.sort(String::compareToIgnoreCase);
         for(String name: names) {
             fileName = fileName.concat(name);
         }
-        match.getBackupManager().setFileName(fileName.concat(".bak"));
+
+        fileName = (fileName.concat(".bak"));
+        BackupManager backupManager = new BackupManager(matchSocket, this);
         // Search for Athena
-        for (PlayerManager player : match.getMatchSocket().getPlayerManagers()) {
+        for (PlayerManager player : matchSocket.getPlayerManagers()) {
             if(player.getDivinityName().equals("Athena")) {
-                turnManager = new TurnManagerAthena(match);
+                turnManager = new TurnManagerAthena(matchSocket, backupManager);
                 return;
             }
         }
         // If Athena is not found create a standard turn manager
-        turnManager = new TurnManager(match);
+        turnManager = new TurnManager(matchSocket, backupManager);
     }
 
     /***
@@ -118,16 +112,16 @@ public class MatchRun {
      */
     public void endMatch(PlayerManager winner) {
         if(winner != null) {
-            match.getMatchSocket().getPlayerSocketMap().get(winner).sendMessage(new MatchWon(winner.getPlayerData().getPlayerID(), true));
+            matchSocket.getPlayerSocketMap().get(winner).sendMessage(new MatchWon(winner.getPlayerData().getPlayerID(), true));
             ArrayList<String> loserIDs = new ArrayList<>();
-            for(SocketThread socket : match.getMatchSocket().getSockets()) {
-                if (match.getMatchSocket().getSocketPlayerMap().get(socket) != winner) {
-                    loserIDs.add(match.getMatchSocket().getSocketPlayerMap().get(socket).getPlayerData().getPlayerID());
+            for(SocketThread socket : matchSocket.getSockets()) {
+                if (matchSocket.getSocketPlayerMap().get(socket) != winner) {
+                    loserIDs.add(matchSocket.getSocketPlayerMap().get(socket).getPlayerData().getPlayerID());
                 }
             }
-            for(SocketThread socket : match.getMatchSocket().getSockets()) {
+            for(SocketThread socket : matchSocket.getSockets()) {
                 for(String loserID : loserIDs) {
-                    if (match.getMatchSocket().getSocketPlayerMap().get(socket).getPlayerData().getPlayerID().equals(loserID)) {
+                    if (matchSocket.getSocketPlayerMap().get(socket).getPlayerData().getPlayerID().equals(loserID)) {
                         socket.sendMessage(new MatchLost(loserID, true, true));
                     } else {
                         socket.sendMessage(new MatchLost(loserID, false, true));
@@ -136,19 +130,27 @@ public class MatchRun {
             }
 
             // Clean the socket list
-            match.getMatchSocket().getSockets().clear();
+            matchSocket.getSockets().clear();
 
             // Cancel the backup file of the match because the match has ended
-            if(match.getBackupManager().getFileName() != null) {
-                File f = new File(match.getBackupManager().getFileName());
+            if(fileName != null) {
+                File f = new File(fileName);
                 f.delete();
             }
         } else {
-            for(SocketThread sock : match.getMatchSocket().getSockets()) {
+            for(SocketThread sock : matchSocket.getSockets()) {
                 sock.closeConnection();
             }
         }
 
-        match.setMatchStatus(MatchStatus.MATCH_ENDED);
+        matchSocket.setMatchStatus(MatchStatus.MATCH_ENDED);
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

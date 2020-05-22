@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Move;
@@ -18,6 +20,8 @@ public class Divinity {
     protected boolean raiseForbidden;
     protected ArrayList<Direction> movesWorker1, movesWorker2;
     protected ArrayList<Direction> moves;
+    protected MatchSocket matchSocket;
+    protected MatchRun matchRun;
 
     // TODO : REMOVE IT
     protected Direction direction = Direction.UP;
@@ -63,7 +67,7 @@ public class Divinity {
             return;
         }
 
-        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));
+        matchSocket.getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));
     }
 
     /***
@@ -84,7 +88,7 @@ public class Divinity {
         setMove(worker.getX(), worker.getY(), direction);
 
         if(checkForVictory(workerID)){
-            playerManager.getMatch().getMatchRun().endMatch(playerManager);
+            matchRun.endMatch(playerManager);
             return;
         }
 
@@ -103,7 +107,7 @@ public class Divinity {
             return;
         }
 
-        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new BuildList(moves, worker));
+        matchSocket.getCurrentSocket().sendMessage(new BuildList(moves, worker));
     }
 
     /***
@@ -128,7 +132,7 @@ public class Divinity {
         }
 
         playerManager.setBuild(newX, newY, dome);
-        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new EndTurnAvaiable());
+        matchSocket.getCurrentSocket().sendMessage(new EndTurnAvaiable());
     }
 
     /***
@@ -242,16 +246,16 @@ public class Divinity {
      * Send the match loss message to all players and remove workers, skip the player turn
      */
     protected void manageLoss() {
-        if(playerManager.getMatch().getMatchSocket().getPlayerManagers().size() == 2) {
-            if(playerManager.getMatch().getMatchSocket().getPlayerManagers().get(0) == playerManager){
-                playerManager.getMatch().getMatchRun().endMatch(playerManager.getMatch().getMatchSocket().getPlayerManagers().get(1));
+        if(matchSocket.getPlayerManagers().size() == 2) {
+            if(matchSocket.getPlayerManagers().get(0) == playerManager){
+                matchRun.endMatch(matchSocket.getPlayerManagers().get(1));
             } else {
-                playerManager.getMatch().getMatchRun().endMatch(playerManager.getMatch().getMatchSocket().getPlayerManagers().get(0));
+                matchRun.endMatch(matchSocket.getPlayerManagers().get(0));
             }
             return;
         }
 
-        playerManager.getMatch().getMatchSocket().getPlayerManagers().remove(playerManager.getMatch().getMatchSocket().getCurrentPlayer());
+        matchSocket.getPlayerManagers().remove(matchSocket.getCurrentPlayer());
 
         Integer x1 = playerManager.getWorker(0).getX();
         Integer y1 = playerManager.getWorker(0).getY();
@@ -261,16 +265,16 @@ public class Divinity {
         playerManager.getGameMap().setCell(x2, y2, playerManager.getGameMap().getCell( x2, y2).getBuilding(), null);
 
 
-        for(SocketThread socket : playerManager.getMatch().getMatchSocket().getSockets()) {
-            if(socket == playerManager.getMatch().getMatchSocket().getCurrentSocket()) {
+        for(SocketThread socket : matchSocket.getSockets()) {
+            if(socket == matchSocket.getCurrentSocket()) {
                 socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID(), true, false));
             } else {
                 socket.sendMessage(new MatchLost(playerManager.getPlayerData().getPlayerID(), false, false));
             }
         }
 
-        if(playerManager.getMatch().getMatchRun().getTurnManager() != null) {
-            playerManager.getMatch().getMatchRun().getTurnManager().passTurn();
+        if(matchRun.getTurnManager() != null) {
+            matchRun.getTurnManager().passTurn();
         }
     }
 }
