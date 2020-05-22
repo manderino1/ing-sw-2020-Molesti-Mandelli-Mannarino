@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -31,6 +33,8 @@ public class TestDivinity {
     protected Socket socket;
     protected GameMap map;
     protected PlayerManager playerManager;
+    protected MatchSocket matchSocket;
+    protected MatchRun matchRun;
 
     @Before
     public void socketMock() {
@@ -45,15 +49,17 @@ public class TestDivinity {
             e.printStackTrace();
         }
 
+        this.matchSocket = new MatchSocket(2);
+        this.matchRun = new MatchRun(matchSocket);
         createPlayerManager();
     }
 
     public void createPlayerManager() {
-        MatchSocket matchSocket = new MatchSocket(2);;
         SocketThread socketThread = new SocketThread(socket, null, true);
-        socketThread.setMatch(match);
+        socketThread.setMatchSocket(matchSocket);
+        socketThread.setMatchRun(matchRun);
         socketThread.start();
-        playerManager = new PlayerManager(matchRun, new PlayerData("Test1",Color.RED, 0), "Divinity");
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1",Color.RED, 0), "Divinity", matchSocket);
         matchSocket.addPlayer(playerManager, socketThread);
     }
 
@@ -62,7 +68,7 @@ public class TestDivinity {
      */
     @Test
     public void testGetName() {
-        Divinity divinity = new Divinity("Divinity", playerManager);
+        Divinity divinity = new Divinity("Divinity", playerManager, matchSocket, matchRun);
         Assert.assertEquals(playerManager.getDivinityName(), divinity.getName());
     }
 
@@ -71,7 +77,7 @@ public class TestDivinity {
      */
     @Test
     public void testManageTurn() {
-        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
 
         playerManager.placeWorker(2,1);
         playerManager.placeWorker(3,2);
@@ -85,30 +91,31 @@ public class TestDivinity {
 
     @Test
     public void testMoveReceiver() {
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(2,3).setBuilding(1);
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(2,2).setBuilding(2);
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(2,1).setBuilding(3);
+        matchRun.getGameMap().getCell(2,3).setBuilding(1);
+        matchRun.getGameMap().getCell(2,2).setBuilding(2);
+        matchRun.getGameMap().getCell(2,1).setBuilding(3);
 
 
-        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(2, 4);
         playerManager.placeWorker(3, 2);
 
 
         playerManager.getDivinity().move();
         playerManager.getDivinity().moveReceiver(Direction.UP, 0);
-        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(2,3).getWorker());
+        Assert.assertEquals(playerManager.getWorker(0), matchRun.getGameMap().getCell(2,3).getWorker());
 
         playerManager.getDivinity().move();
         playerManager.getDivinity().moveReceiver(Direction.UP, 0);
-        Assert.assertEquals(playerManager.getWorker(0), playerManager.getMatch().getMatchRun().getGameMap().getCell(2,2).getWorker());
+        Assert.assertEquals(playerManager.getWorker(0), matchRun.getGameMap().getCell(2,2).getWorker());
 
         playerManager.getDivinity().moveReceiver(Direction.UP, 0);
     }
 
     @Test
     public void testBuild() {
-        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
+        
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
@@ -120,22 +127,23 @@ public class TestDivinity {
 
         socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), matchRun.getGameMap().getCell(0,1).getBuilding());
 
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,0).setBuilding(3);
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).setBuilding(2);
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,1).setBuilding(3);
+        matchRun.getGameMap().getCell(1,0).setBuilding(3);
+        matchRun.getGameMap().getCell(0,1).setBuilding(2);
+        matchRun.getGameMap().getCell(1,1).setBuilding(3);
     }
 
     @Test
     public void testManageLoss () {
-        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
+
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,0).setDome();
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).setDome();
-        playerManager.getMatch().getMatchRun().getGameMap().getCell(1,1).setDome();
+        matchRun.getGameMap().getCell(1,0).setDome();
+        matchRun.getGameMap().getCell(0,1).setDome();
+        matchRun.getGameMap().getCell(1,1).setDome();
 
         socketOutContent.reset();
         playerManager.getDivinity().build();

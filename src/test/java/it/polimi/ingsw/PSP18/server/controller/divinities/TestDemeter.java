@@ -3,6 +3,8 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Direction;
@@ -13,10 +15,11 @@ import org.junit.Test;
 public class TestDemeter extends TestDivinity {
     @Override
     public void createPlayerManager() {
-        MatchSocket matchSocket = new MatchSocket(2);;
+        MatchSocket matchSocket = new MatchSocket(2);
+        MatchRun matchRun = new MatchRun(matchSocket);
         SocketThread socketThread = new SocketThread(socket, null);
         socketThread.start();
-        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Demeter");
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Demeter", matchSocket);
         matchSocket.addPlayer(playerManager, socketThread);
     }
 
@@ -25,13 +28,18 @@ public class TestDemeter extends TestDivinity {
      */
     @Override
     public void testGetName() {
-        Divinity divinity = new Divinity("Demeter", playerManager);
+        MatchSocket matchSocket = new MatchSocket(2);
+        MatchRun matchRun = new MatchRun(matchSocket);
+        Divinity divinity = new Divinity("Demeter", playerManager, matchSocket, matchRun);
         Assert.assertEquals(playerManager.getDivinityName(), divinity.getName());
     }
 
     @Test
     public void testBuild() {
-        playerManager.getMatch().getMatchSocket().setCurrentPlayer(playerManager);
+        MatchSocket matchSocket = new MatchSocket(2);
+        MatchRun matchRun = new MatchRun(matchSocket);
+        
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
@@ -43,10 +51,10 @@ public class TestDemeter extends TestDivinity {
 
         socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), matchRun.getGameMap().getCell(0,1).getBuilding());
 
         socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(null);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getMatchRun().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), matchRun.getGameMap().getCell(0,1).getBuilding());
     }
 }
