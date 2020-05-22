@@ -400,12 +400,6 @@ public class GuiViewUpdate extends ViewUpdate {
 
     public void reconnect() {
         playerDataArrayList.clear();
-        try {
-            Socket sock = new Socket(socket.getIP().getHostName(), socket.getIP().getPort());
-            socket = new SocketClient(sock, this);
-            socket.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        switchScene("Login");
     }
 }
