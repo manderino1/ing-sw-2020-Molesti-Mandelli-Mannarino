@@ -10,6 +10,7 @@ import it.polimi.ingsw.PSP18.server.controller.*;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Atlas;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Prometheus;
 import it.polimi.ingsw.PSP18.server.model.Color;
+import it.polimi.ingsw.PSP18.server.model.MatchStatus;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientAbstractMessage;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
@@ -112,8 +113,11 @@ public class SocketThread extends Thread {
                     messageParse(line);
                 }
             } catch (SocketException | SocketTimeoutException e) {
-                if(matchRun != null) {
-                    matchRun.endMatch(null);
+                if(matchSocket != null) {
+                    for(SocketThread sock : matchSocket.getSockets()) {
+                        sock.closeConnection();
+                    }
+                    matchSocket.setMatchStatus(MatchStatus.MATCH_ENDED);
                 }
                 System.out.println("Socket disconnected");
                 return;

@@ -137,10 +137,6 @@ public class MatchRun {
                 File f = new File(fileName);
                 f.delete();
             }
-        } else {
-            for(SocketThread sock : matchSocket.getSockets()) {
-                sock.closeConnection();
-            }
         }
 
         matchSocket.setMatchStatus(MatchStatus.MATCH_ENDED);
