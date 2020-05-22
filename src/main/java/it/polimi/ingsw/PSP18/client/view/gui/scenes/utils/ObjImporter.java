@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
@@ -75,8 +76,8 @@ public class ObjImporter implements Importer {
     private static float scale = 1;
     private static boolean flatXZ = false;
 
-    private static Map<URL, PolygonMesh> meshMap = new HashMap<>();
-    private static Map<URL, Material> materialMap = new HashMap<>();
+    private static ConcurrentHashMap<URL, PolygonMesh> meshMap = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<URL, Material> materialMap = new ConcurrentHashMap<>();
 
     static void log(String string) {
         if (debug) {

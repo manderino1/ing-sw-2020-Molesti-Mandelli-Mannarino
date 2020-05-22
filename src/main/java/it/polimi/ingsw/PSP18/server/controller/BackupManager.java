@@ -106,7 +106,7 @@ public class BackupManager {
                         matchSocket.getPlayerSocketMap().remove(playerConnected);
                         matchSocket.getPlayerSocketMap().put(playerManager, socket);
                         matchSocket.getSocketPlayerMap().remove(socket);
-                        matchSocket.getSocketPlayerMap().put(matchSocket.getPlayerSocketMap().get(playerConnected), playerManager);
+                        matchSocket.getSocketPlayerMap().put(matchSocket.getPlayerSocketMap().get(playerManager), playerManager);
                         matchSocket.getPlayerManagers().remove(playerConnected);
                         break;
                     }
