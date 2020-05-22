@@ -11,31 +11,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MatchSocket {
+    private MatchStatus matchStatus;
     private ArrayList<PlayerManager> playerManagers;
     private ArrayList<SocketThread> sockets;
     private HashMap<PlayerManager, SocketThread> playerSocketMap;
     private HashMap<SocketThread, PlayerManager> socketPlayerMap;
     private PlayerManager currentPlayer;
-    private int playerN;
-    private Match match;
 
     /***
      * MatchSocket constructor, initializes the sockets, playerManagers, and the two HasMaps
      */
-    public MatchSocket(Match match){
+    public MatchSocket(){
+        matchStatus = MatchStatus.WAITING_FOR_PLAYERS;
         playerManagers = new ArrayList<>();
         sockets = new ArrayList<>();
         playerSocketMap = new HashMap<>();
         socketPlayerMap = new HashMap<>();
-        this.match = match;
-    }
-
-    /***
-     * MatchSocket constructor with the number of players
-     */
-    public MatchSocket(Match match, int playerN){
-        this(match);
-        this.playerN = playerN;
     }
 
     /***
@@ -137,5 +128,21 @@ public class MatchSocket {
 
     public HashMap<SocketThread, PlayerManager> getSocketPlayerMap() {
         return socketPlayerMap;
+    }
+
+    /***
+     * Set the state of the match in pre-defined states as described in MatchStatus class
+     * @param matchStatus the new state of the match
+     */
+    public void setMatchStatus(MatchStatus matchStatus) {
+        this.matchStatus = matchStatus;
+    }
+
+    /***
+     * Return the state of the match, there are some pre-defined states as enum in MatchStatus class
+     * @return the match state
+     */
+    public MatchStatus getMatchStatus() {
+        return matchStatus;
     }
 }

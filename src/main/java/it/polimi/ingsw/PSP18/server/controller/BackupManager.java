@@ -19,16 +19,12 @@ public class BackupManager {
 
 
     private String fileName;
-    private Match match;
-    private int playerN;
+    private MatchSocket matchSocket;
+    private MatchRun matchRun;
 
-    public BackupManager(Match match){
-        this.match = match;
-    }
-
-    public BackupManager(Match match, int playerN){
-        this(match);
-        this.playerN = playerN;
+    public BackupManager(MatchSocket matchSocket, MatchRun matchRun){
+        this.matchSocket = matchSocket;
+        this.matchRun = matchRun;
     }
 
     /***
@@ -43,7 +39,7 @@ public class BackupManager {
             if(fileName != null) {
                 FileWriter myWriter = new FileWriter(fileName, false);
                 Gson gson = new Gson();
-                myWriter.write(gson.toJson(new it.polimi.ingsw.PSP18.server.backup.MatchBackup(match.getMatchSocket().getPlayerManagers(), match.getMatchRun().getTurnManager().getIndexCurrentPlayer(), match.getMatchStatus(), match.getMatchRun().getGameMap().getMapCells())));
+                myWriter.write(gson.toJson(new it.polimi.ingsw.PSP18.server.backup.MatchBackup(matchSocket.getPlayerManagers(), matchRun.getTurnManager().getIndexCurrentPlayer(), matchSocket.getMatchStatus(), matchRun.getGameMap().getMapCells())));
                 myWriter.flush();
                 myWriter.close();
             }
@@ -60,7 +56,7 @@ public class BackupManager {
         try {
             String fileName = "Backups/match_";
             ArrayList<String> names = new ArrayList<>();
-            for(PlayerManager player : match.getMatchSocket().getPlayerManagers()) {
+            for(PlayerManager player : matchSocket.getPlayerManagers()) {
                 names.add(player.getPlayerData().getPlayerID());
             }
             names.sort(String::compareToIgnoreCase);
@@ -79,7 +75,7 @@ public class BackupManager {
         try {
             String fileName = "Backups/match_";
             ArrayList<String> names = new ArrayList<>();
-            for(PlayerManager player : match.getMatchSocket().getPlayerManagers()) {
+            for(PlayerManager player : matchSocket.getPlayerManagers()) {
                 names.add(player.getPlayerData().getPlayerID());
             }
             names.sort(String::compareToIgnoreCase);
@@ -93,7 +89,7 @@ public class BackupManager {
             boolean athena = false;
             // Match backupped with same nicknames, restore it
             for (PlayerManagerBackup playerBackupped : matchBackup.getPlayerManagers()) {
-                for (PlayerManager playerConnected : match.getMatchSocket().getPlayerManagers()) {
+                for (PlayerManager playerConnected : matchSocket.getPlayerManagers()) {
                     if (playerConnected.getPlayerData().getPlayerID().equals(playerBackupped.getPlayerData().getPlayerID())) {
                         if(playerBackupped.getPlayerData().getDivinity().equals("Athena")) {
                             athena = true;
@@ -107,47 +103,47 @@ public class BackupManager {
                             playerData.setLost();
                         }
                         playerData.setLastMove(playerBackupped.getPlayerData().getLastMove());
-                        PlayerManager playerManager = new PlayerManager(match, playerData, playerBackupped.getPlayerData().getDivinity());
-                        match.getMatchSocket().getPlayerManagers().add(playerManager);
-                        SocketThread socket = match.getMatchSocket().getPlayerSocketMap().get(playerConnected);
-                        match.getMatchSocket().getPlayerSocketMap().remove(playerConnected);
-                        match.getMatchSocket().getPlayerSocketMap().put(playerManager, socket);
-                        match.getMatchSocket().getSocketPlayerMap().remove(socket);
-                        match.getMatchSocket().getSocketPlayerMap().put(match.getMatchSocket().getPlayerSocketMap().get(playerConnected), playerManager);
-                        match.getMatchSocket().getPlayerManagers().remove(playerConnected);
+                        PlayerManager playerManager = new PlayerManager(matchRun, playerData, playerBackupped.getPlayerData().getDivinity());
+                        matchSocket.getPlayerManagers().add(playerManager);
+                        SocketThread socket = matchSocket.getPlayerSocketMap().get(playerConnected);
+                        matchSocket.getPlayerSocketMap().remove(playerConnected);
+                        matchSocket.getPlayerSocketMap().put(playerManager, socket);
+                        matchSocket.getSocketPlayerMap().remove(socket);
+                        matchSocket.getSocketPlayerMap().put(matchSocket.getPlayerSocketMap().get(playerConnected), playerManager);
+                        matchSocket.getPlayerManagers().remove(playerConnected);
                         break;
                     }
                 }
             }
-            match.setMatchStatus(matchBackup.getMatchStatus());
-            match.getMatchRun().getGameMap().setMapCells(matchBackup.getGameMap());
+            matchSocket.setMatchStatus(matchBackup.getMatchStatus());
+            matchRun.getGameMap().setMapCells(matchBackup.getGameMap());
 
             // Find the workers and insert them
             HashMap<Color, PlayerManager> hashColor = new HashMap<>();
-            for(PlayerManager player : match.getMatchSocket().getPlayerManagers()) {
+            for(PlayerManager player : matchSocket.getPlayerManagers()) {
                 hashColor.put(player.getPlayerData().getPlayerColor(), player);
             }
             for(int i=0; i<=4; i++) {
                 for(int j=0; j<=4; j++) {
-                    if(match.getMatchRun().getGameMap().getCell(i,j).getWorker() != null) {
-                        hashColor.get(match.getMatchRun().getGameMap().getCell(i,j).getWorker().getPlayerColor()).setWorkers(match.getMatchRun().getGameMap().getCell(i,j).getWorker(), match.getMatchRun().getGameMap().getCell(i,j).getWorker().getID());
+                    if(matchRun.getGameMap().getCell(i,j).getWorker() != null) {
+                        hashColor.get(matchRun.getGameMap().getCell(i,j).getWorker().getPlayerColor()).setWorkers(matchRun.getGameMap().getCell(i,j).getWorker(), matchRun.getGameMap().getCell(i,j).getWorker().getID());
                     }
                 }
             }
 
             // Reset the observers
-            for(SocketThread sock : match.getMatchSocket().getSockets()) {
-                for(PlayerManager player : match.getMatchSocket().getPlayerManagers()) {
+            for(SocketThread sock : matchSocket.getSockets()) {
+                for(PlayerManager player : matchSocket.getPlayerManagers()) {
                     player.getPlayerData().attach(new PlayerDataObserver(sock));
                 }
-                match.getMatchRun().getGameMap().attach(new MapObserver(sock));
+                matchRun.getGameMap().attach(new MapObserver(sock));
                 sock.sendMessage(new StartMatch());
             }
 
             if(athena) {
-                match.getMatchRun().setTurnManager( new TurnManagerAthena(match, matchBackup.getIndexCurrentPlayer()));
+                matchRun.setTurnManager( new TurnManagerAthena(matchSocket, this, matchBackup.getIndexCurrentPlayer()));
             } else {
-                match.getMatchRun().setTurnManager( new TurnManager(match, matchBackup.getIndexCurrentPlayer()));
+                matchRun.setTurnManager( new TurnManager(matchSocket, this, matchBackup.getIndexCurrentPlayer()));
             }
             try {
                 fileReader.close();
@@ -160,10 +156,10 @@ public class BackupManager {
     }
 
     public void detachSocket(SocketThread socket) {
-        for(PlayerManager player : match.getMatchSocket().getPlayerManagers()) {
+        for(PlayerManager player : matchSocket.getPlayerManagers()) {
             player.getPlayerData().detachSocket(socket);
         }
-        match.getMatchRun().getGameMap().detachSocket(socket);
+        matchRun.getGameMap().detachSocket(socket);
     }
 
     public void setFileName(String fileName){
