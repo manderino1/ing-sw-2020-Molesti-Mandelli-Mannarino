@@ -147,7 +147,7 @@ public class GuiViewUpdate extends ViewUpdate {
     public void selectNick() {
         if(controller.getPageID().equals("Lobby")) { // Do not invert the two ifs
             ((LobbyController)controller).insertNick();
-        } else if(controller.getPageID().equals("Login")) {
+        } else if(controller.getPageID().equals("PlayerNumber")) {
             switchScene("Lobby");
         }
     }
@@ -341,10 +341,9 @@ public class GuiViewUpdate extends ViewUpdate {
      */
     @Override
     public void playerNumber() {
-        if (!controller.getPageID().equals("Login")) {
-            switchScene("Login");
+        if (!controller.getPageID().equals("PlayerNumber")) {
+            switchScene("PlayerNumber");
         }
-        ((LoginController)controller).selectPlayerNumber();
     }
 
     public void switchScene(String name) {
@@ -408,7 +407,5 @@ public class GuiViewUpdate extends ViewUpdate {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        switchScene("Login");
-        ((LoginController)controller).selectPlayerNumber();
     }
 }

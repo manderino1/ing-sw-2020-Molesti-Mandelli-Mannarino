@@ -158,41 +158,6 @@
                </image>
             </ImageView>
             <Label layoutX="109.0" layoutY="76.0" mouseTransparent="true" onMouseClicked="#inputIP" pickOnBounds="false" text="Confirm" />
-            <ImageView fx:id="background1" disable="true" fitHeight="565.0" fitWidth="331.0" layoutX="-35.0" layoutY="-125.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
-               <image>
-                  <Image url="@../2DGraphics/bg_panelMid.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="background2" disable="true" fitHeight="598.0" fitWidth="366.0" layoutX="-53.0" layoutY="-143.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
-               <image>
-                  <Image url="@../2DGraphics/frame_yellow.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="labelText" disable="true" layoutX="-36.0" layoutY="27.0" onMouseClicked="#inputIP" prefHeight="58.0" prefWidth="333.0" text="Select player count:" visible="false">
-               <font>
-                  <Font size="38.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="confirmButton2" disable="true" fitHeight="40.0" fitWidth="97.0" layoutX="-7.0" layoutY="119.0" onMouseClicked="#selectedTwo" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" visible="false">
-               <image>
-                  <Image url="@../2DGraphics/GreenButton.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="confirmButton3" disable="true" fitHeight="40.0" fitWidth="97.0" layoutX="168.0" layoutY="119.0" onMouseClicked="#selectedThree" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" visible="false">
-               <image>
-                  <Image url="@../2DGraphics/GreenButton.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="selectLabel2" disable="true" layoutX="36.0" layoutY="125.0" mouseTransparent="true" pickOnBounds="false" text="2" visible="false">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="selectLabel3" disable="true" layoutX="211.0" layoutY="125.0" mouseTransparent="true" pickOnBounds="false" text="3" visible="false">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
          </children>
       </Pane>
    </children>
