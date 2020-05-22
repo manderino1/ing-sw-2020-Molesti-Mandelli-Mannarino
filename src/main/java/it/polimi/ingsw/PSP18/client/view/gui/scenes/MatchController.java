@@ -315,14 +315,13 @@ public class MatchController extends Controller {
      * @param newWork2 the second worker new reference
      */
     public void apolloMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWork2){
-        final Timeline timeline = new Timeline();
-        final Timeline enemyTimeline = new Timeline();
+
         final Timeline offsetTimeline = new Timeline();
 
         Group workerSelected = pickWorker(oldWork1);
         Group workerEnemy = pickWorker(oldWork2);
 
-
+        /*
         int oldHeight = mapCells[oldWork1.getX()][oldWork1.getY()].getBuilding();
         int newHeight = mapCells[newWork1.getX()][newWork1.getY()].getBuilding();
 
@@ -338,9 +337,11 @@ public class MatchController extends Controller {
                 new KeyValue (workerSelected.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-4, Interpolator.EASE_OUT)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
                 new KeyValue (workerSelected.translateYProperty(), -deltaToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
+        */
+        final Timeline timeline = setupTimeline(workerSelected, oldWork1, newWork1,1000);
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
                 new KeyValue (workerSelected.rotateProperty(), workerSelected.getRotate()-360, Interpolator.EASE_BOTH)));
-
+        /*
         enemyTimeline.setCycleCount(1);
         enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
                 new KeyValue (workerEnemy.translateXProperty(), indexToCoordinateX(newWork2.getX()),Interpolator.EASE_OUT)));
@@ -350,7 +351,8 @@ public class MatchController extends Controller {
                 new KeyValue (workerEnemy.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
         enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
                 new KeyValue (workerEnemy.translateYProperty(), -deltaToCoordinateZ(0,oldHeight), Interpolator.EASE_BOTH)));
-
+        */
+        final Timeline enemyTimeline = setupTimeline(workerEnemy,oldWork2, newWork2,500);
         offsetTimeline.setCycleCount(1);
         offsetTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
                 new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(oldWork1.getX()))));
@@ -412,12 +414,17 @@ public class MatchController extends Controller {
      * @param newWork2 the second worker new reference
      */
     public void minotaurMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWork2){
+        /*
         final Timeline timeline = new Timeline();
         final Timeline enemyTimeline = new Timeline();
+
+         */
         final Timeline offsetTimeline = new Timeline();
+
+
         Group workerSelected = pickWorker(oldWork1);
         Group workerEnemy = pickWorker(oldWork2);
-
+/*
         int oldHeight = mapCells[oldWork1.getX()][oldWork1.getY()].getBuilding();
         int newHeight = mapCells[newWork1.getX()][newWork1.getY()].getBuilding();
 
@@ -446,6 +453,10 @@ public class MatchController extends Controller {
         enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
                 new KeyValue (workerEnemy.translateYProperty(), -deltaToCoordinateZ(0,newHeightEnemy), Interpolator.EASE_BOTH)));
 
+
+ */
+        final Timeline timeline = setupTimeline(workerSelected,oldWork1,newWork1,500);
+        final Timeline enemyTimeline = setupTimeline(workerEnemy,oldWork2, newWork2,500);
         offsetTimeline.setCycleCount(1);
         offsetTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
                 new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(oldWork1.getX()))));
@@ -454,6 +465,25 @@ public class MatchController extends Controller {
         ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);
         parallelTransition.play();
 
+    }
+
+    public Timeline setupTimeline(Group workerSelected, Worker oldWork, Worker newWork, int duration){
+
+        int oldHeight = mapCells[oldWork.getX()][oldWork.getY()].getBuilding();
+        int newHeight = mapCells[newWork.getX()][newWork.getY()].getBuilding();
+
+        final Timeline timeline = new Timeline();
+        timeline.setCycleCount(1);
+        assert workerSelected != null;
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(duration),
+                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()),Interpolator.EASE_OUT)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(duration),
+                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()), Interpolator.EASE_OUT)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis((double)duration/2),
+                new KeyValue (workerSelected.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(duration),
+                new KeyValue (workerSelected.translateYProperty(), -deltaToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
+        return timeline;
     }
 
     /***
@@ -526,8 +556,7 @@ public class MatchController extends Controller {
      * @param worker the reference of the worker to be removed
      */
     public void removeWorker(Worker worker) {
-        Group workerGroup = null;
-
+        /*
         switch (worker.getPlayerColor()) {
             case BLUE:
                 switch(worker.getID()){
@@ -562,8 +591,8 @@ public class MatchController extends Controller {
                 }
                 break;
         }
-
-        Group finalWorkerGroup = workerGroup;
+ */
+        Group finalWorkerGroup = pickWorker(worker);
         Platform.runLater(() -> matchSceneGroup.getChildren().remove(finalWorkerGroup));
     }
 
@@ -1325,6 +1354,9 @@ public class MatchController extends Controller {
      */
     private void moveColor(ArrayList<Point3D> coordinates) {
         for(Point3D coordinate : coordinates) {
+            Group plane1 = loadModel(getClass().getResource("/3DGraphics/moveIndicator.obj"));
+            Group plane2 = loadModel(getClass().getResource("/3DGraphics/moveIndicator2.obj"));
+            /*
             Box box = new Box(2.5,1.5,2.5);
             PhongMaterial mat = new PhongMaterial();
             mat.setDiffuseColor(Color.RED);
@@ -1351,12 +1383,15 @@ public class MatchController extends Controller {
             placeholder.setTranslateX(coordinate.getX());
             placeholder.setTranslateY(coordinate.getY()-0.15);
             placeholder.setTranslateZ(coordinate.getZ());
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.15,Interpolator.EASE_BOTH)) );
-            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.7,Interpolator.EASE_BOTH)) );
             Platform.runLater(() -> {
                 planes.getChildren().add(plane);
                 planes.getChildren().add(placeholder);
             });
+             */
+            Group plane = setUpPlanes(coordinate, plane1, plane2);
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.15,Interpolator.EASE_BOTH)) );
+            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.7,Interpolator.EASE_BOTH)) );
+
         }
 
         Platform.runLater(() -> {
@@ -1376,12 +1411,48 @@ public class MatchController extends Controller {
          */
     }
 
+    private Group setUpPlanes(Point3D coordinate, Group plane1, Group plane2){
+
+        Box box = new Box(2.5,1.5,2.5);
+        PhongMaterial mat = new PhongMaterial();
+        mat.setDiffuseColor(Color.RED);
+        Group placeholder = new Group(box);
+        box.setMaterial(mat);
+        placeholder.setOpacity(0.0);
+
+        plane2.setVisible(false);
+
+        onMouseOver(placeholder,plane1,plane2);
+        Group plane = new Group();
+        plane.getChildren().add(plane1);
+        plane.getChildren().add(plane2);
+
+        plane.setScaleX(0.9);
+        plane.setScaleZ(0.9);
+        plane.setTranslateX(coordinate.getX());
+        plane.setTranslateY(coordinate.getY()-0.15);
+        plane.setTranslateZ(coordinate.getZ());
+        placeholder.setScaleX(0.9);
+        placeholder.setScaleZ(0.9);
+        placeholder.setTranslateX(coordinate.getX());
+        placeholder.setTranslateY(coordinate.getY()-0.15);
+        placeholder.setTranslateZ(coordinate.getZ());
+        Platform.runLater(() -> {
+            planes.getChildren().add(plane);
+            planes.getChildren().add(placeholder);
+        });
+        return plane;
+    }
+
     /***
      * Manage cell colouring on build cells
      * @param coordinates the list of the cells to color
      */
     private void buildColor(ArrayList<Point3D> coordinates) {
         for(Point3D coordinate : coordinates) {
+            Group plane1 = loadModel(getClass().getResource("/3DGraphics/buildIndicator.obj"));
+            Group plane2 = loadModel(getClass().getResource("/3DGraphics/buildIndicator2.obj"));
+            /*
             Box box = new Box(2.5,1,2.5);
             PhongMaterial mat = new PhongMaterial();
             mat.setDiffuseColor(Color.RED);
@@ -1389,8 +1460,7 @@ public class MatchController extends Controller {
             box.setMaterial(mat);
             placeholder.setOpacity(0.0);
 
-            Group plane1 = loadModel(getClass().getResource("/3DGraphics/buildIndicator.obj"));
-            Group plane2 = loadModel(getClass().getResource("/3DGraphics/buildIndicator2.obj"));
+
             plane2.setVisible(false);
 
             onMouseOver(placeholder,plane1,plane2);
@@ -1412,6 +1482,9 @@ public class MatchController extends Controller {
                 planes.getChildren().add(plane);
                 planes.getChildren().add(placeholder);
             });
+             */
+            Group plane = setUpPlanes(coordinate, plane1, plane2);
+
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleZProperty(), 0.8,Interpolator.EASE_BOTH)));
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleXProperty(), 0.8,Interpolator.EASE_BOTH)));
             planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.scaleZProperty(), 0.15,Interpolator.EASE_BOTH)));
