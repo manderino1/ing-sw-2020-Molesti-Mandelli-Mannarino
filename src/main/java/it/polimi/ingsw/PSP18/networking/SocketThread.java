@@ -28,7 +28,6 @@ public class SocketThread extends Thread {
     private Socket socket;
     private BufferedReader input;
     private PrintWriter output;
-    //private Match match;
     private MatchSetUp matchSetup;
     private MatchRun matchRun;
     private MatchSocket matchSocket;
@@ -181,7 +180,7 @@ public class SocketThread extends Thread {
                     playerColor = Color.GREEN;
                 }
                 PlayerData playerData = new PlayerData(playerDataReceiver.getPlayerID(), playerColor, matchSocket.getPlayerManagers().size());
-                matchSocket.addPlayer(new PlayerManager(match, playerData), this);
+                matchSocket.addPlayer(new PlayerManager(matchRun, playerData), this);
                 break;
             case DIVINITY_RECEIVER:
                 DivinityReceiver divinityReceiver = gson.fromJson(jsonObj, DivinityReceiver.class);
@@ -190,16 +189,16 @@ public class SocketThread extends Thread {
             case ENDTURN_RECEIVER:
                 EndTurnReceiver endTurnReceiver = gson.fromJson(jsonObj, EndTurnReceiver.class);
                 if(matchSocket.getCurrentSocket() == this) {
-                    match.getTurnManager().passTurn();
+                    matchRun.getTurnManager().passTurn();
                 }
                 break;
             case READY_RECEIVER:
                 ReadyReceiver readyReceiver = gson.fromJson(jsonObj, ReadyReceiver.class);
-                matchSocket.readyManagement(this);
+                matchSetup.readyManagement(this);
                 break;
             case WORKER_RECEIVER:
                 WorkerReceiver workerReceiver = gson.fromJson(jsonObj, WorkerReceiver.class);
-                match.workerPlacement(this, workerReceiver);
+                matchRun.workerPlacement(this, workerReceiver);
                 break;
             case PROMETHEUS_BUILD_RECEIVER:
                 PrometheusBuildReceiver prometheusBuildReceiver = gson.fromJson(jsonObj, PrometheusBuildReceiver.class);
@@ -223,7 +222,8 @@ public class SocketThread extends Thread {
                 break;
             case PLAYER_NUMBER:
                 PlayerNumber playerNumber = gson.fromJson(jsonObj, PlayerNumber.class);
-                setMatch(manager.getMatch(playerNumber.getN()));
+                //TODO:passa la cosa giusta a setmatchSocket
+                setMatchSocket(manager.getMatch(playerNumber.getN()));
                 break;
             case REPLAY:
                 matchSocket.detachSocket(this);
@@ -243,9 +243,9 @@ public class SocketThread extends Thread {
 
     /***
      * Set the match reference after the number of player choice and add my reference to the match
-     * @param match the match reference to be set
+     * @param matchSocket the match reference to be set
      */
-    public void setMatch(MatchSocket matchSocket) {
+    public void setMatchSocket(MatchSocket matchSocket) {
         this.matchSocket = matchSocket;
         matchSocket.addSocket(this);
     }
