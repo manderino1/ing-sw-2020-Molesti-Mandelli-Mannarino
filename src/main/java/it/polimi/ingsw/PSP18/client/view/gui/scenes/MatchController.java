@@ -321,38 +321,11 @@ public class MatchController extends Controller {
         Group workerSelected = pickWorker(oldWork1);
         Group workerEnemy = pickWorker(oldWork2);
 
-        /*
-        int oldHeight = mapCells[oldWork1.getX()][oldWork1.getY()].getBuilding();
-        int newHeight = mapCells[newWork1.getX()][newWork1.getY()].getBuilding();
-
-        timeline.setCycleCount(1);
-        assert workerSelected != null;
-        assert workerEnemy != null;
-
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
-                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork1.getX()),Interpolator.EASE_OUT)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
-                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork1.getY()), Interpolator.EASE_OUT)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerSelected.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-4, Interpolator.EASE_OUT)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
-                new KeyValue (workerSelected.translateYProperty(), -deltaToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
-        */
-        final Timeline timeline = setupTimeline(workerSelected, oldWork1, newWork1,1000);
+        final Timeline timeline = setupTimeline(workerSelected, oldWork1, newWork1,1000, 4);
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
                 new KeyValue (workerSelected.rotateProperty(), workerSelected.getRotate()-360, Interpolator.EASE_BOTH)));
-        /*
-        enemyTimeline.setCycleCount(1);
-        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateXProperty(), indexToCoordinateX(newWork2.getX()),Interpolator.EASE_OUT)));
-        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateZProperty(), indexToCoordinateY(newWork2.getY()),Interpolator.EASE_OUT)));
-        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                new KeyValue (workerEnemy.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
-        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateYProperty(), -deltaToCoordinateZ(0,oldHeight), Interpolator.EASE_BOTH)));
-        */
-        final Timeline enemyTimeline = setupTimeline(workerEnemy,oldWork2, newWork2,500);
+
+        final Timeline enemyTimeline = setupTimeline(workerEnemy,oldWork2, newWork2,500, 0.8);
         offsetTimeline.setCycleCount(1);
         offsetTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
                 new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(oldWork1.getX()))));
@@ -414,49 +387,14 @@ public class MatchController extends Controller {
      * @param newWork2 the second worker new reference
      */
     public void minotaurMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWork2){
-        /*
-        final Timeline timeline = new Timeline();
-        final Timeline enemyTimeline = new Timeline();
 
-         */
         final Timeline offsetTimeline = new Timeline();
-
 
         Group workerSelected = pickWorker(oldWork1);
         Group workerEnemy = pickWorker(oldWork2);
-/*
-        int oldHeight = mapCells[oldWork1.getX()][oldWork1.getY()].getBuilding();
-        int newHeight = mapCells[newWork1.getX()][newWork1.getY()].getBuilding();
 
-        int oldHeightEnemy = mapCells[oldWork2.getX()][oldWork2.getY()].getBuilding();
-        int newHeightEnemy = mapCells[newWork2.getX()][newWork2.getY()].getBuilding();
-
-        timeline.setCycleCount(1);
-        assert workerSelected != null;
-        assert workerEnemy != null;
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork1.getX()),Interpolator.EASE_OUT)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork1.getY()), Interpolator.EASE_OUT)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                new KeyValue (workerSelected.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerSelected.translateYProperty(), -deltaToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
-
-        enemyTimeline.setCycleCount(1);
-        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateXProperty(), indexToCoordinateX(newWork2.getX()),Interpolator.EASE_OUT)));
-        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateZProperty(), indexToCoordinateY(newWork2.getY()),Interpolator.EASE_OUT)));
-        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                new KeyValue (workerEnemy.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeightEnemy), deltaToCoordinateZ(0,newHeightEnemy))-0.8, Interpolator.EASE_OUT)));
-        enemyTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-                new KeyValue (workerEnemy.translateYProperty(), -deltaToCoordinateZ(0,newHeightEnemy), Interpolator.EASE_BOTH)));
-
-
- */
-        final Timeline timeline = setupTimeline(workerSelected,oldWork1,newWork1,500);
-        final Timeline enemyTimeline = setupTimeline(workerEnemy,oldWork2, newWork2,500);
+        final Timeline timeline = setupTimeline(workerSelected,oldWork1,newWork1,500,0.8);
+        final Timeline enemyTimeline = setupTimeline(workerEnemy,oldWork2, newWork2,500, 0.8);
         offsetTimeline.setCycleCount(1);
         offsetTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),
                 new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(oldWork1.getX()))));
@@ -467,7 +405,7 @@ public class MatchController extends Controller {
 
     }
 
-    public Timeline setupTimeline(Group workerSelected, Worker oldWork, Worker newWork, int duration){
+    public Timeline setupTimeline(Group workerSelected, Worker oldWork, Worker newWork, int duration, double height){
 
         int oldHeight = mapCells[oldWork.getX()][oldWork.getY()].getBuilding();
         int newHeight = mapCells[newWork.getX()][newWork.getY()].getBuilding();
@@ -480,7 +418,7 @@ public class MatchController extends Controller {
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(duration),
                 new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()), Interpolator.EASE_OUT)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis((double)duration/2),
-                new KeyValue (workerSelected.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));
+                new KeyValue (workerSelected.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-height, Interpolator.EASE_OUT)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(duration),
                 new KeyValue (workerSelected.translateYProperty(), -deltaToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));
         return timeline;
@@ -556,42 +494,7 @@ public class MatchController extends Controller {
      * @param worker the reference of the worker to be removed
      */
     public void removeWorker(Worker worker) {
-        /*
-        switch (worker.getPlayerColor()) {
-            case BLUE:
-                switch(worker.getID()){
-                    case 0:
-                        workerGroup = workList.get("WB1");
-                        break;
-                    case 1:
-                        workerGroup = workList.get("WB2");
-                        break;
-                }
-                break;
 
-            case RED:
-                switch(worker.getID()){
-                    case 0:
-                        workerGroup = workList.get("WR1");
-                        break;
-                    case 1:
-                        workerGroup = workList.get("WR2");
-                        break;
-                }
-                break;
-
-            case GREEN:
-                switch(worker.getID()){
-                    case 0:
-                        workerGroup = workList.get("WW1");
-                        break;
-                    case 1:
-                        workerGroup = workList.get("WW2");
-                        break;
-                }
-                break;
-        }
- */
         Group finalWorkerGroup = pickWorker(worker);
         Platform.runLater(() -> matchSceneGroup.getChildren().remove(finalWorkerGroup));
     }
