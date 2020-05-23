@@ -10,6 +10,10 @@ import it.polimi.ingsw.PSP18.server.view.MapObserver;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/***
+ * class that deals with all the set up methods used before the actual match start like:
+ * checking for the players ready status and the divinities chosen,
+ */
 public class MatchSetUp {
     private int playerN;
     private ArrayList<String> divinitySelection = new ArrayList<>();
@@ -18,6 +22,11 @@ public class MatchSetUp {
     private MatchSocket matchSocket;
     private MatchRun matchRun;
 
+    /***
+     * Constructor of MatchSetup, initializes matchSocket and the number of players in the current match
+     * @param matchSocket object containing all the players infos and their sockets
+     * @param playerN number of players in the game
+     */
     public MatchSetUp(MatchSocket matchSocket, int playerN){
         String[] divArray = {"Apollo", "Artemis", "Athena", "Atlas", "Demeter", "Hephaestus", "Minotaur", "Pan", "Prometheus"};
         divinities = new ArrayList<>(Arrays.asList(divArray));
@@ -85,6 +94,11 @@ public class MatchSetUp {
         }
     }
 
+    /***
+     * Method used to send the DivinityPick message which allows the last player og the lobby to pick the divinities
+     * list to choose from between the original nine
+     * @param divinities list containing the 9 divinities
+     */
     public void divinitySelection(ArrayList<String> divinities) {
         for(String divinity : divinities) {
             if(!this.divinities.contains(divinity)) {

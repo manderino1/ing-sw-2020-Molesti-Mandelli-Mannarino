@@ -10,6 +10,10 @@ import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/***
+ * class that contains all information about the players in the match, their sockets and also all the methods to
+ * manage them
+ */
 public class MatchSocket {
     private MatchStatus matchStatus;
     private ArrayList<PlayerManager> playerManagers;
@@ -114,10 +118,16 @@ public class MatchSocket {
         return playerSocketMap.get(currentPlayer);
     }
 
+    /***
+     * @return the hash map that relates a playerManager with his socketThread
+     */
     public HashMap<PlayerManager, SocketThread> getPlayerSocketMap() {
         return playerSocketMap;
     }
 
+    /***
+     * @return the hash map that relates a socketThread with his playerManager
+     */
     public HashMap<SocketThread, PlayerManager> getSocketPlayerMap() {
         return socketPlayerMap;
     }

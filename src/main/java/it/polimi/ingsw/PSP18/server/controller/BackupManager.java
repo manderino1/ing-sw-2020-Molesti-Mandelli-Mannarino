@@ -15,10 +15,19 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/***
+ * class that deals with the backup side of the game, once a player disconnects and reconnects
+ */
+
 public class BackupManager {
     private MatchSocket matchSocket;
     private MatchRun matchRun;
 
+    /***
+     * Constructor for the BackupManager class, initializes the matchSocket and the matchRun objects
+     * @param matchSocket object that contains infos about players in the game and their sockets
+     * @param matchRun object that contains object used during a game
+     */
     public BackupManager(MatchSocket matchSocket, MatchRun matchRun){
         this.matchSocket = matchSocket;
         this.matchRun = matchRun;

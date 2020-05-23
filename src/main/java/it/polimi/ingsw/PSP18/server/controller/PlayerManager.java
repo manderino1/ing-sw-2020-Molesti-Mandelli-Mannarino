@@ -14,7 +14,6 @@ public class PlayerManager {
 
     /***
      * Class constructor, initializes the  and the playerData
-     * 
      * @param playerData data of the player
      */
     public PlayerManager(PlayerData playerData) {
@@ -23,7 +22,6 @@ public class PlayerManager {
 
     /***
      * Class constructor, initializes the  and the playerData
-     * 
      * @param playerData data of the player
      * @param divinity the name of the choosen divinity
      */
