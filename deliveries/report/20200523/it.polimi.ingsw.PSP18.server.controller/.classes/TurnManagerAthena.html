@@ -1,0 +1,130 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TurnManagerAthena</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TurnManagerAthena (it.polimi.ingsw.PSP18.server.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TurnManagerAthena</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.controller;
+<i>2</i>&nbsp;/***
+<i>3</i>&nbsp; * class that articulates the players&#39; turns when Athena is in the game
+<i>4</i>&nbsp; */
+<i>5</i>&nbsp;public class TurnManagerAthena extends TurnManager {
+<b class="fc"><i>6</i>&nbsp;    public boolean bool = false;</b>
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;    /***
+<i>9</i>&nbsp;     * constructor of the class, start managing the turn of the players in the current match
+<i>10</i>&nbsp;     * @param matchSocket reference to the class that manages sockets and players
+<i>11</i>&nbsp;     * @param backupManager  reference to the class that manages backup, to backup at the end of turn
+<i>12</i>&nbsp;     */
+<i>13</i>&nbsp;    public TurnManagerAthena(MatchSocket matchSocket, BackupManager backupManager) {
+<b class="fc"><i>14</i>&nbsp;        super(matchSocket, backupManager);</b>
+<b class="fc"><i>15</i>&nbsp;    }</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /***
+<i>18</i>&nbsp;     * constructor of the class, start managing the turn of the players in the current match
+<i>19</i>&nbsp;     * @param matchSocket reference to the class that manages sockets and players
+<i>20</i>&nbsp;     * @param backupManager  reference to the class that manages backup, to backup at the end of turn
+<i>21</i>&nbsp;     * @param indexCurrentPlayer the index of the player that has to play, for restoring
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    public TurnManagerAthena(MatchSocket matchSocket, BackupManager backupManager, int indexCurrentPlayer) {
+<b class="fc"><i>24</i>&nbsp;        super(matchSocket, backupManager, indexCurrentPlayer);</b>
+<b class="fc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /***
+<i>28</i>&nbsp;     * When the following turn starts call the manage turn function
+<i>29</i>&nbsp;     * bool is true if athena moved up last turn
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    @Override
+<i>32</i>&nbsp;    public void manageTurn(){
+<b class="fc"><i>33</i>&nbsp;        for(PlayerManager player : matchSocket.getPlayerManagers()) {</b>
+<b class="fc"><i>34</i>&nbsp;            if(player.getDivinityName().equals(&quot;Athena&quot;)) { // Update Athena movement</b>
+<b class="fc"><i>35</i>&nbsp;                if(player.getPlayerData().getLastMove() != null) {</b>
+<b class="fc"><i>36</i>&nbsp;                    bool = (player.getPlayerData().getLastMove().getLevel() == 1);</b>
+<i>37</i>&nbsp;                }
+<i>38</i>&nbsp;            }
+<b class="fc"><i>39</i>&nbsp;        }</b>
+<i>40</i>&nbsp;
+<b class="fc"><i>41</i>&nbsp;        if(matchSocket.getPlayerManagers().get(indexCurrentPlayer).getDivinityName().equals(&quot;Athena&quot;)) { // Athena can go up</b>
+<b class="fc"><i>42</i>&nbsp;            matchSocket.getPlayerManagers().get(indexCurrentPlayer).manageTurn(false);</b>
+<i>43</i>&nbsp;        } else { // Call the manager with the correct raiseForbidden parameter
+<b class="fc"><i>44</i>&nbsp;            matchSocket.getPlayerManagers().get(indexCurrentPlayer).manageTurn(bool);</b>
+<i>45</i>&nbsp;        }
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-23 17:05</div>
+</div>
+</body>
+</html>

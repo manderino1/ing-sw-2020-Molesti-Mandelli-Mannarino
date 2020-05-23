@@ -146,6 +146,7 @@ public class InputParser {
 
     /***
      * Send the requested number of player
+     * @param n number of players to be sent to the server
      */
     public void sendPlayerNumber(int n) {
         socket.sendMessage(new PlayerNumber(n));

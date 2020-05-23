@@ -11,6 +11,7 @@ public class MatchWon extends ClientAbstractMessage{
     /***
      * Init the type and the ID of the player that has won
      * @param playerID The player ID
+     * @param me true if i'm the one that has won
      */
     public MatchWon(String playerID, boolean me){
         this.type=ClientMessageType.MATCH_WON;

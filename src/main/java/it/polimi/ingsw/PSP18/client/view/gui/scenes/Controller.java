@@ -68,7 +68,7 @@ public abstract class Controller implements Initializable {
 
     /***
      * tandard function used from inherited classes for removing effect on hovering exit
-     * @param mouseEvent
+     * @param mouseEvent the mouse event reference
      */
     public void hoverExit(MouseEvent mouseEvent) {
         ((Node)mouseEvent.getSource()).setEffect(null);

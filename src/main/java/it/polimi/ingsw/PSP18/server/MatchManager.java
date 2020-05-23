@@ -25,6 +25,7 @@ public class MatchManager {
 
     /***
      * Returns che match to add the socket to
+     * @param size the number of players into the game
      * @return returns the active match to add the socket to
      */
     public MatchSocket getMatchSocket(int size) {

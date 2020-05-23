@@ -3,7 +3,5 @@
 newmtl mura
 Kd 0.8231999874115 0.83999997377396 0.82348001003265
 map_Kd tex/Cliff_v001.png
-Ks 1 1 1
-Ns 50
 illum 7
 

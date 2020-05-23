@@ -14,6 +14,7 @@ public class DivinityPick extends ClientAbstractMessage {
     /***
      * Constructor of DivinityReceiver, message used to set the divinity name using a string in input
      * @param divinities the divinity chosen by the player
+     * @param nOfPlayers the total number of players into the game
      */
     public DivinityPick(ArrayList<String> divinities, int nOfPlayers) {
         this.type = ClientMessageType.DIVINITY_PICK;

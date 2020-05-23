@@ -15,10 +15,19 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/***
+ * class that deals with the backup side of the game, once a player disconnects and reconnects
+ */
+
 public class BackupManager {
     private MatchSocket matchSocket;
     private MatchRun matchRun;
 
+    /***
+     * Constructor for the BackupManager class, initializes the matchSocket and the matchRun objects
+     * @param matchSocket object that contains infos about players in the game and their sockets
+     * @param matchRun object that contains object used during a game
+     */
     public BackupManager(MatchSocket matchSocket, MatchRun matchRun){
         this.matchSocket = matchSocket;
         this.matchRun = matchRun;
@@ -47,6 +56,7 @@ public class BackupManager {
 
     /***
      * Check for an existent backup
+     * @param players the list of the players connected
      * @return true if there is a backup in memory
      */
     public static boolean backupCheck(ArrayList<PlayerManager> players) {

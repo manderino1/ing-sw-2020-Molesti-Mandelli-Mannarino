@@ -13,6 +13,7 @@ public class BuildListFlag extends BuildList {
     /***
      * Constructor of BuildListFlag, init the move list
      * @param buildList the list of possible moves
+     * @param worker the reference of the worker from who the build is done
      */
     public BuildListFlag(ArrayList<Direction> buildList, Worker worker){
         super(buildList, worker);

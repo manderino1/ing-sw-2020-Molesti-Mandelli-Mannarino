@@ -13,6 +13,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/***
+ * class that deals with all the request of the game map, workers, turn manager, and the backUp file name
+ */
 public class MatchRun {
     private TurnManager turnManager;
     private GameMap gameMap;
@@ -22,6 +25,7 @@ public class MatchRun {
 
     /***
      * MatchRun constructor, initializes all the attributes used during a game game
+     * @param matchSocket for obtaining info about sockets and players connected to the match
      */
     public MatchRun(MatchSocket matchSocket){
         gameMap = new GameMap();
@@ -46,13 +50,14 @@ public class MatchRun {
 
     /***
      * Set the turn manager reference
+     * @param turnManager the turn manager reference
      */
     public void setTurnManager(TurnManager turnManager) {
         this.turnManager = turnManager;
     }
 
     /***
-     * method that recieve the worker placed form the player in the client and place them in actual gameMap in the server
+     * method that receive the worker placed form the player in the client and place them in actual gameMap in the server
      * @param socket the socket we receive message from
      * @param workers the worker the player has placed
      */

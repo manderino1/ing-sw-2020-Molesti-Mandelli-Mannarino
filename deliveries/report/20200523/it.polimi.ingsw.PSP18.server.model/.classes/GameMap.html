@@ -1,0 +1,233 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameMap</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameMap (it.polimi.ingsw.PSP18.server.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameMap</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (46/ 46)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.networking.SocketThread;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.server.view.MapObserver;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/***
+<i>10</i>&nbsp; * This is the class that contains all the methods to manage the game map
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class GameMap {
+<b class="fc"><i>13</i>&nbsp;    private Cell[][] mapCells = new Cell[5][5];</b>
+<i>14</i>&nbsp;    private boolean lastActionIsBuild;
+<b class="fc"><i>15</i>&nbsp;    private int lastActionX = -1, lastActionY = -1;</b>
+<b class="fc"><i>16</i>&nbsp;    private ArrayList&lt;MapObserver&gt; observers = new ArrayList&lt;&gt;();</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /***
+<i>19</i>&nbsp;     * GameMap constructor, initializes the map matrix
+<i>20</i>&nbsp;     */
+<b class="fc"><i>21</i>&nbsp;    public GameMap() {</b>
+<b class="fc"><i>22</i>&nbsp;        for (int i=0; i&lt;5; i++){</b>
+<b class="fc"><i>23</i>&nbsp;            for (int j=0; j&lt;5; j++){</b>
+<b class="fc"><i>24</i>&nbsp;                mapCells[i][j]= new Cell();</b>
+<i>25</i>&nbsp;            }
+<i>26</i>&nbsp;        }
+<b class="fc"><i>27</i>&nbsp;    }</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /***
+<i>30</i>&nbsp;     * Return map cells
+<i>31</i>&nbsp;     * @return 5x5 map matrix
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    public Cell[][] getMapCells() {
+<b class="fc"><i>34</i>&nbsp;        return mapCells;</b>
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /***
+<i>38</i>&nbsp;     * Get a chosen cell from the game map matrix
+<i>39</i>&nbsp;     * @param x the x coordinate of the cell
+<i>40</i>&nbsp;     * @param y the y coordinate of the cell
+<i>41</i>&nbsp;     * @return the chosen map cell
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public Cell getCell(int x, int y) {
+<b class="fc"><i>44</i>&nbsp;        return mapCells[x][y];</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /***
+<i>48</i>&nbsp;     * Set new parameters of a cell into the game matrix
+<i>49</i>&nbsp;     * @param x the x coordinate of the cell to modify
+<i>50</i>&nbsp;     * @param y the y coordinate of the cell to modify
+<i>51</i>&nbsp;     * @param building the reference to the building in the cell, 0 if ground
+<i>52</i>&nbsp;     * @param worker the reference to the eventual worker in the cell, null if not present
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;    public void setCell(int x, int y, Integer building, Worker worker) {
+<b class="fc"><i>55</i>&nbsp;        this.lastActionX = x;</b>
+<b class="fc"><i>56</i>&nbsp;        this.lastActionY = y;</b>
+<b class="fc"><i>57</i>&nbsp;        this.lastActionIsBuild = !mapCells[x][y].getBuilding().equals(building);</b>
+<b class="fc"><i>58</i>&nbsp;        mapCells[x][y].setBuilding(building);</b>
+<b class="fc"><i>59</i>&nbsp;        mapCells[x][y].setWorker(worker);</b>
+<b class="fc"><i>60</i>&nbsp;        notifyObservers();</b>
+<b class="fc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /***
+<i>64</i>&nbsp;     * Set a new map into the game
+<i>65</i>&nbsp;     * @param mapCells the array of map cells
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    public void setMapCells(Cell[][] mapCells) {
+<b class="fc"><i>68</i>&nbsp;        this.mapCells = mapCells;</b>
+<b class="fc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /***
+<i>72</i>&nbsp;     * Place a dome into the selected cell
+<i>73</i>&nbsp;     * @param x the x coordinate of the cell to modify
+<i>74</i>&nbsp;     * @param y the y coordinate of the cell to modify
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;    public void setDome(int x, int y) {
+<b class="fc"><i>77</i>&nbsp;        this.lastActionX = x;</b>
+<b class="fc"><i>78</i>&nbsp;        this.lastActionY = y;</b>
+<b class="fc"><i>79</i>&nbsp;        this.lastActionIsBuild = true;</b>
+<b class="fc"><i>80</i>&nbsp;        mapCells[x][y].setDome();</b>
+<b class="fc"><i>81</i>&nbsp;        notifyObservers();</b>
+<b class="fc"><i>82</i>&nbsp;    }</b>
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    /***
+<i>85</i>&nbsp;     * Attach a new observer into the observers list
+<i>86</i>&nbsp;     * @param observer the new observer reference
+<i>87</i>&nbsp;     */
+<i>88</i>&nbsp;    public void attach(MapObserver observer) {
+<b class="fc"><i>89</i>&nbsp;        observers.add(observer);</b>
+<b class="fc"><i>90</i>&nbsp;        notifyObservers();</b>
+<b class="fc"><i>91</i>&nbsp;    }</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    /***
+<i>94</i>&nbsp;     * Detach the observer from the observers list
+<i>95</i>&nbsp;     * @param observer the observer to remove
+<i>96</i>&nbsp;     */
+<i>97</i>&nbsp;    public void detach(MapObserver observer) {
+<b class="fc"><i>98</i>&nbsp;        observers.remove(observer);</b>
+<b class="fc"><i>99</i>&nbsp;    }</b>
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    /***
+<i>102</i>&nbsp;     * The function notifies all the observers that a change is happened in its model
+<i>103</i>&nbsp;     */
+<i>104</i>&nbsp;    public void notifyObservers() {
+<b class="fc"><i>105</i>&nbsp;        for(MapObserver observer : observers) {</b>
+<b class="fc"><i>106</i>&nbsp;            observer.update(this);</b>
+<b class="fc"><i>107</i>&nbsp;        }</b>
+<b class="fc"><i>108</i>&nbsp;    }</b>
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    /***
+<i>111</i>&nbsp;     * Detach the observers corresponding with the given socket
+<i>112</i>&nbsp;     * @param socket the socket to remove
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    public void detachSocket(SocketThread socket) {
+<b class="fc"><i>115</i>&nbsp;        ArrayList&lt;MapObserver&gt; toRemove = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>116</i>&nbsp;        for(MapObserver observer : observers) {</b>
+<b class="fc"><i>117</i>&nbsp;            if(observer.getSocket().equals(socket)) {</b>
+<b class="fc"><i>118</i>&nbsp;                toRemove.add(observer);</b>
+<i>119</i>&nbsp;            }
+<b class="fc"><i>120</i>&nbsp;        }</b>
+<i>121</i>&nbsp;
+<b class="fc"><i>122</i>&nbsp;        for(MapObserver observer : toRemove) {</b>
+<b class="fc"><i>123</i>&nbsp;            detach(observer);</b>
+<b class="fc"><i>124</i>&nbsp;        }</b>
+<b class="fc"><i>125</i>&nbsp;    }</b>
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    /***
+<i>128</i>&nbsp;     * Get the x coordinate of the last action
+<i>129</i>&nbsp;     * @return the x coordinate of the last action
+<i>130</i>&nbsp;     */
+<i>131</i>&nbsp;    public int getLastActionX() {
+<b class="fc"><i>132</i>&nbsp;        return lastActionX;</b>
+<i>133</i>&nbsp;    }
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;    /***
+<i>136</i>&nbsp;     * Get the y coordinate of the last action
+<i>137</i>&nbsp;     * @return the y coordinate of the last action
+<i>138</i>&nbsp;     */
+<i>139</i>&nbsp;    public int getLastActionY() {
+<b class="fc"><i>140</i>&nbsp;        return lastActionY;</b>
+<i>141</i>&nbsp;    }
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;    /***
+<i>144</i>&nbsp;     * True if the last action is a build
+<i>145</i>&nbsp;     * @return true if last action is a build
+<i>146</i>&nbsp;     */
+<i>147</i>&nbsp;    public boolean isLastActionIsBuild() {
+<b class="fc"><i>148</i>&nbsp;        return lastActionIsBuild;</b>
+<i>149</i>&nbsp;    }
+<i>150</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-23 17:05</div>
+</div>
+</body>
+</html>

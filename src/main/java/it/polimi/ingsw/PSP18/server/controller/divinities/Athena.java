@@ -13,6 +13,8 @@ public class Athena extends Divinity {
      * Constructor of the class, initialize divinity parameters name and playerManager
      * @param name the name of the divinity
      * @param playerManager the playerManager reference
+     * @param matchRun reference of the match running management section
+     * @param matchSocket for obtaining info about sockets and players connected to the match
      */
     public Athena(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
         super(name, playerManager, matchSocket, matchRun);

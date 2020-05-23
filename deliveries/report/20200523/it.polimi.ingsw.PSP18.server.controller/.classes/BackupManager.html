@@ -1,0 +1,247 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BackupManager</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BackupManager (it.polimi.ingsw.PSP18.server.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BackupManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,6%
+  </span>
+  <span class="absValue">
+    (83/ 97)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.gson.Gson;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.networking.SocketThread;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.StartMatch;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP18.server.backup.PlayerManagerBackup;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Color;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.GameMap;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.MatchStatus;
+<i>10</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.PlayerData;
+<i>11</i>&nbsp;import it.polimi.ingsw.PSP18.server.view.MapObserver;
+<i>12</i>&nbsp;import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import java.io.*;
+<i>15</i>&nbsp;import java.util.ArrayList;
+<i>16</i>&nbsp;import java.util.HashMap;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;/***
+<i>19</i>&nbsp; * class that deals with the backup side of the game, once a player disconnects and reconnects
+<i>20</i>&nbsp; */
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;public class BackupManager {
+<i>23</i>&nbsp;    private MatchSocket matchSocket;
+<i>24</i>&nbsp;    private MatchRun matchRun;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /***
+<i>27</i>&nbsp;     * Constructor for the BackupManager class, initializes the matchSocket and the matchRun objects
+<i>28</i>&nbsp;     * @param matchSocket object that contains infos about players in the game and their sockets
+<i>29</i>&nbsp;     * @param matchRun object that contains object used during a game
+<i>30</i>&nbsp;     */
+<b class="fc"><i>31</i>&nbsp;    public BackupManager(MatchSocket matchSocket, MatchRun matchRun){</b>
+<b class="fc"><i>32</i>&nbsp;        this.matchSocket = matchSocket;</b>
+<b class="fc"><i>33</i>&nbsp;        this.matchRun = matchRun;</b>
+<b class="fc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    /***
+<i>37</i>&nbsp;     * Every end of turn update the match backup
+<i>38</i>&nbsp;     */
+<i>39</i>&nbsp;    public void updateFile() {
+<i>40</i>&nbsp;        try {
+<b class="fc"><i>41</i>&nbsp;            File directory = new File(&quot;Backups&quot;);</b>
+<b class="fc"><i>42</i>&nbsp;            if (! directory.exists()){</b>
+<b class="nc"><i>43</i>&nbsp;                directory.mkdir();</b>
+<i>44</i>&nbsp;            }
+<b class="fc"><i>45</i>&nbsp;            if(matchRun.getFileName() != null) {</b>
+<b class="fc"><i>46</i>&nbsp;                FileWriter myWriter = new FileWriter(matchRun.getFileName(), false);</b>
+<b class="fc"><i>47</i>&nbsp;                Gson gson = new Gson();</b>
+<b class="fc"><i>48</i>&nbsp;                myWriter.write(gson.toJson(new it.polimi.ingsw.PSP18.server.backup.MatchBackup(matchSocket.getPlayerManagers(), matchRun.getTurnManager().getIndexCurrentPlayer(), matchSocket.getMatchStatus(), matchRun.getGameMap().getMapCells())));</b>
+<b class="fc"><i>49</i>&nbsp;                myWriter.flush();</b>
+<b class="fc"><i>50</i>&nbsp;                myWriter.close();</b>
+<i>51</i>&nbsp;            }
+<b class="nc"><i>52</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>53</i>&nbsp;            e.printStackTrace();</b>
+<b class="fc"><i>54</i>&nbsp;        }</b>
+<b class="fc"><i>55</i>&nbsp;    }</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /***
+<i>58</i>&nbsp;     * Check for an existent backup
+<i>59</i>&nbsp;     * @param players the list of the players connected
+<i>60</i>&nbsp;     * @return true if there is a backup in memory
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;    public static boolean backupCheck(ArrayList&lt;PlayerManager&gt; players) {
+<i>63</i>&nbsp;        try {
+<b class="fc"><i>64</i>&nbsp;            String fileName = &quot;Backups/match_&quot;;</b>
+<b class="fc"><i>65</i>&nbsp;            ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>66</i>&nbsp;            for(PlayerManager player : players) {</b>
+<b class="fc"><i>67</i>&nbsp;                names.add(player.getPlayerData().getPlayerID());</b>
+<b class="fc"><i>68</i>&nbsp;            }</b>
+<b class="fc"><i>69</i>&nbsp;            names.sort(String::compareToIgnoreCase);</b>
+<b class="fc"><i>70</i>&nbsp;            for(String name: names) {</b>
+<b class="fc"><i>71</i>&nbsp;                fileName = fileName.concat(name);</b>
+<b class="fc"><i>72</i>&nbsp;            }</b>
+<b class="fc"><i>73</i>&nbsp;            fileName = fileName.concat(&quot;.bak&quot;);</b>
+<b class="fc"><i>74</i>&nbsp;            new FileReader(fileName);</b>
+<b class="fc"><i>75</i>&nbsp;        } catch (FileNotFoundException e) {</b>
+<b class="fc"><i>76</i>&nbsp;            return false;</b>
+<b class="nc"><i>77</i>&nbsp;        }</b>
+<b class="nc"><i>78</i>&nbsp;        return true;</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    public void backupRestore() {
+<i>82</i>&nbsp;        try {
+<b class="fc"><i>83</i>&nbsp;            String fileName = &quot;Backups/match_&quot;;</b>
+<b class="fc"><i>84</i>&nbsp;            ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>85</i>&nbsp;            for(PlayerManager player : matchSocket.getPlayerManagers()) {</b>
+<b class="fc"><i>86</i>&nbsp;                names.add(player.getPlayerData().getPlayerID());</b>
+<b class="fc"><i>87</i>&nbsp;            }</b>
+<b class="fc"><i>88</i>&nbsp;            names.sort(String::compareToIgnoreCase);</b>
+<b class="fc"><i>89</i>&nbsp;            for(String name: names) {</b>
+<b class="fc"><i>90</i>&nbsp;                fileName = fileName.concat(name);</b>
+<b class="fc"><i>91</i>&nbsp;            }</b>
+<b class="fc"><i>92</i>&nbsp;            matchRun.setFileName(fileName.concat(&quot;.bak&quot;));</b>
+<b class="fc"><i>93</i>&nbsp;            FileReader fileReader = new FileReader(this.matchRun.getFileName());</b>
+<b class="fc"><i>94</i>&nbsp;            Gson gson = new Gson();</b>
+<b class="fc"><i>95</i>&nbsp;            it.polimi.ingsw.PSP18.server.backup.MatchBackup matchBackup = gson.fromJson(fileReader, it.polimi.ingsw.PSP18.server.backup.MatchBackup.class);</b>
+<b class="fc"><i>96</i>&nbsp;            boolean athena = false;</b>
+<i>97</i>&nbsp;            // Match backupped with same nicknames, restore it
+<b class="fc"><i>98</i>&nbsp;            for (PlayerManagerBackup playerBackupped : matchBackup.getPlayerManagers()) {</b>
+<b class="fc"><i>99</i>&nbsp;                for (PlayerManager playerConnected : matchSocket.getPlayerManagers()) {</b>
+<b class="fc"><i>100</i>&nbsp;                    if (playerConnected.getPlayerData().getPlayerID().equals(playerBackupped.getPlayerData().getPlayerID())) {</b>
+<b class="fc"><i>101</i>&nbsp;                        if(playerBackupped.getPlayerData().getDivinity().equals(&quot;Athena&quot;)) {</b>
+<b class="nc"><i>102</i>&nbsp;                            athena = true;</b>
+<i>103</i>&nbsp;                        }
+<b class="fc"><i>104</i>&nbsp;                        PlayerData playerData = new PlayerData(playerBackupped.getPlayerData().getPlayerID(), playerBackupped.getPlayerData().getPlayerColor(), playerBackupped.getPlayerData().getPlayOrder());</b>
+<b class="fc"><i>105</i>&nbsp;                        if(playerBackupped.getPlayerData().getReady()) {</b>
+<b class="nc"><i>106</i>&nbsp;                            playerData.setReady();</b>
+<i>107</i>&nbsp;                        }
+<b class="fc"><i>108</i>&nbsp;                        playerData.setDivinity(playerBackupped.getPlayerData().getDivinity());</b>
+<b class="fc"><i>109</i>&nbsp;                        if(playerBackupped.getPlayerData().getHasLost()) {</b>
+<b class="nc"><i>110</i>&nbsp;                            playerData.setLost();</b>
+<i>111</i>&nbsp;                        }
+<b class="fc"><i>112</i>&nbsp;                        playerData.setLastMove(playerBackupped.getPlayerData().getLastMove());</b>
+<b class="fc"><i>113</i>&nbsp;                        PlayerManager playerManager = new PlayerManager(matchRun, playerData, playerBackupped.getPlayerData().getDivinity(), matchSocket);</b>
+<b class="fc"><i>114</i>&nbsp;                        matchSocket.getPlayerManagers().add(playerManager);</b>
+<b class="fc"><i>115</i>&nbsp;                        SocketThread socket = matchSocket.getPlayerSocketMap().get(playerConnected);</b>
+<b class="fc"><i>116</i>&nbsp;                        matchSocket.getPlayerSocketMap().remove(playerConnected);</b>
+<b class="fc"><i>117</i>&nbsp;                        matchSocket.getPlayerSocketMap().put(playerManager, socket);</b>
+<b class="fc"><i>118</i>&nbsp;                        matchSocket.getSocketPlayerMap().remove(socket);</b>
+<b class="fc"><i>119</i>&nbsp;                        matchSocket.getSocketPlayerMap().put(matchSocket.getPlayerSocketMap().get(playerManager), playerManager);</b>
+<b class="fc"><i>120</i>&nbsp;                        matchSocket.getPlayerManagers().remove(playerConnected);</b>
+<b class="fc"><i>121</i>&nbsp;                        break;</b>
+<i>122</i>&nbsp;                    }
+<b class="nc"><i>123</i>&nbsp;                }</b>
+<b class="fc"><i>124</i>&nbsp;            }</b>
+<b class="fc"><i>125</i>&nbsp;            matchSocket.setMatchStatus(matchBackup.getMatchStatus());</b>
+<b class="fc"><i>126</i>&nbsp;            matchRun.getGameMap().setMapCells(matchBackup.getGameMap());</b>
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;            // Find the workers and insert them
+<b class="fc"><i>129</i>&nbsp;            HashMap&lt;Color, PlayerManager&gt; hashColor = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>130</i>&nbsp;            for(PlayerManager player : matchSocket.getPlayerManagers()) {</b>
+<b class="fc"><i>131</i>&nbsp;                hashColor.put(player.getPlayerData().getPlayerColor(), player);</b>
+<b class="fc"><i>132</i>&nbsp;            }</b>
+<b class="fc"><i>133</i>&nbsp;            for(int i=0; i&lt;=4; i++) {</b>
+<b class="fc"><i>134</i>&nbsp;                for(int j=0; j&lt;=4; j++) {</b>
+<b class="fc"><i>135</i>&nbsp;                    if(matchRun.getGameMap().getCell(i,j).getWorker() != null) {</b>
+<b class="fc"><i>136</i>&nbsp;                        hashColor.get(matchRun.getGameMap().getCell(i,j).getWorker().getPlayerColor()).setWorkers(matchRun.getGameMap().getCell(i,j).getWorker(), matchRun.getGameMap().getCell(i,j).getWorker().getID());</b>
+<i>137</i>&nbsp;                    }
+<i>138</i>&nbsp;                }
+<i>139</i>&nbsp;            }
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;            // Reset the observers
+<b class="fc"><i>142</i>&nbsp;            for(SocketThread sock : matchSocket.getSockets()) {</b>
+<b class="fc"><i>143</i>&nbsp;                for(PlayerManager player : matchSocket.getPlayerManagers()) {</b>
+<b class="fc"><i>144</i>&nbsp;                    player.getPlayerData().attach(new PlayerDataObserver(sock));</b>
+<b class="fc"><i>145</i>&nbsp;                }</b>
+<b class="fc"><i>146</i>&nbsp;                matchRun.getGameMap().attach(new MapObserver(sock));</b>
+<b class="fc"><i>147</i>&nbsp;                sock.sendMessage(new StartMatch());</b>
+<b class="fc"><i>148</i>&nbsp;            }</b>
+<i>149</i>&nbsp;
+<b class="fc"><i>150</i>&nbsp;            if(athena) {</b>
+<b class="nc"><i>151</i>&nbsp;                matchRun.setTurnManager( new TurnManagerAthena(matchSocket, this, matchBackup.getIndexCurrentPlayer()));</b>
+<i>152</i>&nbsp;            } else {
+<b class="fc"><i>153</i>&nbsp;                matchRun.setTurnManager( new TurnManager(matchSocket, this, matchBackup.getIndexCurrentPlayer()));</b>
+<i>154</i>&nbsp;            }
+<i>155</i>&nbsp;            try {
+<b class="fc"><i>156</i>&nbsp;                fileReader.close();</b>
+<b class="nc"><i>157</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>158</i>&nbsp;                e.printStackTrace();</b>
+<b class="fc"><i>159</i>&nbsp;            }</b>
+<b class="nc"><i>160</i>&nbsp;        } catch (FileNotFoundException e) {</b>
+<b class="nc"><i>161</i>&nbsp;            e.printStackTrace();</b>
+<b class="fc"><i>162</i>&nbsp;        }</b>
+<b class="fc"><i>163</i>&nbsp;    }</b>
+<i>164</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-23 17:05</div>
+</div>
+</body>
+</html>
