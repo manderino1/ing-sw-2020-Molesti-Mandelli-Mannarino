@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Move;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,6 +64,9 @@ public class TestTurnManager {
         matchSocket.getPlayerManagers().get(1).placeWorker(1, 1);
         TurnManager turnManager = new TurnManager(matchSocket, new BackupManager(matchSocket, matchRun));
         turnManager.manageTurn();
+        turnManager = new TurnManager(matchSocket, new BackupManager(matchSocket, matchRun),0);
+        Assert.assertEquals( Integer.valueOf(0), turnManager.getIndexCurrentPlayer());
+        turnManager.manageTurn();
     }
 
     /***
@@ -74,10 +78,10 @@ public class TestTurnManager {
         MatchRun matchRun = new MatchRun(matchSocket);
         SocketThread socketThread1 = new SocketThread(socket, null);
         socketThread1.start();
-        matchSocket.addPlayer(new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Divinity", matchSocket), socketThread1);
+        matchSocket.addPlayer(new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Athena", matchSocket), socketThread1);
         SocketThread socketThread2 = new SocketThread(socket, null);
         socketThread2.start();
-        matchSocket.addPlayer(new PlayerManager(matchRun, new PlayerData("Test2", Color.GREEN, 1), "Divinity", matchSocket), socketThread2);
+        matchSocket.addPlayer(new PlayerManager(matchRun, new PlayerData("Test2", Color.GREEN, 1), "Apollo", matchSocket), socketThread2);
         matchSocket.getPlayerManagers().get(0).placeWorker(0, 0);
         matchSocket.getPlayerManagers().get(0).placeWorker(4, 0);
         matchSocket.getPlayerManagers().get(1).placeWorker(0, 4);
@@ -87,6 +91,9 @@ public class TestTurnManager {
         Move move = new Move(Direction.DOWN, 2);
         matchSocket.getPlayerManagers().get(0).getPlayerData().setLastMove(move);
         matchSocket.getPlayerManagers().get(1).getPlayerData().setLastMove(move);
+        turnManager.manageTurn();
+        turnManager = new TurnManagerAthena(matchSocket, new BackupManager(matchSocket, matchRun),0);
+        matchSocket.getPlayerManagers().get(0).getPlayerData().setLastMove(new Move(Direction.UP,0));
         turnManager.manageTurn();
     }
     @Test
