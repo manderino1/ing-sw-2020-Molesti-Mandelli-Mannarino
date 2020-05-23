@@ -382,6 +382,8 @@ public class GuiViewUpdate extends ViewUpdate {
         if(finished) {
             playerDataArrayList.clear();
             socket.sendMessage(new Replay());
+        } else {
+            parent.setDisable(false);
         }
     }
 
