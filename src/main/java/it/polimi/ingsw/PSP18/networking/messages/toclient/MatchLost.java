@@ -12,6 +12,8 @@ public class MatchLost extends ClientAbstractMessage{
     /***
      * Init the type of the message and the ID of the player that has lost
      * @param playerID the player ID
+     * @param isFinished true if the match has ended
+     * @param me true if i'm the one that has lost
      */
     public MatchLost(String playerID, boolean me, boolean isFinished){
         this.type=ClientMessageType.MATCH_LOST;

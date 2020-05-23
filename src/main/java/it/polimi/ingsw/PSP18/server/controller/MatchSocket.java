@@ -25,6 +25,7 @@ public class MatchSocket {
 
     /***
      * MatchSocket constructor, initializes the sockets, playerManagers, and the two HasMaps
+     * @param playerN the number of players into the game
      */
     public MatchSocket(int playerN){
         matchStatus = MatchStatus.WAITING_FOR_PLAYERS;

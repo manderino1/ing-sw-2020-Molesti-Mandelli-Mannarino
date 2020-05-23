@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PlayerDataBackup</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.backup</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PlayerDataBackup (it.polimi.ingsw.PSP18.server.backup)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayerDataBackup</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (18/ 18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.backup;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Color;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Move;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.PlayerData;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/***
+<i>8</i>&nbsp; * Class that saves all the player&#39;s data
+<i>9</i>&nbsp; */
+<i>10</i>&nbsp;public class PlayerDataBackup {
+<i>11</i>&nbsp;    private String playerID;
+<i>12</i>&nbsp;    private Color playerColor;
+<i>13</i>&nbsp;    private Integer playOrder;
+<i>14</i>&nbsp;    private Move lastMove;
+<i>15</i>&nbsp;    private String divinity;
+<b class="fc"><i>16</i>&nbsp;    private Boolean isReady = false;</b>
+<b class="fc"><i>17</i>&nbsp;    private Boolean hasLost = false;</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /***
+<i>20</i>&nbsp;     * Constructor of the class, initialize the attributes of the class with the backed up players&#39; data
+<i>21</i>&nbsp;     * @param playerData parameter that contains the player information
+<i>22</i>&nbsp;     */
+<b class="fc"><i>23</i>&nbsp;    public PlayerDataBackup(PlayerData playerData) {</b>
+<b class="fc"><i>24</i>&nbsp;        this.playerID = playerData.getPlayerID();</b>
+<b class="fc"><i>25</i>&nbsp;        this.playerColor = playerData.getPlayerColor();</b>
+<b class="fc"><i>26</i>&nbsp;        this.playOrder = playerData.getPlayOrder();</b>
+<b class="fc"><i>27</i>&nbsp;        this.lastMove = playerData.getLastMove();</b>
+<b class="fc"><i>28</i>&nbsp;        this.divinity = playerData.getDivinity();</b>
+<b class="fc"><i>29</i>&nbsp;        this.isReady = playerData.getReady();</b>
+<b class="fc"><i>30</i>&nbsp;        this.hasLost = playerData.getLost();</b>
+<b class="fc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;    /***
+<i>33</i>&nbsp;     * return the player&#39;s ID
+<i>34</i>&nbsp;     * @return the player&#39;s ID
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    public String getPlayerID() {
+<b class="fc"><i>37</i>&nbsp;        return playerID;</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;    /***
+<i>40</i>&nbsp;     * return the player&#39;s color
+<i>41</i>&nbsp;     * @return the player&#39;s color
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public Color getPlayerColor() {
+<b class="fc"><i>44</i>&nbsp;        return playerColor;</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;    /***
+<i>47</i>&nbsp;     * return the player turn order
+<i>48</i>&nbsp;     * @return the player turn order
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    public Integer getPlayOrder() {
+<b class="fc"><i>51</i>&nbsp;        return playOrder;</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;    /***
+<i>54</i>&nbsp;     * return the last move of the player
+<i>55</i>&nbsp;     * @return the the last move of the player
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public Move getLastMove() {
+<b class="fc"><i>58</i>&nbsp;        return lastMove;</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;    /***
+<i>61</i>&nbsp;     * return the player&#39;s divinity
+<i>62</i>&nbsp;     * @return the the player&#39;s divinity
+<i>63</i>&nbsp;     */
+<i>64</i>&nbsp;    public String getDivinity() {
+<b class="fc"><i>65</i>&nbsp;        return divinity;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;    /***
+<i>68</i>&nbsp;     * return true if the player is ready
+<i>69</i>&nbsp;     * @return true if the player is ready
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;    public Boolean getReady() {
+<b class="fc"><i>72</i>&nbsp;        return isReady;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;    /***
+<i>75</i>&nbsp;     * return true if the player lost the game
+<i>76</i>&nbsp;     * @return true if the player lost the game
+<i>77</i>&nbsp;     */
+<i>78</i>&nbsp;    public Boolean getHasLost() {
+<b class="fc"><i>79</i>&nbsp;        return hasLost;</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-23 17:05</div>
+</div>
+</body>
+</html>

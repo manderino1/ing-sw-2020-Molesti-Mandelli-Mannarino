@@ -12,6 +12,7 @@ public class AtlasBuildList extends BuildList {
     /***
      * Init the message type and the move list array
      * @param buildlist the possible moves
+     * @param worker the worker base where the build is done
      */
     public AtlasBuildList(ArrayList<Direction> buildlist, Worker worker) {
         super(buildlist, worker);

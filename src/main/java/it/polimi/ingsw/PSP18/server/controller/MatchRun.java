@@ -25,6 +25,7 @@ public class MatchRun {
 
     /***
      * MatchRun constructor, initializes all the attributes used during a game game
+     * @param matchSocket for obtaining info about sockets and players connected to the match
      */
     public MatchRun(MatchSocket matchSocket){
         gameMap = new GameMap();
@@ -49,6 +50,7 @@ public class MatchRun {
 
     /***
      * Set the turn manager reference
+     * @param turnManager the turn manager reference
      */
     public void setTurnManager(TurnManager turnManager) {
         this.turnManager = turnManager;

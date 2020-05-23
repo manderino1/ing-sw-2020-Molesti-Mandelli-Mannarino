@@ -24,6 +24,8 @@ public class PlayerManager {
      * Class constructor, initializes the  and the playerData
      * @param playerData data of the player
      * @param divinity the name of the choosen divinity
+     * @param matchRun reference of the match running management section
+     * @param matchSocket for obtaining info about sockets and players connected to the match
      */
     public PlayerManager(MatchRun matchRun, PlayerData playerData, String divinity, MatchSocket matchSocket) {
         this.matchRun = matchRun;
@@ -34,6 +36,7 @@ public class PlayerManager {
     /***
      * Called from the constructor, create a divinity of the correct type given by the player
      * @param divinityName string representing the name of the divinity to be created
+     * @param matchSocket for obtaining info about sockets and players connected to the match
      */
     public void divinityCreation(String divinityName, MatchSocket matchSocket) {
         switch(divinityName) {
@@ -102,6 +105,7 @@ public class PlayerManager {
     /***
      * Set the workers when restoring the backup
      * @param worker the worker 1 reference
+     * @param id the id of the worker to be set
      */
     public void setWorkers(Worker worker, int id) {
         this.workers[id] = worker;

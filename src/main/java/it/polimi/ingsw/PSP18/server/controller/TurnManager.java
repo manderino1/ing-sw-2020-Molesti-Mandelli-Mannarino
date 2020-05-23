@@ -25,6 +25,7 @@ public class TurnManager {
      * constructor of the class, start managing the turn of the players in the current match
      * @param matchSocket reference to the class that manages sockets and players
      * @param backupManager  reference to the class that manages backup, to backup at the end of turn
+     * @param indexCurrentPlayer the index of the player to start the match from
      */
     public TurnManager(MatchSocket matchSocket, BackupManager backupManager, int indexCurrentPlayer) {
         this.matchSocket = matchSocket;

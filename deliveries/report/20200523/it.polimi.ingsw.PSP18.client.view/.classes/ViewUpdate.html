@@ -1,0 +1,113 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ViewUpdate</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.client.view</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ViewUpdate (it.polimi.ingsw.PSP18.client.view)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ViewUpdate</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.client.view;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.IOException;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/***
+<i>8</i>&nbsp; * This is the abstract class for CliViewUpdate where are implemented all the methods used for the command line interface
+<i>9</i>&nbsp; */
+<b class="fc"><i>10</i>&nbsp;public abstract class ViewUpdate {</b>
+<i>11</i>&nbsp;    public abstract void updateMap(GameMapUpdate gameMapUpdate);
+<i>12</i>&nbsp;    public abstract void moveUpdate(MoveList movelist);
+<i>13</i>&nbsp;    public abstract void updatePlayerData(PlayerDataUpdate playerDataUpdate);
+<i>14</i>&nbsp;    public abstract void selectNick();
+<i>15</i>&nbsp;    public abstract void selectDivinity(DivinityList divinityList);
+<i>16</i>&nbsp;    public abstract void buildUpdate(BuildList buildList);
+<i>17</i>&nbsp;    public abstract void matchLostUpdate(MatchLost matchLost);
+<i>18</i>&nbsp;    public abstract void matchWonUpdate(MatchWon matchWon);
+<i>19</i>&nbsp;    public abstract void startMatch(StartMatch startMatch);
+<i>20</i>&nbsp;    public abstract void matchReadyUpdate(MatchReady matchReady);
+<i>21</i>&nbsp;    public abstract void setWorker(PlaceReady placeReady);
+<i>22</i>&nbsp;    public abstract void prometheusBuildListUpdate(PrometheusBuildList prometheusBuildList);
+<i>23</i>&nbsp;    public abstract void singleMoveUpdate(SingleMoveList singleMoveList);
+<i>24</i>&nbsp;    public abstract void buildListFlagUpdate(BuildListFlag buildListFlag);
+<i>25</i>&nbsp;    public abstract void endTurn(EndTurnAvaiable endTurnAvaiable);
+<i>26</i>&nbsp;    public abstract void atlasBuildUpdate(AtlasBuildList atlasBuildList);
+<i>27</i>&nbsp;    public abstract void divinitySelection(DivinityPick divinityPick);
+<i>28</i>&nbsp;    public abstract void playerNumber();
+<i>29</i>&nbsp;    public abstract void serverDisconnected();
+<i>30</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-23 17:05</div>
+</div>
+</body>
+</html>

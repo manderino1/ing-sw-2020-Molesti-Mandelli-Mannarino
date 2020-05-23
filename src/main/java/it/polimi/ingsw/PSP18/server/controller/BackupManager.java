@@ -56,6 +56,7 @@ public class BackupManager {
 
     /***
      * Check for an existent backup
+     * @param players the list of the players connected
      * @return true if there is a backup in memory
      */
     public static boolean backupCheck(ArrayList<PlayerManager> players) {

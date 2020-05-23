@@ -20,6 +20,7 @@ public class SingleMoveList extends ClientAbstractMessage {
      * @param moveList the list of possible moves for worker #1
      * @param workerID the worker ID
      * @param optional true if the move is optional
+     * @param worker worker that has to move
      */
     public SingleMoveList(ArrayList<Direction> moveList, Integer workerID, boolean optional, Worker worker) {
         this.type = ClientMessageType.SINGLE_MOVE_LIST;

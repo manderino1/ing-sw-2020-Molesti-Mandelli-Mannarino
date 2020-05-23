@@ -31,6 +31,8 @@ public class Divinity {
      * Class constructor
      * @param name name of the divinity
      * @param playerManager player manager that has this divinity
+     * @param matchRun reference of the match running management section
+     * @param matchSocket for obtaining info about sockets and players connected to the match
      */
     public Divinity(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
         this.name = name;

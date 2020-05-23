@@ -18,6 +18,8 @@ public class PrometheusBuildList extends ClientAbstractMessage {
      * Constructor of BuildList
      * @param buildlist1 the array of possibles moves of the first worker
      * @param buildlist2 the array of possibles moves of the second worker
+     * @param worker1 first worker reference for special build
+     * @param worker2 second worker reference for special build
      */
     public PrometheusBuildList(ArrayList<Direction> buildlist1, ArrayList<Direction> buildlist2, Worker worker1, Worker worker2){
         this.type=ClientMessageType.PROMETHEUS_BUILD_LIST;

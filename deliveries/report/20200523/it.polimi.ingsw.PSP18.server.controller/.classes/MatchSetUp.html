@@ -1,0 +1,195 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MatchSetUp</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MatchSetUp (it.polimi.ingsw.PSP18.server.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MatchSetUp</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91,7%
+  </span>
+  <span class="absValue">
+    (44/ 48)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.networking.SocketThread;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.DivinityList;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.DivinityPick;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.PlaceReady;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.MatchStatus;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP18.server.view.MapObserver;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;import java.util.Arrays;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/***
+<i>14</i>&nbsp; * class that deals with all the set up methods used before the actual match start like:
+<i>15</i>&nbsp; * checking for the players ready status and the divinities chosen,
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class MatchSetUp {
+<i>18</i>&nbsp;    private int playerN;
+<b class="fc"><i>19</i>&nbsp;    private ArrayList&lt;String&gt; divinitySelection = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>20</i>&nbsp;    private Integer divinitySelectionIndex = 0;</b>
+<i>21</i>&nbsp;    private ArrayList&lt;String&gt; divinities;
+<i>22</i>&nbsp;    private MatchSocket matchSocket;
+<i>23</i>&nbsp;    private MatchRun matchRun;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /***
+<i>26</i>&nbsp;     * Constructor of MatchSetup, initializes matchSocket and the number of players in the current match
+<i>27</i>&nbsp;     * @param matchSocket object containing all the players infos and their sockets
+<i>28</i>&nbsp;     * @param playerN number of players in the game
+<i>29</i>&nbsp;     */
+<b class="fc"><i>30</i>&nbsp;    public MatchSetUp(MatchSocket matchSocket, int playerN){</b>
+<b class="fc"><i>31</i>&nbsp;        String[] divArray = {&quot;Apollo&quot;, &quot;Artemis&quot;, &quot;Athena&quot;, &quot;Atlas&quot;, &quot;Demeter&quot;, &quot;Hephaestus&quot;, &quot;Minotaur&quot;, &quot;Pan&quot;, &quot;Prometheus&quot;};</b>
+<b class="fc"><i>32</i>&nbsp;        divinities = new ArrayList&lt;&gt;(Arrays.asList(divArray));</b>
+<b class="fc"><i>33</i>&nbsp;        this.matchSocket = matchSocket;</b>
+<b class="fc"><i>34</i>&nbsp;        this.playerN = playerN;</b>
+<b class="fc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /***
+<i>38</i>&nbsp;     * Wait for all the players to be ready and then start the divinity selection phase
+<i>39</i>&nbsp;     * @param socket the reference to the socket
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    public void readyManagement(SocketThread socket) {
+<b class="fc"><i>42</i>&nbsp;        matchSocket.getSocketPlayerMap().get(socket).getPlayerData().setReady();</b>
+<b class="fc"><i>43</i>&nbsp;        for(PlayerManager player : matchSocket.getPlayerManagers()) {</b>
+<b class="fc"><i>44</i>&nbsp;            if(!player.getPlayerData().getReady() || matchSocket.getPlayerManagers().size() != playerN || matchSocket.getPlayerManagers().size() &lt;= 1) {</b>
+<b class="fc"><i>45</i>&nbsp;                return;</b>
+<i>46</i>&nbsp;            }
+<b class="fc"><i>47</i>&nbsp;        }</b>
+<i>48</i>&nbsp;        // Check if there is a match saved with these players
+<b class="fc"><i>49</i>&nbsp;        matchRun = new MatchRun(matchSocket);</b>
+<i>50</i>&nbsp;        // Set match run references to sockets
+<b class="fc"><i>51</i>&nbsp;        for(SocketThread sock : matchSocket.getSockets()) {</b>
+<b class="fc"><i>52</i>&nbsp;            sock.setMatchRun(matchRun);</b>
+<b class="fc"><i>53</i>&nbsp;        }</b>
+<i>54</i>&nbsp;        // Set match run references to playerManagers
+<b class="fc"><i>55</i>&nbsp;        for(PlayerManager player : matchSocket.getPlayerManagers()) {</b>
+<b class="fc"><i>56</i>&nbsp;            player.setMatchRun(matchRun);</b>
+<b class="fc"><i>57</i>&nbsp;        }</b>
+<b class="fc"><i>58</i>&nbsp;        boolean hasBackup = BackupManager.backupCheck(matchSocket.getPlayerManagers());</b>
+<i>59</i>&nbsp;        // If i manage to arrive here all the players are ready, i can start the divinity selection phase
+<b class="fc"><i>60</i>&nbsp;        if(!hasBackup) {</b>
+<b class="fc"><i>61</i>&nbsp;            matchSocket.setMatchStatus(MatchStatus.DIVINITIES_SELECTION);</b>
+<b class="fc"><i>62</i>&nbsp;            matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(matchSocket.getPlayerManagers().size()-1)).sendMessage(new DivinityPick(divinities, matchSocket.getPlayerManagers().size()));</b>
+<i>63</i>&nbsp;        } else {
+<b class="nc"><i>64</i>&nbsp;            BackupManager backupManager = new BackupManager(matchSocket, matchRun);</b>
+<b class="nc"><i>65</i>&nbsp;            backupManager.backupRestore();</b>
+<i>66</i>&nbsp;        }
+<b class="fc"><i>67</i>&nbsp;    }</b>
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /***
+<i>70</i>&nbsp;     * Create the divinity of the player that decided which divinity to use
+<i>71</i>&nbsp;     * If there are no more players that have to choose the divinity start the match
+<i>72</i>&nbsp;     * If there are other players, ask the next to choose the divinity
+<i>73</i>&nbsp;     * @param socket the socket reference, used to get the correct player
+<i>74</i>&nbsp;     * @param divinity string that represent the divinity to be created
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;    public void divinityCreation(SocketThread socket, String divinity) {
+<i>77</i>&nbsp;        // Check that the divinity selection is correct
+<b class="fc"><i>78</i>&nbsp;        if(!divinitySelection.contains(divinity)) {</b>
+<b class="nc"><i>79</i>&nbsp;            matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));</b>
+<i>80</i>&nbsp;        }
+<b class="fc"><i>81</i>&nbsp;        matchSocket.getSocketPlayerMap().get(socket).divinityCreation(divinity, matchSocket); // use to change divinity</b>
+<b class="fc"><i>82</i>&nbsp;        if(divinitySelectionIndex == matchSocket.getPlayerManagers().size()) {</b>
+<i>83</i>&nbsp;            // Set observers
+<b class="fc"><i>84</i>&nbsp;            for(SocketThread sock : matchSocket.getSockets()) {</b>
+<b class="fc"><i>85</i>&nbsp;                matchRun.getGameMap().attach(new MapObserver(sock));</b>
+<b class="fc"><i>86</i>&nbsp;            }</b>
+<i>87</i>&nbsp;
+<b class="fc"><i>88</i>&nbsp;            matchSocket.setMatchStatus(MatchStatus.WORKER_SETUP);</b>
+<b class="fc"><i>89</i>&nbsp;            matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(0)).sendMessage(new PlaceReady());</b>
+<i>90</i>&nbsp;        } else {
+<b class="fc"><i>91</i>&nbsp;            divinitySelection.remove(divinity);</b>
+<b class="fc"><i>92</i>&nbsp;            matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinitySelection));</b>
+<b class="fc"><i>93</i>&nbsp;            divinitySelectionIndex++;</b>
+<i>94</i>&nbsp;        }
+<b class="fc"><i>95</i>&nbsp;    }</b>
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    /***
+<i>98</i>&nbsp;     * Method used to send the DivinityPick message which allows the last player og the lobby to pick the divinities
+<i>99</i>&nbsp;     * list to choose from between the original nine
+<i>100</i>&nbsp;     * @param divinities list containing the 9 divinities
+<i>101</i>&nbsp;     */
+<i>102</i>&nbsp;    public void divinitySelection(ArrayList&lt;String&gt; divinities) {
+<b class="fc"><i>103</i>&nbsp;        for(String divinity : divinities) {</b>
+<b class="fc"><i>104</i>&nbsp;            if(!this.divinities.contains(divinity)) {</b>
+<b class="nc"><i>105</i>&nbsp;                matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(matchSocket.getPlayerManagers().size()-1)).sendMessage(new DivinityPick(divinities, matchSocket.getPlayerManagers().size()));</b>
+<i>106</i>&nbsp;            }
+<b class="fc"><i>107</i>&nbsp;        }</b>
+<b class="fc"><i>108</i>&nbsp;        divinitySelection = divinities;</b>
+<b class="fc"><i>109</i>&nbsp;        matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(divinitySelectionIndex)).sendMessage(new DivinityList(divinities));</b>
+<b class="fc"><i>110</i>&nbsp;        divinitySelectionIndex++;</b>
+<b class="fc"><i>111</i>&nbsp;    }</b>
+<i>112</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-23 17:05</div>
+</div>
+</body>
+</html>
