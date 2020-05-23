@@ -17,18 +17,27 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/***
+ * Controller for login.fxml, used for IP input and socket connection
+ */
 public class LoginController extends Controller {
     @FXML
     private TextField ipAddress;
-
     private final int PORT = 9002;
 
+    /***
+     * @param location url reference (unused)
+     * @param resources class bundle (unused)
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
         this.pageID = "Login";
     }
 
+    /***
+     * Connect button callback, try to connect to the chosen ip and eventually prompt retry message
+     */
     @FXML
     private void inputIP() {
         try {

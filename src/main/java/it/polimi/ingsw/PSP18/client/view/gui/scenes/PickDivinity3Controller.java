@@ -15,6 +15,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/***
+ * Controller of fxml to display the choice between three divinities
+ */
 public class PickDivinity3Controller extends Controller {
     @FXML
     public ImageView divinitySelected1;
@@ -37,27 +40,47 @@ public class PickDivinity3Controller extends Controller {
 
     private DivinityList divinityList;
 
+    /***
+     * @param location url reference (unused)
+     * @param resources class bundle (unused)
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
         this.pageID = "PickDivinity3";
     }
 
-    public void divinityClick1(MouseEvent mouseEvent) {
+    /***
+     * Divinity click callback
+     */
+    @FXML
+    private void divinityClick1() {
         socket.sendMessage(new DivinityReceiver(divinityList.getDivinities().get(0)));
         view.goToWait();
     }
 
-    public void divinityClick2(MouseEvent mouseEvent) {
+    /***
+     * Divinity click callback
+     */
+    @FXML
+    private void divinityClick2() {
         socket.sendMessage(new DivinityReceiver(divinityList.getDivinities().get(1)));
         view.goToWait();
     }
 
-    public void divinityClick3(MouseEvent mouseEvent) {
+    /***
+     * Divinity click callback
+     */
+    @FXML
+    private void divinityClick3() {
         socket.sendMessage(new DivinityReceiver(divinityList.getDivinities().get(2)));
         view.goToWait();
     }
 
+    /***
+     * Set the correct image of the divinity
+     * @param divinityList list of the possible divinities
+     */
     public void showChoices(DivinityList divinityList) {
         this.divinityList = divinityList;
 

@@ -14,6 +14,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/***
+ * Controller for LobbyController.fxml
+ * Manages the lobby, nickname insert and ready management
+ */
 public class LobbyController extends Controller {
     @FXML
     private Text firstPlayerReady;
@@ -53,12 +57,20 @@ public class LobbyController extends Controller {
     private boolean isReady = false;
     private boolean firstNick = true;
 
+    /***
+     * Init function that sets up the page id
+     * @param location unused
+     * @param resources unused
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
         this.pageID = "Lobby";
     }
 
+    /***
+     * Ready button callback, tell the server that the user is ready
+     */
     @FXML
     private void readyButtonClicked() {
         if(!isReady && nickOK) {
@@ -70,6 +82,9 @@ public class LobbyController extends Controller {
         }
     }
 
+    /***
+     * Confirm button callback, send the server the selected nick
+     */
     @FXML
     private void confirmButtonClicked() {
         if(!nickOK) {
@@ -79,6 +94,10 @@ public class LobbyController extends Controller {
         }
     }
 
+    /***
+     * Called on insert nick request from the server
+     * If called more than once is because the nickname is already used
+     */
     public void insertNick() {
         Image image = new Image("/2DGraphics/RedButton.png");
         confirmButton.setImage(image);
@@ -90,6 +109,9 @@ public class LobbyController extends Controller {
         nickOK = false;
     }
 
+    /***
+     * Unlock the ready button after correct nick insertion
+     */
     public void unlockReady() {
         Image image = new Image("/2DGraphics/GreenButton.png");
         confirmButton.setImage(image);
@@ -97,6 +119,10 @@ public class LobbyController extends Controller {
         nickOK = true;
     }
 
+    /***
+     * Update other players data when other users connect and select their nick
+     * @param players array of connected players
+     */
     public void updatePlayers(ArrayList<PlayerData> players) {
         boolean firstNickInput = true;
         for (PlayerData playerData : players){
@@ -110,6 +136,17 @@ public class LobbyController extends Controller {
         }
     }
 
+    /***
+     * Called from the updatePlayers function to update a single player
+     * @param playerData data of the player to insert
+     * @param blueBox2 blue box surrounding image
+     * @param nick2 nick of the player
+     * @param secondPlayer text under player
+     * @param secondPlayerReady text under player, tells play order
+     * @param secondPlayerDivinity text under player, shows divinity name if selected
+     * @param yellowBox2 yellow box surrounding image
+     * @param secondReadyStatus text under player, present if ready
+     */
     private void updateSinglePlayer(PlayerData playerData, ImageView blueBox2, Text nick2, Text secondPlayer, Text secondPlayerReady, ImageView secondPlayerDivinity, ImageView yellowBox2, Text secondReadyStatus) {
         Platform.runLater(() -> {
             blueBox2.setVisible(true);
