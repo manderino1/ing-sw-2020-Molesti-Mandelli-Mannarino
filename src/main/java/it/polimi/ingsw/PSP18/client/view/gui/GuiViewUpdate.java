@@ -207,6 +207,7 @@ public class GuiViewUpdate extends ViewUpdate {
                 }
                 Controller controller = loader.getController();
                 controller.setView(this);
+                parent.setDisable(true); // Disable user input
                 popup.show(stage);
                 if(!matchLost.isFinished()) {
                     ((PopupController) controller).setSpectate();
@@ -232,6 +233,7 @@ public class GuiViewUpdate extends ViewUpdate {
                 }
                 Controller controller = loader.getController();
                 controller.setView(this);
+                parent.setDisable(true); // Disable user input
                 popup.show(stage);
             });
         }
@@ -386,6 +388,7 @@ public class GuiViewUpdate extends ViewUpdate {
     @Override
     public void serverDisconnected(){
         Platform.runLater(() -> {
+            parent.setDisable(true);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/ReconnectPopUp.fxml"));
             try {
                 popup.getContent().add(loader.load());
@@ -400,6 +403,12 @@ public class GuiViewUpdate extends ViewUpdate {
 
     public void reconnect() {
         playerDataArrayList.clear();
-        switchScene("Login");
+        try {
+            Socket sock = new Socket(socket.getIP().getHostName(), socket.getIP().getPort());
+            socket = new SocketClient(sock, this);
+            socket.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
