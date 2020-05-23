@@ -79,19 +79,16 @@ public class PlayerManager {
      * @param x the x coordinate in the map of the worker to be placed
      * @param y the y coordinate in the map of the worker to be placed
      */
-    //TODO: check if somehow you can place a worker in a spot out of bounds, use checkCoordinate from DirectionManagement if needed
     public void placeWorker(Integer x, Integer y) {
         if(workers[0] == null) {
             workers[0] = new Worker(x, y, 0, playerData.getPlayerColor());
             matchRun.getGameMap().setCell(x, y, matchRun.getGameMap().getCell(x,y).getBuilding(), workers[0]);
-            //TODO: throw exception if cell is occupied
         }
         else if (workers[1] == null) {
             workers[1] = new Worker(x, y, 1, playerData.getPlayerColor());
             matchRun.getGameMap().setCell(x, y, matchRun.getGameMap().getCell(x,y).getBuilding(), workers[1]);
-        }
-        else {
-            //TODO: throw exception if too many workers
+        } else {
+            System.err.println("Already 2 workers present");
         }
     }
 

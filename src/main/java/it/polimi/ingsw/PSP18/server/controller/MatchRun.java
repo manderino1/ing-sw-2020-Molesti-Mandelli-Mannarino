@@ -57,7 +57,12 @@ public class MatchRun {
      * @param workers the worker the player has placed
      */
     public void workerPlacement(SocketThread socket, WorkerReceiver workers) {
-        if(gameMap.getCell(workers.getX1(), workers.getY1()).getWorker() != null || gameMap.getCell(workers.getX2(), workers.getY2()).getWorker() != null) {
+        // If cell occupied or out of bounds (check already in client, just hack check) re-prompt
+        if(gameMap.getCell(workers.getX1(), workers.getY1()).getWorker() != null ||
+                gameMap.getCell(workers.getX2(), workers.getY2()).getWorker() != null ||
+                workers.getX1() < 0 || workers.getX1() > 4 || workers.getX2() < 0 ||
+                workers.getX2() > 4 || workers.getY1() < 0 || workers.getY1() > 4 ||
+                workers.getY2() < 0 || workers.getY2() > 4) {
             matchSocket.getPlayerSocketMap().get(matchSocket.getPlayerManagers().get(workerPlacementIndex)).sendMessage(new PlaceReady());
         }
         matchSocket.getSocketPlayerMap().get(socket).placeWorker(workers.getX1(), workers.getY1());

@@ -2,7 +2,6 @@ package it.polimi.ingsw.PSP18.client.view.gui.scenes;
 
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -11,6 +10,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/***
+ * Controller for fxml for waiting the match start after divinity selection
+ */
 public class WaitingRoomController extends Controller {
     @FXML
     private Text firstPlayerReady;
@@ -29,23 +31,22 @@ public class WaitingRoomController extends Controller {
     @FXML
     public ImageView blueBox2;
     @FXML
-    private Text nick1;
-    @FXML
-    private ImageView yellowBox1;
-    @FXML
-    private ImageView blueBox1;
-    @FXML
     private Text nick2;
 
-    private boolean firstNickInput = true;
-
+    /***
+     * @param location unused
+     * @param resources unused
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
         this.pageID = "WaitingRoom";
     }
 
-
+    /***
+     * Update other players data when other users connect and select their nick
+     * @param players array of connected players
+     */
     public void updatePlayers(ArrayList<PlayerData> players) {
         boolean firstNickInput = true;
         for (PlayerData playerData : players){

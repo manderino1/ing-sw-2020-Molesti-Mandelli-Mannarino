@@ -160,4 +160,14 @@ public class TestMatch {
         matchRun.endMatch(null);
         Assert.assertEquals(MatchStatus.MATCH_ENDED, matchSocket.getMatchStatus());
     }
+
+    @Test
+    public void detach() {
+        MatchSocket matchSocket = new MatchSocket(2);
+        MatchRun matchRun = new MatchRun(matchSocket);
+        SocketThread socketThread = new SocketThread(socket, null, true);
+        matchSocket.addPlayer(new PlayerManager(new PlayerData("Test", Color.RED, 0)), socketThread);
+        matchSocket.addSocket(socketThread);
+        matchRun.detachSocket(socketThread);
+    }
 }
