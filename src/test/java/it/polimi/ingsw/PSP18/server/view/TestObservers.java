@@ -50,8 +50,7 @@ public class TestObservers {
     @Test
     public void testGameMapObs() {
         GameMap map = new GameMap();
-        MatchSocket matchSocket = new MatchSocket(2);
-        SocketThread socketThread = new SocketThread(socket, null);
+        SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.start();
         MapObserver mapObserver = new MapObserver(socketThread);
 

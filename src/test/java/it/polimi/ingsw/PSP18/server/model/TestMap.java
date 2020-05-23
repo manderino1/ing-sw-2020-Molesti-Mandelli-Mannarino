@@ -1,9 +1,43 @@
 package it.polimi.ingsw.PSP18.server.model;
 
+import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.server.view.MapObserver;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class TestMap {
+    private ByteArrayOutputStream socketOutContent = new ByteArrayOutputStream();
+    private InputStream socketInContent = new InputStream() {
+        @Override
+        public int read() {
+            return -1;  // end of stream
+        }
+    };
+    private Socket socket;
+
+    @Before
+    public void socketMock() {
+        socketOutContent = new ByteArrayOutputStream();
+
+        // Create mock sockets
+        socket = mock(Socket.class);
+        try {
+            when(socket.getOutputStream()).thenReturn(socketOutContent);
+            when(socket.getInputStream()).thenReturn(socketInContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /***
      * Test for checking the creation of the class
      */
@@ -27,5 +61,16 @@ public class TestMap {
         Assert.assertEquals(Integer.valueOf(0), map.getCell(0,0).getBuilding());
         Assert.assertEquals(Integer.valueOf(0), map.getCell(0,0).getWorker().getX());
         Assert.assertEquals(Integer.valueOf(0), map.getCell(0,0).getWorker().getY());
+    }
+
+    @Test
+    public void detach() {
+        GameMap map = new GameMap();
+        SocketThread socketThread = new SocketThread(socket, null, true);
+        socketThread.start();
+        MapObserver mapObserver = new MapObserver(socketThread);
+
+        map.attach(mapObserver);
+        map.detachSocket(socketThread);
     }
 }
