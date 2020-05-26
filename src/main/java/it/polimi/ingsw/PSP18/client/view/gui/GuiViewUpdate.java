@@ -375,15 +375,21 @@ public class GuiViewUpdate extends ViewUpdate {
         return name;
     }
 
-    public void hidePopUp(boolean finished) {
+    public void hidePopUp(boolean finished, boolean reconnect) {
         Platform.runLater(()->popup.hide());
         popup.getContent().clear();
 
+        // If the connection has ended just go back to the player number selection screen
+        if(reconnect) {
+            return;
+        }
+
+        // If the match is finished go back to the player selection screen
         if(finished) {
             playerDataArrayList.clear();
             socket.sendMessage(new Replay());
         } else {
-            parent.setDisable(false);
+            parent.setDisable(false); // Re-enable the user input
         }
     }
 

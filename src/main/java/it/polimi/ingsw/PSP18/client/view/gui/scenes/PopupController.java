@@ -36,7 +36,7 @@ public class PopupController extends Controller {
      */
     @FXML
     private void spectateClick() {
-        view.hidePopUp(false);
+        view.hidePopUp(false, false);
     }
 
     /***
@@ -44,7 +44,7 @@ public class PopupController extends Controller {
      */
     @FXML
     private void againClick() {
-        view.hidePopUp(true);
+        view.hidePopUp(true, false);
     }
 
     /***
@@ -52,7 +52,7 @@ public class PopupController extends Controller {
      */
     @FXML
     private void reconnectClick() {
-        view.hidePopUp(false);
+        view.hidePopUp(false, true);
         view.reconnect();
     }
 
