@@ -33,7 +33,7 @@
             <Image url="@../2DGraphics/cm_backingstone.png" />
          </image>
       </ImageView>
-      <Label layoutX="509.0" layoutY="31.0" prefHeight="134.0" prefWidth="262.0" text="Pick a divinty">
+      <Label alignment="CENTER" layoutX="483.0" layoutY="31.0" prefHeight="134.0" prefWidth="313.0" text="Pick a divinty">
          <font>
             <Font size="43.0" />
          </font>

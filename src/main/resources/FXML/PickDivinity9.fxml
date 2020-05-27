@@ -20,7 +20,7 @@
             <Image url="@../2DGraphics/cm_backingstone.png" />
          </image>
       </ImageView>
-      <Label fx:id="topText" alignment="CENTER" layoutX="456.0" layoutY="31.0" prefHeight="134.0" prefWidth="369.0" text="Pick divinities for the game">
+      <Label fx:id="topText" alignment="CENTER" layoutX="435.0" layoutY="31.0" prefHeight="134.0" prefWidth="416.0" text="Pick divinities for the game">
          <font>
             <Font size="25.0" />
          </font>

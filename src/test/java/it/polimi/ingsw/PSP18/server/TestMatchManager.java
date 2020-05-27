@@ -42,7 +42,7 @@ public class TestMatchManager {
 
     @Test
     public void testMatchManagement() {
-        MatchManager matchManager = new MatchManager();
+        MatchManager matchManager = new MatchManager(true);
         MatchSocket match1 = matchManager.getMatchSocket(2);
         matchManager.getMatchSocket(2).setMatchStatus(MatchStatus.MATCH_ENDED);
         SocketThread socketThread = new SocketThread(socket, matchManager, true);

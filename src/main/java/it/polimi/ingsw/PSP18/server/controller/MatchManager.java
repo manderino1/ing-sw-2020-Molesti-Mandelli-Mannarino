@@ -24,6 +24,21 @@ public class MatchManager {
     }
 
     /***
+     * Constructor that launches the server on a random port
+     */
+    public MatchManager(boolean debug) {
+        SocketServer socketServer;
+        if(debug) {
+            socketServer = new SocketServer(this, true);
+        } else {
+            socketServer = new SocketServer(this);
+        }
+        sizeMap.put(2, new ArrayList<>());
+        sizeMap.put(3, new ArrayList<>());
+        socketServer.start();
+    }
+
+    /***
      * Returns che match to add the socket to
      * @param size the number of players into the game
      * @return returns the active match to add the socket to
