@@ -7,9 +7,13 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.Replay;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
@@ -27,6 +31,7 @@ public class GuiViewUpdate extends ViewUpdate {
     private Parent parent;
     private SocketClient socket;
     private String name;
+    private Pane pane;
     private Popup popup = new Popup();
 
     private ArrayList<PlayerData> playerDataArrayList = new ArrayList<>();
@@ -36,21 +41,71 @@ public class GuiViewUpdate extends ViewUpdate {
      */
     public GuiViewUpdate() {
         FXMLLoader loader;
+        final int WIDTH = 1280;
+        final int HEIGHT = 720;
         loader = new FXMLLoader();
         try {
             loader.setLocation(getClass().getResource("/FXML/Login.fxml"));
             parent = loader.load();
-            scene = new Scene(parent);
             controller = loader.getController();
             controller.setView(this);
             stage = new Stage();
+
+            // Scene fullscreen and resize management
+            // Based on
+            // https://stackoverflow.com/questions/16606162/javafx-fullscreen-resizing-elements-based-upon-screen-size
+            pane = new Pane();
+            pane.getChildren().add(parent);
+            stage.setMinHeight(HEIGHT);
+            stage.setMinWidth(WIDTH);
+            scene = new Scene(pane, WIDTH, HEIGHT);
+            scene.widthProperty().addListener((obs, oldVal, newVal) -> {
+                double scaling;
+                if (scene.getWidth()/scene.getHeight() > ((double)WIDTH)/HEIGHT) {
+                    scaling = scene.getHeight() / HEIGHT;
+                } else {
+                    scaling = scene.getWidth() / WIDTH;
+                }
+
+                if(scaling >= 1) {
+                    pane.setPrefWidth (scene.getWidth()  / scaling);
+                    pane.setPrefHeight(scene.getHeight() / scaling);
+                    Scale scale = new Scale(scaling, scaling);
+                    scale.setPivotX(0);
+                    scale.setPivotY(0);
+                    scene.getRoot().getTransforms().setAll(scale);
+                } else {
+                    pane.setPrefWidth(Math.max(WIDTH,  scene.getWidth()));
+                    pane.setPrefHeight(Math.max(HEIGHT, scene.getHeight()));
+                }
+            });
+            scene.heightProperty().addListener((obs, oldVal, newVal) -> {
+                double scaling;
+                if (scene.getWidth()/scene.getHeight() > ((double)WIDTH)/HEIGHT) {
+                    scaling = scene.getHeight() / HEIGHT;
+                } else {
+                    scaling = scene.getWidth() / WIDTH;
+                }
+
+                if(scaling >= 1) {
+                    pane.setPrefWidth (scene.getWidth()  / scaling);
+                    pane.setPrefHeight(scene.getHeight() / scaling);
+                    Scale scale = new Scale(scaling, scaling);
+                    scale.setPivotX(0);
+                    scale.setPivotY(0);
+                    scene.getRoot().getTransforms().setAll(scale);
+                } else {
+                    pane.setPrefWidth(Math.max(WIDTH,  scene.getWidth()));
+                    pane.setPrefHeight(Math.max(HEIGHT, scene.getHeight()));
+                }
+            });
+            stage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
         stage.setTitle("Santorini");
         stage.setScene(scene);
         stage.show();
-
         stage.setOnCloseRequest( event -> {
             Platform.exit();
             System.exit(0);
@@ -356,7 +411,10 @@ public class GuiViewUpdate extends ViewUpdate {
             controller = loader.getController();
             controller.setSocket(socket);
             controller.setView(this);
-            Platform.runLater(() -> scene.setRoot(parent));
+            Platform.runLater(() -> {
+                pane.getChildren().clear();
+                pane.getChildren().add(parent);
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
