@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP18.server;
+package it.polimi.ingsw.PSP18.server.controller;
 
 import it.polimi.ingsw.PSP18.networking.SocketServer;
 import it.polimi.ingsw.PSP18.server.controller.MatchSocket;

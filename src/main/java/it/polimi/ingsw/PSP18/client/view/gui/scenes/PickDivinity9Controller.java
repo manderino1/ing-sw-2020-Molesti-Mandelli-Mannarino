@@ -29,7 +29,7 @@ public class PickDivinity9Controller extends Controller {
     @FXML
     private Label topText;
 
-    private int nPlayers; // TODO: Add check in the message
+    private int nPlayers;
     private boolean sendOK = false, sent = false;
     private HashMap<ImageView, CheckBox> checkBoxHashMap = new HashMap<>();
 

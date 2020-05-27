@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PSP18.client.view;
 
-import it.polimi.ingsw.PSP18.server.MatchManager;
+import it.polimi.ingsw.PSP18.server.controller.MatchManager;
 import org.junit.Test;
 
 public class TestClientExternal {

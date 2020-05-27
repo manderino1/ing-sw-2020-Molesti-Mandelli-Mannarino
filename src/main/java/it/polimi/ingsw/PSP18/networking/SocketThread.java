@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.ClientPing;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerNumberReady;
-import it.polimi.ingsw.PSP18.server.MatchManager;
+import it.polimi.ingsw.PSP18.server.controller.MatchManager;
 import it.polimi.ingsw.PSP18.server.controller.*;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Atlas;
 import it.polimi.ingsw.PSP18.server.controller.divinities.Prometheus;

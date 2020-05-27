@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 /***
  * Controller of fxml to display the choice between a single divinity
  */
-public class PickDivinity1Controller extends Controller {
+public class PickDivinity1Controller extends PickDivinityController {
     @FXML
     public ImageView divinitySelected;
     @FXML

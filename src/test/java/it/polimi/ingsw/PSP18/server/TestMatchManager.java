@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP18.server;
 
 import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.server.controller.MatchManager;
 import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.model.MatchStatus;
 import org.junit.Assert;
