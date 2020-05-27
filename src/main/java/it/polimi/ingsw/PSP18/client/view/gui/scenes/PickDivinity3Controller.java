@@ -38,7 +38,6 @@ public class PickDivinity3Controller extends PickDivinityController {
     @FXML
     public ImageView divinityPower3;
 
-    private DivinityList divinityList;
 
     /***
      * @param location url reference (unused)
