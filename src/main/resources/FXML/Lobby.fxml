@@ -176,7 +176,7 @@
                </image>
             </ImageView>
             <Button layoutX="223.0" layoutY="114.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="97.0" text="Confirm" />
-            <Text layoutX="184.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a nickname">
+            <Text layoutX="173.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a nickname">
                <font>
                   <Font size="22.0" />
                </font>
@@ -199,7 +199,7 @@
             <Image url="@../2DGraphics/frame_yellow.png" />
          </image>
       </ImageView>
-      <Text layoutX="213.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connected Players:" translateY="-4.0" wrappingWidth="190.7666015625">
+      <Text layoutX="213.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connected Players:" translateY="-4.0" wrappingWidth="230.0">
          <font>
             <Font size="22.0" />
          </font>

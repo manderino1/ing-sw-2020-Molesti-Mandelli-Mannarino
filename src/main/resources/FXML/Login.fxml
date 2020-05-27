@@ -146,7 +146,7 @@
                   <Image url="@../2DGraphics/frame_yellow.png" />
                </image>
             </ImageView>
-            <Label layoutX="93.0" layoutY="-1.0" prefHeight="31.0" prefWidth="75.0" text="IP server:">
+            <Label layoutX="93.0" layoutY="-1.0" prefHeight="31.0" prefWidth="95.0" text="IP server:">
                <font>
                   <Font size="18.0" />
                </font>

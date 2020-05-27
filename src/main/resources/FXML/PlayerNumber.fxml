@@ -145,7 +145,7 @@
                   <Image url="@../2DGraphics/frame_yellow.png" />
                </image>
             </ImageView>
-            <Label fx:id="labelText" layoutX="-36.0" layoutY="27.0" prefHeight="58.0" prefWidth="333.0" text="Select player count:">
+            <Label fx:id="labelText" alignment="CENTER" layoutX="-49.0" layoutY="27.0" prefHeight="58.0" prefWidth="370.0" text="Select player count:">
                <font>
                   <Font size="38.0" />
                </font>
