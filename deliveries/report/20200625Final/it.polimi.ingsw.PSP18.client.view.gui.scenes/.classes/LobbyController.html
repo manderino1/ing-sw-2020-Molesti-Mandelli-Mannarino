@@ -1,0 +1,269 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LobbyController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.client.view.gui.scenes</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LobbyController (it.polimi.ingsw.PSP18.client.view.gui.scenes)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LobbyController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 55)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.client.view.gui.scenes;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toserver.PlayerDataReceiver;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toserver.ReadyReceiver;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.PlayerData;
+<i>6</i>&nbsp;import javafx.application.Platform;
+<i>7</i>&nbsp;import javafx.fxml.FXML;
+<i>8</i>&nbsp;import javafx.scene.control.TextField;
+<i>9</i>&nbsp;import javafx.scene.image.Image;
+<i>10</i>&nbsp;import javafx.scene.image.ImageView;
+<i>11</i>&nbsp;import javafx.scene.text.Text;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import java.net.URL;
+<i>14</i>&nbsp;import java.util.ArrayList;
+<i>15</i>&nbsp;import java.util.ResourceBundle;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;/***
+<i>18</i>&nbsp; * Controller for LobbyController.fxml
+<i>19</i>&nbsp; * Manages the lobby, nickname insert and ready management
+<i>20</i>&nbsp; */
+<b class="nc"><i>21</i>&nbsp;public class LobbyController extends Controller {</b>
+<i>22</i>&nbsp;    @FXML
+<i>23</i>&nbsp;    private Text firstPlayerReady;
+<i>24</i>&nbsp;    @FXML
+<i>25</i>&nbsp;    private Text secondPlayerReady;
+<i>26</i>&nbsp;    @FXML
+<i>27</i>&nbsp;    private Text secondPlayer;
+<i>28</i>&nbsp;    @FXML
+<i>29</i>&nbsp;    private Text firstPlayer;
+<i>30</i>&nbsp;    @FXML
+<i>31</i>&nbsp;    private ImageView firstPlayerDivinity;
+<i>32</i>&nbsp;    @FXML
+<i>33</i>&nbsp;    private ImageView secondPlayerDivinity;
+<i>34</i>&nbsp;    @FXML
+<i>35</i>&nbsp;    private ImageView yellowBox2;
+<i>36</i>&nbsp;    @FXML
+<i>37</i>&nbsp;    private ImageView blueBox2;
+<i>38</i>&nbsp;    @FXML
+<i>39</i>&nbsp;    private Text nick1;
+<i>40</i>&nbsp;    @FXML
+<i>41</i>&nbsp;    private ImageView yellowBox1;
+<i>42</i>&nbsp;    @FXML
+<i>43</i>&nbsp;    private ImageView blueBox1;
+<i>44</i>&nbsp;    @FXML
+<i>45</i>&nbsp;    private Text nick2;
+<i>46</i>&nbsp;    @FXML
+<i>47</i>&nbsp;    private Text firstReadyStatus;
+<i>48</i>&nbsp;    @FXML
+<i>49</i>&nbsp;    private Text secondReadyStatus;
+<i>50</i>&nbsp;    @FXML
+<i>51</i>&nbsp;    private ImageView readyButton;
+<i>52</i>&nbsp;    @FXML
+<i>53</i>&nbsp;    private ImageView confirmButton;
+<i>54</i>&nbsp;    @FXML
+<i>55</i>&nbsp;    private TextField nicknameBar;
+<b class="nc"><i>56</i>&nbsp;    private boolean nickOK = false;</b>
+<b class="nc"><i>57</i>&nbsp;    private boolean isReady = false;</b>
+<b class="nc"><i>58</i>&nbsp;    private boolean firstNick = true;</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    /***
+<i>61</i>&nbsp;     * Init function that sets up the page id
+<i>62</i>&nbsp;     * @param location unused
+<i>63</i>&nbsp;     * @param resources unused
+<i>64</i>&nbsp;     */
+<i>65</i>&nbsp;    @Override
+<i>66</i>&nbsp;    public void initialize(URL location, ResourceBundle resources) {
+<b class="nc"><i>67</i>&nbsp;        super.initialize(location, resources);</b>
+<b class="nc"><i>68</i>&nbsp;        this.pageID = &quot;Lobby&quot;;</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /***
+<i>72</i>&nbsp;     * Ready button callback, tell the server that the user is ready
+<i>73</i>&nbsp;     */
+<i>74</i>&nbsp;    @FXML
+<i>75</i>&nbsp;    private void readyButtonClicked() {
+<b class="nc"><i>76</i>&nbsp;        if(!isReady &amp;&amp; nickOK) {</b>
+<b class="nc"><i>77</i>&nbsp;            Image image = new Image(&quot;/2DGraphics/GreenButton.png&quot;);</b>
+<b class="nc"><i>78</i>&nbsp;            readyButton.setImage(image);</b>
+<i>79</i>&nbsp;
+<b class="nc"><i>80</i>&nbsp;            socket.sendMessage(new ReadyReceiver());</b>
+<b class="nc"><i>81</i>&nbsp;            isReady = true;</b>
+<i>82</i>&nbsp;        }
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /***
+<i>86</i>&nbsp;     * Confirm button callback, send the server the selected nick
+<i>87</i>&nbsp;     */
+<i>88</i>&nbsp;    @FXML
+<i>89</i>&nbsp;    private void confirmButtonClicked() {
+<b class="nc"><i>90</i>&nbsp;        if(!nickOK) {</b>
+<b class="nc"><i>91</i>&nbsp;            socket.sendMessage(new PlayerDataReceiver(nicknameBar.getText()));</b>
+<b class="nc"><i>92</i>&nbsp;            view.setName(nicknameBar.getText());</b>
+<b class="nc"><i>93</i>&nbsp;            firstNick = false;</b>
+<i>94</i>&nbsp;        }
+<i>95</i>&nbsp;    }
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    /***
+<i>98</i>&nbsp;     * Called on insert nick request from the server
+<i>99</i>&nbsp;     * If called more than once is because the nickname is already used
+<i>100</i>&nbsp;     */
+<i>101</i>&nbsp;    public void insertNick() {
+<b class="nc"><i>102</i>&nbsp;        Image image = new Image(&quot;/2DGraphics/RedButton.png&quot;);</b>
+<b class="nc"><i>103</i>&nbsp;        confirmButton.setImage(image);</b>
+<i>104</i>&nbsp;
+<b class="nc"><i>105</i>&nbsp;        if(!firstNick) {</b>
+<b class="nc"><i>106</i>&nbsp;            nicknameBar.setText(&quot;Nick already used, try again&quot;);</b>
+<i>107</i>&nbsp;        }
+<i>108</i>&nbsp;
+<b class="nc"><i>109</i>&nbsp;        nickOK = false;</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    /***
+<i>113</i>&nbsp;     * Unlock the ready button after correct nick insertion
+<i>114</i>&nbsp;     */
+<i>115</i>&nbsp;    public void unlockReady() {
+<b class="nc"><i>116</i>&nbsp;        Image image = new Image(&quot;/2DGraphics/GreenButton.png&quot;);</b>
+<b class="nc"><i>117</i>&nbsp;        confirmButton.setImage(image);</b>
+<i>118</i>&nbsp;
+<b class="nc"><i>119</i>&nbsp;        nickOK = true;</b>
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    /***
+<i>123</i>&nbsp;     * Update other players data when other users connect and select their nick
+<i>124</i>&nbsp;     * @param players array of connected players
+<i>125</i>&nbsp;     */
+<i>126</i>&nbsp;    public void updatePlayers(ArrayList&lt;PlayerData&gt; players) {
+<b class="nc"><i>127</i>&nbsp;        boolean firstNickInput = true;</b>
+<b class="nc"><i>128</i>&nbsp;        for (PlayerData playerData : players){</b>
+<b class="nc"><i>129</i>&nbsp;            if (!playerData.getPlayerID().equals(nicknameBar.getText()) &amp;&amp; firstNickInput) {</b>
+<b class="nc"><i>130</i>&nbsp;                updateSinglePlayer(playerData, blueBox1, nick1, firstPlayer, firstPlayerReady, firstPlayerDivinity, yellowBox1, firstReadyStatus);</b>
+<b class="nc"><i>131</i>&nbsp;                firstNickInput = false;</b>
+<i>132</i>&nbsp;
+<b class="nc"><i>133</i>&nbsp;            } else if (!playerData.getPlayerID().equals(nicknameBar.getText()) &amp;&amp; !firstNickInput &amp;&amp; !playerData.getPlayerID().equals(firstPlayer.getText()) ) {</b>
+<b class="nc"><i>134</i>&nbsp;                updateSinglePlayer(playerData, blueBox2, nick2, secondPlayer, secondPlayerReady, secondPlayerDivinity, yellowBox2, secondReadyStatus);</b>
+<i>135</i>&nbsp;            }
+<b class="nc"><i>136</i>&nbsp;        }</b>
+<i>137</i>&nbsp;    }
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    /***
+<i>140</i>&nbsp;     * Called from the updatePlayers function to update a single player
+<i>141</i>&nbsp;     * @param playerData data of the player to insert
+<i>142</i>&nbsp;     * @param blueBox2 blue box surrounding image
+<i>143</i>&nbsp;     * @param nick2 nick of the player
+<i>144</i>&nbsp;     * @param secondPlayer text under player
+<i>145</i>&nbsp;     * @param secondPlayerReady text under player, tells play order
+<i>146</i>&nbsp;     * @param secondPlayerDivinity text under player, shows divinity name if selected
+<i>147</i>&nbsp;     * @param yellowBox2 yellow box surrounding image
+<i>148</i>&nbsp;     * @param secondReadyStatus text under player, present if ready
+<i>149</i>&nbsp;     */
+<i>150</i>&nbsp;    private void updateSinglePlayer(PlayerData playerData, ImageView blueBox2, Text nick2, Text secondPlayer, Text secondPlayerReady, ImageView secondPlayerDivinity, ImageView yellowBox2, Text secondReadyStatus) {
+<b class="nc"><i>151</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>152</i>&nbsp;            blueBox2.setVisible(true);</b>
+<b class="nc"><i>153</i>&nbsp;            nick2.setVisible(true);</b>
+<b class="nc"><i>154</i>&nbsp;            secondPlayer.setText(playerData.getPlayerID());</b>
+<b class="nc"><i>155</i>&nbsp;            secondPlayer.setVisible(true);</b>
+<b class="nc"><i>156</i>&nbsp;            int playOrder = playerData.getPlayOrder() + 1;</b>
+<b class="nc"><i>157</i>&nbsp;            secondPlayerReady.setText(&quot;Play Order: &quot; + playOrder);</b>
+<b class="nc"><i>158</i>&nbsp;            secondPlayerReady.setVisible(true);</b>
+<i>159</i>&nbsp;        });
+<i>160</i>&nbsp;
+<b class="nc"><i>161</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>162</i>&nbsp;            if(playerData.getReady()){</b>
+<b class="nc"><i>163</i>&nbsp;                secondReadyStatus.setText(&quot;Ready!&quot;);</b>
+<i>164</i>&nbsp;            } else {
+<b class="nc"><i>165</i>&nbsp;                secondReadyStatus.setText(&quot;Not ready!&quot;);</b>
+<i>166</i>&nbsp;            }
+<b class="nc"><i>167</i>&nbsp;            secondReadyStatus.setVisible(true);</b>
+<i>168</i>&nbsp;        });
+<i>169</i>&nbsp;
+<b class="nc"><i>170</i>&nbsp;        if(playerData.getDivinity() == null){</b>
+<b class="nc"><i>171</i>&nbsp;            Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>172</i>&nbsp;                Image image = new Image(&quot;/2DGraphics/Random.png&quot;);</b>
+<b class="nc"><i>173</i>&nbsp;                secondPlayerDivinity.setImage(image);</b>
+<b class="nc"><i>174</i>&nbsp;                secondPlayerDivinity.setVisible(true);</b>
+<b class="nc"><i>175</i>&nbsp;                yellowBox2.setVisible(true);</b>
+<i>176</i>&nbsp;            });
+<i>177</i>&nbsp;        } else {
+<b class="nc"><i>178</i>&nbsp;            Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>179</i>&nbsp;                Image image = new Image(&quot;/2DGraphics/&quot; + playerData.getDivinity() + &quot;.png&quot;);</b>
+<b class="nc"><i>180</i>&nbsp;                secondPlayerDivinity.setImage(image);</b>
+<b class="nc"><i>181</i>&nbsp;                secondPlayerDivinity.setVisible(true);</b>
+<b class="nc"><i>182</i>&nbsp;                yellowBox2.setVisible(true);</b>
+<i>183</i>&nbsp;            });
+<i>184</i>&nbsp;        }
+<i>185</i>&nbsp;    }
+<i>186</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-25 16:44</div>
+</div>
+</body>
+</html>

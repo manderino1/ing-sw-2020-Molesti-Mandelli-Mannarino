@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Minotaur</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.controller.divinities</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Minotaur (it.polimi.ingsw.PSP18.server.controller.divinities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Minotaur</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85%
+  </span>
+  <span class="absValue">
+    (34/ 40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.controller.divinities;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Direction;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Worker;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;/***
+<i>12</i>&nbsp; * this is the class that implements Minotaur&#39;s powers
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class Minotaur extends Divinity{
+<i>15</i>&nbsp;    /***
+<i>16</i>&nbsp;     * Constructor of the class, initialize name and playerManager in Divinity
+<i>17</i>&nbsp;     * @param name the name of the divinity
+<i>18</i>&nbsp;     * @param playerManager the object that has this divinity
+<i>19</i>&nbsp;     * @param matchRun reference of the match running management section
+<i>20</i>&nbsp;     * @param matchSocket for obtaining info about sockets and players connected to the match
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    public Minotaur(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
+<b class="fc"><i>23</i>&nbsp;        super(name, playerManager, matchSocket, matchRun);</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /***
+<i>27</i>&nbsp;     * function checks the possible moves
+<i>28</i>&nbsp;     * @param oldX the starting x coordinate
+<i>29</i>&nbsp;     * @param oldY the starting y coordinate
+<i>30</i>&nbsp;     * @param raiseForbidden true if the raise is forbidden for athena power
+<i>31</i>&nbsp;     * @return the list of possible moves
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    protected ArrayList&lt;Direction&gt; checkMovementMoves(Integer oldX, Integer oldY, Boolean raiseForbidden) {
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;        ArrayList&lt;Direction&gt; moves = new ArrayList&lt;Direction&gt;();</b>
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;        for (Direction dir : Direction.values()) {</b>
+<i>39</i>&nbsp;            Integer building;
+<b class="fc"><i>40</i>&nbsp;            Integer newX = DirectionManagement.getX(oldX, dir);</b>
+<b class="fc"><i>41</i>&nbsp;            Integer newY = DirectionManagement.getY(oldY, dir);</b>
+<i>42</i>&nbsp;
+<b class="fc"><i>43</i>&nbsp;            if(newX != -1 &amp;&amp; newY != -1) {</b>
+<b class="fc"><i>44</i>&nbsp;                boolean xIsInRange = newX + (newX - oldX) &lt; 5 &amp;&amp; newX + (newX - oldX) &gt;= 0;</b>
+<b class="fc"><i>45</i>&nbsp;                boolean yIsInRange = newY + (newY - oldY) &lt; 5 &amp;&amp; newY + (newY - oldY) &gt;= 0;</b>
+<i>46</i>&nbsp;
+<b class="fc"><i>47</i>&nbsp;                if (!raiseForbidden) {</b>
+<b class="fc"><i>48</i>&nbsp;                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() &amp;&amp;</b>
+<b class="fc"><i>49</i>&nbsp;                            (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() &lt;= 1)) {</b>
+<b class="fc"><i>50</i>&nbsp;                        if ((playerManager.getGameMap().getCell(newX, newY).getWorker() != null) &amp;&amp;</b>
+<i>51</i>&nbsp;                                xIsInRange &amp;&amp;
+<i>52</i>&nbsp;                                yIsInRange &amp;&amp;
+<b class="fc"><i>53</i>&nbsp;                                playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(0) &amp;&amp;</b>
+<b class="fc"><i>54</i>&nbsp;                                playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(1) &amp;&amp;</b>
+<b class="nc"><i>55</i>&nbsp;                                !playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getDome() &amp;&amp;</b>
+<b class="nc"><i>56</i>&nbsp;                                playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getWorker() == null) {</b>
+<b class="nc"><i>57</i>&nbsp;                            moves.add(dir);</b>
+<b class="fc"><i>58</i>&nbsp;                        } else if (playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {</b>
+<b class="fc"><i>59</i>&nbsp;                            moves.add(dir);</b>
+<i>60</i>&nbsp;                        }
+<i>61</i>&nbsp;                    }
+<i>62</i>&nbsp;                } else {
+<b class="fc"><i>63</i>&nbsp;                    if (!playerManager.getGameMap().getCell(newX, newY).getDome() &amp;&amp;</b>
+<b class="fc"><i>64</i>&nbsp;                            (playerManager.getGameMap().getCell(newX, newY).getBuilding() - playerManager.getGameMap().getCell(oldX, oldY).getBuilding() &lt; 1)) {</b>
+<b class="fc"><i>65</i>&nbsp;                        if ((playerManager.getGameMap().getCell(newX, newY).getWorker() != null) &amp;&amp;</b>
+<i>66</i>&nbsp;                                xIsInRange &amp;&amp;
+<i>67</i>&nbsp;                                yIsInRange &amp;&amp;
+<b class="fc"><i>68</i>&nbsp;                                playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(0) &amp;&amp;</b>
+<b class="fc"><i>69</i>&nbsp;                                playerManager.getGameMap().getCell(newX, newY).getWorker() != playerManager.getWorker(1) &amp;&amp;</b>
+<b class="nc"><i>70</i>&nbsp;                                !playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getDome() &amp;&amp;</b>
+<b class="nc"><i>71</i>&nbsp;                                playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getWorker() == null) {</b>
+<b class="nc"><i>72</i>&nbsp;                            moves.add(dir);</b>
+<b class="fc"><i>73</i>&nbsp;                        } else if (playerManager.getGameMap().getCell(newX, newY).getWorker() == null) {</b>
+<b class="fc"><i>74</i>&nbsp;                            moves.add(dir);</b>
+<i>75</i>&nbsp;                        }
+<i>76</i>&nbsp;                    }
+<i>77</i>&nbsp;                }
+<i>78</i>&nbsp;            }
+<i>79</i>&nbsp;        }
+<b class="fc"><i>80</i>&nbsp;        return moves;</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    /***
+<i>84</i>&nbsp;     * Set worker in a cell and remove from the source one
+<i>85</i>&nbsp;     * If a worker is present in the destination cell (Apollo) switch workers
+<i>86</i>&nbsp;     * @param oldX the source x position
+<i>87</i>&nbsp;     * @param oldY the source y position
+<i>88</i>&nbsp;     * @param newX the destination x position
+<i>89</i>&nbsp;     * @param newY the destination y position
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;    @Override
+<i>92</i>&nbsp;    protected void updateMoveCells(Integer oldX, Integer oldY, Integer newX, Integer newY) {
+<b class="fc"><i>93</i>&nbsp;        Worker destinationWorker = playerManager.getGameMap().getCell(newX, newY).getWorker();</b>
+<b class="fc"><i>94</i>&nbsp;        playerManager.getGameMap().setCell(newX, newY, playerManager.getGameMap().getCell(newX, newY).getBuilding(), playerManager.getGameMap().getCell(oldX, oldY).getWorker());</b>
+<b class="fc"><i>95</i>&nbsp;        playerManager.getGameMap().getCell(newX, newY).getWorker().setPosition(newX, newY);</b>
+<b class="fc"><i>96</i>&nbsp;        if(destinationWorker == null) {</b>
+<b class="fc"><i>97</i>&nbsp;            playerManager.getGameMap().setCell(oldX, oldY, playerManager.getGameMap().getCell(oldX, oldY).getBuilding(), null);</b>
+<i>98</i>&nbsp;        }
+<i>99</i>&nbsp;        else {
+<b class="fc"><i>100</i>&nbsp;            playerManager.getGameMap().setCell(oldX, oldY, playerManager.getGameMap().getCell(oldX, oldY).getBuilding(), null);</b>
+<b class="fc"><i>101</i>&nbsp;            playerManager.getGameMap().setCell(newX + (newX - oldX), newY + (newY - oldY), playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getBuilding(), destinationWorker);</b>
+<b class="fc"><i>102</i>&nbsp;            playerManager.getGameMap().getCell(newX + (newX - oldX), newY + (newY - oldY)).getWorker().setPosition(newX + (newX - oldX), newY + (newY - oldY));</b>
+<i>103</i>&nbsp;        }
+<b class="fc"><i>104</i>&nbsp;    }</b>
+<i>105</i>&nbsp;}
+<i>106</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-25 16:44</div>
+</div>
+</body>
+</html>
