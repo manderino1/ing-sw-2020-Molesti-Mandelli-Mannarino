@@ -4,8 +4,9 @@ import it.polimi.ingsw.PSP18.networking.messages.toclient.AtlasBuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.EndTurnAvaiable;
 import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
-import it.polimi.ingsw.PSP18.server.controller.exceptions.InvalidBuildException;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Worker;
 
@@ -18,9 +19,11 @@ public class Atlas extends Divinity{
      * Constructor of the class, initialize name and playerManager in Divinity
      * @param name the name of the divinity
      * @param playerManager the object that has this divinity
+     * @param matchRun reference of the match running management section
+     * @param matchSocket for obtaining info about sockets and players connected to the match
      */
-    public Atlas(String name, PlayerManager playerManager) {
-        super(name, playerManager);
+    public Atlas(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
+        super(name, playerManager, matchSocket, matchRun);
     }
 
     @Override
@@ -36,7 +39,7 @@ public class Atlas extends Divinity{
             return;
         }
 
-        playerManager.getMatch().getCurrentSocket().sendMessage(new AtlasBuildList(moves, worker));
+        matchSocket.getCurrentSocket().sendMessage(new AtlasBuildList(moves, worker));
     }
 
     /***
@@ -51,13 +54,7 @@ public class Atlas extends Divinity{
 
         // Check if the build direction is valid
         if(!moves.contains(direction)) {
-            try {
-                throw new InvalidBuildException();
-            } catch (InvalidBuildException e) {
-                e.printStackTrace();
-                build();
-                return;
-            }
+            build();
         }
 
         /*
@@ -69,7 +66,7 @@ public class Atlas extends Divinity{
         }
 
         playerManager.setBuild(newX, newY, dome);
-        playerManager.getMatch().getCurrentSocket().sendMessage(new EndTurnAvaiable());
+        matchSocket.getCurrentSocket().sendMessage(new EndTurnAvaiable());
     }
 }
 

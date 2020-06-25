@@ -104,7 +104,7 @@
 <b class="nc"><i>30</i>&nbsp;            return;</b>
 <i>31</i>&nbsp;        }
 <i>32</i>&nbsp;
-<b class="fc"><i>33</i>&nbsp;        playerManager.getMatch().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));</b>
+<b class="fc"><i>33</i>&nbsp;        playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2));</b>
 <b class="fc"><i>34</i>&nbsp;        this.firstMove = true;</b>
 <b class="fc"><i>35</i>&nbsp;    }</b>
 <i>36</i>&nbsp;
@@ -125,7 +125,7 @@
 <b class="nc"><i>51</i>&nbsp;        setMove(worker.getX(), worker.getY(), direction);</b>
 <i>52</i>&nbsp;
 <b class="nc"><i>53</i>&nbsp;        if(checkForVictory()){</b>
-<b class="nc"><i>54</i>&nbsp;            for(SocketThread socket : playerManager.getMatch().getSockets()) {</b>
+<b class="nc"><i>54</i>&nbsp;            for(SocketThread socket : playerManager.getMatch().getMatchSocket().getSockets()) {</b>
 <b class="nc"><i>55</i>&nbsp;                socket.sendMessage(new MatchWon(playerManager.getPlayerData().getPlayerID()));</b>
 <i>56</i>&nbsp;                // TODO: end the match
 <b class="nc"><i>57</i>&nbsp;            }</b>
@@ -141,7 +141,7 @@
 <i>67</i>&nbsp;            }
 <i>68</i>&nbsp;
 <b class="nc"><i>69</i>&nbsp;            firstMove = false;</b>
-<b class="nc"><i>70</i>&nbsp;            playerManager.getMatch().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID));</b>
+<b class="nc"><i>70</i>&nbsp;            playerManager.getMatch().getMatchSocket().getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID));</b>
 <b class="nc"><i>71</i>&nbsp;        }</b>
 <i>72</i>&nbsp;        else {
 <b class="nc"><i>73</i>&nbsp;            build();</b>

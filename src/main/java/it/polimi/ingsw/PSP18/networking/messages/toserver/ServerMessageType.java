@@ -16,5 +16,6 @@ public enum ServerMessageType {
     ATLAS_BUILD_RECEIVER,
     PONG,
     DIVINITY_SELECTION,
-    PLAYER_NUMBER
+    PLAYER_NUMBER,
+    REPLAY
 }

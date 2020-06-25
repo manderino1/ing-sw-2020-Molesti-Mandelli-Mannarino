@@ -25,7 +25,11 @@ public class CliViewUpdate extends ViewUpdate {
      * @param console a bufferedreader with inputstream to send
      */
     public CliViewUpdate(BufferedReader console) {
-        this.console = Objects.requireNonNullElseGet(console, () -> new BufferedReader(new InputStreamReader(System.in)));
+        if(console == null) {
+            this.console = new BufferedReader(new InputStreamReader(System.in));
+        } else {
+            this.console = console;
+        }
     }
 
     /***
@@ -85,7 +89,7 @@ public class CliViewUpdate extends ViewUpdate {
             }
 
 
-            x1 = Character.getNumericValue(W1.toUpperCase().charAt(0)) - 10; // TODO: Controllare se é sempre vero
+            x1 = Character.getNumericValue(W1.toUpperCase().charAt(0)) - 10;
             y1 = Character.getNumericValue(W1.toUpperCase().charAt(1));
         } while (lastMap[x1][y1].getWorker()!=null);
 
@@ -280,7 +284,7 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * The message that ask the player to insert his data
+     * Update the player data of the connected players
      * @param playerDataUpdate the message that asks for the player's data
      */
     @Override
@@ -289,6 +293,8 @@ public class CliViewUpdate extends ViewUpdate {
         if(playerDataUpdate != null) {
             for(PlayerData player : playerDataArrayList) {
                 if (player.getPlayerID().equals(playerDataUpdate.getPlayerID())) {
+                    player.setPlayerColor(playerDataUpdate.getPlayerColor());
+                    player.setPlayOrder(playerDataUpdate.getPlayOrder());
                     player.setDivinity(playerDataUpdate.getDivinity());
                     present = true;
                     break;
@@ -395,8 +401,8 @@ public class CliViewUpdate extends ViewUpdate {
     }
 
     /***
-     * Aks the player where he wants to move
-     * @param buildList the message that asks for the player move
+     * Aks the player where he wants to build
+     * @param buildList the message that asks for the player build
      */
     @Override
     public void buildUpdate(BuildList buildList) {
@@ -791,6 +797,28 @@ public class CliViewUpdate extends ViewUpdate {
                     return;
                 } else if(endStr.toUpperCase().equals("3")) {
                     inputParser.sendPlayerNumber(3);
+                    return;
+                }
+                System.out.println("Input incorrect, retry");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /***
+     * Used to reconnect on disconnection
+     */
+    @Override
+    public void serverDisconnected(){
+        String endStr;
+
+        System.out.println("Type 'reconnect' to play another game.");
+        while(true) {
+            try {
+                endStr = console.readLine();
+                if(endStr.toUpperCase().equals("RECONNECT")){
+                    inputParser.reconnect(this);
                     return;
                 }
                 System.out.println("Input incorrect, retry");

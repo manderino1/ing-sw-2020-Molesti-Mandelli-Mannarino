@@ -1,0 +1,175 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SocketServer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.networking</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SocketServer (it.polimi.ingsw.PSP18.networking)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SocketServer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40,9%
+  </span>
+  <span class="absValue">
+    (18/ 44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.networking;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerNumberReady;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.MatchManager;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.io.IOException;
+<i>7</i>&nbsp;import java.net.ServerSocket;
+<i>8</i>&nbsp;import java.net.Socket;
+<i>9</i>&nbsp;import java.util.Random;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/***
+<i>12</i>&nbsp; * The class manages the connections of sockets to the server
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class SocketServer extends Thread {
+<i>15</i>&nbsp;    private int port;
+<i>16</i>&nbsp;    private MatchManager manager;
+<b class="fc"><i>17</i>&nbsp;    private boolean listening = true;</b>
+<i>18</i>&nbsp;    private boolean debug;
+<b class="fc"><i>19</i>&nbsp;    private ServerSocket serverSocket = null;</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /***
+<i>22</i>&nbsp;     * Init the port and the match reference into the constructor
+<i>23</i>&nbsp;     * @param manager the match manager reference
+<i>24</i>&nbsp;     */
+<b class="nc"><i>25</i>&nbsp;    public SocketServer(MatchManager manager) {</b>
+<b class="nc"><i>26</i>&nbsp;        this.manager = manager;</b>
+<b class="nc"><i>27</i>&nbsp;        this.port = 9002;</b>
+<b class="nc"><i>28</i>&nbsp;        this.debug = false;</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;        try {
+<b class="nc"><i>31</i>&nbsp;            serverSocket = new ServerSocket(port);</b>
+<b class="nc"><i>32</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>33</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>34</i>&nbsp;        }</b>
+<b class="nc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /***
+<i>38</i>&nbsp;     * A debug constructor with random port between 49152 and 65535
+<i>39</i>&nbsp;     * Used for tests
+<i>40</i>&nbsp;     * @param manager the match manager reference
+<i>41</i>&nbsp;     * @param debug if true the port is random
+<i>42</i>&nbsp;     */
+<b class="fc"><i>43</i>&nbsp;    public SocketServer(MatchManager manager, boolean debug) {</b>
+<b class="fc"><i>44</i>&nbsp;        this.manager = manager;</b>
+<b class="fc"><i>45</i>&nbsp;        this.debug = debug;</b>
+<i>46</i>&nbsp;
+<b class="fc"><i>47</i>&nbsp;        if(debug) {</b>
+<i>48</i>&nbsp;            // Randomly generate a port
+<b class="fc"><i>49</i>&nbsp;            Random rand = new Random();</b>
+<b class="fc"><i>50</i>&nbsp;            int upperBound = 65535;</b>
+<b class="fc"><i>51</i>&nbsp;            int lowerBound = 49152;</b>
+<b class="fc"><i>52</i>&nbsp;            this.port = rand.nextInt((upperBound - lowerBound) + 1) + lowerBound;</b>
+<b class="fc"><i>53</i>&nbsp;        } else {</b>
+<b class="nc"><i>54</i>&nbsp;            this.port = 9002;</b>
+<i>55</i>&nbsp;        }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;        try {
+<b class="fc"><i>59</i>&nbsp;            serverSocket = new ServerSocket(port);</b>
+<b class="nc"><i>60</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>61</i>&nbsp;            e.printStackTrace();</b>
+<b class="fc"><i>62</i>&nbsp;        }</b>
+<b class="fc"><i>63</i>&nbsp;    }</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /***
+<i>66</i>&nbsp;     * Wait for a new connection, start the socket thread and give the object reference to the model
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    public void run() {
+<b class="fc"><i>69</i>&nbsp;        Socket socket = null;</b>
+<i>70</i>&nbsp;
+<b class="fc"><i>71</i>&nbsp;        while (listening) {</b>
+<b class="fc"><i>72</i>&nbsp;            if (serverSocket != null) {</b>
+<i>73</i>&nbsp;                try {
+<b class="fc"><i>74</i>&nbsp;                    socket = serverSocket.accept();</b>
+<b class="nc"><i>75</i>&nbsp;                    socket.setSoTimeout(10000); // 10 s timeout</b>
+<b class="nc"><i>76</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>77</i>&nbsp;                    e.printStackTrace();</b>
+<b class="nc"><i>78</i>&nbsp;                }</b>
+<i>79</i>&nbsp;            }
+<i>80</i>&nbsp;            // new thread for a client
+<b class="nc"><i>81</i>&nbsp;            if(!debug) {</b>
+<b class="nc"><i>82</i>&nbsp;                SocketThread newThread = new SocketThread(socket, manager);</b>
+<b class="nc"><i>83</i>&nbsp;                newThread.start();</b>
+<b class="nc"><i>84</i>&nbsp;                newThread.sendMessage(new PlayerNumberReady());</b>
+<b class="nc"><i>85</i>&nbsp;            } else {</b>
+<b class="nc"><i>86</i>&nbsp;                SocketThread newThread = new SocketThread(socket, manager, true);</b>
+<b class="nc"><i>87</i>&nbsp;                newThread.start();</b>
+<b class="nc"><i>88</i>&nbsp;                newThread.sendMessage(new PlayerNumberReady());</b>
+<b class="nc"><i>89</i>&nbsp;            }</b>
+<i>90</i>&nbsp;        }
+<b class="nc"><i>91</i>&nbsp;    }</b>
+<i>92</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-25 16:44</div>
+</div>
+</body>
+</html>

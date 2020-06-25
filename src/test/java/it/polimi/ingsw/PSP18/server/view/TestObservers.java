@@ -1,12 +1,11 @@
 package it.polimi.ingsw.PSP18.server.view;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.GameMapUpdate;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PlayerDataUpdate;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.GameMap;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import org.junit.Assert;
@@ -16,7 +15,6 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.Socket;
 
 import static org.mockito.Mockito.mock;
@@ -52,8 +50,7 @@ public class TestObservers {
     @Test
     public void testGameMapObs() {
         GameMap map = new GameMap();
-        Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, null);
+        SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.start();
         MapObserver mapObserver = new MapObserver(socketThread);
 
@@ -76,8 +73,8 @@ public class TestObservers {
     @Test
     public void testPlayerDataObs() {
         PlayerData playerData = new PlayerData("Test Player", Color.BLUE, 0);
-        Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, null);
+        MatchSocket matchSocket = new MatchSocket(2);;
+        SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.start();
         PlayerDataObserver playerObserver = new PlayerDataObserver(socketThread);
 

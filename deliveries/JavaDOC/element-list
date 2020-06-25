@@ -1,0 +1,15 @@
+module:it.polimi.ingsw.PSP18
+it.polimi.ingsw.PSP18.client.view
+it.polimi.ingsw.PSP18.client.view.cli
+it.polimi.ingsw.PSP18.client.view.gui
+it.polimi.ingsw.PSP18.client.view.gui.scenes
+it.polimi.ingsw.PSP18.client.view.gui.scenes.utils
+it.polimi.ingsw.PSP18.networking
+it.polimi.ingsw.PSP18.networking.messages.toclient
+it.polimi.ingsw.PSP18.networking.messages.toserver
+it.polimi.ingsw.PSP18.server
+it.polimi.ingsw.PSP18.server.backup
+it.polimi.ingsw.PSP18.server.controller
+it.polimi.ingsw.PSP18.server.controller.divinities
+it.polimi.ingsw.PSP18.server.model
+it.polimi.ingsw.PSP18.server.view

@@ -16,6 +16,7 @@ public class BuildList extends ClientAbstractMessage{
     /***
      * Constructor of BuildList, init the move list
      * @param buildList the list of possible moves
+     * @param worker reference of the worker from who the build is done
      */
     public BuildList(ArrayList<Direction> buildList, Worker worker){
         this.type=ClientMessageType.BUILD_LIST;

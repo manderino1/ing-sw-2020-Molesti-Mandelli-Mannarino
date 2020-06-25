@@ -3,14 +3,25 @@ package it.polimi.ingsw.PSP18.server.controller;
  * class that articulates the players' turns when Athena is in the game
  */
 public class TurnManagerAthena extends TurnManager {
-    public boolean bool;
+    public boolean bool = false;
 
     /***
      * constructor of the class, start managing the turn of the players in the current match
-     * @param match the object that deals with the current match
+     * @param matchSocket reference to the class that manages sockets and players
+     * @param backupManager  reference to the class that manages backup, to backup at the end of turn
      */
-    public TurnManagerAthena(Match match) {
-        super(match);
+    public TurnManagerAthena(MatchSocket matchSocket, BackupManager backupManager) {
+        super(matchSocket, backupManager);
+    }
+
+    /***
+     * constructor of the class, start managing the turn of the players in the current match
+     * @param matchSocket reference to the class that manages sockets and players
+     * @param backupManager  reference to the class that manages backup, to backup at the end of turn
+     * @param indexCurrentPlayer the index of the player that has to play, for restoring
+     */
+    public TurnManagerAthena(MatchSocket matchSocket, BackupManager backupManager, int indexCurrentPlayer) {
+        super(matchSocket, backupManager, indexCurrentPlayer);
     }
 
     /***
@@ -19,20 +30,18 @@ public class TurnManagerAthena extends TurnManager {
      */
     @Override
     public void manageTurn(){
-        int indexPreviousPlayer;
-        if(indexCurrentPlayer == 0) {
-            indexPreviousPlayer = match.getPlayerManagers().size() - 1;
-        } else {
-            indexPreviousPlayer = indexCurrentPlayer - 1;
-        }
-        if (match.getPlayerManagers().get(indexPreviousPlayer).getPlayerData().getLastMove()==null){
-            bool = false;
-        }
-        else{
-            if(match.getPlayerManagers().get(indexPreviousPlayer).getDivinityName().equals("Athena")) {
-                bool = (match.getPlayerManagers().get(indexPreviousPlayer).getPlayerData().getLastMove().getLevel() == 1);
+        for(PlayerManager player : matchSocket.getPlayerManagers()) {
+            if(player.getDivinityName().equals("Athena")) { // Update Athena movement
+                if(player.getPlayerData().getLastMove() != null) {
+                    bool = (player.getPlayerData().getLastMove().getLevel() == 1);
+                }
             }
         }
-        match.getPlayerManagers().get(indexCurrentPlayer).manageTurn(bool);
+
+        if(matchSocket.getPlayerManagers().get(indexCurrentPlayer).getDivinityName().equals("Athena")) { // Athena can go up
+            matchSocket.getPlayerManagers().get(indexCurrentPlayer).manageTurn(false);
+        } else { // Call the manager with the correct raiseForbidden parameter
+            matchSocket.getPlayerManagers().get(indexCurrentPlayer).manageTurn(bool);
+        }
     }
 }

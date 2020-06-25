@@ -1,0 +1,174 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Hephaestus</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.controller.divinities</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Hephaestus (it.polimi.ingsw.PSP18.server.controller.divinities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Hephaestus</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81,2%
+  </span>
+  <span class="absValue">
+    (26/ 32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.controller.divinities;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.networking.SocketThread;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Direction;
+<i>10</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Worker;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import java.util.ArrayList;
+<i>13</i>&nbsp;/***
+<i>14</i>&nbsp; * this is the class that implements Hephaestus&#39; powers
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;public class Hephaestus extends Divinity{
+<i>17</i>&nbsp;    private boolean firstBuild;
+<i>18</i>&nbsp;    /***
+<i>19</i>&nbsp;     * Constructor of the class, initialize name and playerManager in Divinity
+<i>20</i>&nbsp;     * @param name the name of the divinity
+<i>21</i>&nbsp;     * @param playerManager the object that has this divinity
+<i>22</i>&nbsp;     * @param matchRun reference of the match running management section
+<i>23</i>&nbsp;     * @param matchSocket for obtaining info about sockets and players connected to the match
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    public Hephaestus(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
+<b class="fc"><i>26</i>&nbsp;        super(name, playerManager, matchSocket, matchRun);</b>
+<b class="fc"><i>27</i>&nbsp;    }</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /***
+<i>30</i>&nbsp;     * Method used to build
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    @Override
+<i>33</i>&nbsp;    protected void build() {
+<b class="fc"><i>34</i>&nbsp;        Worker worker = playerManager.getWorker(workerID);</b>
+<b class="fc"><i>35</i>&nbsp;        moves = checkBuildingMoves(worker.getX(), worker.getY());</b>
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;        if (moves.size() == 0) {</b>
+<b class="fc"><i>38</i>&nbsp;            manageLoss();</b>
+<b class="fc"><i>39</i>&nbsp;            return;</b>
+<i>40</i>&nbsp;        }
+<i>41</i>&nbsp;
+<b class="fc"><i>42</i>&nbsp;        matchSocket.getCurrentSocket().sendMessage(new BuildList(moves, worker));</b>
+<i>43</i>&nbsp;
+<b class="fc"><i>44</i>&nbsp;        firstBuild = true;</b>
+<b class="fc"><i>45</i>&nbsp;    }</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /***
+<i>48</i>&nbsp;     * Build in the selected direction
+<i>49</i>&nbsp;     * @param direction the direction of the wanted build
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;    public void buildReceiver(Direction direction) {
+<b class="fc"><i>52</i>&nbsp;        if (direction == null) { // If he doesn&#39;t want to move</b>
+<b class="fc"><i>53</i>&nbsp;            matchSocket.getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
+<b class="fc"><i>54</i>&nbsp;            return;</b>
+<i>55</i>&nbsp;        }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;        // Check if the build direction is valid
+<b class="fc"><i>58</i>&nbsp;        if(!moves.contains(direction)) {</b>
+<b class="nc"><i>59</i>&nbsp;            if(firstBuild) {</b>
+<b class="nc"><i>60</i>&nbsp;                build();</b>
+<i>61</i>&nbsp;            } else {
+<b class="nc"><i>62</i>&nbsp;                matchSocket.getCurrentSocket().sendMessage(new BuildListFlag(moves, playerManager.getWorker(workerID)));</b>
+<i>63</i>&nbsp;            }
+<i>64</i>&nbsp;        }
+<i>65</i>&nbsp;
+<b class="fc"><i>66</i>&nbsp;        Worker worker = playerManager.getWorker(workerID);</b>
+<b class="fc"><i>67</i>&nbsp;        Integer newX = DirectionManagement.getX(worker.getX(), direction);</b>
+<b class="fc"><i>68</i>&nbsp;        Integer newY = DirectionManagement.getY(worker.getY(), direction);</b>
+<b class="fc"><i>69</i>&nbsp;        boolean dome = false;</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;        // If the height of the building cell is 3 a dome has to be placed
+<b class="fc"><i>72</i>&nbsp;        if (playerManager.getGameMap().getCell(newX, newY).getBuilding() == 3) {</b>
+<b class="nc"><i>73</i>&nbsp;            dome = true;</b>
+<i>74</i>&nbsp;        }
+<i>75</i>&nbsp;
+<b class="fc"><i>76</i>&nbsp;        playerManager.setBuild(newX, newY, dome);</b>
+<i>77</i>&nbsp;
+<b class="fc"><i>78</i>&nbsp;        if (firstBuild &amp;&amp; playerManager.getGameMap().getCell(newX, newY).getBuilding() != 3) {</b>
+<b class="fc"><i>79</i>&nbsp;            moves = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>80</i>&nbsp;            moves.add(direction);</b>
+<b class="fc"><i>81</i>&nbsp;            firstBuild = false;</b>
+<i>82</i>&nbsp;
+<b class="fc"><i>83</i>&nbsp;            matchSocket.getCurrentSocket().sendMessage(new BuildListFlag(moves, worker));</b>
+<i>84</i>&nbsp;        }
+<i>85</i>&nbsp;        else{
+<b class="nc"><i>86</i>&nbsp;            firstBuild=true;</b>
+<b class="nc"><i>87</i>&nbsp;            matchSocket.getCurrentSocket().sendMessage(new EndTurnAvaiable());</b>
+<i>88</i>&nbsp;        }
+<b class="fc"><i>89</i>&nbsp;    }</b>
+<i>90</i>&nbsp;}
+<i>91</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-25 16:44</div>
+</div>
+</body>
+</html>

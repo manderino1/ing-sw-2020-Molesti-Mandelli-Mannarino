@@ -1,0 +1,247 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: InputParser</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.client.view.cli</a> ]
+</div>
+
+<h1>Coverage Summary for Class: InputParser (it.polimi.ingsw.PSP18.client.view.cli)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InputParser</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.client.view.cli;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.client.view.ViewUpdate;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.networking.SocketClient;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Direction;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.io.IOException;
+<i>9</i>&nbsp;import java.net.Socket;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/***
+<i>13</i>&nbsp; * This is the class that contains all the methods used to manage the messages sent by the client and notify the server with other type of messages
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;public class InputParser {
+<i>16</i>&nbsp;    private SocketClient socket;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /***
+<i>19</i>&nbsp;     * Constructor of the InputParser class
+<i>20</i>&nbsp;     * @param socket socket used by the client
+<i>21</i>&nbsp;     */
+<b class="nc"><i>22</i>&nbsp;    public InputParser(SocketClient socket) {</b>
+<b class="nc"><i>23</i>&nbsp;        this.socket = socket;</b>
+<i>24</i>&nbsp;    }
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /***
+<i>27</i>&nbsp;     * Method used to apply the move
+<i>28</i>&nbsp;     * @param worker worker who wants to move
+<i>29</i>&nbsp;     * @param move move to apply to the worker
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    public void selectMove(String worker, String move) {
+<b class="nc"><i>32</i>&nbsp;        int workerID = 0;</b>
+<b class="nc"><i>33</i>&nbsp;        if(worker.equals(&quot;1&quot;)) {</b>
+<b class="nc"><i>34</i>&nbsp;            workerID = 0;</b>
+<b class="nc"><i>35</i>&nbsp;        } else if (worker.equals(&quot;2&quot;)){</b>
+<b class="nc"><i>36</i>&nbsp;            workerID = 1;</b>
+<i>37</i>&nbsp;        }
+<i>38</i>&nbsp;
+<b class="nc"><i>39</i>&nbsp;        socket.sendMessage(new MoveReceiver(stringToDirection(move), workerID));</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /***
+<i>43</i>&nbsp;     * Method used to apply the building move
+<i>44</i>&nbsp;     * @param move move to apply to the worker
+<i>45</i>&nbsp;     */
+<i>46</i>&nbsp;    public void selectBuild(String move) {
+<b class="nc"><i>47</i>&nbsp;        socket.sendMessage(new BuildReceiver(stringToDirection(move)));</b>
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    /***
+<i>51</i>&nbsp;     * Method used to end the turn, sends an EndTurnReceiver message
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    public void endTurnSignal() {
+<b class="nc"><i>54</i>&nbsp;        socket.sendMessage(new EndTurnReceiver());</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /***
+<i>58</i>&nbsp;     * Method used to convert a string into a direction
+<i>59</i>&nbsp;     * @param dir string that contains the direction
+<i>60</i>&nbsp;     * @return returns the direction as a Direction object
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;    private Direction stringToDirection(String dir) {
+<b class="nc"><i>63</i>&nbsp;        if(dir == null || dir.equals(&quot;NO&quot;)) {</b>
+<b class="nc"><i>64</i>&nbsp;            return null;</b>
+<i>65</i>&nbsp;        }
+<b class="nc"><i>66</i>&nbsp;        dir = dir.toUpperCase();</b>
+<b class="nc"><i>67</i>&nbsp;        switch (dir) {</b>
+<i>68</i>&nbsp;            case &quot;UP&quot;:
+<b class="nc"><i>69</i>&nbsp;                return Direction.UP;</b>
+<i>70</i>&nbsp;            case &quot;DOWN&quot;:
+<b class="nc"><i>71</i>&nbsp;                return Direction.DOWN;</b>
+<i>72</i>&nbsp;            case &quot;LEFT&quot;:
+<b class="nc"><i>73</i>&nbsp;                return Direction.LEFT;</b>
+<i>74</i>&nbsp;            case &quot;RIGHT&quot;:
+<b class="nc"><i>75</i>&nbsp;                return Direction.RIGHT;</b>
+<i>76</i>&nbsp;            case &quot;LEFTUP&quot;:
+<b class="nc"><i>77</i>&nbsp;                return Direction.LEFTUP;</b>
+<i>78</i>&nbsp;            case &quot;RIGHTUP&quot;:
+<b class="nc"><i>79</i>&nbsp;                return Direction.RIGHTUP;</b>
+<i>80</i>&nbsp;            case &quot;LEFTDOWN&quot;:
+<b class="nc"><i>81</i>&nbsp;                return Direction.LEFTDOWN;</b>
+<i>82</i>&nbsp;            case &quot;RIGHTDOWN&quot;:
+<b class="nc"><i>83</i>&nbsp;                return Direction.RIGHTDOWN;</b>
+<i>84</i>&nbsp;        }
+<b class="nc"><i>85</i>&nbsp;        return null; // Never reach this point</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /***
+<i>89</i>&nbsp;     * Method used to set the Divinity
+<i>90</i>&nbsp;     * @param divinity string that contains the divinity name
+<i>91</i>&nbsp;     */
+<i>92</i>&nbsp;    public void selectDivinity(String divinity) {
+<b class="nc"><i>93</i>&nbsp;        socket.sendMessage(new DivinityReceiver(divinity));</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /***
+<i>97</i>&nbsp;     * Method used to set the PlayerData
+<i>98</i>&nbsp;     * @param playerID string that contains the player nickname
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    public void selectPlayerData(String playerID) {
+<b class="nc"><i>101</i>&nbsp;        socket.sendMessage(new PlayerDataReceiver(playerID));</b>
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /***
+<i>105</i>&nbsp;     * Method used to set the player status to ready
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;    public void selectReady() {
+<b class="nc"><i>108</i>&nbsp;        socket.sendMessage(new ReadyReceiver());</b>
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    /***
+<i>112</i>&nbsp;     * Method used to set the workers by inserting their coordinates
+<i>113</i>&nbsp;     * @param x1 x coordinate of the first worker
+<i>114</i>&nbsp;     * @param y1 y coordinate of the first worker
+<i>115</i>&nbsp;     * @param x2 x coordinate of the second worker
+<i>116</i>&nbsp;     * @param y2 y coordinate of the second worker
+<i>117</i>&nbsp;     */
+<i>118</i>&nbsp;    public void selectWorkers(Integer x1, Integer y1, Integer x2, Integer y2) {
+<b class="nc"><i>119</i>&nbsp;        socket.sendMessage(new WorkerReceiver(x1, y1, x2, y2));</b>
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    /***
+<i>123</i>&nbsp;     * Method used to select the worker that is going to move for the prometheus divinity
+<i>124</i>&nbsp;     * @param workerID the selected worker id
+<i>125</i>&nbsp;     */
+<i>126</i>&nbsp;    public void selectPrometheus(Integer workerID){
+<b class="nc"><i>127</i>&nbsp;        socket.sendMessage(new PrometheusBuildReceiver(workerID));</b>
+<i>128</i>&nbsp;    }
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    /***
+<i>131</i>&nbsp;     * Method used to select the next move for the atlas divinity
+<i>132</i>&nbsp;     * @param move string that contains the move direction
+<i>133</i>&nbsp;     * @param dome flag used that signals if a dome is built, true = altlas will build a dome
+<i>134</i>&nbsp;     */
+<i>135</i>&nbsp;    public void atlasBuild(String move, boolean dome) {
+<b class="nc"><i>136</i>&nbsp;        socket.sendMessage(new AtlasBuildReceiver(stringToDirection(move), dome));</b>
+<i>137</i>&nbsp;    }
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    /***
+<i>140</i>&nbsp;     * Send the list of picked divinities to the server
+<i>141</i>&nbsp;     * @param divinities the list of picked divinities
+<i>142</i>&nbsp;     */
+<i>143</i>&nbsp;    public void sendDivinities(ArrayList&lt;String&gt; divinities) {
+<b class="nc"><i>144</i>&nbsp;        socket.sendMessage(new DivinitySelection(divinities));</b>
+<i>145</i>&nbsp;    }
+<i>146</i>&nbsp;
+<i>147</i>&nbsp;    /***
+<i>148</i>&nbsp;     * Send the requested number of player
+<i>149</i>&nbsp;     * @param n number of players to be sent to the server
+<i>150</i>&nbsp;     */
+<i>151</i>&nbsp;    public void sendPlayerNumber(int n) {
+<b class="nc"><i>152</i>&nbsp;        socket.sendMessage(new PlayerNumber(n));</b>
+<i>153</i>&nbsp;    }
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;    public void reconnect(ViewUpdate view){
+<i>156</i>&nbsp;        try {
+<b class="nc"><i>157</i>&nbsp;            Socket sock = new Socket(socket.getIP().getHostName(), socket.getIP().getPort());</b>
+<b class="nc"><i>158</i>&nbsp;            socket = new SocketClient(sock, view);</b>
+<b class="nc"><i>159</i>&nbsp;            socket.start();</b>
+<b class="nc"><i>160</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>161</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>162</i>&nbsp;        }</b>
+<i>163</i>&nbsp;    }
+<i>164</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-25 16:44</div>
+</div>
+</body>
+</html>

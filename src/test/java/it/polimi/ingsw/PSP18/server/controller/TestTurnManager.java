@@ -5,6 +5,7 @@ import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Direction;
 import it.polimi.ingsw.PSP18.server.model.Move;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TestTurnManager {
-    private Match match;
+    private MatchSocket matchSocket;
     private ByteArrayOutputStream socketOutContent = new ByteArrayOutputStream();
     private InputStream socketInContent = new InputStream() {
         @Override
@@ -29,7 +30,7 @@ public class TestTurnManager {
 
     @Before
     public void createGameManager() {
-        match = new Match();
+        matchSocket = new MatchSocket(2);
     }
 
     @Before
@@ -51,16 +52,20 @@ public class TestTurnManager {
      */
     @Test
     public void testManageTurn() {
-        Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, null);
+        MatchSocket matchSocket = new MatchSocket(2);
+        MatchRun matchRun = new MatchRun(matchSocket);
+        SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.start();
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread);
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread);
-        match.getPlayerManagers().get(0).placeWorker(0, 0);
-        match.getPlayerManagers().get(0).placeWorker(1, 0);
-        match.getPlayerManagers().get(1).placeWorker(0, 1);
-        match.getPlayerManagers().get(1).placeWorker(1, 1);
-        TurnManager turnManager = new TurnManager(match);
+        matchSocket.addPlayer(new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Divinity", matchSocket), socketThread);
+        matchSocket.addPlayer(new PlayerManager(matchRun, new PlayerData("Test2", Color.GREEN, 1), "Divinity", matchSocket), socketThread);
+        matchSocket.getPlayerManagers().get(0).placeWorker(0, 0);
+        matchSocket.getPlayerManagers().get(0).placeWorker(1, 0);
+        matchSocket.getPlayerManagers().get(1).placeWorker(0, 1);
+        matchSocket.getPlayerManagers().get(1).placeWorker(1, 1);
+        TurnManager turnManager = new TurnManager(matchSocket, new BackupManager(matchSocket, matchRun));
+        turnManager.manageTurn();
+        turnManager = new TurnManager(matchSocket, new BackupManager(matchSocket, matchRun),0);
+        Assert.assertEquals( Integer.valueOf(0), turnManager.getIndexCurrentPlayer());
         turnManager.manageTurn();
     }
 
@@ -69,38 +74,43 @@ public class TestTurnManager {
      */
     @Test
     public void testManageTurnAthena() {
-        Match match = new Match();
-        SocketThread socketThread1 = new SocketThread(socket, null);
+        MatchSocket matchSocket = new MatchSocket(2);
+        MatchRun matchRun = new MatchRun(matchSocket);
+        SocketThread socketThread1 = new SocketThread(socket, null, true);
         socketThread1.start();
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread1);
-        SocketThread socketThread2 = new SocketThread(socket, null);
+        matchSocket.addPlayer(new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Athena", matchSocket), socketThread1);
+        SocketThread socketThread2 = new SocketThread(socket, null, true);
         socketThread2.start();
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread2);
-        match.getPlayerManagers().get(0).placeWorker(0, 0);
-        match.getPlayerManagers().get(0).placeWorker(4, 0);
-        match.getPlayerManagers().get(1).placeWorker(0, 4);
-        match.getPlayerManagers().get(1).placeWorker(4, 4);
-        TurnManager turnManager = new TurnManagerAthena(match);
+        matchSocket.addPlayer(new PlayerManager(matchRun, new PlayerData("Test2", Color.GREEN, 1), "Apollo", matchSocket), socketThread2);
+        matchSocket.getPlayerManagers().get(0).placeWorker(0, 0);
+        matchSocket.getPlayerManagers().get(0).placeWorker(4, 0);
+        matchSocket.getPlayerManagers().get(1).placeWorker(0, 4);
+        matchSocket.getPlayerManagers().get(1).placeWorker(4, 4);
+        TurnManager turnManager = new TurnManagerAthena(matchSocket, new BackupManager(matchSocket, matchRun));
         turnManager.manageTurn();
         Move move = new Move(Direction.DOWN, 2);
-        match.getPlayerManagers().get(0).getPlayerData().setLastMove(move);
-        match.getPlayerManagers().get(1).getPlayerData().setLastMove(move);
+        matchSocket.getPlayerManagers().get(0).getPlayerData().setLastMove(move);
+        matchSocket.getPlayerManagers().get(1).getPlayerData().setLastMove(move);
+        turnManager.manageTurn();
+        turnManager = new TurnManagerAthena(matchSocket, new BackupManager(matchSocket, matchRun),0);
+        matchSocket.getPlayerManagers().get(0).getPlayerData().setLastMove(new Move(Direction.UP,0));
         turnManager.manageTurn();
     }
     @Test
     public void testPassTurn(){
-        Match match = new Match();
-        SocketThread socketThread1 = new SocketThread(socket, null);
+        MatchSocket matchSocket = new MatchSocket(2);
+        MatchRun matchRun = new MatchRun(matchSocket);
+        SocketThread socketThread1 = new SocketThread(socket, null, true);
         socketThread1.start();
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Divinity"), socketThread1);
-        SocketThread socketThread2 = new SocketThread(socket, null);
+        matchSocket.addPlayer(new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Divinity", matchSocket), socketThread1);
+        SocketThread socketThread2 = new SocketThread(socket, null, true);
         socketThread2.start();
-        match.addPlayer(new PlayerManager(match, new PlayerData("Test2", Color.GREEN, 1), "Divinity"), socketThread2);
-        match.getPlayerManagers().get(0).placeWorker(0, 0);
-        match.getPlayerManagers().get(0).placeWorker(4, 0);
-        match.getPlayerManagers().get(1).placeWorker(0, 4);
-        match.getPlayerManagers().get(1).placeWorker(4, 4);
-        TurnManager turnManager = new TurnManagerAthena(match);
+        matchSocket.addPlayer(new PlayerManager(matchRun, new PlayerData("Test2", Color.GREEN, 1), "Divinity", matchSocket), socketThread2);
+        matchSocket.getPlayerManagers().get(0).placeWorker(0, 0);
+        matchSocket.getPlayerManagers().get(0).placeWorker(4, 0);
+        matchSocket.getPlayerManagers().get(1).placeWorker(0, 4);
+        matchSocket.getPlayerManagers().get(1).placeWorker(4, 4);
+        TurnManager turnManager = new TurnManagerAthena(matchSocket, new BackupManager(matchSocket, matchRun));
         turnManager.passTurn();
         turnManager.passTurn();
     }

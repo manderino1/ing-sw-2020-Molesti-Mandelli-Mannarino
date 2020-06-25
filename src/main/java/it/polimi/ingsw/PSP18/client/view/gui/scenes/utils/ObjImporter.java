@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
@@ -74,6 +75,9 @@ public class ObjImporter implements Importer {
     private static boolean debug = false;
     private static float scale = 1;
     private static boolean flatXZ = false;
+
+    private static ConcurrentHashMap<URL, PolygonMesh> meshMap = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<URL, Material> materialMap = new ConcurrentHashMap<>();
 
     static void log(String string) {
         if (debug) {
@@ -113,27 +117,33 @@ public class ObjImporter implements Importer {
 
         ObjImporter.ObjModel model = asPolygon ? new ObjImporter.PolyObjModel(url) : new ObjImporter.ObjModel(url);
 
-        /*
-        try {
-            Map<String, String> env = new HashMap<>();
-            env.put("create", "true");
-            FileSystem zipfs = FileSystems.newFileSystem(url.toURI(), env);
-        } catch(FileSystemAlreadyExistsException ignored) {
 
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-        */
+        if(url.getProtocol().equals("jar")) {
+            try {
+                Map<String, String> env = new HashMap<>();
+                env.put("create", "true");
+                FileSystem zipfs = FileSystems.newFileSystem(url.toURI(), env);
+            } catch(FileSystemAlreadyExistsException ignored) {
 
-        try (Stream<String> lines = Files.lines(Paths.get(url.toURI()))) {
-            lines.map(String::trim)
-                    .filter(l -> !l.isEmpty() && !l.startsWith("#"))
-                    .forEach(model::parseLine);
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
 
-        model.addMesh(model.key);
+        if(meshMap.get(url) == null) {
+            try (Stream<String> lines = Files.lines(Paths.get(url.toURI()))) {
+                lines.map(String::trim)
+                        .filter(l -> !l.isEmpty() && !l.startsWith("#"))
+                        .forEach(model::parseLine);
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
+
+            model.addMesh(model.key);
+        } else {
+            model.addExistentMesh(model.key);
+        }
+
 
         log("Totally loaded " + (model.vertices.size() / 3.) + " vertices, "
                 + (model.uvs.size() / 2.) + " uvs, "
@@ -190,7 +200,7 @@ public class ObjImporter implements Importer {
         private ObservableIntegerArray faces = FXCollections.observableIntegerArray();
         private ObservableIntegerArray faceNormals = FXCollections.observableIntegerArray();
 
-        private final URL url;
+        protected final URL url;
 
         ObjModel(URL url) {
             this.url = url;
@@ -317,6 +327,9 @@ public class ObjImporter implements Importer {
             facesStart = faces.size();
             facesNormalStart = faceNormals.size();
             smoothingGroupsStart = smoothingGroups.size();
+        }
+
+        protected void addExistentMesh(String key) {
         }
 
         private void parseGroupName(String value) {
@@ -470,7 +483,6 @@ public class ObjImporter implements Importer {
             polygonMeshView.setId(key);
             polygonMeshView.setMaterial(getMaterial(key));
             polygonMeshView.setMesh(polygonMeshes.get(key));
-            // TODO:
             // polygonMeshView.setCullFace(CullFace.NONE);
             return polygonMeshView;
         }
@@ -579,6 +591,19 @@ public class ObjImporter implements Importer {
             facesStart = facesPolygon.size();
             facesNormalStart = faceNormalsPolygon.size();
             smoothingGroupsStart = smoothingGroups.size();
+
+            meshMap.put(url, mesh);
+            materialMap.put(url, material);
+        }
+
+        @Override
+        protected void addExistentMesh(String key) {
+            PolygonMesh mesh = meshMap.get(url);
+            polygonMeshes.put(key, mesh);
+            meshNames.add(key);
+            addMaterial(key, materialMap.get(url));
+            facesStart = mesh.getFaceElementSize();
+            smoothingGroupsStart = mesh.getFaceSmoothingGroups().size();
         }
 
         @Override

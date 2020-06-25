@@ -1,7 +1,6 @@
 package it.polimi.ingsw.PSP18.server;
 
-import it.polimi.ingsw.PSP18.networking.SocketServer;
-import it.polimi.ingsw.PSP18.server.controller.Match;
+import it.polimi.ingsw.PSP18.server.controller.MatchManager;
 
 /***
  * Runs a server instance

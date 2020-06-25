@@ -27,4 +27,12 @@ public class MapObserver {
     public void update(GameMap map) {
         socket.sendMessage(new GameMapUpdate(map));
     }
+
+    /***
+     * Get the attached socket
+     * @return the socket reference
+     */
+    public SocketThread getSocket() {
+        return socket;
+    }
 }

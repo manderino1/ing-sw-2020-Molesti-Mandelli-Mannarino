@@ -12,7 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Socket;
+import java.net.*;
 
 /***
  * The class implements an instance of the socket on the client side
@@ -111,11 +111,16 @@ public class SocketClient extends Thread {
                 String line = input.readLine();    // reads a line of text
                 if(line != null) {
                     messageParse(line);
+                } else {
+                    throw new SocketException();
                 }
-            } catch (IOException e) {
+            } catch (SocketException | SocketTimeoutException e) {
                 System.out.println("Server has closed connection with you");
                 System.out.println("If the match ended and you want to reconnect just restart the client");
-                //TODO: gestire disconnessione lato client
+                viewUpdate.serverDisconnected();
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
                 return;
             }
         }
@@ -138,6 +143,14 @@ public class SocketClient extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /***
+     * Get the ip and the port of the server
+     * @return the ip and the port
+     */
+    public InetSocketAddress getIP() {
+        return new InetSocketAddress(socket.getInetAddress(), socket.getPort());
     }
 
     /***

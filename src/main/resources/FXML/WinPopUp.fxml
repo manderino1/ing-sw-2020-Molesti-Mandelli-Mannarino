@@ -33,7 +33,7 @@
             <Image url="@../2DGraphics/endgame_victorywin.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="62.0" fitWidth="354.0" layoutX="225.0" layoutY="391.0" onMouseClicked="#confirmClick" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="62.0" fitWidth="354.0" layoutX="225.0" layoutY="391.0" onMouseClicked="#againClick" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../2DGraphics/btn_blue.png" />
          </image>

@@ -3,24 +3,24 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Direction;
-import it.polimi.ingsw.PSP18.server.model.GameMap;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class TestHephaestus extends TestDivinity {
     @Override
     public void createPlayerManager() {
-        Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, null);
+        matchSocket = new MatchSocket(2);
+        matchRun = new MatchRun(matchSocket);
+        SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.start();
-        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Hephaestus");
-        match.addPlayer(playerManager, socketThread);
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Hephaestus", matchSocket);
+        matchSocket.addPlayer(playerManager, socketThread);
     }
 
     /***
@@ -28,13 +28,15 @@ public class TestHephaestus extends TestDivinity {
      */
     @Override
     public void testGetName() {
-        Divinity divinity = new Divinity("Hephaestus", playerManager);
+        MatchSocket matchSocket = new MatchSocket(2);
+        MatchRun matchRun = new MatchRun(matchSocket);
+        Divinity divinity = new Divinity("Hephaestus", playerManager, matchSocket, matchRun);
         Assert.assertEquals(playerManager.getDivinityName(), divinity.getName());
     }
 
     @Test
     public void testBuild() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
@@ -46,10 +48,10 @@ public class TestHephaestus extends TestDivinity {
 
         socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), matchRun.getGameMap().getCell(0,1).getBuilding());
 
         socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(null);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), matchRun.getGameMap().getCell(0,1).getBuilding());
     }
 }

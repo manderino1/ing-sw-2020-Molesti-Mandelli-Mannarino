@@ -88,7 +88,7 @@
 <i>14</i>&nbsp;     * @param match the match reference (unique for all players)
 <i>15</i>&nbsp;     * @param playerData data of the player
 <i>16</i>&nbsp;     */
-<b class="nc"><i>17</i>&nbsp;    public PlayerManager(Match match, PlayerData playerData) {</b>
+<b class="nc"><i>17</i>&nbsp;    public PlayerManager(matchRun match, PlayerData playerData) {</b>
 <b class="nc"><i>18</i>&nbsp;        this.match = match;</b>
 <b class="nc"><i>19</i>&nbsp;        this.playerData = playerData;</b>
 <b class="nc"><i>20</i>&nbsp;    }</b>
@@ -99,7 +99,7 @@
 <i>25</i>&nbsp;     * @param playerData data of the player
 <i>26</i>&nbsp;     * @param divinity the name of the choosen divinity
 <i>27</i>&nbsp;     */
-<b class="fc"><i>28</i>&nbsp;    public PlayerManager(Match match, PlayerData playerData, String divinity) {</b>
+<b class="fc"><i>28</i>&nbsp;    public PlayerManager(matchRun match, PlayerData playerData, String divinity) {</b>
 <b class="fc"><i>29</i>&nbsp;        this.match = match;</b>
 <b class="fc"><i>30</i>&nbsp;        this.playerData = playerData;</b>
 <b class="fc"><i>31</i>&nbsp;        divinityCreation(divinity);</b>
@@ -155,12 +155,12 @@
 <i>81</i>&nbsp;    public void placeWorker(Integer x, Integer y) {
 <b class="fc"><i>82</i>&nbsp;        if(workers[0] == null) {</b>
 <b class="fc"><i>83</i>&nbsp;            workers[0] = new Worker(x, y, 0, playerData.getPlayerColor());</b>
-<b class="fc"><i>84</i>&nbsp;            match.getGameMap().setCell(x, y, match.getGameMap().getCell(x,y).getBuilding(), workers[0]);</b>
+<b class="fc"><i>84</i>&nbsp;            match.getMatchRun().getGameMap().setCell(x, y, match.getMatchRun().getGameMap().getCell(x,y).getBuilding(), workers[0]);</b>
 <i>85</i>&nbsp;            //TODO: throw exception if cell is occupied
 <i>86</i>&nbsp;        }
 <b class="fc"><i>87</i>&nbsp;        else if (workers[1] == null) {</b>
 <b class="fc"><i>88</i>&nbsp;            workers[1] = new Worker(x, y, 1, playerData.getPlayerColor());</b>
-<b class="fc"><i>89</i>&nbsp;            match.getGameMap().setCell(x, y, match.getGameMap().getCell(x,y).getBuilding(), workers[1]);</b>
+<b class="fc"><i>89</i>&nbsp;            match.getMatchRun().getGameMap().setCell(x, y, match.getMatchRun().getGameMap().getCell(x,y).getBuilding(), workers[1]);</b>
 <i>90</i>&nbsp;        }
 <i>91</i>&nbsp;        else {
 <i>92</i>&nbsp;            //TODO: throw exception if too many workers
@@ -184,10 +184,10 @@
 <i>110</i>&nbsp;     */
 <i>111</i>&nbsp;    public void setBuild(Integer X, Integer Y, Boolean dome) {
 <b class="fc"><i>112</i>&nbsp;        if(dome) {</b>
-<b class="fc"><i>113</i>&nbsp;            match.getGameMap().setDome(X, Y);</b>
+<b class="fc"><i>113</i>&nbsp;            match.getMatchRun().getGameMap().setDome(X, Y);</b>
 <i>114</i>&nbsp;        }
 <i>115</i>&nbsp;        else {
-<b class="fc"><i>116</i>&nbsp;            match.getGameMap().setCell(X, Y, match.getGameMap().getCell(X, Y).getBuilding()+1, match.getGameMap().getCell(X, Y).getWorker());</b>
+<b class="fc"><i>116</i>&nbsp;            match.getMatchRun().getGameMap().setCell(X, Y, match.getMatchRun().getGameMap().getCell(X, Y).getBuilding()+1, match.getMatchRun().getGameMap().getCell(X, Y).getWorker());</b>
 <i>117</i>&nbsp;        }
 <b class="fc"><i>118</i>&nbsp;    }</b>
 <i>119</i>&nbsp;
@@ -204,7 +204,7 @@
 <i>130</i>&nbsp;     * @return a copy of the map
 <i>131</i>&nbsp;     */
 <i>132</i>&nbsp;    public GameMap getGameMap() {
-<b class="fc"><i>133</i>&nbsp;        return match.getGameMap();</b>
+<b class="fc"><i>133</i>&nbsp;        return match.getMatchRun().getGameMap();</b>
 <i>134</i>&nbsp;    }
 <i>135</i>&nbsp;
 <i>136</i>&nbsp;    /***

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.PSP18.server.model;
 
+import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.server.view.MapObserver;
+import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 
 import java.util.ArrayList;
 
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 public class GameMap {
     private Cell[][] mapCells = new Cell[5][5];
     private boolean lastActionIsBuild;
-    private int lastActionX, lastActionY;
+    private int lastActionX = -1, lastActionY = -1;
     private ArrayList<MapObserver> observers = new ArrayList<>();
 
     /***
@@ -59,6 +61,14 @@ public class GameMap {
     }
 
     /***
+     * Set a new map into the game
+     * @param mapCells the array of map cells
+     */
+    public void setMapCells(Cell[][] mapCells) {
+        this.mapCells = mapCells;
+    }
+
+    /***
      * Place a dome into the selected cell
      * @param x the x coordinate of the cell to modify
      * @param y the y coordinate of the cell to modify
@@ -94,6 +104,23 @@ public class GameMap {
     public void notifyObservers() {
         for(MapObserver observer : observers) {
             observer.update(this);
+        }
+    }
+
+    /***
+     * Detach the observers corresponding with the given socket
+     * @param socket the socket to remove
+     */
+    public void detachSocket(SocketThread socket) {
+        ArrayList<MapObserver> toRemove = new ArrayList<>();
+        for(MapObserver observer : observers) {
+            if(observer.getSocket().equals(socket)) {
+                toRemove.add(observer);
+            }
+        }
+
+        for(MapObserver observer : toRemove) {
+            detach(observer);
         }
     }
 

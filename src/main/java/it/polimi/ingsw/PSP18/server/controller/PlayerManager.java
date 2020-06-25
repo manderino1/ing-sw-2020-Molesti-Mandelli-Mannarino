@@ -7,68 +7,68 @@ import it.polimi.ingsw.PSP18.server.model.*;
  * class that deals with the layer information such as divinity and turns
  */
 public class PlayerManager {
-    private Match match;
+    private MatchRun matchRun;
     private Worker[] workers = new Worker[2];
     private PlayerData playerData;
     private Divinity divinity;
 
     /***
      * Class constructor, initializes the  and the playerData
-     * @param match the match reference (unique for all players)
      * @param playerData data of the player
      */
-    public PlayerManager(Match match, PlayerData playerData) {
-        this.match = match;
+    public PlayerManager(PlayerData playerData) {
         this.playerData = playerData;
     }
 
     /***
      * Class constructor, initializes the  and the playerData
-     * @param match the match reference (unique for all players)
      * @param playerData data of the player
      * @param divinity the name of the choosen divinity
+     * @param matchRun reference of the match running management section
+     * @param matchSocket for obtaining info about sockets and players connected to the match
      */
-    public PlayerManager(Match match, PlayerData playerData, String divinity) {
-        this.match = match;
+    public PlayerManager(MatchRun matchRun, PlayerData playerData, String divinity, MatchSocket matchSocket) {
+        this.matchRun = matchRun;
         this.playerData = playerData;
-        divinityCreation(divinity);
+        divinityCreation(divinity, matchSocket);
     }
 
     /***
      * Called from the constructor, create a divinity of the correct type given by the player
      * @param divinityName string representing the name of the divinity to be created
+     * @param matchSocket for obtaining info about sockets and players connected to the match
      */
-    public void divinityCreation(String divinityName) {
+    public void divinityCreation(String divinityName, MatchSocket matchSocket) {
         switch(divinityName) {
             case "Divinity":
-                divinity = new Divinity(divinityName, this);
+                divinity = new Divinity(divinityName, this, matchSocket, matchRun);
                 break;
             case "Apollo":
-                divinity = new Apollo(divinityName, this);
+                divinity = new Apollo(divinityName, this, matchSocket, matchRun);
                 break;
             case "Artemis":
-                divinity = new Artemis(divinityName, this);
+                divinity = new Artemis(divinityName, this, matchSocket, matchRun);
                 break;
             case "Athena":
-                divinity = new Athena(divinityName, this);
+                divinity = new Athena(divinityName, this, matchSocket, matchRun);
                 break;
             case "Atlas":
-                divinity = new Atlas(divinityName, this);
+                divinity = new Atlas(divinityName, this, matchSocket, matchRun);
                 break;
             case "Demeter":
-                divinity = new Demeter(divinityName, this);
+                divinity = new Demeter(divinityName, this, matchSocket, matchRun);
                 break;
             case "Hephaestus":
-                divinity = new Hephaestus(divinityName, this);
+                divinity = new Hephaestus(divinityName, this, matchSocket, matchRun);
                 break;
             case "Minotaur":
-                divinity = new Minotaur(divinityName, this);
+                divinity = new Minotaur(divinityName, this, matchSocket, matchRun);
                 break;
             case "Pan":
-                divinity = new Pan(divinityName, this);
+                divinity = new Pan(divinityName, this, matchSocket, matchRun);
                 break;
             case "Prometheus":
-                divinity = new Prometheus(divinityName, this);
+                divinity = new Prometheus(divinityName, this, matchSocket, matchRun);
                 break;
         }
         playerData.setDivinity(divinityName);
@@ -80,19 +80,16 @@ public class PlayerManager {
      * @param x the x coordinate in the map of the worker to be placed
      * @param y the y coordinate in the map of the worker to be placed
      */
-    //TODO: check if somehow you can place a worker in a spot out of bounds, use checkCoordinate from DirectionManagement if needed
     public void placeWorker(Integer x, Integer y) {
         if(workers[0] == null) {
             workers[0] = new Worker(x, y, 0, playerData.getPlayerColor());
-            match.getGameMap().setCell(x, y, match.getGameMap().getCell(x,y).getBuilding(), workers[0]);
-            //TODO: throw exception if cell is occupied
+            matchRun.getGameMap().setCell(x, y, matchRun.getGameMap().getCell(x,y).getBuilding(), workers[0]);
         }
         else if (workers[1] == null) {
             workers[1] = new Worker(x, y, 1, playerData.getPlayerColor());
-            match.getGameMap().setCell(x, y, match.getGameMap().getCell(x,y).getBuilding(), workers[1]);
-        }
-        else {
-            //TODO: throw exception if too many workers
+            matchRun.getGameMap().setCell(x, y, matchRun.getGameMap().getCell(x,y).getBuilding(), workers[1]);
+        } else {
+            System.err.println("Already 2 workers present");
         }
     }
 
@@ -106,6 +103,15 @@ public class PlayerManager {
     }
 
     /***
+     * Set the workers when restoring the backup
+     * @param worker the worker 1 reference
+     * @param id the id of the worker to be set
+     */
+    public void setWorkers(Worker worker, int id) {
+        this.workers[id] = worker;
+    }
+
+    /***
      * Build up a floor on the selected cell or place a dome on it
      * @param X the x coordinate of the building cell
      * @param Y the y coordinate of the building cell
@@ -113,10 +119,10 @@ public class PlayerManager {
      */
     public void setBuild(Integer X, Integer Y, Boolean dome) {
         if(dome) {
-            match.getGameMap().setDome(X, Y);
+            matchRun.getGameMap().setDome(X, Y);
         }
         else {
-            match.getGameMap().setCell(X, Y, match.getGameMap().getCell(X, Y).getBuilding()+1, match.getGameMap().getCell(X, Y).getWorker());
+            matchRun.getGameMap().setCell(X, Y, matchRun.getGameMap().getCell(X, Y).getBuilding()+1, matchRun.getGameMap().getCell(X, Y).getWorker());
         }
     }
 
@@ -133,7 +139,7 @@ public class PlayerManager {
      * @return a copy of the map
      */
     public GameMap getGameMap() {
-        return match.getGameMap();
+        return matchRun.getGameMap();
     }
 
     /***
@@ -167,10 +173,10 @@ public class PlayerManager {
     }
 
     /***
-     * Returns the match reference
-     * @return match reference
+     * On match start set matchRun reference
+     * @param matchRun matchRun reference
      */
-    public Match getMatch() {
-        return match;
+    public void setMatchRun(MatchRun matchRun) {
+        this.matchRun = matchRun;
     }
 }

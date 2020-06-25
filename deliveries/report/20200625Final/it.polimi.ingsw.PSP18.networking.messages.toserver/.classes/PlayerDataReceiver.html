@@ -1,0 +1,111 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PlayerDataReceiver</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.networking.messages.toserver</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PlayerDataReceiver (it.polimi.ingsw.PSP18.networking.messages.toserver)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayerDataReceiver</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.networking.messages.toserver;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Color;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/***
+<i>6</i>&nbsp; * This is the class that represents a message used to select the the PlayedData of a certain player and saving his in-game nickname
+<i>7</i>&nbsp; */
+<i>8</i>&nbsp;public class PlayerDataReceiver extends ServerAbstractMessage {
+<i>9</i>&nbsp;    private String playerID;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    /***
+<i>12</i>&nbsp;     * Constructor method for the PlayerDataReceiver class, message used to select the the PlayedData of a certain player
+<i>13</i>&nbsp;     * @param playerID string that contains the in-game player nickname
+<i>14</i>&nbsp;     */
+<b class="nc"><i>15</i>&nbsp;    public PlayerDataReceiver(String playerID) {</b>
+<b class="nc"><i>16</i>&nbsp;        this.type = ServerMessageType.PLAYER_DATA_RECEIVER;</b>
+<b class="nc"><i>17</i>&nbsp;        this.playerID = playerID;</b>
+<i>18</i>&nbsp;    }
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /***
+<i>21</i>&nbsp;     * Return a string with playerID
+<i>22</i>&nbsp;     * @return player in-game nick name
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    public String getPlayerID() {
+<b class="nc"><i>25</i>&nbsp;        return playerID;</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-25 16:44</div>
+</div>
+</body>
+</html>

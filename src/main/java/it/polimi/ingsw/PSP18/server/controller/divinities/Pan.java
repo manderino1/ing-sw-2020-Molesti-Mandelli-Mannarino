@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PSP18.server.controller.divinities;
 
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 /***
  * this is the class that implements Pan's powers
@@ -9,9 +11,11 @@ public class Pan extends Divinity{
      * Constructor of the class, initialize name and playerManager in Divinity
      * @param name the name of the divinity
      * @param playerManager the object that has this divinity
+     * @param matchRun reference of the match running management section
+     * @param matchSocket for obtaining info about sockets and players connected to the match
      */
-    public Pan(String name, PlayerManager playerManager) {
-        super(name, playerManager);
+    public Pan(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
+        super(name, playerManager, matchSocket, matchRun);
     }
 
     /***

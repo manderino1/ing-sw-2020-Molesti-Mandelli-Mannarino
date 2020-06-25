@@ -1,0 +1,167 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Artemis</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.controller.divinities</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Artemis (it.polimi.ingsw.PSP18.server.controller.divinities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Artemis</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,9%
+  </span>
+  <span class="absValue">
+    (26/ 31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.controller.divinities;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Direction;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Worker;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.util.ArrayList;
+<i>12</i>&nbsp;/***
+<i>13</i>&nbsp; * this is the class that implements Artemis&#39;s powers
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;public class Artemis extends Divinity {
+<i>16</i>&nbsp;    private boolean firstMove;
+<i>17</i>&nbsp;    /***
+<i>18</i>&nbsp;     * Constructor of the class, initialize name and playerManager in Divinity
+<i>19</i>&nbsp;     * @param name the name of the divinity
+<i>20</i>&nbsp;     * @param playerManager the object that has this divinity
+<i>21</i>&nbsp;     * @param matchRun reference of the match running management section
+<i>22</i>&nbsp;     * @param matchSocket for obtaining info about sockets and players connected to the match
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    public Artemis(String name, PlayerManager playerManager, MatchSocket matchSocket, MatchRun matchRun) {
+<b class="fc"><i>25</i>&nbsp;        super(name, playerManager, matchSocket, matchRun);</b>
+<b class="fc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /***
+<i>29</i>&nbsp;     *  First part of the movement phase
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    @Override
+<i>32</i>&nbsp;    protected void move() {
+<b class="fc"><i>33</i>&nbsp;        movesWorker1 = checkMovementMoves(playerManager.getWorker(0).getX(), playerManager.getWorker(0).getY(), raiseForbidden);</b>
+<b class="fc"><i>34</i>&nbsp;        movesWorker2 = checkMovementMoves(playerManager.getWorker(1).getX(), playerManager.getWorker(1).getY(), raiseForbidden);</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;        // Check if the player has lost
+<b class="fc"><i>37</i>&nbsp;        if (movesWorker1.size() == 0 &amp;&amp; movesWorker2.size() == 0) {</b>
+<b class="nc"><i>38</i>&nbsp;            manageLoss();</b>
+<b class="nc"><i>39</i>&nbsp;            return;</b>
+<i>40</i>&nbsp;        }
+<i>41</i>&nbsp;
+<b class="fc"><i>42</i>&nbsp;        matchSocket.getCurrentSocket().sendMessage(new MoveList(movesWorker1, movesWorker2, playerManager.getWorker(0), playerManager.getWorker(1)));</b>
+<b class="fc"><i>43</i>&nbsp;        this.firstMove = true;</b>
+<b class="fc"><i>44</i>&nbsp;    }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    /***
+<i>47</i>&nbsp;     * Moves in the selected direction
+<i>48</i>&nbsp;     * @param direction the direction of the movement
+<i>49</i>&nbsp;     * @param workerID the ID of the worker that we want to move
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;    @Override
+<i>52</i>&nbsp;    public void moveReceiver(Direction direction, Integer workerID) {
+<b class="fc"><i>53</i>&nbsp;        if(direction == null) { // If he doesn&#39;t want to move</b>
+<b class="fc"><i>54</i>&nbsp;            build();</b>
+<b class="fc"><i>55</i>&nbsp;            return;</b>
+<i>56</i>&nbsp;        }
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;        Worker worker = playerManager.getWorker(workerID);</b>
+<b class="fc"><i>59</i>&nbsp;        this.workerID = workerID;</b>
+<b class="fc"><i>60</i>&nbsp;        setMove(worker.getX(), worker.getY(), direction);</b>
+<i>61</i>&nbsp;
+<b class="fc"><i>62</i>&nbsp;        if(checkForVictory(workerID)){</b>
+<b class="fc"><i>63</i>&nbsp;            if(checkForVictory(workerID)){</b>
+<b class="fc"><i>64</i>&nbsp;                matchRun.endMatch(playerManager);</b>
+<b class="fc"><i>65</i>&nbsp;                return;</b>
+<i>66</i>&nbsp;            }
+<i>67</i>&nbsp;        }
+<b class="fc"><i>68</i>&nbsp;        if(firstMove) {</b>
+<b class="fc"><i>69</i>&nbsp;            ArrayList&lt;Direction&gt; moves = checkMovementMoves(worker.getX(), worker.getY(), raiseForbidden);</b>
+<b class="fc"><i>70</i>&nbsp;            moves.remove(DirectionManagement.getOppositeDirection(direction));</b>
+<b class="fc"><i>71</i>&nbsp;            if (moves.size() == 0) {</b>
+<b class="nc"><i>72</i>&nbsp;                manageLoss();</b>
+<b class="nc"><i>73</i>&nbsp;                return;</b>
+<i>74</i>&nbsp;            }
+<b class="fc"><i>75</i>&nbsp;            firstMove = false;</b>
+<b class="fc"><i>76</i>&nbsp;            matchSocket.getCurrentSocket().sendMessage(new SingleMoveList(moves, workerID, true, playerManager.getWorker(workerID)));</b>
+<b class="fc"><i>77</i>&nbsp;        }</b>
+<i>78</i>&nbsp;        else {
+<b class="nc"><i>79</i>&nbsp;            build();</b>
+<i>80</i>&nbsp;        }
+<b class="fc"><i>81</i>&nbsp;    }</b>
+<i>82</i>&nbsp;}
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-23 17:05</div>
+</div>
+</body>
+</html>

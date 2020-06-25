@@ -1,0 +1,234 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MatchSocket</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.server.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MatchSocket (it.polimi.ingsw.PSP18.server.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MatchSocket</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (40/ 40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.server.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.networking.SocketThread;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.DivinityPick;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchReady;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.WaitingNick;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.MatchStatus;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;import java.util.HashMap;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/***
+<i>14</i>&nbsp; * class that contains all information about the players in the match, their sockets and also all the methods to
+<i>15</i>&nbsp; * manage them
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class MatchSocket {
+<i>18</i>&nbsp;    private MatchStatus matchStatus;
+<i>19</i>&nbsp;    private ArrayList&lt;PlayerManager&gt; playerManagers;
+<i>20</i>&nbsp;    private ArrayList&lt;SocketThread&gt; sockets;
+<i>21</i>&nbsp;    private HashMap&lt;PlayerManager, SocketThread&gt; playerSocketMap;
+<i>22</i>&nbsp;    private HashMap&lt;SocketThread, PlayerManager&gt; socketPlayerMap;
+<i>23</i>&nbsp;    private PlayerManager currentPlayer;
+<i>24</i>&nbsp;    private MatchSetUp matchSetUp;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /***
+<i>27</i>&nbsp;     * MatchSocket constructor, initializes the sockets, playerManagers, and the two HasMaps
+<i>28</i>&nbsp;     * @param playerN the number of players into the game
+<i>29</i>&nbsp;     */
+<b class="fc"><i>30</i>&nbsp;    public MatchSocket(int playerN){</b>
+<b class="fc"><i>31</i>&nbsp;        matchStatus = MatchStatus.WAITING_FOR_PLAYERS;</b>
+<b class="fc"><i>32</i>&nbsp;        playerManagers = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>33</i>&nbsp;        sockets = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>34</i>&nbsp;        playerSocketMap = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>35</i>&nbsp;        socketPlayerMap = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>36</i>&nbsp;        matchSetUp = new MatchSetUp(this, playerN);</b>
+<b class="fc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    /***
+<i>40</i>&nbsp;     * Return the list of the player managers into the match
+<i>41</i>&nbsp;     * @return the player managers list
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public ArrayList&lt;PlayerManager&gt; getPlayerManagers() {
+<b class="fc"><i>44</i>&nbsp;        return playerManagers;</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /***
+<i>48</i>&nbsp;     * Return the list of the sockets paired to the connected clients into the match
+<i>49</i>&nbsp;     * @return the list of sockets
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;    public ArrayList&lt;SocketThread&gt; getSockets() {
+<b class="fc"><i>52</i>&nbsp;        return sockets;</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /***
+<i>56</i>&nbsp;     * Add a player to the players list
+<i>57</i>&nbsp;     * @param player the playermanager player reference
+<i>58</i>&nbsp;     * @param socket the socket reference
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;    public void addPlayer(PlayerManager player, SocketThread socket){
+<b class="fc"><i>61</i>&nbsp;        for(PlayerManager playerPresent : playerManagers) {</b>
+<b class="fc"><i>62</i>&nbsp;            if (player.getPlayerData().getPlayerID().equals(playerPresent.getPlayerData().getPlayerID())) {</b>
+<b class="fc"><i>63</i>&nbsp;                socket.sendMessage(new WaitingNick());</b>
+<b class="fc"><i>64</i>&nbsp;                return;</b>
+<i>65</i>&nbsp;            }
+<b class="fc"><i>66</i>&nbsp;        }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;        // Subscribe the current player to all the existing players
+<b class="fc"><i>69</i>&nbsp;        for(PlayerManager exPlayer : playerManagers) {</b>
+<b class="fc"><i>70</i>&nbsp;            exPlayer.getPlayerData().attach(new PlayerDataObserver(socket));</b>
+<b class="fc"><i>71</i>&nbsp;        }</b>
+<i>72</i>&nbsp;
+<b class="fc"><i>73</i>&nbsp;        playerManagers.add(player);</b>
+<b class="fc"><i>74</i>&nbsp;        playerSocketMap.put(player, socket);</b>
+<b class="fc"><i>75</i>&nbsp;        socketPlayerMap.put(socket, player);</b>
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;        // Subscribe all the existing players to the new player
+<b class="fc"><i>78</i>&nbsp;        for(PlayerManager exPlayer : playerManagers) {</b>
+<b class="fc"><i>79</i>&nbsp;            player.getPlayerData().attach(new PlayerDataObserver(playerSocketMap.get(exPlayer)));</b>
+<b class="fc"><i>80</i>&nbsp;        }</b>
+<i>81</i>&nbsp;
+<b class="fc"><i>82</i>&nbsp;        socket.sendMessage(new MatchReady());</b>
+<b class="fc"><i>83</i>&nbsp;    }</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /***
+<i>86</i>&nbsp;     * Add a socket to the sockets list and register the observers
+<i>87</i>&nbsp;     * related to the socket and client connection
+<i>88</i>&nbsp;     * @param socket the socket reference
+<i>89</i>&nbsp;     */
+<i>90</i>&nbsp;    public void addSocket(SocketThread socket){
+<b class="fc"><i>91</i>&nbsp;        if(sockets.size() &lt;= 2 &amp;&amp; matchStatus == MatchStatus.WAITING_FOR_PLAYERS) {</b>
+<b class="fc"><i>92</i>&nbsp;            sockets.add(socket);</b>
+<b class="fc"><i>93</i>&nbsp;            socket.setMatchSetup(matchSetUp);</b>
+<b class="fc"><i>94</i>&nbsp;            socket.sendMessage(new WaitingNick());</b>
+<i>95</i>&nbsp;        }
+<b class="fc"><i>96</i>&nbsp;    }</b>
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    /***
+<i>99</i>&nbsp;     * Get the current playing player
+<i>100</i>&nbsp;     * @return che current player playing the turn
+<i>101</i>&nbsp;     */
+<i>102</i>&nbsp;    public PlayerManager getCurrentPlayer() {
+<b class="fc"><i>103</i>&nbsp;        return currentPlayer;</b>
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    /***
+<i>107</i>&nbsp;     * Set the new current player at the turn change
+<i>108</i>&nbsp;     * @param currentPlayer the new currently playing player
+<i>109</i>&nbsp;     */
+<i>110</i>&nbsp;    public void setCurrentPlayer(PlayerManager currentPlayer) {
+<b class="fc"><i>111</i>&nbsp;        this.currentPlayer = currentPlayer;</b>
+<b class="fc"><i>112</i>&nbsp;    }</b>
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    /***
+<i>115</i>&nbsp;     * Returns the current player socket
+<i>116</i>&nbsp;     * @return the current player socket
+<i>117</i>&nbsp;     */
+<i>118</i>&nbsp;    public SocketThread getCurrentSocket() {
+<b class="fc"><i>119</i>&nbsp;        return playerSocketMap.get(currentPlayer);</b>
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    /***
+<i>123</i>&nbsp;     * @return the hash map that relates a playerManager with his socketThread
+<i>124</i>&nbsp;     */
+<i>125</i>&nbsp;    public HashMap&lt;PlayerManager, SocketThread&gt; getPlayerSocketMap() {
+<b class="fc"><i>126</i>&nbsp;        return playerSocketMap;</b>
+<i>127</i>&nbsp;    }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    /***
+<i>130</i>&nbsp;     * @return the hash map that relates a socketThread with his playerManager
+<i>131</i>&nbsp;     */
+<i>132</i>&nbsp;    public HashMap&lt;SocketThread, PlayerManager&gt; getSocketPlayerMap() {
+<b class="fc"><i>133</i>&nbsp;        return socketPlayerMap;</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    /***
+<i>137</i>&nbsp;     * Set the state of the match in pre-defined states as described in MatchStatus class
+<i>138</i>&nbsp;     * @param matchStatus the new state of the match
+<i>139</i>&nbsp;     */
+<i>140</i>&nbsp;    public void setMatchStatus(MatchStatus matchStatus) {
+<b class="fc"><i>141</i>&nbsp;        this.matchStatus = matchStatus;</b>
+<b class="fc"><i>142</i>&nbsp;    }</b>
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;    /***
+<i>145</i>&nbsp;     * Return the state of the match, there are some pre-defined states as enum in MatchStatus class
+<i>146</i>&nbsp;     * @return the match state
+<i>147</i>&nbsp;     */
+<i>148</i>&nbsp;    public MatchStatus getMatchStatus() {
+<b class="fc"><i>149</i>&nbsp;        return matchStatus;</b>
+<i>150</i>&nbsp;    }
+<i>151</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-25 16:44</div>
+</div>
+</body>
+</html>

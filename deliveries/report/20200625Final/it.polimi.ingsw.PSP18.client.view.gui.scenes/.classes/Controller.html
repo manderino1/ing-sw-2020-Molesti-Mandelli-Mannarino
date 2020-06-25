@@ -1,0 +1,159 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Controller</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.client.view.gui.scenes</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Controller (it.polimi.ingsw.PSP18.client.view.gui.scenes)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Controller</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.client.view.gui.scenes;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.client.view.gui.GuiViewUpdate;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.networking.SocketClient;
+<i>5</i>&nbsp;import javafx.fxml.Initializable;
+<i>6</i>&nbsp;import javafx.scene.CacheHint;
+<i>7</i>&nbsp;import javafx.scene.Node;
+<i>8</i>&nbsp;import javafx.scene.effect.ColorAdjust;
+<i>9</i>&nbsp;import javafx.scene.input.MouseEvent;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.net.URL;
+<i>12</i>&nbsp;import java.util.ResourceBundle;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/***
+<i>15</i>&nbsp; * Generic controller class
+<i>16</i>&nbsp; * Implements default function for setting socket reference and page ID to all sockets on scene switch
+<i>17</i>&nbsp; */
+<b class="nc"><i>18</i>&nbsp;public abstract class Controller implements Initializable {</b>
+<i>19</i>&nbsp;    protected SocketClient socket;
+<i>20</i>&nbsp;    protected String pageID;
+<i>21</i>&nbsp;    protected GuiViewUpdate view;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /***
+<i>24</i>&nbsp;     * Empty default initialize
+<i>25</i>&nbsp;     * @param url unused
+<i>26</i>&nbsp;     * @param resourceBundle unused
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;    @Override
+<i>29</i>&nbsp;    public void initialize(URL url, ResourceBundle resourceBundle) {
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /***
+<i>33</i>&nbsp;     * Set the view reference to switch scene from the controller if necessary
+<i>34</i>&nbsp;     * @param view guiViewUpdate reference
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    public void setView(GuiViewUpdate view) {
+<b class="nc"><i>37</i>&nbsp;        this.view = view;</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /***
+<i>41</i>&nbsp;     * Set the socket reference for sending messages directly from the scene
+<i>42</i>&nbsp;     * @param socket connected socket reference
+<i>43</i>&nbsp;     */
+<i>44</i>&nbsp;    public void setSocket(SocketClient socket) {
+<b class="nc"><i>45</i>&nbsp;        this.socket = socket;</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /***
+<i>49</i>&nbsp;     * Get the page ID from its attribute, set in init function for all inherited classes
+<i>50</i>&nbsp;     * @return the controller page ID
+<i>51</i>&nbsp;     */
+<i>52</i>&nbsp;    public String getPageID() {
+<b class="nc"><i>53</i>&nbsp;        return pageID;</b>
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /***
+<i>57</i>&nbsp;     * Standard function used from inherited classes for adding button effect on hovering enter
+<i>58</i>&nbsp;     * @param mouseEvent event reference
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;    public void hoverEnter(javafx.scene.input.MouseEvent mouseEvent) {
+<b class="nc"><i>61</i>&nbsp;        ColorAdjust blackout = new ColorAdjust();</b>
+<b class="nc"><i>62</i>&nbsp;        blackout.setBrightness(-0.2);</b>
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;        ((Node)mouseEvent.getSource()).setEffect(blackout);</b>
+<b class="nc"><i>65</i>&nbsp;        ((Node)mouseEvent.getSource()).setCache(true);</b>
+<b class="nc"><i>66</i>&nbsp;        ((Node)mouseEvent.getSource()).setCacheHint(CacheHint.SPEED);</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /***
+<i>70</i>&nbsp;     * tandard function used from inherited classes for removing effect on hovering exit
+<i>71</i>&nbsp;     * @param mouseEvent the mouse event reference
+<i>72</i>&nbsp;     */
+<i>73</i>&nbsp;    public void hoverExit(MouseEvent mouseEvent) {
+<b class="nc"><i>74</i>&nbsp;        ((Node)mouseEvent.getSource()).setEffect(null);</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-25 16:44</div>
+</div>
+</body>
+</html>

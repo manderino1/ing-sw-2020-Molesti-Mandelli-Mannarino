@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP18.server.model;
 
+import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.server.view.PlayerDataObserver;
 
 import java.util.ArrayList;
@@ -105,6 +106,22 @@ public class PlayerData {
     }
 
     /***
+     * Set the new player color on backup restore
+     * @param playerColor restore the new player backup
+     */
+    public void setPlayerColor(Color playerColor) {
+        this.playerColor = playerColor;
+    }
+
+    /***
+     * Set the new play order on backup restore
+     * @param playOrder restore the new play order
+     */
+    public void setPlayOrder(Integer playOrder) {
+        this.playOrder = playOrder;
+    }
+
+    /***
      * Adds an observer
      * @param observer the new observer reference
      */
@@ -127,6 +144,23 @@ public class PlayerData {
     public void notifyObservers() {
         for(PlayerDataObserver observer : observers) {
             observer.update(this);
+        }
+    }
+
+    /***
+     * Detach the observers corresponding with the given socket
+     * @param socket the socket to remove
+     */
+    public void detachSocket(SocketThread socket) {
+        ArrayList<PlayerDataObserver> toRemove = new ArrayList<>();
+        for(PlayerDataObserver observer : observers) {
+            if(observer.getSocket().equals(socket)) {
+                toRemove.add(observer);
+            }
+        }
+
+        for(PlayerDataObserver observer : toRemove) {
+            detach(observer);
         }
     }
 

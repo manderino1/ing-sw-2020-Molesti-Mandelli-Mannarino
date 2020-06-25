@@ -3,24 +3,24 @@ package it.polimi.ingsw.PSP18.server.controller.divinities;
 import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.Color;
 import it.polimi.ingsw.PSP18.server.model.Direction;
-import it.polimi.ingsw.PSP18.server.model.GameMap;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import it.polimi.ingsw.PSP18.server.model.PlayerData;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class TestAtlas extends TestDivinity {
     @Override
     public void createPlayerManager() {
-        Match match = new Match();
+        matchSocket = new MatchSocket(2);
+        matchRun = new MatchRun(matchSocket);
         SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.start();
-        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Atlas");
-        match.addPlayer(playerManager, socketThread);
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Atlas", matchSocket);
+        matchSocket.addPlayer(playerManager, socketThread);
     }
 
     /***
@@ -28,13 +28,15 @@ public class TestAtlas extends TestDivinity {
      */
     @Override
     public void testGetName() {
-        Divinity divinity = new Divinity("Atlas", playerManager);
+        MatchSocket matchSocket = new MatchSocket(2);
+        MatchRun matchRun = new MatchRun(matchSocket);
+        Divinity divinity = new Divinity("Atlas", playerManager, matchSocket, matchRun);
         Assert.assertEquals(playerManager.getDivinityName(), divinity.getName());
     }
 
     @Test
     public void testBuild() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
@@ -46,6 +48,6 @@ public class TestAtlas extends TestDivinity {
 
         socketOutContent.reset();
         ((Atlas) playerManager.getDivinity()).buildReceiver(Direction.DOWN, false);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), matchRun.getGameMap().getCell(0,1).getBuilding());
     }
 }

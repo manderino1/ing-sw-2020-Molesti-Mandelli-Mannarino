@@ -5,13 +5,12 @@ import it.polimi.ingsw.PSP18.networking.SocketThread;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.BuildList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.MoveList;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.PrometheusBuildList;
-import it.polimi.ingsw.PSP18.networking.messages.toserver.MoveReceiver;
 import it.polimi.ingsw.PSP18.networking.messages.toserver.PrometheusBuildReceiver;
+import it.polimi.ingsw.PSP18.server.controller.MatchRun;
+import it.polimi.ingsw.PSP18.server.controller.MatchSocket;
 import it.polimi.ingsw.PSP18.server.controller.PlayerManager;
 import it.polimi.ingsw.PSP18.server.model.*;
-import it.polimi.ingsw.PSP18.server.controller.Match;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -23,12 +22,13 @@ public class TestPrometheus extends TestDivinity {
 
     @Override
     public void createPlayerManager() {
-        Match match = new Match();
-        SocketThread socketThread = new SocketThread(socket, null);
-        socketThread.setMatch(match);
+        matchSocket = new MatchSocket(2);
+        matchRun = new MatchRun(matchSocket);
+        SocketThread socketThread = new SocketThread(socket, null, true);
+        socketThread.setMatchSocket(matchSocket);
         socketThread.start();
-        playerManager = new PlayerManager(match, new PlayerData("Test1", Color.RED, 0), "Prometheus");
-        match.addPlayer(playerManager, socketThread);
+        playerManager = new PlayerManager(matchRun, new PlayerData("Test1", Color.RED, 0), "Prometheus", matchSocket);
+        matchSocket.addPlayer(playerManager, socketThread);
     }
 
     /***
@@ -36,13 +36,14 @@ public class TestPrometheus extends TestDivinity {
      */
     @Override
     public void testGetName() {
-        Divinity divinity = new Divinity("Prometheus", playerManager);
+        MatchSocket matchSocket = new MatchSocket(2);
+        Divinity divinity = new Divinity( "Prometheus", playerManager, matchSocket, new MatchRun(matchSocket));
         Assert.assertEquals(playerManager.getDivinityName(), divinity.getName());
     }
 
     @Test
     public void testManageTurn() {
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0, 0);
         playerManager.placeWorker(0, 1);
         socketOutContent.reset();
@@ -63,7 +64,7 @@ public class TestPrometheus extends TestDivinity {
     }
     @Test
     public void testReceiveWorker(){
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,1);
         socketOutContent.reset();
@@ -85,7 +86,7 @@ public class TestPrometheus extends TestDivinity {
     }
     @Test
     public void build(){
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(2,1);
 
@@ -97,15 +98,15 @@ public class TestPrometheus extends TestDivinity {
 
         socketOutContent.reset();
         playerManager.getDivinity().buildReceiver(Direction.DOWN);
-        Assert.assertEquals(Integer.valueOf(1), playerManager.getMatch().getGameMap().getCell(0,1).getBuilding());
+        Assert.assertEquals(Integer.valueOf(1), matchRun.getGameMap().getCell(0,1).getBuilding());
 
-        playerManager.getMatch().getGameMap().getCell(1,0).setBuilding(3);
-        playerManager.getMatch().getGameMap().getCell(0,1).setBuilding(2);
-        playerManager.getMatch().getGameMap().getCell(1,1).setBuilding(3);
+        matchRun.getGameMap().getCell(1,0).setBuilding(3);
+        matchRun.getGameMap().getCell(0,1).setBuilding(2);
+        matchRun.getGameMap().getCell(1,1).setBuilding(3);
     }
     @Test
     public void buildReceiver(){
-        playerManager.getMatch().setCurrentPlayer(playerManager);
+        matchSocket.setCurrentPlayer(playerManager);
         playerManager.placeWorker(0,0);
         playerManager.placeWorker(0,2);
         socketOutContent.reset();

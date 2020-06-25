@@ -1,0 +1,110 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PrometheusBuildReceiver</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.networking.messages.toserver</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PrometheusBuildReceiver (it.polimi.ingsw.PSP18.networking.messages.toserver)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PrometheusBuildReceiver</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.networking.messages.toserver;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Direction;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/***
+<i>6</i>&nbsp; * This is the class that represents a message used to signal that prometheus may use his power
+<i>7</i>&nbsp; */
+<i>8</i>&nbsp;public class PrometheusBuildReceiver extends ServerAbstractMessage {
+<i>9</i>&nbsp;    private Integer workerID;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    /***
+<i>12</i>&nbsp;     * Constructor of PrometheusBuildReceiver, message used in the prometheus divinity class to select the worker to move and build
+<i>13</i>&nbsp;     * @param workerID the worker to move and build
+<i>14</i>&nbsp;     */
+<b class="fc"><i>15</i>&nbsp;    public PrometheusBuildReceiver(Integer workerID) {</b>
+<b class="fc"><i>16</i>&nbsp;        this.type = ServerMessageType.PROMETHEUS_BUILD_RECEIVER;</b>
+<b class="fc"><i>17</i>&nbsp;        this.workerID = workerID;</b>
+<b class="fc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /***
+<i>21</i>&nbsp;     * Returns the workerID
+<i>22</i>&nbsp;     * @return the workerID
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    public Integer getChosenWorkerID() {
+<b class="fc"><i>25</i>&nbsp;        return workerID;</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-25 16:44</div>
+</div>
+</body>
+</html>

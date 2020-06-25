@@ -1,0 +1,1672 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MatchController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP18.client.view.gui.scenes</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MatchController (it.polimi.ingsw.PSP18.client.view.gui.scenes)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MatchController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 132)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 820)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MatchController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 133)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 821)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP18.client.view.gui.scenes;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toclient.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP18.networking.messages.toserver.*;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP18.server.controller.DirectionManagement;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.*;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Direction;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP18.server.model.Worker;
+<i>9</i>&nbsp;import javafx.animation.*;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import javafx.application.Platform;
+<i>12</i>&nbsp;import javafx.fxml.FXML;
+<i>13</i>&nbsp;import javafx.geometry.Point3D;
+<i>14</i>&nbsp;import javafx.scene.*;
+<i>15</i>&nbsp;import javafx.scene.control.Label;
+<i>16</i>&nbsp;import javafx.scene.effect.ColorAdjust;
+<i>17</i>&nbsp;import javafx.scene.image.Image;
+<i>18</i>&nbsp;import javafx.scene.image.ImageView;
+<i>19</i>&nbsp;import javafx.scene.input.MouseEvent;
+<i>20</i>&nbsp;import javafx.scene.input.PickResult;
+<i>21</i>&nbsp;import javafx.scene.layout.Pane;
+<i>22</i>&nbsp;import javafx.scene.paint.Color;
+<i>23</i>&nbsp;import javafx.scene.paint.PhongMaterial;
+<i>24</i>&nbsp;import javafx.scene.shape.Box;
+<i>25</i>&nbsp;import javafx.scene.transform.Rotate;
+<i>26</i>&nbsp;import javafx.scene.transform.Translate;
+<i>27</i>&nbsp;import javafx.util.Duration;
+<i>28</i>&nbsp;import it.polimi.ingsw.PSP18.client.view.gui.scenes.utils.Importer3D;
+<i>29</i>&nbsp;import org.fxyz3d.importers.Model3D;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;import java.io.IOException;
+<i>32</i>&nbsp;import java.net.URL;
+<i>33</i>&nbsp;import java.util.ArrayList;
+<i>34</i>&nbsp;import java.util.HashMap;
+<i>35</i>&nbsp;import java.util.ResourceBundle;
+<i>36</i>&nbsp;import java.util.concurrent.atomic.AtomicReference;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;import static java.lang.Math.abs;
+<i>39</i>&nbsp;import static java.lang.Math.max;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;/***
+<i>42</i>&nbsp; * Manages the 3d scene of the gui
+<i>43</i>&nbsp; * Is opened when the match starts
+<i>44</i>&nbsp; */
+<b class="nc"><i>45</i>&nbsp;public class MatchController extends Controller {</b>
+<i>46</i>&nbsp;    @FXML
+<i>47</i>&nbsp;    private Pane color1;
+<i>48</i>&nbsp;    @FXML
+<i>49</i>&nbsp;    private Pane color2;
+<i>50</i>&nbsp;    @FXML
+<i>51</i>&nbsp;    private Pane color3;
+<i>52</i>&nbsp;    @FXML
+<i>53</i>&nbsp;    private ImageView border3;
+<i>54</i>&nbsp;    @FXML
+<i>55</i>&nbsp;    private Label hintLabel;
+<i>56</i>&nbsp;    @FXML
+<i>57</i>&nbsp;    private ImageView button1;
+<i>58</i>&nbsp;    @FXML
+<i>59</i>&nbsp;    private ImageView button2;
+<i>60</i>&nbsp;    @FXML
+<i>61</i>&nbsp;    private Label label1;
+<i>62</i>&nbsp;    @FXML
+<i>63</i>&nbsp;    private Label label2;
+<i>64</i>&nbsp;    @FXML
+<i>65</i>&nbsp;    private ImageView divinity1;
+<i>66</i>&nbsp;    @FXML
+<i>67</i>&nbsp;    private Label nick1;
+<i>68</i>&nbsp;    @FXML
+<i>69</i>&nbsp;    private ImageView divinity2;
+<i>70</i>&nbsp;    @FXML
+<i>71</i>&nbsp;    private Label nick2;
+<i>72</i>&nbsp;    @FXML
+<i>73</i>&nbsp;    private ImageView divinity3;
+<i>74</i>&nbsp;    @FXML
+<i>75</i>&nbsp;    private Label nick3;
+<i>76</i>&nbsp;    @FXML
+<i>77</i>&nbsp;    private SubScene matchScene;
+<b class="nc"><i>78</i>&nbsp;    private Group matchSceneGroup = new Group();</b>
+<b class="nc"><i>79</i>&nbsp;    private Group planes = new Group();</b>
+<b class="nc"><i>80</i>&nbsp;    private final Timeline planesTimeline = new Timeline();</b>
+<i>81</i>&nbsp;
+<b class="nc"><i>82</i>&nbsp;    private final int CAMERA_DISTANCE = 35;</b>
+<b class="nc"><i>83</i>&nbsp;    private final int CAMERA_X_ANGLE = 45;</b>
+<b class="nc"><i>84</i>&nbsp;    private final int DRAG_THRESHOLD = 10;</b>
+<b class="nc"><i>85</i>&nbsp;    private Translate pivot = new Translate(0,0, CAMERA_DISTANCE);</b>
+<b class="nc"><i>86</i>&nbsp;    private Rotate yRotate = new Rotate(15, Rotate.Y_AXIS);</b>
+<i>87</i>&nbsp;    private double previousX;
+<i>88</i>&nbsp;    private double dragStart;
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    private static final double DELTA = 2.5, DELTAZ1 = 1.1, DELTAZ2 = 2.2, DELTAZ3 = 2.9;
+<b class="nc"><i>91</i>&nbsp;    private HashMap&lt;String, Group&gt; workList= new HashMap&lt;&gt;();</b>
+<i>92</i>&nbsp;    private Cell[][] mapCells;
+<b class="nc"><i>93</i>&nbsp;    private boolean followMessage = false, standardMove = true, matchStarted = false;</b>
+<i>94</i>&nbsp;    private Worker newWorker1, newWorker2, oldWorker1, oldWorker2;
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    private Worker myWorker1, myWorker2;
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    /***
+<i>99</i>&nbsp;     * Initialize the 3d objects required for the graphic
+<i>100</i>&nbsp;     * @param location url reference (unused)
+<i>101</i>&nbsp;     * @param resources class bundle (unused)
+<i>102</i>&nbsp;     */
+<i>103</i>&nbsp;    @Override
+<i>104</i>&nbsp;    public void initialize(URL location, ResourceBundle resources) {
+<b class="nc"><i>105</i>&nbsp;        super.initialize(location, resources);</b>
+<b class="nc"><i>106</i>&nbsp;        this.pageID = &quot;Match&quot;;</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;        //import models
+<b class="nc"><i>109</i>&nbsp;        Group map = loadModel(getClass().getResource(&quot;/3DGraphics/mappa.obj&quot;));</b>
+<b class="nc"><i>110</i>&nbsp;        Group cliff = loadModel(getClass().getResource(&quot;/3DGraphics/Cliff.obj&quot;));</b>
+<b class="nc"><i>111</i>&nbsp;        Group sea = loadModel(getClass().getResource(&quot;/3DGraphics/Sea.obj&quot;));</b>
+<b class="nc"><i>112</i>&nbsp;        Group walls = loadModel(getClass().getResource(&quot;/3DGraphics/mura.obj&quot;));</b>
+<b class="nc"><i>113</i>&nbsp;        Group islands = loadModel(getClass().getResource(&quot;/3DGraphics/isole.obj&quot;));</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;        //Setup Scene base
+<b class="nc"><i>116</i>&nbsp;        matchSceneGroup.getChildren().add(sea);</b>
+<b class="nc"><i>117</i>&nbsp;        matchSceneGroup.getChildren().add(cliff);</b>
+<b class="nc"><i>118</i>&nbsp;        matchSceneGroup.getChildren().add(map);</b>
+<b class="nc"><i>119</i>&nbsp;        matchSceneGroup.getChildren().add(walls);</b>
+<b class="nc"><i>120</i>&nbsp;        matchSceneGroup.getChildren().add(islands);</b>
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;        // Setup light
+<b class="nc"><i>123</i>&nbsp;        AmbientLight ambientLight = new AmbientLight();</b>
+<b class="nc"><i>124</i>&nbsp;        matchSceneGroup.getChildren().add(ambientLight);</b>
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;        // Setup camera
+<b class="nc"><i>127</i>&nbsp;        Camera camera= new PerspectiveCamera(true);</b>
+<i>128</i>&nbsp;
+<b class="nc"><i>129</i>&nbsp;        matchScene.setFill(Color.AQUA);</b>
+<b class="nc"><i>130</i>&nbsp;        matchScene.setCamera(camera);</b>
+<b class="nc"><i>131</i>&nbsp;        matchScene.setRoot(matchSceneGroup);</b>
+<i>132</i>&nbsp;
+<b class="nc"><i>133</i>&nbsp;        camera.setNearClip(1);</b>
+<b class="nc"><i>134</i>&nbsp;        camera.setFarClip(1000);</b>
+<i>135</i>&nbsp;
+<b class="nc"><i>136</i>&nbsp;        camera.translateXProperty().set(0);</b>
+<b class="nc"><i>137</i>&nbsp;        camera.translateYProperty().set(0);</b>
+<i>138</i>&nbsp;
+<b class="nc"><i>139</i>&nbsp;        camera.translateZProperty().set(0);</b>
+<i>140</i>&nbsp;
+<b class="nc"><i>141</i>&nbsp;        camera.translateZProperty().set(-CAMERA_DISTANCE);</b>
+<i>142</i>&nbsp;
+<b class="nc"><i>143</i>&nbsp;        camera.getTransforms().addAll (</b>
+<i>144</i>&nbsp;                pivot,
+<i>145</i>&nbsp;                yRotate,
+<i>146</i>&nbsp;                new Rotate(-CAMERA_X_ANGLE, Rotate.X_AXIS),
+<i>147</i>&nbsp;                new Translate(0, 0, -CAMERA_DISTANCE)
+<i>148</i>&nbsp;        );
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;        // Setup generic timeline
+<b class="nc"><i>151</i>&nbsp;        planesTimeline.setCycleCount(Timeline.INDEFINITE);</b>
+<b class="nc"><i>152</i>&nbsp;        planesTimeline.setAutoReverse(true);</b>
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;        // Detect difference between click and drag with a filter
+<b class="nc"><i>155</i>&nbsp;        matchScene.setOnMousePressed(e -&gt; dragStart = e.getSceneX());</b>
+<b class="nc"><i>156</i>&nbsp;        matchScene.addEventFilter(MouseEvent.MOUSE_RELEASED, e -&gt; {</b>
+<b class="nc"><i>157</i>&nbsp;            if(abs(dragStart - e.getSceneX()) &gt; DRAG_THRESHOLD) {</b>
+<b class="nc"><i>158</i>&nbsp;                e.consume();</b>
+<i>159</i>&nbsp;            }
+<i>160</i>&nbsp;        });
+<i>161</i>&nbsp;
+<b class="nc"><i>162</i>&nbsp;        matchScene.setOnMouseReleased(e -&gt; {</b>
+<b class="nc"><i>163</i>&nbsp;            matchScene.requestFocus();</b>
+<b class="nc"><i>164</i>&nbsp;            e.consume();</b>
+<i>165</i>&nbsp;        });
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;        // Drag management for camera rotation
+<b class="nc"><i>168</i>&nbsp;        matchScene.setOnMouseDragged(event -&gt; {</b>
+<b class="nc"><i>169</i>&nbsp;            if(abs(dragStart - event.getSceneX()) &gt; DRAG_THRESHOLD) {</b>
+<b class="nc"><i>170</i>&nbsp;                if(previousX - event.getSceneX() &lt; 0) { // Clock/anti-clock wise detection</b>
+<b class="nc"><i>171</i>&nbsp;                    camera.getTransforms().addAll (</b>
+<i>172</i>&nbsp;                            pivot,
+<i>173</i>&nbsp;                            new Rotate(CAMERA_X_ANGLE, Rotate.X_AXIS),
+<b class="nc"><i>174</i>&nbsp;                            new Rotate((event.getSceneX())/500, Rotate.Y_AXIS),</b>
+<i>175</i>&nbsp;                            new Rotate(-CAMERA_X_ANGLE, Rotate.X_AXIS),
+<i>176</i>&nbsp;                            new Translate(0, 0, -CAMERA_DISTANCE)
+<i>177</i>&nbsp;                    );
+<i>178</i>&nbsp;                } else {
+<b class="nc"><i>179</i>&nbsp;                    camera.getTransforms().addAll (</b>
+<i>180</i>&nbsp;                            pivot,
+<i>181</i>&nbsp;                            new Rotate(CAMERA_X_ANGLE, Rotate.X_AXIS),
+<b class="nc"><i>182</i>&nbsp;                            new Rotate((-event.getSceneX())/500, Rotate.Y_AXIS),</b>
+<i>183</i>&nbsp;                            new Rotate(-CAMERA_X_ANGLE, Rotate.X_AXIS),
+<i>184</i>&nbsp;                            new Translate(0, 0, -CAMERA_DISTANCE)
+<i>185</i>&nbsp;                    );
+<i>186</i>&nbsp;                }
+<b class="nc"><i>187</i>&nbsp;                previousX = event.getSceneX();</b>
+<i>188</i>&nbsp;            }
+<i>189</i>&nbsp;        });
+<i>190</i>&nbsp;    }
+<i>191</i>&nbsp;
+<i>192</i>&nbsp;    /***
+<i>193</i>&nbsp;     * Load the required 3d model
+<i>194</i>&nbsp;     * @param url the 3d model location
+<i>195</i>&nbsp;     * @return the loaded 3d model
+<i>196</i>&nbsp;     */
+<i>197</i>&nbsp;    public Group loadModel(URL url) {
+<i>198</i>&nbsp;        Model3D model;
+<i>199</i>&nbsp;        try {
+<b class="nc"><i>200</i>&nbsp;            model = Importer3D.loadAsPoly(url);</b>
+<b class="nc"><i>201</i>&nbsp;            return model.getRoot();</b>
+<b class="nc"><i>202</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>203</i>&nbsp;            e.printStackTrace();</b>
+<i>204</i>&nbsp;        }
+<i>205</i>&nbsp;
+<b class="nc"><i>206</i>&nbsp;        return null;</b>
+<i>207</i>&nbsp;    }
+<i>208</i>&nbsp;
+<i>209</i>&nbsp;    /***
+<i>210</i>&nbsp;     * Used to update the 3d scene on a new build
+<i>211</i>&nbsp;     * @param oldX x coordinate of the build location
+<i>212</i>&nbsp;     * @param oldY y coordinate of the build location
+<i>213</i>&nbsp;     */
+<i>214</i>&nbsp;    public void buildUpdate(int oldX, int oldY){
+<i>215</i>&nbsp;        Group block;
+<b class="nc"><i>216</i>&nbsp;        Boolean dome = mapCells[oldX][oldY].getDome();</b>
+<b class="nc"><i>217</i>&nbsp;        final Timeline timeline = new Timeline();</b>
+<i>218</i>&nbsp;
+<b class="nc"><i>219</i>&nbsp;        switch(mapCells[oldX][oldY].getBuilding()) {</b>
+<i>220</i>&nbsp;            case 0:
+<b class="nc"><i>221</i>&nbsp;                block = loadModel(getClass().getResource(&quot;/3DGraphics/Dome.obj&quot;));</b>
+<b class="nc"><i>222</i>&nbsp;                break;</b>
+<i>223</i>&nbsp;
+<i>224</i>&nbsp;            case 1:
+<b class="nc"><i>225</i>&nbsp;                if(!dome) {</b>
+<b class="nc"><i>226</i>&nbsp;                    block = loadModel(getClass().getResource(&quot;/3DGraphics/BuildingBlock01.obj&quot;));</b>
+<i>227</i>&nbsp;                }
+<i>228</i>&nbsp;                else {
+<b class="nc"><i>229</i>&nbsp;                    block = loadModel(getClass().getResource(&quot;/3DGraphics/Dome.obj&quot;));</b>
+<i>230</i>&nbsp;                }
+<b class="nc"><i>231</i>&nbsp;                break;</b>
+<i>232</i>&nbsp;
+<i>233</i>&nbsp;            case 2:
+<b class="nc"><i>234</i>&nbsp;                if(!dome) {</b>
+<b class="nc"><i>235</i>&nbsp;                    block = loadModel(getClass().getResource(&quot;/3DGraphics/BuildingBlock02.obj&quot;));</b>
+<i>236</i>&nbsp;                }
+<i>237</i>&nbsp;                else{
+<b class="nc"><i>238</i>&nbsp;                    block = loadModel(getClass().getResource(&quot;/3DGraphics/Dome.obj&quot;));</b>
+<i>239</i>&nbsp;                }
+<b class="nc"><i>240</i>&nbsp;                break;</b>
+<i>241</i>&nbsp;            case 3:
+<b class="nc"><i>242</i>&nbsp;                if(!dome) {</b>
+<b class="nc"><i>243</i>&nbsp;                    block = loadModel(getClass().getResource(&quot;/3DGraphics/BuildingBlock03.obj&quot;));</b>
+<i>244</i>&nbsp;                }
+<i>245</i>&nbsp;                else{
+<b class="nc"><i>246</i>&nbsp;                    block = loadModel(getClass().getResource(&quot;/3DGraphics/Dome.obj&quot;));</b>
+<i>247</i>&nbsp;                }
+<b class="nc"><i>248</i>&nbsp;                break;</b>
+<i>249</i>&nbsp;
+<i>250</i>&nbsp;            default:
+<b class="nc"><i>251</i>&nbsp;                throw new IllegalStateException(&quot;Unexpected value: &quot; + mapCells[oldX][oldY].getBuilding());</b>
+<i>252</i>&nbsp;        }
+<i>253</i>&nbsp;
+<b class="nc"><i>254</i>&nbsp;        block.setTranslateY(-20);</b>
+<b class="nc"><i>255</i>&nbsp;        block.setTranslateX(indexToCoordinateX(oldX));</b>
+<b class="nc"><i>256</i>&nbsp;        block.setTranslateZ(indexToCoordinateY(oldY));</b>
+<b class="nc"><i>257</i>&nbsp;        Platform.runLater(() -&gt; matchSceneGroup.getChildren().add(block));</b>
+<i>258</i>&nbsp;
+<b class="nc"><i>259</i>&nbsp;        timeline.setCycleCount(1);</b>
+<b class="nc"><i>260</i>&nbsp;        if(dome){</b>
+<b class="nc"><i>261</i>&nbsp;            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),</b>
+<b class="nc"><i>262</i>&nbsp;                    new KeyValue (block.translateYProperty(), levelToCoordZ(mapCells[oldX][oldY].getBuilding()),Interpolator.EASE_OUT)));</b>
+<i>263</i>&nbsp;        }
+<i>264</i>&nbsp;        else{
+<b class="nc"><i>265</i>&nbsp;            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),</b>
+<b class="nc"><i>266</i>&nbsp;                    new KeyValue (block.translateYProperty(), 0,Interpolator.EASE_OUT)));</b>
+<i>267</i>&nbsp;        }
+<b class="nc"><i>268</i>&nbsp;        timeline.play();</b>
+<i>269</i>&nbsp;    }
+<i>270</i>&nbsp;
+<i>271</i>&nbsp;    /***
+<i>272</i>&nbsp;     * Update the 3d scene on a standard move
+<i>273</i>&nbsp;     * @param oldWork the old worker reference
+<i>274</i>&nbsp;     * @param newWork the new worker reference
+<i>275</i>&nbsp;     */
+<i>276</i>&nbsp;    public void standardMoveUpdate(Worker oldWork, Worker newWork){
+<b class="nc"><i>277</i>&nbsp;        final Timeline timeline = new Timeline();</b>
+<b class="nc"><i>278</i>&nbsp;        Group workerSelected = pickWorker(oldWork);</b>
+<b class="nc"><i>279</i>&nbsp;        int oldHeight = mapCells[oldWork.getX()][oldWork.getY()].getBuilding();</b>
+<b class="nc"><i>280</i>&nbsp;        int newHeight = mapCells[newWork.getX()][newWork.getY()].getBuilding();</b>
+<i>281</i>&nbsp;
+<b class="nc"><i>282</i>&nbsp;        timeline.setCycleCount(1);</b>
+<b class="nc"><i>283</i>&nbsp;        assert workerSelected != null;</b>
+<b class="nc"><i>284</i>&nbsp;        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),</b>
+<b class="nc"><i>285</i>&nbsp;                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()), Interpolator.EASE_OUT)));</b>
+<b class="nc"><i>286</i>&nbsp;        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),</b>
+<b class="nc"><i>287</i>&nbsp;                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()), Interpolator.EASE_OUT)));</b>
+<b class="nc"><i>288</i>&nbsp;        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),</b>
+<b class="nc"><i>289</i>&nbsp;                new KeyValue (workerSelected.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-0.8, Interpolator.EASE_OUT)));</b>
+<b class="nc"><i>290</i>&nbsp;        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(500),</b>
+<b class="nc"><i>291</i>&nbsp;                new KeyValue (workerSelected.translateYProperty(), -deltaToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));</b>
+<i>292</i>&nbsp;
+<b class="nc"><i>293</i>&nbsp;        timeline.play();</b>
+<i>294</i>&nbsp;    }
+<i>295</i>&nbsp;
+<i>296</i>&nbsp;    /***
+<i>297</i>&nbsp;     * Update the 3d scene on a move where the two players are switched up
+<i>298</i>&nbsp;     * @param newWork1 the first worker new reference
+<i>299</i>&nbsp;     * @param oldWork2 the second worker old reference
+<i>300</i>&nbsp;     * @param oldWork1 the first worker old reference
+<i>301</i>&nbsp;     * @param newWork2 the second worker new reference
+<i>302</i>&nbsp;     */
+<i>303</i>&nbsp;    public void apolloMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWork2){
+<i>304</i>&nbsp;
+<b class="nc"><i>305</i>&nbsp;        final Timeline offsetTimeline = new Timeline();</b>
+<i>306</i>&nbsp;
+<b class="nc"><i>307</i>&nbsp;        Group workerSelected = pickWorker(oldWork1);</b>
+<b class="nc"><i>308</i>&nbsp;        Group workerEnemy = pickWorker(oldWork2);</b>
+<i>309</i>&nbsp;
+<b class="nc"><i>310</i>&nbsp;        final Timeline timeline = setupTimeline(workerSelected, oldWork1, newWork1,1000, 4);</b>
+<b class="nc"><i>311</i>&nbsp;        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),</b>
+<b class="nc"><i>312</i>&nbsp;                new KeyValue (workerSelected.rotateProperty(), workerSelected.getRotate()-360, Interpolator.EASE_BOTH)));</b>
+<i>313</i>&nbsp;
+<b class="nc"><i>314</i>&nbsp;        final Timeline enemyTimeline = setupTimeline(workerEnemy,oldWork2, newWork2,500, 0.8);</b>
+<b class="nc"><i>315</i>&nbsp;        offsetTimeline.setCycleCount(1);</b>
+<b class="nc"><i>316</i>&nbsp;        offsetTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),</b>
+<b class="nc"><i>317</i>&nbsp;                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(oldWork1.getX()))));</b>
+<i>318</i>&nbsp;
+<b class="nc"><i>319</i>&nbsp;        SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);</b>
+<b class="nc"><i>320</i>&nbsp;        ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);</b>
+<b class="nc"><i>321</i>&nbsp;        parallelTransition.play();</b>
+<i>322</i>&nbsp;    }
+<i>323</i>&nbsp;
+<i>324</i>&nbsp;    /***
+<i>325</i>&nbsp;     * Given a worker returns the object into the 3d scene that represents the worker
+<i>326</i>&nbsp;     * @param oldWork the old worker reference
+<i>327</i>&nbsp;     * @return the created worker
+<i>328</i>&nbsp;     */
+<i>329</i>&nbsp;    public Group pickWorker(Worker oldWork){
+<b class="nc"><i>330</i>&nbsp;        Group workerSelected = null;</b>
+<b class="nc"><i>331</i>&nbsp;        switch (oldWork.getPlayerColor()){</b>
+<i>332</i>&nbsp;            case BLUE:
+<b class="nc"><i>333</i>&nbsp;                switch(oldWork.getID()){</b>
+<i>334</i>&nbsp;                    case 0:
+<b class="nc"><i>335</i>&nbsp;                        workerSelected = workList.get(&quot;WB1&quot;);</b>
+<b class="nc"><i>336</i>&nbsp;                        break;</b>
+<i>337</i>&nbsp;                    case 1:
+<b class="nc"><i>338</i>&nbsp;                        workerSelected = workList.get(&quot;WB2&quot;);</b>
+<i>339</i>&nbsp;                        break;
+<i>340</i>&nbsp;                }
+<b class="nc"><i>341</i>&nbsp;                break;</b>
+<i>342</i>&nbsp;
+<i>343</i>&nbsp;            case RED:
+<b class="nc"><i>344</i>&nbsp;                switch(oldWork.getID()){</b>
+<i>345</i>&nbsp;                    case 0:
+<b class="nc"><i>346</i>&nbsp;                        workerSelected = workList.get(&quot;WR1&quot;);</b>
+<b class="nc"><i>347</i>&nbsp;                        break;</b>
+<i>348</i>&nbsp;                    case 1:
+<b class="nc"><i>349</i>&nbsp;                        workerSelected = workList.get(&quot;WR2&quot;);</b>
+<i>350</i>&nbsp;                        break;
+<i>351</i>&nbsp;                }
+<b class="nc"><i>352</i>&nbsp;                break;</b>
+<i>353</i>&nbsp;
+<i>354</i>&nbsp;            case GREEN:
+<b class="nc"><i>355</i>&nbsp;                switch(oldWork.getID()){</b>
+<i>356</i>&nbsp;                    case 0:
+<b class="nc"><i>357</i>&nbsp;                        workerSelected = workList.get(&quot;WW1&quot;);</b>
+<b class="nc"><i>358</i>&nbsp;                        break;</b>
+<i>359</i>&nbsp;                    case 1:
+<b class="nc"><i>360</i>&nbsp;                        workerSelected = workList.get(&quot;WW2&quot;);</b>
+<i>361</i>&nbsp;                        break;
+<i>362</i>&nbsp;                }
+<i>363</i>&nbsp;                break;
+<i>364</i>&nbsp;        }
+<b class="nc"><i>365</i>&nbsp;        return workerSelected;</b>
+<i>366</i>&nbsp;    }
+<i>367</i>&nbsp;
+<i>368</i>&nbsp;    /***
+<i>369</i>&nbsp;     * Update the 3d scene on a move where the second player is pushed away by the first
+<i>370</i>&nbsp;     * @param newWork1 the first worker new reference
+<i>371</i>&nbsp;     * @param oldWork2 the second worker old reference
+<i>372</i>&nbsp;     * @param oldWork1 the first worker old reference
+<i>373</i>&nbsp;     * @param newWork2 the second worker new reference
+<i>374</i>&nbsp;     */
+<i>375</i>&nbsp;    public void minotaurMoveUpdate(Worker newWork1, Worker oldWork2, Worker oldWork1,Worker newWork2){
+<i>376</i>&nbsp;
+<b class="nc"><i>377</i>&nbsp;        final Timeline offsetTimeline = new Timeline();</b>
+<i>378</i>&nbsp;
+<b class="nc"><i>379</i>&nbsp;        Group workerSelected = pickWorker(oldWork1);</b>
+<b class="nc"><i>380</i>&nbsp;        Group workerEnemy = pickWorker(oldWork2);</b>
+<i>381</i>&nbsp;
+<b class="nc"><i>382</i>&nbsp;        final Timeline timeline = setupTimeline(workerSelected,oldWork1,newWork1,500,0.8);</b>
+<b class="nc"><i>383</i>&nbsp;        final Timeline enemyTimeline = setupTimeline(workerEnemy,oldWork2, newWork2,500, 0.8);</b>
+<b class="nc"><i>384</i>&nbsp;        offsetTimeline.setCycleCount(1);</b>
+<b class="nc"><i>385</i>&nbsp;        offsetTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(250),</b>
+<b class="nc"><i>386</i>&nbsp;                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(oldWork1.getX()))));</b>
+<i>387</i>&nbsp;
+<b class="nc"><i>388</i>&nbsp;        SequentialTransition sequentialTransition = new SequentialTransition(offsetTimeline, enemyTimeline);</b>
+<b class="nc"><i>389</i>&nbsp;        ParallelTransition parallelTransition = new ParallelTransition(sequentialTransition, timeline);</b>
+<b class="nc"><i>390</i>&nbsp;        parallelTransition.play();</b>
+<i>391</i>&nbsp;
+<i>392</i>&nbsp;    }
+<i>393</i>&nbsp;
+<i>394</i>&nbsp;    public Timeline setupTimeline(Group workerSelected, Worker oldWork, Worker newWork, int duration, double height){
+<i>395</i>&nbsp;
+<b class="nc"><i>396</i>&nbsp;        int oldHeight = mapCells[oldWork.getX()][oldWork.getY()].getBuilding();</b>
+<b class="nc"><i>397</i>&nbsp;        int newHeight = mapCells[newWork.getX()][newWork.getY()].getBuilding();</b>
+<i>398</i>&nbsp;
+<b class="nc"><i>399</i>&nbsp;        final Timeline timeline = new Timeline();</b>
+<b class="nc"><i>400</i>&nbsp;        timeline.setCycleCount(1);</b>
+<b class="nc"><i>401</i>&nbsp;        assert workerSelected != null;</b>
+<b class="nc"><i>402</i>&nbsp;        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(duration),</b>
+<b class="nc"><i>403</i>&nbsp;                new KeyValue (workerSelected.translateXProperty(), indexToCoordinateX(newWork.getX()),Interpolator.EASE_OUT)));</b>
+<b class="nc"><i>404</i>&nbsp;        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(duration),</b>
+<b class="nc"><i>405</i>&nbsp;                new KeyValue (workerSelected.translateZProperty(), indexToCoordinateY(newWork.getY()), Interpolator.EASE_OUT)));</b>
+<b class="nc"><i>406</i>&nbsp;        timeline.getKeyFrames().add(new KeyFrame(Duration.millis((double)duration/2),</b>
+<b class="nc"><i>407</i>&nbsp;                new KeyValue (workerSelected.translateYProperty(), -max(deltaToCoordinateZ(0,oldHeight), deltaToCoordinateZ(0,newHeight))-height, Interpolator.EASE_OUT)));</b>
+<b class="nc"><i>408</i>&nbsp;        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(duration),</b>
+<b class="nc"><i>409</i>&nbsp;                new KeyValue (workerSelected.translateYProperty(), -deltaToCoordinateZ(0,newHeight), Interpolator.EASE_BOTH)));</b>
+<b class="nc"><i>410</i>&nbsp;        return timeline;</b>
+<i>411</i>&nbsp;    }
+<i>412</i>&nbsp;
+<i>413</i>&nbsp;    /***
+<i>414</i>&nbsp;     * Update the 3d scene for worker placement
+<i>415</i>&nbsp;     * @param worker the worker reference
+<i>416</i>&nbsp;     */
+<i>417</i>&nbsp;    public void placeWorkerUpdate(Worker worker){
+<b class="nc"><i>418</i>&nbsp;        Group workerGroup = null;</b>
+<i>419</i>&nbsp;
+<b class="nc"><i>420</i>&nbsp;        final Timeline timeline = new Timeline();</b>
+<i>421</i>&nbsp;
+<b class="nc"><i>422</i>&nbsp;        switch (worker.getPlayerColor()){</b>
+<i>423</i>&nbsp;
+<i>424</i>&nbsp;            case BLUE:
+<b class="nc"><i>425</i>&nbsp;                switch(worker.getID()){</b>
+<i>426</i>&nbsp;                    case 0:
+<b class="nc"><i>427</i>&nbsp;                        workerGroup = loadModel(getClass().getResource(&quot;/3DGraphics/workerBlue.obj&quot;));</b>
+<b class="nc"><i>428</i>&nbsp;                        workList.put(&quot;WB1&quot;, workerGroup);</b>
+<b class="nc"><i>429</i>&nbsp;                        break;</b>
+<i>430</i>&nbsp;                    case 1:
+<b class="nc"><i>431</i>&nbsp;                        workerGroup = loadModel(getClass().getResource(&quot;/3DGraphics/workerBlue.obj&quot;));</b>
+<b class="nc"><i>432</i>&nbsp;                        workList.put(&quot;WB2&quot;, workerGroup);</b>
+<i>433</i>&nbsp;                        break;
+<i>434</i>&nbsp;                }
+<b class="nc"><i>435</i>&nbsp;                break;</b>
+<i>436</i>&nbsp;
+<i>437</i>&nbsp;            case RED:
+<b class="nc"><i>438</i>&nbsp;                switch(worker.getID()){</b>
+<i>439</i>&nbsp;                    case 0:
+<b class="nc"><i>440</i>&nbsp;                        workerGroup = loadModel(getClass().getResource(&quot;/3DGraphics/workerRed.obj&quot;));</b>
+<b class="nc"><i>441</i>&nbsp;                        workList.put(&quot;WR1&quot;, workerGroup);</b>
+<b class="nc"><i>442</i>&nbsp;                        break;</b>
+<i>443</i>&nbsp;                    case 1:
+<b class="nc"><i>444</i>&nbsp;                        workerGroup = loadModel(getClass().getResource(&quot;/3DGraphics/workerRed.obj&quot;));</b>
+<b class="nc"><i>445</i>&nbsp;                        workList.put(&quot;WR2&quot;, workerGroup);</b>
+<i>446</i>&nbsp;                        break;
+<i>447</i>&nbsp;                }
+<b class="nc"><i>448</i>&nbsp;                break;</b>
+<i>449</i>&nbsp;
+<i>450</i>&nbsp;            case GREEN:
+<b class="nc"><i>451</i>&nbsp;                switch(worker.getID()){</b>
+<i>452</i>&nbsp;                    case 0:
+<b class="nc"><i>453</i>&nbsp;                        workerGroup = loadModel(getClass().getResource(&quot;/3DGraphics/workerWhite.obj&quot;));</b>
+<b class="nc"><i>454</i>&nbsp;                        workList.put(&quot;WW1&quot;, workerGroup);</b>
+<b class="nc"><i>455</i>&nbsp;                        break;</b>
+<i>456</i>&nbsp;                    case 1:
+<b class="nc"><i>457</i>&nbsp;                        workerGroup = loadModel(getClass().getResource(&quot;/3DGraphics/workerWhite.obj&quot;));</b>
+<b class="nc"><i>458</i>&nbsp;                        workList.put(&quot;WW2&quot;, workerGroup);</b>
+<i>459</i>&nbsp;                        break;
+<i>460</i>&nbsp;                }
+<i>461</i>&nbsp;                break;
+<i>462</i>&nbsp;        }
+<i>463</i>&nbsp;
+<b class="nc"><i>464</i>&nbsp;        assert workerGroup != null;</b>
+<b class="nc"><i>465</i>&nbsp;        workerGroup.setTranslateY(-20);</b>
+<b class="nc"><i>466</i>&nbsp;        workerGroup.setTranslateX(indexToCoordinateX(worker.getX()));</b>
+<b class="nc"><i>467</i>&nbsp;        workerGroup.setTranslateZ(indexToCoordinateY(worker.getY()));</b>
+<b class="nc"><i>468</i>&nbsp;        Group finalWorkerGroup = workerGroup;</b>
+<b class="nc"><i>469</i>&nbsp;        Platform.runLater(() -&gt; matchSceneGroup.getChildren().add(finalWorkerGroup));</b>
+<i>470</i>&nbsp;
+<b class="nc"><i>471</i>&nbsp;        int level = mapCells[worker.getX()][worker.getY()].getBuilding();</b>
+<b class="nc"><i>472</i>&nbsp;        timeline.setCycleCount(1);</b>
+<b class="nc"><i>473</i>&nbsp;        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),</b>
+<b class="nc"><i>474</i>&nbsp;                new KeyValue (workerGroup.translateYProperty(), indexToCoordinateZ(level), Interpolator.EASE_OUT)));</b>
+<b class="nc"><i>475</i>&nbsp;        timeline.play();</b>
+<i>476</i>&nbsp;    }
+<i>477</i>&nbsp;
+<i>478</i>&nbsp;    /***
+<i>479</i>&nbsp;     * Remove a worker from the map when a player has lost
+<i>480</i>&nbsp;     * @param worker the reference of the worker to be removed
+<i>481</i>&nbsp;     */
+<i>482</i>&nbsp;    public void removeWorker(Worker worker) {
+<i>483</i>&nbsp;
+<b class="nc"><i>484</i>&nbsp;        Group finalWorkerGroup = pickWorker(worker);</b>
+<b class="nc"><i>485</i>&nbsp;        Platform.runLater(() -&gt; matchSceneGroup.getChildren().remove(finalWorkerGroup));</b>
+<i>486</i>&nbsp;    }
+<i>487</i>&nbsp;
+<i>488</i>&nbsp;    /***
+<i>489</i>&nbsp;     * Method used to determine if the current move is one between:
+<i>490</i>&nbsp;     * placeWorker : placing the worker in the initial phase of the game
+<i>491</i>&nbsp;     * standardMove : a standard move
+<i>492</i>&nbsp;     * apolloMoveUpdate : a move where the two workers involved are swapped
+<i>493</i>&nbsp;     * minotaurMoveUpdate : a mov where one worker pushes the other one
+<i>494</i>&nbsp;     * We then proceed to save all the workers needed for the methods above in parameters
+<i>495</i>&nbsp;     * @param gameMapUpdate Contains contains the new map, the last direction, the last x and y coordinate and a boolean that signals if the move is a build or a move
+<i>496</i>&nbsp;     */
+<i>497</i>&nbsp;    public void mapUpdate(GameMapUpdate gameMapUpdate){
+<b class="nc"><i>498</i>&nbsp;        Cell[][] oldMap = mapCells;</b>
+<b class="nc"><i>499</i>&nbsp;        mapCells = gameMapUpdate.getGameMap();</b>
+<b class="nc"><i>500</i>&nbsp;        if(gameMapUpdate.getLastActionX() == -1 &amp;&amp; gameMapUpdate.getLastActionY() == -1) {</b>
+<i>501</i>&nbsp;            return;
+<i>502</i>&nbsp;        }
+<b class="nc"><i>503</i>&nbsp;        if(!matchStarted){</b>
+<b class="nc"><i>504</i>&nbsp;            newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();</b>
+<b class="nc"><i>505</i>&nbsp;            if(newWorker1 != null) {</b>
+<b class="nc"><i>506</i>&nbsp;                placeWorkerUpdate(newWorker1);</b>
+<i>507</i>&nbsp;            }
+<i>508</i>&nbsp;            return;
+<i>509</i>&nbsp;        }
+<b class="nc"><i>510</i>&nbsp;        if(gameMapUpdate.isLastActionIsBuild()){</b>
+<b class="nc"><i>511</i>&nbsp;                buildUpdate(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());</b>
+<i>512</i>&nbsp;        } else {
+<b class="nc"><i>513</i>&nbsp;            if(oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker() == null) {</b>
+<b class="nc"><i>514</i>&nbsp;                if (!followMessage) {</b>
+<i>515</i>&nbsp;                    //Standard 1
+<b class="nc"><i>516</i>&nbsp;                    newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();</b>
+<b class="nc"><i>517</i>&nbsp;                    if(newWorker1 == null) { // Remove the worker from the board</b>
+<b class="nc"><i>518</i>&nbsp;                        removeWorker(oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker());</b>
+<i>519</i>&nbsp;                        return;
+<i>520</i>&nbsp;                    }
+<b class="nc"><i>521</i>&nbsp;                    newWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());</b>
+<b class="nc"><i>522</i>&nbsp;                    followMessage = true;</b>
+<b class="nc"><i>523</i>&nbsp;                    standardMove = true;</b>
+<i>524</i>&nbsp;                } else {
+<i>525</i>&nbsp;                    //Minotaur 3
+<b class="nc"><i>526</i>&nbsp;                    newWorker2 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();</b>
+<b class="nc"><i>527</i>&nbsp;                    newWorker2.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());</b>
+<b class="nc"><i>528</i>&nbsp;                    minotaurMoveUpdate(newWorker1, oldWorker2, oldWorker1, newWorker2);</b>
+<b class="nc"><i>529</i>&nbsp;                    followMessage = false;</b>
+<i>530</i>&nbsp;                }
+<i>531</i>&nbsp;            } else {
+<b class="nc"><i>532</i>&nbsp;                if(!followMessage){</b>
+<i>533</i>&nbsp;                    //Apollo and Minotaur 1
+<b class="nc"><i>534</i>&nbsp;                    newWorker1 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();</b>
+<b class="nc"><i>535</i>&nbsp;                    if(newWorker1 == null) { // Remove the worker from the board</b>
+<b class="nc"><i>536</i>&nbsp;                        removeWorker(oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker());</b>
+<i>537</i>&nbsp;                        return;
+<i>538</i>&nbsp;                    }
+<b class="nc"><i>539</i>&nbsp;                    newWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());</b>
+<b class="nc"><i>540</i>&nbsp;                    oldWorker2 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();</b>
+<b class="nc"><i>541</i>&nbsp;                    oldWorker2.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());</b>
+<b class="nc"><i>542</i>&nbsp;                    followMessage = true;</b>
+<b class="nc"><i>543</i>&nbsp;                    standardMove = false;</b>
+<i>544</i>&nbsp;                } else {
+<b class="nc"><i>545</i>&nbsp;                    if(mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker() == null){</b>
+<b class="nc"><i>546</i>&nbsp;                        if(standardMove) {</b>
+<i>547</i>&nbsp;                            //StandardMove second half
+<b class="nc"><i>548</i>&nbsp;                            oldWorker1 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();</b>
+<b class="nc"><i>549</i>&nbsp;                            oldWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());</b>
+<b class="nc"><i>550</i>&nbsp;                            standardMoveUpdate(oldWorker1, newWorker1);</b>
+<b class="nc"><i>551</i>&nbsp;                            followMessage = false;</b>
+<i>552</i>&nbsp;                        } else {
+<i>553</i>&nbsp;                            //Minotaur 2
+<b class="nc"><i>554</i>&nbsp;                            oldWorker1 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();</b>
+<b class="nc"><i>555</i>&nbsp;                            oldWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());</b>
+<b class="nc"><i>556</i>&nbsp;                            followMessage = true;</b>
+<i>557</i>&nbsp;                        }
+<i>558</i>&nbsp;
+<i>559</i>&nbsp;                    } else {
+<i>560</i>&nbsp;                        //Apollo 2
+<b class="nc"><i>561</i>&nbsp;                        newWorker2 = mapCells[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();</b>
+<b class="nc"><i>562</i>&nbsp;                        newWorker2.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());</b>
+<b class="nc"><i>563</i>&nbsp;                        oldWorker1 = oldMap[gameMapUpdate.getLastActionX()][gameMapUpdate.getLastActionY()].getWorker();</b>
+<b class="nc"><i>564</i>&nbsp;                        oldWorker1.setPosition(gameMapUpdate.getLastActionX(), gameMapUpdate.getLastActionY());</b>
+<b class="nc"><i>565</i>&nbsp;                        followMessage = false;</b>
+<b class="nc"><i>566</i>&nbsp;                        apolloMoveUpdate(newWorker1, oldWorker2, oldWorker1, newWorker2);</b>
+<i>567</i>&nbsp;                    }
+<i>568</i>&nbsp;                }
+<i>569</i>&nbsp;            }
+<i>570</i>&nbsp;        }
+<i>571</i>&nbsp;    }
+<i>572</i>&nbsp;
+<i>573</i>&nbsp;    /***
+<i>574</i>&nbsp;     * Reload the full map on backup restore
+<i>575</i>&nbsp;     * @param gameMapUpdate the map reference
+<i>576</i>&nbsp;     */
+<i>577</i>&nbsp;    public void fullMapUpdate(GameMapUpdate gameMapUpdate) {
+<b class="nc"><i>578</i>&nbsp;        mapCells = gameMapUpdate.getGameMap();</b>
+<i>579</i>&nbsp;
+<b class="nc"><i>580</i>&nbsp;        for(int i=0; i&lt;=4; i++) {</b>
+<b class="nc"><i>581</i>&nbsp;            for(int j=0; j&lt;=4; j++) {</b>
+<i>582</i>&nbsp;                // Load the buildings
+<i>583</i>&nbsp;
+<b class="nc"><i>584</i>&nbsp;                Cell cell = gameMapUpdate.getGameMap()[i][j];</b>
+<b class="nc"><i>585</i>&nbsp;                for (int k = 0; k &lt;= cell.getBuilding(); k++) {</b>
+<b class="nc"><i>586</i>&nbsp;                    Group block = null;</b>
+<b class="nc"><i>587</i>&nbsp;                    final Timeline timeline = new Timeline();</b>
+<i>588</i>&nbsp;
+<i>589</i>&nbsp;
+<b class="nc"><i>590</i>&nbsp;                    if(k==1) {</b>
+<b class="nc"><i>591</i>&nbsp;                        block = loadModel(getClass().getResource(&quot;/3DGraphics/BuildingBlock01.obj&quot;));</b>
+<b class="nc"><i>592</i>&nbsp;                    } else if (k==2) {</b>
+<b class="nc"><i>593</i>&nbsp;                        block = loadModel(getClass().getResource(&quot;/3DGraphics/BuildingBlock02.obj&quot;));</b>
+<b class="nc"><i>594</i>&nbsp;                    } else if (k==3) {</b>
+<b class="nc"><i>595</i>&nbsp;                        block = loadModel(getClass().getResource(&quot;/3DGraphics/BuildingBlock03.obj&quot;));</b>
+<i>596</i>&nbsp;                    }
+<i>597</i>&nbsp;
+<b class="nc"><i>598</i>&nbsp;                    if(block != null) {</b>
+<b class="nc"><i>599</i>&nbsp;                        block.setTranslateY(-20);</b>
+<b class="nc"><i>600</i>&nbsp;                        block.setTranslateX(indexToCoordinateX(i));</b>
+<b class="nc"><i>601</i>&nbsp;                        block.setTranslateZ(indexToCoordinateY(j));</b>
+<b class="nc"><i>602</i>&nbsp;                        Group finalBlock = block;</b>
+<b class="nc"><i>603</i>&nbsp;                        Platform.runLater(() -&gt; matchSceneGroup.getChildren().add(finalBlock));</b>
+<i>604</i>&nbsp;
+<b class="nc"><i>605</i>&nbsp;                        timeline.setCycleCount(1);</b>
+<b class="nc"><i>606</i>&nbsp;                        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),</b>
+<b class="nc"><i>607</i>&nbsp;                                new KeyValue (block.translateYProperty(), 0,Interpolator.EASE_OUT)));</b>
+<b class="nc"><i>608</i>&nbsp;                        timeline.play();</b>
+<i>609</i>&nbsp;                    }
+<i>610</i>&nbsp;                }
+<i>611</i>&nbsp;
+<b class="nc"><i>612</i>&nbsp;                if(cell.getDome()) {</b>
+<b class="nc"><i>613</i>&nbsp;                    buildUpdate(i, j);</b>
+<i>614</i>&nbsp;                }
+<i>615</i>&nbsp;
+<b class="nc"><i>616</i>&nbsp;                if(mapCells[i][j].getWorker() != null) {</b>
+<b class="nc"><i>617</i>&nbsp;                    placeWorkerUpdate(mapCells[i][j].getWorker());</b>
+<i>618</i>&nbsp;                }
+<i>619</i>&nbsp;            }
+<i>620</i>&nbsp;        }
+<i>621</i>&nbsp;    }
+<i>622</i>&nbsp;
+<i>623</i>&nbsp;    /***
+<i>624</i>&nbsp;     * Set the match as started
+<i>625</i>&nbsp;     * @param matchStarted always true
+<i>626</i>&nbsp;     */
+<i>627</i>&nbsp;    public void setMatchStarted(boolean matchStarted) {
+<b class="nc"><i>628</i>&nbsp;        this.matchStarted = matchStarted;</b>
+<i>629</i>&nbsp;    }
+<i>630</i>&nbsp;
+<i>631</i>&nbsp;    /***
+<i>632</i>&nbsp;     * Show the build possibilities of the player on the 3d scene
+<i>633</i>&nbsp;     * @param buildList the list of possible builds
+<i>634</i>&nbsp;     */
+<i>635</i>&nbsp;    public void showBuildList(BuildList buildList) {
+<b class="nc"><i>636</i>&nbsp;        ArrayList&lt;Point3D&gt; coordinates = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>637</i>&nbsp;        for (Direction dir : buildList.getBuildlist()) {</b>
+<b class="nc"><i>638</i>&nbsp;            int xIndex = DirectionManagement.getX(buildList.getWorker().getX(), dir);</b>
+<b class="nc"><i>639</i>&nbsp;            int yIndex = DirectionManagement.getY(buildList.getWorker().getY(), dir);</b>
+<b class="nc"><i>640</i>&nbsp;            if(xIndex != -1 &amp;&amp; yIndex != -1) { // If not out of bounds</b>
+<b class="nc"><i>641</i>&nbsp;                double newX = indexToCoordinateX(xIndex);</b>
+<b class="nc"><i>642</i>&nbsp;                double newZ = indexToCoordinateY(yIndex);</b>
+<b class="nc"><i>643</i>&nbsp;                double newY = indexToCoordinateZ(mapCells[DirectionManagement.getX(buildList.getWorker().getX(), dir)][DirectionManagement.getY(buildList.getWorker().getY(), dir)].getBuilding());</b>
+<b class="nc"><i>644</i>&nbsp;                coordinates.add(new Point3D(newX, newY, newZ));</b>
+<i>645</i>&nbsp;            }
+<b class="nc"><i>646</i>&nbsp;        }</b>
+<b class="nc"><i>647</i>&nbsp;        buildColor(coordinates);</b>
+<i>648</i>&nbsp;    }
+<i>649</i>&nbsp;
+<i>650</i>&nbsp;    /***
+<i>651</i>&nbsp;     * Manage the player build choice
+<i>652</i>&nbsp;     * @param buildList the list of possible build directions
+<i>653</i>&nbsp;     */
+<i>654</i>&nbsp;    public void standardBuildList(BuildList buildList) {
+<b class="nc"><i>655</i>&nbsp;        showBuildList(buildList);</b>
+<b class="nc"><i>656</i>&nbsp;        Platform.runLater(() -&gt; hintLabel.setText(&quot;Choose where to build!&quot;));</b>
+<b class="nc"><i>657</i>&nbsp;        matchScene.setOnMouseReleased(e -&gt; {</b>
+<b class="nc"><i>658</i>&nbsp;            matchScene.requestFocus();</b>
+<b class="nc"><i>659</i>&nbsp;            int[] newIndexes = coordinateToIndex(e.getPickResult());</b>
+<b class="nc"><i>660</i>&nbsp;            if(newIndexes[0] == -1 || newIndexes[1] == -1) {</b>
+<i>661</i>&nbsp;                // Click is out of bound
+<i>662</i>&nbsp;                return;
+<i>663</i>&nbsp;            }
+<b class="nc"><i>664</i>&nbsp;            for(Direction direction : buildList.getBuildlist()) {</b>
+<b class="nc"><i>665</i>&nbsp;                int newX = DirectionManagement.getX(buildList.getWorker().getX(), direction);</b>
+<b class="nc"><i>666</i>&nbsp;                int newY = DirectionManagement.getY(buildList.getWorker().getY(), direction);</b>
+<i>667</i>&nbsp;
+<b class="nc"><i>668</i>&nbsp;                if(newIndexes[0] == newX &amp;&amp; newIndexes[1] == newY) { // Found the valid direction</b>
+<b class="nc"><i>669</i>&nbsp;                    socket.sendMessage(new BuildReceiver(direction));</b>
+<b class="nc"><i>670</i>&nbsp;                    clearColor();</b>
+<b class="nc"><i>671</i>&nbsp;                    matchScene.setOnMouseReleased(e2 -&gt; {</b>
+<b class="nc"><i>672</i>&nbsp;                        matchScene.requestFocus();</b>
+<b class="nc"><i>673</i>&nbsp;                        e2.consume();</b>
+<i>674</i>&nbsp;                    });
+<i>675</i>&nbsp;                }
+<b class="nc"><i>676</i>&nbsp;            }</b>
+<b class="nc"><i>677</i>&nbsp;            e.consume();</b>
+<i>678</i>&nbsp;        });
+<i>679</i>&nbsp;    }
+<i>680</i>&nbsp;
+<i>681</i>&nbsp;    /***
+<i>682</i>&nbsp;     * Manage the player move choice
+<i>683</i>&nbsp;     * @param moveList the list of the player possible moves
+<i>684</i>&nbsp;     */
+<i>685</i>&nbsp;    public void showMoveList(MoveList moveList) {
+<b class="nc"><i>686</i>&nbsp;        myWorker1 = moveList.getWorker1();</b>
+<b class="nc"><i>687</i>&nbsp;        myWorker2 = moveList.getWorker2();</b>
+<b class="nc"><i>688</i>&nbsp;        Platform.runLater(() -&gt; hintLabel.setText(&quot;Click on a worker&quot;));</b>
+<i>689</i>&nbsp;
+<b class="nc"><i>690</i>&nbsp;        ArrayList&lt;Point3D&gt; wCoordinates = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>691</i>&nbsp;        wCoordinates.add(new Point3D(indexToCoordinateX(myWorker1.getX()), indexToCoordinateZ(mapCells[myWorker1.getX()][myWorker1.getY()].getBuilding()), indexToCoordinateY(myWorker1.getY())));</b>
+<b class="nc"><i>692</i>&nbsp;        wCoordinates.add(new Point3D(indexToCoordinateX(myWorker2.getX()), indexToCoordinateZ(mapCells[myWorker2.getX()][myWorker2.getY()].getBuilding()), indexToCoordinateY(myWorker2.getY())));</b>
+<b class="nc"><i>693</i>&nbsp;        workerColor(wCoordinates);</b>
+<i>694</i>&nbsp;
+<b class="nc"><i>695</i>&nbsp;        matchScene.setOnMouseReleased(e -&gt; {</b>
+<b class="nc"><i>696</i>&nbsp;            matchScene.requestFocus();</b>
+<b class="nc"><i>697</i>&nbsp;            int[] indexes = coordinateToIndex(e.getPickResult());</b>
+<b class="nc"><i>698</i>&nbsp;            if(indexes[0] == -1 || indexes[1] == -1) {</b>
+<i>699</i>&nbsp;                // Click is out of bound
+<i>700</i>&nbsp;                return;
+<i>701</i>&nbsp;            }
+<i>702</i>&nbsp;            Worker worker;
+<b class="nc"><i>703</i>&nbsp;            AtomicReference&lt;ArrayList&lt;Direction&gt;&gt; moves = new AtomicReference&lt;&gt;();</b>
+<b class="nc"><i>704</i>&nbsp;            AtomicReference&lt;Integer&gt; index = new AtomicReference&lt;&gt;();</b>
+<b class="nc"><i>705</i>&nbsp;            if(indexes[0] == myWorker1.getX() &amp;&amp; indexes[1] == myWorker1.getY()) {</b>
+<b class="nc"><i>706</i>&nbsp;                clearColor();</b>
+<b class="nc"><i>707</i>&nbsp;                ArrayList&lt;Point3D&gt; cCoordinates = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>708</i>&nbsp;                cCoordinates.add(new Point3D(indexToCoordinateX(myWorker2.getX()), indexToCoordinateZ(mapCells[myWorker2.getX()][myWorker2.getY()].getBuilding()), indexToCoordinateY(myWorker2.getY())));</b>
+<b class="nc"><i>709</i>&nbsp;                workerColor(cCoordinates);</b>
+<b class="nc"><i>710</i>&nbsp;                moves.set(moveList.getMoveList1());</b>
+<b class="nc"><i>711</i>&nbsp;                worker = moveList.getWorker1();</b>
+<b class="nc"><i>712</i>&nbsp;                index.set(0);</b>
+<b class="nc"><i>713</i>&nbsp;            } else if(indexes[0] == myWorker2.getX() &amp;&amp; indexes[1] == myWorker2.getY()) {</b>
+<b class="nc"><i>714</i>&nbsp;                clearColor();</b>
+<b class="nc"><i>715</i>&nbsp;                ArrayList&lt;Point3D&gt; cCoordinates = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>716</i>&nbsp;                cCoordinates.add(new Point3D(indexToCoordinateX(myWorker1.getX()), indexToCoordinateZ(mapCells[myWorker1.getX()][myWorker1.getY()].getBuilding()), indexToCoordinateY(myWorker1.getY())));</b>
+<b class="nc"><i>717</i>&nbsp;                workerColor(cCoordinates);</b>
+<b class="nc"><i>718</i>&nbsp;                moves.set(moveList.getMoveList2());</b>
+<b class="nc"><i>719</i>&nbsp;                worker = moveList.getWorker2();</b>
+<b class="nc"><i>720</i>&nbsp;                index.set(1);</b>
+<b class="nc"><i>721</i>&nbsp;            } else {</b>
+<i>722</i>&nbsp;                return;
+<i>723</i>&nbsp;            }
+<b class="nc"><i>724</i>&nbsp;            Platform.runLater(() -&gt; hintLabel.setText(&quot;Move your worker&quot;));</b>
+<b class="nc"><i>725</i>&nbsp;            showSingleMoveList(moveList, indexes[0], indexes[1]);</b>
+<b class="nc"><i>726</i>&nbsp;            AtomicReference&lt;Worker&gt; finalWorker = new AtomicReference&lt;&gt;(worker);</b>
+<b class="nc"><i>727</i>&nbsp;            matchScene.setOnMouseReleased(e2 -&gt; {</b>
+<b class="nc"><i>728</i>&nbsp;                matchScene.requestFocus();</b>
+<b class="nc"><i>729</i>&nbsp;                int[] newIndexes = coordinateToIndex(e2.getPickResult());</b>
+<b class="nc"><i>730</i>&nbsp;                if(newIndexes[0] == -1 || newIndexes[1] == -1) {</b>
+<i>731</i>&nbsp;                    // Click is out of bound
+<i>732</i>&nbsp;                    return;
+<i>733</i>&nbsp;                }
+<b class="nc"><i>734</i>&nbsp;                if((newIndexes[0] == moveList.getWorker1().getX() &amp;&amp; newIndexes[1] == moveList.getWorker1().getY())) {</b>
+<b class="nc"><i>735</i>&nbsp;                    clearColor();</b>
+<b class="nc"><i>736</i>&nbsp;                    ArrayList&lt;Point3D&gt; cCoordinates = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>737</i>&nbsp;                    cCoordinates.add(new Point3D(indexToCoordinateX(myWorker2.getX()), indexToCoordinateZ(mapCells[myWorker2.getX()][myWorker2.getY()].getBuilding()), indexToCoordinateY(myWorker2.getY())));</b>
+<b class="nc"><i>738</i>&nbsp;                    workerColor(cCoordinates);</b>
+<b class="nc"><i>739</i>&nbsp;                    finalWorker.set(moveList.getWorker1());</b>
+<b class="nc"><i>740</i>&nbsp;                    moves.set(moveList.getMoveList1());</b>
+<b class="nc"><i>741</i>&nbsp;                    showSingleMoveList(moveList, newIndexes[0], newIndexes[1]);</b>
+<b class="nc"><i>742</i>&nbsp;                    index.set(0);</b>
+<i>743</i>&nbsp;                    return;
+<b class="nc"><i>744</i>&nbsp;                } else if((newIndexes[0] == moveList.getWorker2().getX() &amp;&amp; newIndexes[1] == moveList.getWorker2().getY())) {</b>
+<b class="nc"><i>745</i>&nbsp;                    clearColor();</b>
+<b class="nc"><i>746</i>&nbsp;                    ArrayList&lt;Point3D&gt; cCoordinates = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>747</i>&nbsp;                    cCoordinates.add(new Point3D(indexToCoordinateX(myWorker1.getX()), indexToCoordinateZ(mapCells[myWorker1.getX()][myWorker1.getY()].getBuilding()), indexToCoordinateY(myWorker1.getY())));</b>
+<b class="nc"><i>748</i>&nbsp;                    workerColor(cCoordinates);</b>
+<b class="nc"><i>749</i>&nbsp;                    finalWorker.set(moveList.getWorker2());</b>
+<b class="nc"><i>750</i>&nbsp;                    moves.set(moveList.getMoveList2());</b>
+<b class="nc"><i>751</i>&nbsp;                    showSingleMoveList(moveList, newIndexes[0], newIndexes[1]);</b>
+<b class="nc"><i>752</i>&nbsp;                    index.set(1);</b>
+<i>753</i>&nbsp;                    return;
+<i>754</i>&nbsp;                }
+<i>755</i>&nbsp;
+<b class="nc"><i>756</i>&nbsp;                for(Direction direction : moves.get()) {</b>
+<b class="nc"><i>757</i>&nbsp;                    int newX = DirectionManagement.getX(finalWorker.get().getX(), direction);</b>
+<b class="nc"><i>758</i>&nbsp;                    int newY = DirectionManagement.getY(finalWorker.get().getY(), direction);</b>
+<i>759</i>&nbsp;
+<b class="nc"><i>760</i>&nbsp;                    if(newIndexes[0] == newX &amp;&amp; newIndexes[1] == newY) { // Found the valid direction</b>
+<b class="nc"><i>761</i>&nbsp;                        socket.sendMessage(new MoveReceiver(direction, index.get()));</b>
+<b class="nc"><i>762</i>&nbsp;                        clearColor();</b>
+<b class="nc"><i>763</i>&nbsp;                        matchScene.setOnMouseReleased(e3 -&gt; {</b>
+<b class="nc"><i>764</i>&nbsp;                            matchScene.requestFocus();</b>
+<b class="nc"><i>765</i>&nbsp;                            e3.consume();</b>
+<i>766</i>&nbsp;                        });
+<i>767</i>&nbsp;                    }
+<b class="nc"><i>768</i>&nbsp;                }</b>
+<b class="nc"><i>769</i>&nbsp;                e2.consume();</b>
+<i>770</i>&nbsp;            });
+<b class="nc"><i>771</i>&nbsp;            e.consume();</b>
+<i>772</i>&nbsp;        });
+<i>773</i>&nbsp;    }
+<i>774</i>&nbsp;
+<i>775</i>&nbsp;    /***
+<i>776</i>&nbsp;     * Show the possible moves of a player given the list and the worker original position
+<i>777</i>&nbsp;     * @param moveList the list of possible move directions
+<i>778</i>&nbsp;     * @param x the x worker coordinate
+<i>779</i>&nbsp;     * @param y the y worker coordinate
+<i>780</i>&nbsp;     */
+<i>781</i>&nbsp;    private void showSingleMoveList(MoveList moveList, int x, int y) {
+<b class="nc"><i>782</i>&nbsp;        ArrayList&lt;Point3D&gt; coordinates = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>783</i>&nbsp;        if(moveList.getWorker1().getX() == x &amp;&amp; moveList.getWorker1().getY() == y) {</b>
+<b class="nc"><i>784</i>&nbsp;            for (Direction dir : moveList.getMoveList1()) {</b>
+<b class="nc"><i>785</i>&nbsp;                int xIndex = DirectionManagement.getX(moveList.getWorker1().getX(), dir);</b>
+<b class="nc"><i>786</i>&nbsp;                int yIndex = DirectionManagement.getY(moveList.getWorker1().getY(), dir);</b>
+<b class="nc"><i>787</i>&nbsp;                if(xIndex != -1 &amp;&amp; yIndex != -1) { // If not out of bounds</b>
+<b class="nc"><i>788</i>&nbsp;                    double newX = indexToCoordinateX(xIndex);</b>
+<b class="nc"><i>789</i>&nbsp;                    double newZ = indexToCoordinateY(yIndex);</b>
+<b class="nc"><i>790</i>&nbsp;                    double newY = indexToCoordinateZ(mapCells[DirectionManagement.getX(moveList.getWorker1().getX(), dir)][DirectionManagement.getY(moveList.getWorker1().getY(), dir)].getBuilding());</b>
+<b class="nc"><i>791</i>&nbsp;                    coordinates.add(new Point3D(newX, newY, newZ));</b>
+<i>792</i>&nbsp;                }
+<b class="nc"><i>793</i>&nbsp;            }</b>
+<b class="nc"><i>794</i>&nbsp;        } else if(moveList.getWorker2().getX() == x &amp;&amp; moveList.getWorker2().getY() == y) {</b>
+<b class="nc"><i>795</i>&nbsp;            for (Direction dir : moveList.getMoveList2()) {</b>
+<b class="nc"><i>796</i>&nbsp;                int xIndex = DirectionManagement.getX(moveList.getWorker2().getX(), dir);</b>
+<b class="nc"><i>797</i>&nbsp;                int yIndex = DirectionManagement.getY(moveList.getWorker2().getY(), dir);</b>
+<b class="nc"><i>798</i>&nbsp;                if(xIndex != -1 &amp;&amp; yIndex != -1) { // If not out of bounds</b>
+<b class="nc"><i>799</i>&nbsp;                    double newX = indexToCoordinateX(xIndex);</b>
+<b class="nc"><i>800</i>&nbsp;                    double newZ = indexToCoordinateY(yIndex);</b>
+<b class="nc"><i>801</i>&nbsp;                    double newY = indexToCoordinateZ(mapCells[DirectionManagement.getX(moveList.getWorker2().getX(), dir)][DirectionManagement.getY(moveList.getWorker2().getY(), dir)].getBuilding());</b>
+<b class="nc"><i>802</i>&nbsp;                    coordinates.add(new Point3D(newX, newY, newZ));</b>
+<i>803</i>&nbsp;                }
+<b class="nc"><i>804</i>&nbsp;            }</b>
+<i>805</i>&nbsp;        } else {
+<b class="nc"><i>806</i>&nbsp;            System.err.println(&quot;Click is not in a cell occupied by a worker&quot;);</b>
+<i>807</i>&nbsp;            return;
+<i>808</i>&nbsp;        }
+<b class="nc"><i>809</i>&nbsp;        moveColor(coordinates);</b>
+<i>810</i>&nbsp;    }
+<i>811</i>&nbsp;
+<i>812</i>&nbsp;    /***
+<i>813</i>&nbsp;     * Manage a build where a dome can be built at any level
+<i>814</i>&nbsp;     * @param buildList the list of possible build directions
+<i>815</i>&nbsp;     */
+<i>816</i>&nbsp;    public void atlasBuild(AtlasBuildList buildList) {
+<b class="nc"><i>817</i>&nbsp;        Platform.runLater(() -&gt; label1.setText(&quot;Dome&quot;));</b>
+<b class="nc"><i>818</i>&nbsp;        showBuildList(buildList);</b>
+<b class="nc"><i>819</i>&nbsp;        Platform.runLater(() -&gt; hintLabel.setText(&quot;Choose where to build!&quot;));</b>
+<b class="nc"><i>820</i>&nbsp;        button1.setOnMouseReleased(e -&gt; {</b>
+<b class="nc"><i>821</i>&nbsp;            if(button1.getImage().getUrl().equals(getClass().getResource(&quot;/2DGraphics/GreenButton.png&quot;).toString())){</b>
+<b class="nc"><i>822</i>&nbsp;                Image image = new Image(&quot;/2DGraphics/RedButton.png&quot;);</b>
+<b class="nc"><i>823</i>&nbsp;                Platform.runLater(() -&gt; button1.setImage(image));</b>
+<b class="nc"><i>824</i>&nbsp;            } else {</b>
+<b class="nc"><i>825</i>&nbsp;                Image image1 = new Image(&quot;/2DGraphics/GreenButton.png&quot;);</b>
+<b class="nc"><i>826</i>&nbsp;                Platform.runLater(() -&gt; button1.setImage(image1));</b>
+<i>827</i>&nbsp;            }
+<b class="nc"><i>828</i>&nbsp;            e.consume();</b>
+<i>829</i>&nbsp;        });
+<i>830</i>&nbsp;
+<b class="nc"><i>831</i>&nbsp;        matchScene.setOnMouseReleased(e1 -&gt; {</b>
+<b class="nc"><i>832</i>&nbsp;            matchScene.requestFocus();</b>
+<b class="nc"><i>833</i>&nbsp;            int[] newIndexes = coordinateToIndex(e1.getPickResult());</b>
+<b class="nc"><i>834</i>&nbsp;            if(newIndexes[0] == -1 || newIndexes[1] == -1) {</b>
+<i>835</i>&nbsp;                // Click is out of bound
+<i>836</i>&nbsp;                return;
+<i>837</i>&nbsp;            }
+<b class="nc"><i>838</i>&nbsp;            for(Direction direction : buildList.getBuildlist()) {</b>
+<b class="nc"><i>839</i>&nbsp;                int newX = DirectionManagement.getX(buildList.getWorker().getX(), direction);</b>
+<b class="nc"><i>840</i>&nbsp;                int newY = DirectionManagement.getY(buildList.getWorker().getY(), direction);</b>
+<i>841</i>&nbsp;
+<b class="nc"><i>842</i>&nbsp;                if(newIndexes[0] == newX &amp;&amp; newIndexes[1] == newY &amp;&amp; button1.getImage().getUrl().equals(getClass().getResource(&quot;/2DGraphics/GreenButton.png&quot;).toString())) { // Found the valid direction</b>
+<b class="nc"><i>843</i>&nbsp;                    socket.sendMessage(new AtlasBuildReceiver(direction, true));</b>
+<i>844</i>&nbsp;                    button1.setOnMouseReleased(e2 -&gt; { });
+<b class="nc"><i>845</i>&nbsp;                    clearColor();</b>
+<b class="nc"><i>846</i>&nbsp;                    matchScene.setOnMouseReleased(e2 -&gt; {</b>
+<b class="nc"><i>847</i>&nbsp;                        matchScene.requestFocus();</b>
+<b class="nc"><i>848</i>&nbsp;                        e2.consume();</b>
+<i>849</i>&nbsp;                    });
+<b class="nc"><i>850</i>&nbsp;                    Image image = new Image(&quot;/2DGraphics/RedButton.png&quot;);</b>
+<b class="nc"><i>851</i>&nbsp;                    Platform.runLater(() -&gt; button1.setImage(image));</b>
+<b class="nc"><i>852</i>&nbsp;                } else if(newIndexes[0] == newX &amp;&amp; newIndexes[1] == newY &amp;&amp; button1.getImage().getUrl().equals(getClass().getResource(&quot;/2DGraphics/RedButton.png&quot;).toString())){</b>
+<b class="nc"><i>853</i>&nbsp;                    socket.sendMessage(new AtlasBuildReceiver(direction, false));</b>
+<i>854</i>&nbsp;                    button1.setOnMouseReleased(e2 -&gt; { });
+<b class="nc"><i>855</i>&nbsp;                    clearColor();</b>
+<b class="nc"><i>856</i>&nbsp;                    matchScene.setOnMouseReleased(e2 -&gt; {</b>
+<b class="nc"><i>857</i>&nbsp;                        matchScene.requestFocus();</b>
+<b class="nc"><i>858</i>&nbsp;                        e2.consume();</b>
+<i>859</i>&nbsp;                    });
+<b class="nc"><i>860</i>&nbsp;                    Image image = new Image(&quot;/2DGraphics/RedButton.png&quot;);</b>
+<b class="nc"><i>861</i>&nbsp;                    Platform.runLater(() -&gt; button1.setImage(image));</b>
+<b class="nc"><i>862</i>&nbsp;                    Platform.runLater(() -&gt; label1.setText(&quot;&quot;));</b>
+<i>863</i>&nbsp;                }
+<b class="nc"><i>864</i>&nbsp;            }</b>
+<b class="nc"><i>865</i>&nbsp;            e1.consume();</b>
+<i>866</i>&nbsp;        });
+<i>867</i>&nbsp;    }
+<i>868</i>&nbsp;
+<i>869</i>&nbsp;    /***
+<i>870</i>&nbsp;     * Enable the end turn command
+<i>871</i>&nbsp;     */
+<i>872</i>&nbsp;    public void showEndTurn() {
+<b class="nc"><i>873</i>&nbsp;        Platform.runLater(() -&gt; hintLabel.setText(&quot;End your turn!&quot;));</b>
+<b class="nc"><i>874</i>&nbsp;        Image image = new Image(&quot;/2DGraphics/GreenButton.png&quot;);</b>
+<b class="nc"><i>875</i>&nbsp;        Platform.runLater(() -&gt; button2.setImage(image));</b>
+<b class="nc"><i>876</i>&nbsp;        button2.setOnMouseReleased(e -&gt; {</b>
+<b class="nc"><i>877</i>&nbsp;            Image image1 = new Image(&quot;/2DGraphics/RedButton.png&quot;);</b>
+<b class="nc"><i>878</i>&nbsp;            Platform.runLater(() -&gt; button2.setImage(image1));</b>
+<b class="nc"><i>879</i>&nbsp;            Platform.runLater(() -&gt; hintLabel.setText(&quot;Wait for your turn&quot;));</b>
+<b class="nc"><i>880</i>&nbsp;            socket.sendMessage(new EndTurnReceiver());</b>
+<b class="nc"><i>881</i>&nbsp;            matchScene.setOnMouseReleased(e2 -&gt; {</b>
+<b class="nc"><i>882</i>&nbsp;                matchScene.requestFocus();</b>
+<b class="nc"><i>883</i>&nbsp;                e2.consume();</b>
+<i>884</i>&nbsp;            });
+<i>885</i>&nbsp;            button2.setOnMouseReleased(e2 -&gt; { });
+<b class="nc"><i>886</i>&nbsp;            e.consume();</b>
+<i>887</i>&nbsp;        });
+<i>888</i>&nbsp;    }
+<i>889</i>&nbsp;
+<i>890</i>&nbsp;    /***
+<i>891</i>&nbsp;     * Manage the placement of the workers into the map
+<i>892</i>&nbsp;     */
+<i>893</i>&nbsp;    public void placeWorkerInit() {
+<b class="nc"><i>894</i>&nbsp;        Platform.runLater(() -&gt; hintLabel.setText(&quot;Place the first worker&quot;));</b>
+<b class="nc"><i>895</i>&nbsp;        matchScene.setOnMouseReleased(e -&gt; {</b>
+<b class="nc"><i>896</i>&nbsp;            matchScene.requestFocus();</b>
+<b class="nc"><i>897</i>&nbsp;            int[] indexes1 = coordinateToIndex(e.getPickResult());</b>
+<b class="nc"><i>898</i>&nbsp;            if(indexes1[0] == -1 || indexes1[1] == -1 || mapCells[indexes1[0]][indexes1[1]].getWorker() != null) {</b>
+<i>899</i>&nbsp;                // Click is out of bound
+<i>900</i>&nbsp;                return;
+<i>901</i>&nbsp;            }
+<b class="nc"><i>902</i>&nbsp;            ArrayList&lt;Point3D&gt; coordinates = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>903</i>&nbsp;            double newX = indexToCoordinateX(indexes1[0]);</b>
+<b class="nc"><i>904</i>&nbsp;            double newZ = indexToCoordinateY(indexes1[1]);</b>
+<b class="nc"><i>905</i>&nbsp;            double newY = indexToCoordinateZ(mapCells[indexes1[0]][indexes1[1]].getBuilding());</b>
+<b class="nc"><i>906</i>&nbsp;            coordinates.add(new Point3D(newX, newY, newZ));</b>
+<b class="nc"><i>907</i>&nbsp;            placeWorkerColor(coordinates);</b>
+<b class="nc"><i>908</i>&nbsp;            Platform.runLater(() -&gt; hintLabel.setText(&quot;Place the second worker&quot;));</b>
+<b class="nc"><i>909</i>&nbsp;            matchScene.setOnMouseReleased(e2 -&gt; {</b>
+<b class="nc"><i>910</i>&nbsp;                matchScene.requestFocus();</b>
+<b class="nc"><i>911</i>&nbsp;                int[] indexes2 = coordinateToIndex(e2.getPickResult());</b>
+<b class="nc"><i>912</i>&nbsp;                if(indexes2[0] == -1 || indexes2[1] == -1 || (indexes2[0] == indexes1[0] &amp;&amp; indexes2[1] == indexes1[1]) || mapCells[indexes2[0]][indexes2[1]].getWorker() != null) {</b>
+<i>913</i>&nbsp;                    // Click is out of bound or is the same position of the first worker
+<b class="nc"><i>914</i>&nbsp;                    Platform.runLater(() -&gt; hintLabel.setText(&quot;Place the second worker&quot;));</b>
+<i>915</i>&nbsp;                    return;
+<i>916</i>&nbsp;                }
+<b class="nc"><i>917</i>&nbsp;                Platform.runLater(() -&gt; hintLabel.setText(&quot;Wait your turn&quot;));</b>
+<b class="nc"><i>918</i>&nbsp;                socket.sendMessage(new WorkerReceiver(indexes1[0], indexes1[1], indexes2[0], indexes2[1]));</b>
+<b class="nc"><i>919</i>&nbsp;                clearColor();</b>
+<b class="nc"><i>920</i>&nbsp;                matchScene.setOnMouseReleased(e3 -&gt; {</b>
+<b class="nc"><i>921</i>&nbsp;                    matchScene.requestFocus();</b>
+<b class="nc"><i>922</i>&nbsp;                    e3.consume();</b>
+<i>923</i>&nbsp;                });
+<b class="nc"><i>924</i>&nbsp;                e2.consume();</b>
+<i>925</i>&nbsp;            });
+<b class="nc"><i>926</i>&nbsp;            e.consume();</b>
+<i>927</i>&nbsp;        });
+<i>928</i>&nbsp;    }
+<i>929</i>&nbsp;
+<i>930</i>&nbsp;    /***
+<i>931</i>&nbsp;     * Manage a turn where the player can build both before and after the move
+<i>932</i>&nbsp;     * @param prometheusBuildList the list of possible builds before the move
+<i>933</i>&nbsp;     */
+<i>934</i>&nbsp;    public void prometheusBuildShow(PrometheusBuildList prometheusBuildList) {
+<b class="nc"><i>935</i>&nbsp;        ArrayList&lt;Point3D&gt; coordinates = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>936</i>&nbsp;        for (Direction dir : prometheusBuildList.getBuildlist1()) {</b>
+<b class="nc"><i>937</i>&nbsp;            int xIndex = DirectionManagement.getX(prometheusBuildList.getWorker1().getX(), dir);</b>
+<b class="nc"><i>938</i>&nbsp;            int yIndex = DirectionManagement.getY(prometheusBuildList.getWorker1().getY(), dir);</b>
+<b class="nc"><i>939</i>&nbsp;            if(xIndex != -1 &amp;&amp; yIndex != -1) { // If not out of bounds</b>
+<b class="nc"><i>940</i>&nbsp;                double newX = indexToCoordinateX(xIndex);</b>
+<b class="nc"><i>941</i>&nbsp;                double newZ = indexToCoordinateY(yIndex);</b>
+<b class="nc"><i>942</i>&nbsp;                double newY = indexToCoordinateZ(mapCells[DirectionManagement.getX(prometheusBuildList.getWorker1().getX(), dir)][DirectionManagement.getY(prometheusBuildList.getWorker1().getY(), dir)].getBuilding());</b>
+<b class="nc"><i>943</i>&nbsp;                coordinates.add(new Point3D(newX, newY, newZ));</b>
+<i>944</i>&nbsp;            }
+<b class="nc"><i>945</i>&nbsp;        }</b>
+<b class="nc"><i>946</i>&nbsp;        for (Direction dir : prometheusBuildList.getBuildlist2()) {</b>
+<b class="nc"><i>947</i>&nbsp;            int xIndex = DirectionManagement.getX(prometheusBuildList.getWorker2().getX(), dir);</b>
+<b class="nc"><i>948</i>&nbsp;            int yIndex = DirectionManagement.getY(prometheusBuildList.getWorker2().getY(), dir);</b>
+<b class="nc"><i>949</i>&nbsp;            if(xIndex != -1 &amp;&amp; yIndex != -1) { // If not out of bounds</b>
+<b class="nc"><i>950</i>&nbsp;                double newX = indexToCoordinateX(xIndex);</b>
+<b class="nc"><i>951</i>&nbsp;                double newZ = indexToCoordinateY(yIndex);</b>
+<b class="nc"><i>952</i>&nbsp;                double newY = indexToCoordinateZ(mapCells[DirectionManagement.getX(prometheusBuildList.getWorker2().getX(), dir)][DirectionManagement.getY(prometheusBuildList.getWorker2().getY(), dir)].getBuilding());</b>
+<b class="nc"><i>953</i>&nbsp;                coordinates.add(new Point3D(newX, newY, newZ));</b>
+<i>954</i>&nbsp;            }
+<b class="nc"><i>955</i>&nbsp;        }</b>
+<b class="nc"><i>956</i>&nbsp;        buildColor(coordinates);</b>
+<i>957</i>&nbsp;
+<b class="nc"><i>958</i>&nbsp;        Platform.runLater(() -&gt; hintLabel.setText(&quot;Move or Build?&quot;));</b>
+<b class="nc"><i>959</i>&nbsp;        Image image = new Image(&quot;/2DGraphics/GreenButton.png&quot;);</b>
+<b class="nc"><i>960</i>&nbsp;        Platform.runLater(() -&gt; label1.setText(&quot;Move&quot;));</b>
+<b class="nc"><i>961</i>&nbsp;        Platform.runLater(() -&gt; button1.setImage(image));</b>
+<b class="nc"><i>962</i>&nbsp;        Platform.runLater(() -&gt; label2.setText(&quot;Build&quot;));</b>
+<b class="nc"><i>963</i>&nbsp;        Platform.runLater(() -&gt; button2.setImage(image));</b>
+<i>964</i>&nbsp;
+<b class="nc"><i>965</i>&nbsp;        button1.setOnMouseReleased(e -&gt; {</b>
+<b class="nc"><i>966</i>&nbsp;            socket.sendMessage(new PrometheusBuildReceiver(null));</b>
+<b class="nc"><i>967</i>&nbsp;            Image image2 = new Image(&quot;/2DGraphics/RedButton.png&quot;);</b>
+<b class="nc"><i>968</i>&nbsp;            Platform.runLater(() -&gt; {label2.setText(&quot;End Turn&quot;);</b>
+<b class="nc"><i>969</i>&nbsp;            label1.setText(&quot;&quot;);</b>
+<b class="nc"><i>970</i>&nbsp;            button1.setImage(image2);</b>
+<b class="nc"><i>971</i>&nbsp;            button2.setImage(image2);});</b>
+<i>972</i>&nbsp;            button1.setOnMouseReleased(e2 -&gt; { });
+<i>973</i>&nbsp;            button2.setOnMouseReleased(e2 -&gt; { });
+<b class="nc"><i>974</i>&nbsp;            clearColor();</b>
+<b class="nc"><i>975</i>&nbsp;            e.consume();</b>
+<i>976</i>&nbsp;        });
+<i>977</i>&nbsp;
+<b class="nc"><i>978</i>&nbsp;        button2.setOnMouseReleased(e -&gt; {</b>
+<i>979</i>&nbsp;            button1.setOnMouseReleased(e2 -&gt; { });
+<i>980</i>&nbsp;            button2.setOnMouseReleased(e2 -&gt; { });
+<b class="nc"><i>981</i>&nbsp;            Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>982</i>&nbsp;                label1.setText(&quot;&quot;);</b>
+<b class="nc"><i>983</i>&nbsp;                Image image3 = new Image(&quot;/2DGraphics/RedButton.png&quot;);</b>
+<b class="nc"><i>984</i>&nbsp;                button1.setImage(image3);</b>
+<b class="nc"><i>985</i>&nbsp;                button2.setImage(image3);</b>
+<i>986</i>&nbsp;            });
+<b class="nc"><i>987</i>&nbsp;            matchScene.requestFocus();</b>
+<b class="nc"><i>988</i>&nbsp;            Platform.runLater(() -&gt; hintLabel.setText(&quot;Choose the worker that has  to build!&quot;));</b>
+<b class="nc"><i>989</i>&nbsp;            myWorker1 = prometheusBuildList.getWorker1();</b>
+<b class="nc"><i>990</i>&nbsp;            myWorker2 = prometheusBuildList.getWorker2();</b>
+<b class="nc"><i>991</i>&nbsp;            clearColor();</b>
+<b class="nc"><i>992</i>&nbsp;            ArrayList&lt;Point3D&gt; wCoordinates = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>993</i>&nbsp;            wCoordinates.add(new Point3D(indexToCoordinateX(myWorker1.getX()), indexToCoordinateZ(mapCells[myWorker1.getX()][myWorker1.getY()].getBuilding()), indexToCoordinateY(myWorker1.getY())));</b>
+<b class="nc"><i>994</i>&nbsp;            wCoordinates.add(new Point3D(indexToCoordinateX(myWorker2.getX()), indexToCoordinateZ(mapCells[myWorker2.getX()][myWorker2.getY()].getBuilding()), indexToCoordinateY(myWorker2.getY())));</b>
+<b class="nc"><i>995</i>&nbsp;            workerColor(wCoordinates);</b>
+<b class="nc"><i>996</i>&nbsp;            matchScene.setOnMouseReleased(e3 -&gt; {</b>
+<b class="nc"><i>997</i>&nbsp;                matchScene.requestFocus();</b>
+<b class="nc"><i>998</i>&nbsp;                int[] indexes = coordinateToIndex(e3.getPickResult());</b>
+<b class="nc"><i>999</i>&nbsp;                if(indexes[0] == -1 || indexes[1] == -1) {</b>
+<i>1000</i>&nbsp;                    // Click is out of bound
+<i>1001</i>&nbsp;                    return;
+<i>1002</i>&nbsp;                }
+<b class="nc"><i>1003</i>&nbsp;                if(indexes[0] == myWorker1.getX() &amp;&amp; indexes[1] == myWorker1.getY()) {</b>
+<b class="nc"><i>1004</i>&nbsp;                    socket.sendMessage(new PrometheusBuildReceiver(0));</b>
+<b class="nc"><i>1005</i>&nbsp;                    clearColor();</b>
+<b class="nc"><i>1006</i>&nbsp;                    matchScene.setOnMouseReleased(e4 -&gt; {</b>
+<b class="nc"><i>1007</i>&nbsp;                        matchScene.requestFocus();</b>
+<b class="nc"><i>1008</i>&nbsp;                        e4.consume();</b>
+<i>1009</i>&nbsp;                    });
+<b class="nc"><i>1010</i>&nbsp;                } else if(indexes[0] == myWorker2.getX() &amp;&amp; indexes[1] == myWorker2.getY()) {</b>
+<b class="nc"><i>1011</i>&nbsp;                    socket.sendMessage(new PrometheusBuildReceiver(1));</b>
+<b class="nc"><i>1012</i>&nbsp;                    clearColor();</b>
+<b class="nc"><i>1013</i>&nbsp;                    matchScene.setOnMouseReleased(e4 -&gt; {</b>
+<b class="nc"><i>1014</i>&nbsp;                        matchScene.requestFocus();</b>
+<b class="nc"><i>1015</i>&nbsp;                        e4.consume();</b>
+<i>1016</i>&nbsp;                    });
+<i>1017</i>&nbsp;                } else {
+<i>1018</i>&nbsp;                    return;
+<i>1019</i>&nbsp;                }
+<b class="nc"><i>1020</i>&nbsp;                Platform.runLater(() -&gt; label2.setText(&quot;End Turn&quot;));</b>
+<b class="nc"><i>1021</i>&nbsp;                e3.consume();</b>
+<i>1022</i>&nbsp;            });
+<b class="nc"><i>1023</i>&nbsp;            e.consume();</b>
+<i>1024</i>&nbsp;        });
+<i>1025</i>&nbsp;    }
+<i>1026</i>&nbsp;
+<i>1027</i>&nbsp;    /***
+<i>1028</i>&nbsp;     * Manage a move where the source of the movement is a single worker
+<i>1029</i>&nbsp;     * @param singleMoveList the direction of possible moves of the worker
+<i>1030</i>&nbsp;     */
+<i>1031</i>&nbsp;    public void singleMoveUpdate(SingleMoveList singleMoveList) {
+<b class="nc"><i>1032</i>&nbsp;        MoveList moveList = new MoveList(singleMoveList.getMoveList(), null, singleMoveList.getWorker(), null);</b>
+<b class="nc"><i>1033</i>&nbsp;        showSingleMoveList(moveList, singleMoveList.getWorker().getX(), singleMoveList.getWorker().getY());</b>
+<i>1034</i>&nbsp;
+<b class="nc"><i>1035</i>&nbsp;        matchScene.setOnMouseReleased(e1 -&gt; {</b>
+<b class="nc"><i>1036</i>&nbsp;            matchScene.requestFocus();</b>
+<b class="nc"><i>1037</i>&nbsp;            int[] newIndexes = coordinateToIndex(e1.getPickResult());</b>
+<b class="nc"><i>1038</i>&nbsp;            if(newIndexes[0] == -1 || newIndexes[1] == -1) {</b>
+<i>1039</i>&nbsp;                // Click is out of bound
+<i>1040</i>&nbsp;                return;
+<i>1041</i>&nbsp;            }
+<b class="nc"><i>1042</i>&nbsp;            for(Direction direction : singleMoveList.getMoveList()) {</b>
+<b class="nc"><i>1043</i>&nbsp;                int newX = DirectionManagement.getX(singleMoveList.getWorker().getX(), direction);</b>
+<b class="nc"><i>1044</i>&nbsp;                int newY = DirectionManagement.getY(singleMoveList.getWorker().getY(), direction);</b>
+<i>1045</i>&nbsp;
+<b class="nc"><i>1046</i>&nbsp;                if(newIndexes[0] == newX &amp;&amp; newIndexes[1] == newY) { // Found the valid direction</b>
+<b class="nc"><i>1047</i>&nbsp;                    socket.sendMessage(new MoveReceiver(direction, singleMoveList.getWorkerID()));</b>
+<b class="nc"><i>1048</i>&nbsp;                    clearColor();</b>
+<i>1049</i>&nbsp;
+<i>1050</i>&nbsp;                    button1.setOnMouseReleased(e2 -&gt; { });
+<b class="nc"><i>1051</i>&nbsp;                    matchScene.setOnMouseReleased(e2 -&gt; {</b>
+<b class="nc"><i>1052</i>&nbsp;                        matchScene.requestFocus();</b>
+<b class="nc"><i>1053</i>&nbsp;                        e2.consume();</b>
+<i>1054</i>&nbsp;                    });
+<b class="nc"><i>1055</i>&nbsp;                    Image image = new Image(&quot;/2DGraphics/RedButton.png&quot;);</b>
+<b class="nc"><i>1056</i>&nbsp;                    Platform.runLater(() -&gt; button1.setImage(image));</b>
+<i>1057</i>&nbsp;                }
+<b class="nc"><i>1058</i>&nbsp;            }</b>
+<b class="nc"><i>1059</i>&nbsp;            e1.consume();</b>
+<i>1060</i>&nbsp;        });
+<i>1061</i>&nbsp;
+<b class="nc"><i>1062</i>&nbsp;        if(singleMoveList.isOptional()) {</b>
+<b class="nc"><i>1063</i>&nbsp;            Platform.runLater(() -&gt; label1.setText(&quot;Skip Move&quot;));</b>
+<b class="nc"><i>1064</i>&nbsp;            Image image = new Image(&quot;/2DGraphics/GreenButton.png&quot;);</b>
+<b class="nc"><i>1065</i>&nbsp;            Platform.runLater(() -&gt; button1.setImage(image));</b>
+<b class="nc"><i>1066</i>&nbsp;            Platform.runLater(() -&gt; hintLabel.setText(&quot;Select move or skip&quot;));</b>
+<b class="nc"><i>1067</i>&nbsp;            button1.setOnMouseReleased(e -&gt; {</b>
+<b class="nc"><i>1068</i>&nbsp;                Image image2 = new Image(&quot;/2DGraphics/RedButton.png&quot;);</b>
+<b class="nc"><i>1069</i>&nbsp;                Platform.runLater(() -&gt; button1.setImage(image2));</b>
+<b class="nc"><i>1070</i>&nbsp;                socket.sendMessage(new MoveReceiver(null, singleMoveList.getWorkerID()));</b>
+<i>1071</i>&nbsp;                button1.setOnMouseReleased(e2 -&gt; { });
+<b class="nc"><i>1072</i>&nbsp;                clearColor();</b>
+<b class="nc"><i>1073</i>&nbsp;                matchScene.setOnMouseReleased(e2 -&gt; {</b>
+<b class="nc"><i>1074</i>&nbsp;                    matchScene.requestFocus();</b>
+<b class="nc"><i>1075</i>&nbsp;                    e2.consume();</b>
+<i>1076</i>&nbsp;                });
+<b class="nc"><i>1077</i>&nbsp;                e.consume();</b>
+<i>1078</i>&nbsp;            });
+<b class="nc"><i>1079</i>&nbsp;        } else {</b>
+<b class="nc"><i>1080</i>&nbsp;            Platform.runLater(() -&gt; hintLabel.setText(&quot;Select move&quot;));</b>
+<i>1081</i>&nbsp;            button1.setOnMouseReleased(e -&gt; { });
+<i>1082</i>&nbsp;        }
+<i>1083</i>&nbsp;    }
+<i>1084</i>&nbsp;
+<i>1085</i>&nbsp;    /***
+<i>1086</i>&nbsp;     * Update the player data into the sidebar
+<i>1087</i>&nbsp;     * @param players the list of players into the game
+<i>1088</i>&nbsp;     */
+<i>1089</i>&nbsp;    public void updatePlayers(ArrayList&lt;PlayerData&gt; players) {
+<b class="nc"><i>1090</i>&nbsp;        if (players.size() == 2) {</b>
+<b class="nc"><i>1091</i>&nbsp;            for (PlayerData playerData : players) {</b>
+<b class="nc"><i>1092</i>&nbsp;                updateSinglePlayerData(playerData);</b>
+<b class="nc"><i>1093</i>&nbsp;                Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1094</i>&nbsp;                    nick3.setVisible(false);</b>
+<b class="nc"><i>1095</i>&nbsp;                    divinity3.setVisible(false);</b>
+<b class="nc"><i>1096</i>&nbsp;                    border3.setVisible(false);</b>
+<b class="nc"><i>1097</i>&nbsp;                    color3.setVisible(false);</b>
+<i>1098</i>&nbsp;                });
+<b class="nc"><i>1099</i>&nbsp;            }</b>
+<b class="nc"><i>1100</i>&nbsp;        } else if (players.size() == 3) {</b>
+<b class="nc"><i>1101</i>&nbsp;            for (PlayerData playerData : players) {</b>
+<b class="nc"><i>1102</i>&nbsp;                updateSinglePlayerData(playerData);</b>
+<b class="nc"><i>1103</i>&nbsp;                if (playerData.getPlayOrder() == 2) {</b>
+<b class="nc"><i>1104</i>&nbsp;                    if (!playerData.getLost()) {</b>
+<b class="nc"><i>1105</i>&nbsp;                        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1106</i>&nbsp;                            nick3.setText(playerData.getPlayerID());</b>
+<b class="nc"><i>1107</i>&nbsp;                            if(playerData.getDivinity() != null) {</b>
+<b class="nc"><i>1108</i>&nbsp;                                Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1109</i>&nbsp;                                    Image image2 = new Image(&quot;/2DGraphics/&quot; + playerData.getDivinity() + &quot;.png&quot;);</b>
+<b class="nc"><i>1110</i>&nbsp;                                    divinity3.setImage(image2);</b>
+<i>1111</i>&nbsp;                                });
+<i>1112</i>&nbsp;                            }
+<i>1113</i>&nbsp;                        });
+<i>1114</i>&nbsp;                    } else {
+<b class="nc"><i>1115</i>&nbsp;                        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1116</i>&nbsp;                            ColorAdjust blackout = new ColorAdjust();</b>
+<b class="nc"><i>1117</i>&nbsp;                            blackout.setBrightness(-0.7);</b>
+<i>1118</i>&nbsp;
+<b class="nc"><i>1119</i>&nbsp;                            divinity3.setEffect(blackout);</b>
+<b class="nc"><i>1120</i>&nbsp;                            divinity3.setCache(true);</b>
+<b class="nc"><i>1121</i>&nbsp;                            divinity3.setCacheHint(CacheHint.SPEED);</b>
+<i>1122</i>&nbsp;                        });
+<i>1123</i>&nbsp;                    }
+<b class="nc"><i>1124</i>&nbsp;                    color3.setStyle(&quot;-fx-background-color: White;&quot;);</b>
+<i>1125</i>&nbsp;                }
+<b class="nc"><i>1126</i>&nbsp;            }</b>
+<i>1127</i>&nbsp;        }
+<i>1128</i>&nbsp;    }
+<i>1129</i>&nbsp;
+<i>1130</i>&nbsp;    /***
+<i>1131</i>&nbsp;     * Update the data of a single player into the sidebar
+<i>1132</i>&nbsp;     * @param playerData the player data
+<i>1133</i>&nbsp;     */
+<i>1134</i>&nbsp;    private void updateSinglePlayerData(PlayerData playerData) {
+<b class="nc"><i>1135</i>&nbsp;        if (playerData.getPlayOrder() == 0) {</b>
+<b class="nc"><i>1136</i>&nbsp;            if (!playerData.getLost()) {</b>
+<b class="nc"><i>1137</i>&nbsp;                Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1138</i>&nbsp;                    nick1.setText(playerData.getPlayerID());</b>
+<b class="nc"><i>1139</i>&nbsp;                    if(playerData.getDivinity() != null) {</b>
+<b class="nc"><i>1140</i>&nbsp;                        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1141</i>&nbsp;                            Image image = new Image(&quot;/2DGraphics/&quot; + playerData.getDivinity() + &quot;.png&quot;);</b>
+<b class="nc"><i>1142</i>&nbsp;                            divinity1.setImage(image);</b>
+<i>1143</i>&nbsp;                        });
+<i>1144</i>&nbsp;                    }
+<i>1145</i>&nbsp;                });
+<i>1146</i>&nbsp;            } else {
+<b class="nc"><i>1147</i>&nbsp;                Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1148</i>&nbsp;                    ColorAdjust blackout = new ColorAdjust();</b>
+<b class="nc"><i>1149</i>&nbsp;                    blackout.setBrightness(-0.7);</b>
+<i>1150</i>&nbsp;
+<b class="nc"><i>1151</i>&nbsp;                    divinity1.setEffect(blackout);</b>
+<b class="nc"><i>1152</i>&nbsp;                    divinity1.setCache(true);</b>
+<b class="nc"><i>1153</i>&nbsp;                    divinity1.setCacheHint(CacheHint.SPEED);</b>
+<i>1154</i>&nbsp;                });
+<i>1155</i>&nbsp;            }
+<b class="nc"><i>1156</i>&nbsp;            color1.setStyle(&quot;-fx-background-color: #ff0000;&quot;);</b>
+<i>1157</i>&nbsp;        }
+<b class="nc"><i>1158</i>&nbsp;        if (playerData.getPlayOrder() == 1) {</b>
+<b class="nc"><i>1159</i>&nbsp;            if (!playerData.getLost()) {</b>
+<b class="nc"><i>1160</i>&nbsp;                Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1161</i>&nbsp;                    nick2.setText(playerData.getPlayerID());</b>
+<b class="nc"><i>1162</i>&nbsp;                    if(playerData.getDivinity() != null) {</b>
+<b class="nc"><i>1163</i>&nbsp;                        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1164</i>&nbsp;                            Image image1 = new Image(&quot;/2DGraphics/&quot; + playerData.getDivinity() + &quot;.png&quot;);</b>
+<b class="nc"><i>1165</i>&nbsp;                            divinity2.setImage(image1);</b>
+<i>1166</i>&nbsp;                        });
+<i>1167</i>&nbsp;                    }
+<i>1168</i>&nbsp;                });
+<i>1169</i>&nbsp;            } else {
+<b class="nc"><i>1170</i>&nbsp;                Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1171</i>&nbsp;                    ColorAdjust blackout = new ColorAdjust();</b>
+<b class="nc"><i>1172</i>&nbsp;                    blackout.setBrightness(-0.7);</b>
+<i>1173</i>&nbsp;
+<b class="nc"><i>1174</i>&nbsp;                    divinity2.setEffect(blackout);</b>
+<b class="nc"><i>1175</i>&nbsp;                    divinity2.setCache(true);</b>
+<b class="nc"><i>1176</i>&nbsp;                    divinity2.setCacheHint(CacheHint.SPEED);</b>
+<i>1177</i>&nbsp;                });
+<i>1178</i>&nbsp;            }
+<b class="nc"><i>1179</i>&nbsp;            color2.setStyle(&quot;-fx-background-color: Blue;&quot;);</b>
+<i>1180</i>&nbsp;        }
+<i>1181</i>&nbsp;    }
+<i>1182</i>&nbsp;
+<i>1183</i>&nbsp;    /***
+<i>1184</i>&nbsp;     * Manage a build where the player can skip the build phase
+<i>1185</i>&nbsp;     * @param buildList the list of possible builds
+<i>1186</i>&nbsp;     */
+<i>1187</i>&nbsp;    public void optionalBuildUpdate(BuildListFlag buildList) {
+<b class="nc"><i>1188</i>&nbsp;        showBuildList(buildList);</b>
+<b class="nc"><i>1189</i>&nbsp;        Platform.runLater(()-&gt;</b>
+<b class="nc"><i>1190</i>&nbsp;                label1.setText(&quot;Skip Build&quot;)</b>
+<i>1191</i>&nbsp;                );
+<b class="nc"><i>1192</i>&nbsp;        Platform.runLater(()-&gt;</b>
+<b class="nc"><i>1193</i>&nbsp;                hintLabel.setText(&quot;Choose where to build!&quot;)</b>
+<i>1194</i>&nbsp;        );
+<b class="nc"><i>1195</i>&nbsp;        Image image = new Image(&quot;/2DGraphics/GreenButton.png&quot;);</b>
+<b class="nc"><i>1196</i>&nbsp;        button1.setImage(image);</b>
+<i>1197</i>&nbsp;
+<b class="nc"><i>1198</i>&nbsp;        button1.setOnMouseReleased(e -&gt; {</b>
+<b class="nc"><i>1199</i>&nbsp;            Image image2 = new Image(&quot;/2DGraphics/RedButton.png&quot;);</b>
+<b class="nc"><i>1200</i>&nbsp;            button1.setImage(image2);</b>
+<b class="nc"><i>1201</i>&nbsp;            clearColor();</b>
+<b class="nc"><i>1202</i>&nbsp;            socket.sendMessage(new BuildReceiver(null));</b>
+<i>1203</i>&nbsp;            button1.setOnMouseReleased(e2 -&gt; { });
+<b class="nc"><i>1204</i>&nbsp;            matchScene.setOnMouseReleased(e2 -&gt; {</b>
+<b class="nc"><i>1205</i>&nbsp;                matchScene.requestFocus();</b>
+<b class="nc"><i>1206</i>&nbsp;                e2.consume();</b>
+<i>1207</i>&nbsp;            });
+<b class="nc"><i>1208</i>&nbsp;            e.consume();</b>
+<i>1209</i>&nbsp;        });
+<i>1210</i>&nbsp;
+<b class="nc"><i>1211</i>&nbsp;        matchScene.setOnMouseReleased(e -&gt; {</b>
+<b class="nc"><i>1212</i>&nbsp;            matchScene.requestFocus();</b>
+<b class="nc"><i>1213</i>&nbsp;            int[] newIndexes = coordinateToIndex(e.getPickResult());</b>
+<b class="nc"><i>1214</i>&nbsp;            if(newIndexes[0] == -1 || newIndexes[1] == -1) {</b>
+<i>1215</i>&nbsp;                // Click is out of bound
+<i>1216</i>&nbsp;                return;
+<i>1217</i>&nbsp;            }
+<b class="nc"><i>1218</i>&nbsp;            for(Direction direction : buildList.getBuildlist()) {</b>
+<b class="nc"><i>1219</i>&nbsp;                int newX = DirectionManagement.getX(buildList.getWorker().getX(), direction);</b>
+<b class="nc"><i>1220</i>&nbsp;                int newY = DirectionManagement.getY(buildList.getWorker().getY(), direction);</b>
+<i>1221</i>&nbsp;
+<b class="nc"><i>1222</i>&nbsp;                if(newIndexes[0] == newX &amp;&amp; newIndexes[1] == newY) { // Found the valid direction</b>
+<b class="nc"><i>1223</i>&nbsp;                    socket.sendMessage(new BuildReceiver(direction));</b>
+<b class="nc"><i>1224</i>&nbsp;                    clearColor();</b>
+<b class="nc"><i>1225</i>&nbsp;                    matchScene.setOnMouseReleased(e2 -&gt; {</b>
+<i>1226</i>&nbsp;                    });
+<b class="nc"><i>1227</i>&nbsp;                    Image image2 = new Image(&quot;/2DGraphics/RedButton.png&quot;);</b>
+<b class="nc"><i>1228</i>&nbsp;                    button1.setImage(image2);</b>
+<b class="nc"><i>1229</i>&nbsp;                    matchScene.setOnMouseReleased(e2 -&gt; {</b>
+<b class="nc"><i>1230</i>&nbsp;                        matchScene.requestFocus();</b>
+<b class="nc"><i>1231</i>&nbsp;                        e2.consume();</b>
+<i>1232</i>&nbsp;                    });
+<i>1233</i>&nbsp;                }
+<b class="nc"><i>1234</i>&nbsp;            }</b>
+<b class="nc"><i>1235</i>&nbsp;            e.consume();</b>
+<i>1236</i>&nbsp;        });
+<i>1237</i>&nbsp;
+<i>1238</i>&nbsp;    }
+<i>1239</i>&nbsp;
+<i>1240</i>&nbsp;    /***
+<i>1241</i>&nbsp;     * Manage cell colouring on move cells
+<i>1242</i>&nbsp;     * @param coordinates the list of the cells to color
+<i>1243</i>&nbsp;     */
+<i>1244</i>&nbsp;    private void moveColor(ArrayList&lt;Point3D&gt; coordinates) {
+<b class="nc"><i>1245</i>&nbsp;        for(Point3D coordinate : coordinates) {</b>
+<b class="nc"><i>1246</i>&nbsp;            Group plane1 = loadModel(getClass().getResource(&quot;/3DGraphics/moveIndicator.obj&quot;));</b>
+<b class="nc"><i>1247</i>&nbsp;            Group plane2 = loadModel(getClass().getResource(&quot;/3DGraphics/moveIndicator2.obj&quot;));</b>
+<b class="nc"><i>1248</i>&nbsp;            Group plane = setUpPlanes(coordinate, plane1, plane2);</b>
+<b class="nc"><i>1249</i>&nbsp;            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.15,Interpolator.EASE_BOTH)) );</b>
+<b class="nc"><i>1250</i>&nbsp;            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.translateYProperty(),coordinate.getY()-0.7,Interpolator.EASE_BOTH)) );</b>
+<i>1251</i>&nbsp;
+<b class="nc"><i>1252</i>&nbsp;        }</b>
+<i>1253</i>&nbsp;
+<b class="nc"><i>1254</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1255</i>&nbsp;            if(!matchSceneGroup.getChildren().contains(planes)) {</b>
+<b class="nc"><i>1256</i>&nbsp;                planesTimeline.play();</b>
+<b class="nc"><i>1257</i>&nbsp;                matchSceneGroup.getChildren().add(planes);</b>
+<i>1258</i>&nbsp;            }
+<i>1259</i>&nbsp;        });
+<i>1260</i>&nbsp;    }
+<i>1261</i>&nbsp;
+<i>1262</i>&nbsp;    private Group setUpPlanes(Point3D coordinate, Group plane1, Group plane2){
+<i>1263</i>&nbsp;
+<b class="nc"><i>1264</i>&nbsp;        Box box = new Box(2.5,1.5,2.5);</b>
+<b class="nc"><i>1265</i>&nbsp;        PhongMaterial mat = new PhongMaterial();</b>
+<b class="nc"><i>1266</i>&nbsp;        mat.setDiffuseColor(Color.RED);</b>
+<b class="nc"><i>1267</i>&nbsp;        Group placeholder = new Group(box);</b>
+<b class="nc"><i>1268</i>&nbsp;        box.setMaterial(mat);</b>
+<b class="nc"><i>1269</i>&nbsp;        placeholder.setOpacity(0.0);</b>
+<i>1270</i>&nbsp;
+<b class="nc"><i>1271</i>&nbsp;        plane2.setVisible(false);</b>
+<i>1272</i>&nbsp;
+<b class="nc"><i>1273</i>&nbsp;        onMouseOver(placeholder,plane1,plane2);</b>
+<b class="nc"><i>1274</i>&nbsp;        Group plane = new Group();</b>
+<b class="nc"><i>1275</i>&nbsp;        plane.getChildren().add(plane1);</b>
+<b class="nc"><i>1276</i>&nbsp;        plane.getChildren().add(plane2);</b>
+<i>1277</i>&nbsp;
+<b class="nc"><i>1278</i>&nbsp;        plane.setScaleX(0.9);</b>
+<b class="nc"><i>1279</i>&nbsp;        plane.setScaleZ(0.9);</b>
+<b class="nc"><i>1280</i>&nbsp;        plane.setTranslateX(coordinate.getX());</b>
+<b class="nc"><i>1281</i>&nbsp;        plane.setTranslateY(coordinate.getY()-0.15);</b>
+<b class="nc"><i>1282</i>&nbsp;        plane.setTranslateZ(coordinate.getZ());</b>
+<b class="nc"><i>1283</i>&nbsp;        placeholder.setScaleX(0.9);</b>
+<b class="nc"><i>1284</i>&nbsp;        placeholder.setScaleZ(0.9);</b>
+<b class="nc"><i>1285</i>&nbsp;        placeholder.setTranslateX(coordinate.getX());</b>
+<b class="nc"><i>1286</i>&nbsp;        placeholder.setTranslateY(coordinate.getY()-0.15);</b>
+<b class="nc"><i>1287</i>&nbsp;        placeholder.setTranslateZ(coordinate.getZ());</b>
+<b class="nc"><i>1288</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1289</i>&nbsp;            planes.getChildren().add(plane);</b>
+<b class="nc"><i>1290</i>&nbsp;            planes.getChildren().add(placeholder);</b>
+<i>1291</i>&nbsp;        });
+<b class="nc"><i>1292</i>&nbsp;        return plane;</b>
+<i>1293</i>&nbsp;    }
+<i>1294</i>&nbsp;
+<i>1295</i>&nbsp;    /***
+<i>1296</i>&nbsp;     * Manage cell colouring on build cells
+<i>1297</i>&nbsp;     * @param coordinates the list of the cells to color
+<i>1298</i>&nbsp;     */
+<i>1299</i>&nbsp;    private void buildColor(ArrayList&lt;Point3D&gt; coordinates) {
+<b class="nc"><i>1300</i>&nbsp;        for(Point3D coordinate : coordinates) {</b>
+<b class="nc"><i>1301</i>&nbsp;            Group plane1 = loadModel(getClass().getResource(&quot;/3DGraphics/buildIndicator.obj&quot;));</b>
+<b class="nc"><i>1302</i>&nbsp;            Group plane2 = loadModel(getClass().getResource(&quot;/3DGraphics/buildIndicator2.obj&quot;));</b>
+<b class="nc"><i>1303</i>&nbsp;            Group plane = setUpPlanes(coordinate, plane1, plane2);</b>
+<i>1304</i>&nbsp;
+<b class="nc"><i>1305</i>&nbsp;            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleZProperty(), 0.8,Interpolator.EASE_BOTH)));</b>
+<b class="nc"><i>1306</i>&nbsp;            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(plane.scaleXProperty(), 0.8,Interpolator.EASE_BOTH)));</b>
+<b class="nc"><i>1307</i>&nbsp;            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.scaleZProperty(), 0.15,Interpolator.EASE_BOTH)));</b>
+<b class="nc"><i>1308</i>&nbsp;            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(plane.scaleXProperty(), 0.15,Interpolator.EASE_BOTH)));</b>
+<b class="nc"><i>1309</i>&nbsp;        }</b>
+<i>1310</i>&nbsp;
+<b class="nc"><i>1311</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1312</i>&nbsp;            if(!matchSceneGroup.getChildren().contains(planes)) {</b>
+<b class="nc"><i>1313</i>&nbsp;                planesTimeline.play();</b>
+<b class="nc"><i>1314</i>&nbsp;                matchSceneGroup.getChildren().add(planes);</b>
+<i>1315</i>&nbsp;            }
+<i>1316</i>&nbsp;        });
+<i>1317</i>&nbsp;
+<i>1318</i>&nbsp;    }
+<i>1319</i>&nbsp;
+<i>1320</i>&nbsp;    /***
+<i>1321</i>&nbsp;     * Manage cell colouring on worker cells
+<i>1322</i>&nbsp;     * @param coordinates the list of the cells to color
+<i>1323</i>&nbsp;     */
+<i>1324</i>&nbsp;    public void workerColor(ArrayList&lt;Point3D&gt; coordinates) {
+<b class="nc"><i>1325</i>&nbsp;        for(Point3D coordinate : coordinates) {</b>
+<b class="nc"><i>1326</i>&nbsp;            Box box = new Box(2.5,1.5,2.5);</b>
+<b class="nc"><i>1327</i>&nbsp;            PhongMaterial mat = new PhongMaterial();</b>
+<b class="nc"><i>1328</i>&nbsp;            mat.setDiffuseColor(Color.RED);</b>
+<b class="nc"><i>1329</i>&nbsp;            Group placeholder = new Group(box);</b>
+<b class="nc"><i>1330</i>&nbsp;            box.setMaterial(mat);</b>
+<b class="nc"><i>1331</i>&nbsp;            placeholder.setOpacity(0.0);</b>
+<i>1332</i>&nbsp;
+<b class="nc"><i>1333</i>&nbsp;            Group plane1 = loadModel(getClass().getResource(&quot;/3DGraphics/circleBluIndicator.obj&quot;));</b>
+<b class="nc"><i>1334</i>&nbsp;            Group plane2 = loadModel(getClass().getResource(&quot;/3DGraphics/buildIndicator.obj&quot;));</b>
+<b class="nc"><i>1335</i>&nbsp;            plane2.setVisible(false);</b>
+<b class="nc"><i>1336</i>&nbsp;            onMouseOver(placeholder,plane1,plane2);</b>
+<b class="nc"><i>1337</i>&nbsp;            Group circle = new Group();</b>
+<b class="nc"><i>1338</i>&nbsp;            circle.getChildren().add(plane1);</b>
+<b class="nc"><i>1339</i>&nbsp;            circle.getChildren().add(plane2);</b>
+<i>1340</i>&nbsp;
+<b class="nc"><i>1341</i>&nbsp;            placeholder.setScaleX(0.9);</b>
+<b class="nc"><i>1342</i>&nbsp;            placeholder.setScaleZ(0.9);</b>
+<b class="nc"><i>1343</i>&nbsp;            placeholder.setTranslateX(coordinate.getX());</b>
+<b class="nc"><i>1344</i>&nbsp;            placeholder.setTranslateY(coordinate.getY()-0.15);</b>
+<b class="nc"><i>1345</i>&nbsp;            placeholder.setTranslateZ(coordinate.getZ());</b>
+<i>1346</i>&nbsp;
+<b class="nc"><i>1347</i>&nbsp;            circle.setScaleX(0.9);</b>
+<b class="nc"><i>1348</i>&nbsp;            circle.setScaleZ(0.9);</b>
+<b class="nc"><i>1349</i>&nbsp;            circle.setTranslateX(coordinate.getX());</b>
+<b class="nc"><i>1350</i>&nbsp;            circle.setTranslateY(coordinate.getY()-0.15);</b>
+<b class="nc"><i>1351</i>&nbsp;            circle.setTranslateZ(coordinate.getZ());</b>
+<b class="nc"><i>1352</i>&nbsp;            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.15,Interpolator.EASE_BOTH)) );</b>
+<b class="nc"><i>1353</i>&nbsp;            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.7,Interpolator.EASE_BOTH)) );</b>
+<b class="nc"><i>1354</i>&nbsp;            Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1355</i>&nbsp;                planes.getChildren().add(circle);</b>
+<b class="nc"><i>1356</i>&nbsp;                planes.getChildren().add(placeholder);</b>
+<i>1357</i>&nbsp;            });
+<b class="nc"><i>1358</i>&nbsp;        }</b>
+<i>1359</i>&nbsp;
+<b class="nc"><i>1360</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1361</i>&nbsp;            if(!matchSceneGroup.getChildren().contains(planes)) {</b>
+<b class="nc"><i>1362</i>&nbsp;                planesTimeline.play();</b>
+<b class="nc"><i>1363</i>&nbsp;                matchSceneGroup.getChildren().add(planes);</b>
+<i>1364</i>&nbsp;            }
+<i>1365</i>&nbsp;        });
+<i>1366</i>&nbsp;    }
+<i>1367</i>&nbsp;
+<i>1368</i>&nbsp;    /***
+<i>1369</i>&nbsp;     * Manage cell colouring on worker init cells
+<i>1370</i>&nbsp;     * @param coordinates the list of the cells to color
+<i>1371</i>&nbsp;     */
+<i>1372</i>&nbsp;    public void placeWorkerColor(ArrayList&lt;Point3D&gt; coordinates) {
+<b class="nc"><i>1373</i>&nbsp;        for(Point3D coordinate : coordinates) {</b>
+<b class="nc"><i>1374</i>&nbsp;            Group circle = loadModel(getClass().getResource(&quot;/3DGraphics/circleBluIndicator.obj&quot;));</b>
+<i>1375</i>&nbsp;
+<b class="nc"><i>1376</i>&nbsp;            circle.setScaleX(0.9);</b>
+<b class="nc"><i>1377</i>&nbsp;            circle.setScaleZ(0.9);</b>
+<b class="nc"><i>1378</i>&nbsp;            circle.setTranslateX(coordinate.getX());</b>
+<b class="nc"><i>1379</i>&nbsp;            circle.setTranslateY(coordinate.getY()-0.15);</b>
+<b class="nc"><i>1380</i>&nbsp;            circle.setTranslateZ(coordinate.getZ());</b>
+<b class="nc"><i>1381</i>&nbsp;            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(0), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.15)) );</b>
+<b class="nc"><i>1382</i>&nbsp;            planesTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(600), new KeyValue(circle.translateYProperty(),coordinate.getY()-0.7)) );</b>
+<b class="nc"><i>1383</i>&nbsp;            Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1384</i>&nbsp;                planes.getChildren().add(circle);</b>
+<i>1385</i>&nbsp;            });
+<b class="nc"><i>1386</i>&nbsp;        }</b>
+<i>1387</i>&nbsp;
+<b class="nc"><i>1388</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1389</i>&nbsp;            if(!matchSceneGroup.getChildren().contains(planes)) {</b>
+<b class="nc"><i>1390</i>&nbsp;                planesTimeline.play();</b>
+<b class="nc"><i>1391</i>&nbsp;                matchSceneGroup.getChildren().add(planes);</b>
+<i>1392</i>&nbsp;            }
+<i>1393</i>&nbsp;        });
+<i>1394</i>&nbsp;    }
+<i>1395</i>&nbsp;
+<i>1396</i>&nbsp;    /***
+<i>1397</i>&nbsp;     * Clear all the cell color
+<i>1398</i>&nbsp;     */
+<i>1399</i>&nbsp;    private void clearColor() {
+<b class="nc"><i>1400</i>&nbsp;        planesTimeline.stop();</b>
+<b class="nc"><i>1401</i>&nbsp;        planesTimeline.getKeyFrames().clear();</b>
+<b class="nc"><i>1402</i>&nbsp;        planes.getChildren().clear();</b>
+<b class="nc"><i>1403</i>&nbsp;        Platform.runLater(() -&gt; matchSceneGroup.getChildren().remove(planes));</b>
+<i>1404</i>&nbsp;    }
+<i>1405</i>&nbsp;
+<i>1406</i>&nbsp;    /***
+<i>1407</i>&nbsp;     * Set bottom bar label when a player has lost
+<i>1408</i>&nbsp;     */
+<i>1409</i>&nbsp;    public void setLabelOnLost(){
+<b class="nc"><i>1410</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1411</i>&nbsp;            hintLabel.setText(&quot;You have lost!&quot;);</b>
+<b class="nc"><i>1412</i>&nbsp;            label2.setText(&quot;&quot;);</b>
+<i>1413</i>&nbsp;        });
+<i>1414</i>&nbsp;    }
+<i>1415</i>&nbsp;
+<i>1416</i>&nbsp;    /***
+<i>1417</i>&nbsp;     * Convert the cell x index into the 3d coordinate
+<i>1418</i>&nbsp;     * @param index cell index
+<i>1419</i>&nbsp;     * @return the 3d coordinate
+<i>1420</i>&nbsp;     */
+<i>1421</i>&nbsp;    private static double indexToCoordinateX(int index){
+<b class="nc"><i>1422</i>&nbsp;        return (index-2)*DELTA;</b>
+<i>1423</i>&nbsp;    }
+<i>1424</i>&nbsp;
+<i>1425</i>&nbsp;    /***
+<i>1426</i>&nbsp;     * Convert the cell y index into the 3d coordinate
+<i>1427</i>&nbsp;     * @param index cell index
+<i>1428</i>&nbsp;     * @return the 3d coordinate
+<i>1429</i>&nbsp;     */
+<i>1430</i>&nbsp;    private static double indexToCoordinateY(int index){
+<b class="nc"><i>1431</i>&nbsp;        return (index-2)*DELTA*(-1);</b>
+<i>1432</i>&nbsp;    }
+<i>1433</i>&nbsp;
+<i>1434</i>&nbsp;    /***
+<i>1435</i>&nbsp;     * Convert the building level into 3d coordiante
+<i>1436</i>&nbsp;     * @param index building level
+<i>1437</i>&nbsp;     * @return the 3d coordinate
+<i>1438</i>&nbsp;     */
+<i>1439</i>&nbsp;    private static double indexToCoordinateZ(int index){
+<b class="nc"><i>1440</i>&nbsp;        switch (index) {</b>
+<i>1441</i>&nbsp;            case 0:
+<b class="nc"><i>1442</i>&nbsp;                return 0;</b>
+<i>1443</i>&nbsp;            case 1:
+<b class="nc"><i>1444</i>&nbsp;                return -DELTAZ1;</b>
+<i>1445</i>&nbsp;            case 2:
+<b class="nc"><i>1446</i>&nbsp;                return -DELTAZ2;</b>
+<i>1447</i>&nbsp;            case 3:
+<b class="nc"><i>1448</i>&nbsp;                return -DELTAZ3;</b>
+<i>1449</i>&nbsp;        }
+<b class="nc"><i>1450</i>&nbsp;        return -1;</b>
+<i>1451</i>&nbsp;    }
+<i>1452</i>&nbsp;
+<i>1453</i>&nbsp;    /***
+<i>1454</i>&nbsp;     * Return the 3d coordinate delta between two building levels
+<i>1455</i>&nbsp;     * @param oldLevel old building level
+<i>1456</i>&nbsp;     * @param newLevel new building level
+<i>1457</i>&nbsp;     * @return the 3d coordinate of the delta
+<i>1458</i>&nbsp;     */
+<i>1459</i>&nbsp;    private static double deltaToCoordinateZ(int oldLevel, int newLevel) {
+<i>1460</i>&nbsp;        double oldHeight, newHeight;
+<b class="nc"><i>1461</i>&nbsp;        switch (oldLevel) {</b>
+<i>1462</i>&nbsp;            case 0:
+<b class="nc"><i>1463</i>&nbsp;                oldHeight = 0;</b>
+<b class="nc"><i>1464</i>&nbsp;                break;</b>
+<i>1465</i>&nbsp;            case 1:
+<b class="nc"><i>1466</i>&nbsp;                oldHeight = DELTAZ1;</b>
+<b class="nc"><i>1467</i>&nbsp;                break;</b>
+<i>1468</i>&nbsp;            case 2:
+<b class="nc"><i>1469</i>&nbsp;                oldHeight = DELTAZ2;</b>
+<b class="nc"><i>1470</i>&nbsp;                break;</b>
+<i>1471</i>&nbsp;            case 3:
+<b class="nc"><i>1472</i>&nbsp;                oldHeight = DELTAZ3;</b>
+<b class="nc"><i>1473</i>&nbsp;                break;</b>
+<i>1474</i>&nbsp;            default:
+<b class="nc"><i>1475</i>&nbsp;                throw new IllegalStateException(&quot;Unexpected value: &quot; + oldLevel);</b>
+<i>1476</i>&nbsp;        }
+<b class="nc"><i>1477</i>&nbsp;        switch (newLevel) {</b>
+<i>1478</i>&nbsp;            case 0:
+<b class="nc"><i>1479</i>&nbsp;                newHeight = 0;</b>
+<b class="nc"><i>1480</i>&nbsp;                break;</b>
+<i>1481</i>&nbsp;            case 1:
+<b class="nc"><i>1482</i>&nbsp;                newHeight = DELTAZ1;</b>
+<b class="nc"><i>1483</i>&nbsp;                break;</b>
+<i>1484</i>&nbsp;            case 2:
+<b class="nc"><i>1485</i>&nbsp;                newHeight = DELTAZ2;</b>
+<b class="nc"><i>1486</i>&nbsp;                break;</b>
+<i>1487</i>&nbsp;            case 3:
+<b class="nc"><i>1488</i>&nbsp;                newHeight = DELTAZ3;</b>
+<b class="nc"><i>1489</i>&nbsp;                break;</b>
+<i>1490</i>&nbsp;            default:
+<b class="nc"><i>1491</i>&nbsp;                throw new IllegalStateException(&quot;Unexpected value: &quot; + newLevel);</b>
+<i>1492</i>&nbsp;        }
+<b class="nc"><i>1493</i>&nbsp;        return newHeight-oldHeight;</b>
+<i>1494</i>&nbsp;    }
+<i>1495</i>&nbsp;
+<i>1496</i>&nbsp;    /***
+<i>1497</i>&nbsp;     * Convert the building level into 3d coordiante
+<i>1498</i>&nbsp;     * @param level building level
+<i>1499</i>&nbsp;     * @return the 3d coordinate
+<i>1500</i>&nbsp;     */
+<i>1501</i>&nbsp;    public static double levelToCoordZ(int level) {
+<b class="nc"><i>1502</i>&nbsp;        switch (level) {</b>
+<i>1503</i>&nbsp;            case 0:
+<b class="nc"><i>1504</i>&nbsp;                return 0;</b>
+<i>1505</i>&nbsp;            case 1:
+<b class="nc"><i>1506</i>&nbsp;                return -DELTAZ1;</b>
+<i>1507</i>&nbsp;            case 2:
+<b class="nc"><i>1508</i>&nbsp;                return -DELTAZ2;</b>
+<i>1509</i>&nbsp;            case 3:
+<b class="nc"><i>1510</i>&nbsp;                return -DELTAZ3;</b>
+<i>1511</i>&nbsp;        }
+<b class="nc"><i>1512</i>&nbsp;        return -1;</b>
+<i>1513</i>&nbsp;    }
+<i>1514</i>&nbsp;
+<i>1515</i>&nbsp;    /***
+<i>1516</i>&nbsp;     * Return the cell coordinates of a click into the 3d space
+<i>1517</i>&nbsp;     * @param pick the 3d coordinates
+<i>1518</i>&nbsp;     * @return the cell indexes, size of the array is 3, indexes are x-y-z
+<i>1519</i>&nbsp;     */
+<i>1520</i>&nbsp;    private static int[] coordinateToIndex(PickResult pick) {
+<b class="nc"><i>1521</i>&nbsp;        int[] index = new int[3];</b>
+<b class="nc"><i>1522</i>&nbsp;        double x = pick.getIntersectedNode().localToScene(0,0,0).getX() + pick.getIntersectedPoint().getX();</b>
+<b class="nc"><i>1523</i>&nbsp;        double y = -1 * (pick.getIntersectedNode().localToScene(0,0,0).getY() + pick.getIntersectedPoint().getY());</b>
+<b class="nc"><i>1524</i>&nbsp;        double z = pick.getIntersectedNode().localToScene(0,0,0).getZ() + pick.getIntersectedPoint().getZ();</b>
+<b class="nc"><i>1525</i>&nbsp;        index[0] = (int)((x+(DELTA*2.5)) / DELTA);</b>
+<b class="nc"><i>1526</i>&nbsp;        if(index[0]&gt;4 || index[0]&lt;0) {</b>
+<b class="nc"><i>1527</i>&nbsp;            index[0] = -1;</b>
+<i>1528</i>&nbsp;        }
+<b class="nc"><i>1529</i>&nbsp;        index[1] = (int)(((-1*z)+(DELTA*2.5)) / DELTA);</b>
+<b class="nc"><i>1530</i>&nbsp;        if(index[1]&gt;4 || index[1]&lt;0) {</b>
+<b class="nc"><i>1531</i>&nbsp;            index[1] = -1;</b>
+<i>1532</i>&nbsp;        }
+<b class="nc"><i>1533</i>&nbsp;        if(y&gt;=0 &amp;&amp; y&lt;DELTAZ1) {</b>
+<b class="nc"><i>1534</i>&nbsp;            index[2] = 0;</b>
+<b class="nc"><i>1535</i>&nbsp;        } else if(y&gt;=DELTAZ1 &amp;&amp; y&lt;DELTAZ2) {</b>
+<b class="nc"><i>1536</i>&nbsp;            index[2] = 1;</b>
+<b class="nc"><i>1537</i>&nbsp;        } else if(y&gt;=DELTAZ2 &amp;&amp; y&lt;DELTAZ3) {</b>
+<b class="nc"><i>1538</i>&nbsp;            index[2] = 2;</b>
+<b class="nc"><i>1539</i>&nbsp;        } else if(y&gt;=DELTAZ3) {</b>
+<b class="nc"><i>1540</i>&nbsp;            index[2] = 3;</b>
+<i>1541</i>&nbsp;        }
+<b class="nc"><i>1542</i>&nbsp;        return index;</b>
+<i>1543</i>&nbsp;    }
+<i>1544</i>&nbsp;
+<i>1545</i>&nbsp;    /***
+<i>1546</i>&nbsp;     * Set correct object visible on mouse hovering
+<i>1547</i>&nbsp;     * @param placeholder placeholder reference
+<i>1548</i>&nbsp;     * @param node1 top node reference
+<i>1549</i>&nbsp;     * @param node2 bottom node reference
+<i>1550</i>&nbsp;     */
+<i>1551</i>&nbsp;    public void onMouseOver(Node placeholder, Node node1, Node node2) {
+<b class="nc"><i>1552</i>&nbsp;        placeholder.setOnMouseEntered(me -&gt; {</b>
+<b class="nc"><i>1553</i>&nbsp;            node1.setVisible(false);</b>
+<b class="nc"><i>1554</i>&nbsp;            node2.setVisible(true);</b>
+<i>1555</i>&nbsp;
+<i>1556</i>&nbsp;        });
+<i>1557</i>&nbsp;
+<b class="nc"><i>1558</i>&nbsp;        placeholder.setOnMouseExited(me -&gt; {</b>
+<b class="nc"><i>1559</i>&nbsp;            node1.setVisible(true);</b>
+<b class="nc"><i>1560</i>&nbsp;            node2.setVisible(false);</b>
+<i>1561</i>&nbsp;        });
+<i>1562</i>&nbsp;    }
+<i>1563</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-23 17:05</div>
+</div>
+</body>
+</html>
