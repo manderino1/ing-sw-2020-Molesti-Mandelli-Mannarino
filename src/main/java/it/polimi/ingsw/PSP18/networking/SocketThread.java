@@ -224,7 +224,6 @@ public class SocketThread extends Thread {
                 break;
             case PLAYER_NUMBER:
                 PlayerNumber playerNumber = gson.fromJson(jsonObj, PlayerNumber.class);
-                //TODO:passa la cosa giusta a setmatchSocket
                 setMatchSocket(manager.getMatchSocket(playerNumber.getN()));
                 break;
             case REPLAY:

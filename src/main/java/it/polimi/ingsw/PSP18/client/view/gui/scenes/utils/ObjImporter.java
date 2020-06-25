@@ -483,7 +483,6 @@ public class ObjImporter implements Importer {
             polygonMeshView.setId(key);
             polygonMeshView.setMaterial(getMaterial(key));
             polygonMeshView.setMesh(polygonMeshes.get(key));
-            // TODO:
             // polygonMeshView.setCullFace(CullFace.NONE);
             return polygonMeshView;
         }

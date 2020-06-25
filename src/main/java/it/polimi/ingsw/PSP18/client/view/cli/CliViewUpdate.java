@@ -89,7 +89,7 @@ public class CliViewUpdate extends ViewUpdate {
             }
 
 
-            x1 = Character.getNumericValue(W1.toUpperCase().charAt(0)) - 10; // TODO: Controllare se é sempre vero
+            x1 = Character.getNumericValue(W1.toUpperCase().charAt(0)) - 10;
             y1 = Character.getNumericValue(W1.toUpperCase().charAt(1));
         } while (lastMap[x1][y1].getWorker()!=null);
 

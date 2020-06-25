@@ -83,10 +83,6 @@ public class TestDivinity {
         playerManager.placeWorker(3,2);
         playerManager.manageTurn(false);
         playerManager.manageTurn(true);
-        /*
-        TODO: In order to have a more complete test we need to generate some buildings and some workers
-         */
-        //TODO: still gives nullpointerex with getWorker method
     }
 
     @Test

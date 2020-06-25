@@ -16,7 +16,7 @@ public class TestApollo extends TestDivinity {
     public void createPlayerManager() {
         matchSocket = new MatchSocket(2);
         matchRun = new MatchRun(matchSocket);
-        SocketThread socketThread = new SocketThread(socket, null);
+        SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.setMatchSocket(matchSocket);
         socketThread.start();
         playerManager = new PlayerManager(matchRun, new PlayerData("Test", Color.RED, 0), "Apollo" , matchSocket);

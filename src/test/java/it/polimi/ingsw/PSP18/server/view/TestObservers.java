@@ -74,7 +74,7 @@ public class TestObservers {
     public void testPlayerDataObs() {
         PlayerData playerData = new PlayerData("Test Player", Color.BLUE, 0);
         MatchSocket matchSocket = new MatchSocket(2);;
-        SocketThread socketThread = new SocketThread(socket, null);
+        SocketThread socketThread = new SocketThread(socket, null, true);
         socketThread.start();
         PlayerDataObserver playerObserver = new PlayerDataObserver(socketThread);
 
