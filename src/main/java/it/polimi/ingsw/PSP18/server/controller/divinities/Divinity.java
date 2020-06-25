@@ -23,7 +23,6 @@ public class Divinity {
     protected MatchSocket matchSocket;
     protected MatchRun matchRun;
 
-    // TODO : REMOVE IT
     protected Direction direction = Direction.UP;
     protected Integer workerID = 0;
 

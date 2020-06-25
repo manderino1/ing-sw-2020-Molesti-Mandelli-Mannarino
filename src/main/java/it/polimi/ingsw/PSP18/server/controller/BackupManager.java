@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.server.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.PSP18.networking.SocketThread;
+import it.polimi.ingsw.PSP18.networking.messages.toclient.MatchLost;
 import it.polimi.ingsw.PSP18.networking.messages.toclient.StartMatch;
 import it.polimi.ingsw.PSP18.server.backup.PlayerManagerBackup;
 import it.polimi.ingsw.PSP18.server.model.Color;
@@ -94,7 +95,10 @@ public class BackupManager {
             Gson gson = new Gson();
             it.polimi.ingsw.PSP18.server.backup.MatchBackup matchBackup = gson.fromJson(fileReader, it.polimi.ingsw.PSP18.server.backup.MatchBackup.class);
             boolean athena = false;
+            ArrayList<PlayerManager> newPlayers = new ArrayList<>();
+            PlayerManager lostPlayer = null;
             // Match backupped with same nicknames, restore it
+
             for (PlayerManagerBackup playerBackupped : matchBackup.getPlayerManagers()) {
                 for (PlayerManager playerConnected : matchSocket.getPlayerManagers()) {
                     if (playerConnected.getPlayerData().getPlayerID().equals(playerBackupped.getPlayerData().getPlayerID())) {
@@ -111,17 +115,67 @@ public class BackupManager {
                         }
                         playerData.setLastMove(playerBackupped.getPlayerData().getLastMove());
                         PlayerManager playerManager = new PlayerManager(matchRun, playerData, playerBackupped.getPlayerData().getDivinity(), matchSocket);
-                        matchSocket.getPlayerManagers().add(playerManager);
+                        newPlayers.add(playerManager);
                         SocketThread socket = matchSocket.getPlayerSocketMap().get(playerConnected);
                         matchSocket.getPlayerSocketMap().remove(playerConnected);
                         matchSocket.getPlayerSocketMap().put(playerManager, socket);
                         matchSocket.getSocketPlayerMap().remove(socket);
                         matchSocket.getSocketPlayerMap().put(matchSocket.getPlayerSocketMap().get(playerManager), playerManager);
-                        matchSocket.getPlayerManagers().remove(playerConnected);
                         break;
                     }
                 }
             }
+
+            // Eventually find and set the correct play order and color to the player that has lost
+            for (PlayerManager playerConnected : matchSocket.getPlayerManagers()) {
+                boolean found = false;
+                for (PlayerManagerBackup playerBackupped : matchBackup.getPlayerManagers()) {
+                    if (playerConnected.getPlayerData().getPlayerID().equals(playerBackupped.getPlayerData().getPlayerID())) {
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found) {
+                    PlayerData playerData = new PlayerData(playerConnected.getPlayerData().getPlayerID(), playerConnected.getPlayerData().getPlayerColor(), playerConnected.getPlayerData().getPlayOrder());
+                    playerData.setDivinity("Divinity");
+                    playerData.setLost();
+                    PlayerManager playerManager = new PlayerManager(matchRun, playerData, "Divinity", matchSocket);
+                    newPlayers.add(playerManager);
+                    SocketThread socket = matchSocket.getPlayerSocketMap().get(playerConnected);
+                    matchSocket.getPlayerSocketMap().remove(playerConnected);
+                    matchSocket.getPlayerSocketMap().put(playerManager, socket);
+                    matchSocket.getSocketPlayerMap().remove(socket);
+                    matchSocket.getSocketPlayerMap().put(matchSocket.getPlayerSocketMap().get(playerManager), playerManager);
+                    lostPlayer = playerManager;
+                }
+            }
+
+            if(lostPlayer != null) {
+                for(int i=0; i < matchBackup.getPlayerManagers().size(); i++) {
+                    if(matchBackup.getPlayerManagers().get(i).getPlayerData().getPlayOrder() != i) {
+                        lostPlayer.getPlayerData().setPlayOrder(i);
+                        switch (i) {
+                            case 0:
+                                lostPlayer.getPlayerData().setPlayerColor(Color.RED);
+                                break;
+                            case 1:
+                                lostPlayer.getPlayerData().setPlayerColor(Color.BLUE);
+                                break;
+                            case 2:
+                                lostPlayer.getPlayerData().setPlayerColor(Color.GREEN);
+                                break;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Add the player and replace the current ones
+            matchSocket.getPlayerManagers().clear();
+            for(PlayerManager player : newPlayers) {
+                matchSocket.getPlayerManagers().add(player);
+            }
+
             matchSocket.setMatchStatus(matchBackup.getMatchStatus());
             matchRun.getGameMap().setMapCells(matchBackup.getGameMap());
 
@@ -145,6 +199,21 @@ public class BackupManager {
                 }
                 matchRun.getGameMap().attach(new MapObserver(sock));
                 sock.sendMessage(new StartMatch());
+            }
+
+            // Send lost flag to the correct player
+            if(lostPlayer != null) {
+                for(SocketThread socket : matchSocket.getSockets()) {
+                    socket.sendMessage(new MatchLost(lostPlayer.getPlayerData().getPlayerID(), false, false));
+                }
+            }
+
+            // Remove the player that has lost because i have informed the clients and is not useful anymore
+            for(PlayerManager player : matchSocket.getPlayerManagers()) {
+                if(player.getPlayerData().getLost()) {
+                    matchSocket.getPlayerManagers().remove(player);
+                    break;
+                }
             }
 
             if(athena) {
