@@ -20,6 +20,7 @@ public class Pan extends Divinity{
 
     /***
      * Checks if the player has won
+     * Pan can also win if he drops two levels or more
      * @return true if he has won
      */
     @Override

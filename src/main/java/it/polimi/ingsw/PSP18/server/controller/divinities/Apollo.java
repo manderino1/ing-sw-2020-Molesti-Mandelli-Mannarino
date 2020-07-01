@@ -24,7 +24,8 @@ public class Apollo extends Divinity {
     }
 
     /***
-     *
+     * Apollo has the ability to swap one of his worker position with another player's workers,
+     * this method checks if this move is possible
      * @param oldX the starting X coordinate of the worker
      * @param oldY the starting Y coordinate of the worker
      * @param raiseForbidden true if athena moved up one level

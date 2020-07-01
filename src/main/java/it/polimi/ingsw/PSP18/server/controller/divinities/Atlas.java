@@ -28,7 +28,7 @@ public class Atlas extends Divinity{
 
     @Override
     /***
-     * method that check for the possible building moves and ask to the client the one the player wants to move
+     * Method that checks for the possible building moves
      */
     protected void build() {
         Worker worker = playerManager.getWorker(workerID);
@@ -43,7 +43,8 @@ public class Atlas extends Divinity{
     }
 
     /***
-     * This method is called after the method "move"
+     * This method is called after the method "build"
+     * Atlas has the ability of placing domes at every level, this method, makes it possible
      * @param direction the direction of the movement
      * @param dome true if a dome has to be placed
      */

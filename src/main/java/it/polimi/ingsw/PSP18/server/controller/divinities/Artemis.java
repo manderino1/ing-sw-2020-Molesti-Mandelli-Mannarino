@@ -26,6 +26,7 @@ public class Artemis extends Divinity {
     }
 
     /***
+     *  Artemis can move twice in a row, this methods manages the first half of the movement
      *  First part of the movement phase
      */
     @Override
@@ -44,8 +45,10 @@ public class Artemis extends Divinity {
     }
 
     /***
+     * Artemis can move twice in a row, this methods manages both the first and second move using the
+     * firstMove parameter
      * Moves in the selected direction
-     * @param direction the direction of the movement
+     * @param direction the direction of the movement, if null, the players wants to skip the second move
      * @param workerID the ID of the worker that we want to move
      */
     @Override

@@ -41,7 +41,7 @@ public class Divinity {
     }
 
     /***
-     *
+     * Returns the name of the divinity in use
      * @return name of the divinity in use
      */
     public String getName() {
@@ -49,7 +49,7 @@ public class Divinity {
     }
 
     /***
-     *
+     * Method used to initialise the movement phase and sets the parameter raiseForbidden
      * @param raiseForbidden true if athena moved up one level
      */
     public void manageTurn(Boolean raiseForbidden) {
@@ -74,7 +74,7 @@ public class Divinity {
     }
 
     /***
-     * Moves in the selected direction
+     * Method that moves in the selected direction
      * @param direction the direction of the movement
      * @param workerID the ID of the worker that we want to move
      */
@@ -139,7 +139,7 @@ public class Divinity {
     }
 
     /***
-     *
+     * Methods that checks the possible moves for a worker
      * @param oldX the starting X coordinate of the worker
      * @param oldY the starting Y coordinate of the worker
      * @param raiseForbidden true if athena moved up one level
@@ -169,7 +169,7 @@ public class Divinity {
     }
 
     /***
-     *
+     * Methods that checks the possible building moves for a worker
      * @param oldX the starting X coordinate of the worker
      * @param oldY the starting Y coordinate of the worker
      * @return the list of possible moves
@@ -191,7 +191,7 @@ public class Divinity {
     }
 
     /***
-     *  Checks if the player has won
+     * Checks if the player has won
      * @param workerID the id of the worker that has moved
      * @return true if the player has won
      */
@@ -207,7 +207,7 @@ public class Divinity {
     }
 
     /***
-     *  Set the last move in the player data class in the model package
+     * Set the last move in the player data class in the model package
      * @param oldX the old position of the worker on the x axis
      * @param oldY the old position of the worker on the y axis
      * @param direction the direction of the move

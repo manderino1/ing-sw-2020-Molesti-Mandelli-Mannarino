@@ -27,7 +27,7 @@ public class Hephaestus extends Divinity{
     }
 
     /***
-     * Method used to build
+     * Method used to manage the first part of the build
      */
     @Override
     protected void build() {
@@ -46,7 +46,8 @@ public class Hephaestus extends Divinity{
 
     /***
      * Build in the selected direction
-     * @param direction the direction of the wanted build
+     * Hepahaestus has the ability to build twice in the same cell
+     * @param direction the direction of the wanted build, if null, the player skips the second build
      */
     public void buildReceiver(Direction direction) {
         if (direction == null) { // If he doesn't want to move

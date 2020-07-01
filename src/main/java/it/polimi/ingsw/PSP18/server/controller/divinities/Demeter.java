@@ -46,7 +46,9 @@ public class Demeter extends Divinity {
 
     /***
      * Build in the selected direction
-     * @param direction the direction of the wanted build
+     * Demeter can build twice but not in the same place, the first and second build are managed using
+     * the parameter fistBuild
+     * @param direction the direction of the wanted build, if null during the second build, the player can skip it
      */
     public void buildReceiver(Direction direction) {
         if (direction == null) { // If he doesn't want to move

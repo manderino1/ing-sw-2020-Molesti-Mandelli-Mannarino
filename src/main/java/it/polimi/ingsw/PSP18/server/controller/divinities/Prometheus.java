@@ -28,7 +28,7 @@ public class Prometheus extends Divinity{
     }
 
     /***
-     *
+     * Method that initialise the movement phase and keeps track of the movements of Athena
      * @param raiseForbidden true if athena moved up one level
      */
     public void manageTurn(Boolean raiseForbidden) {
@@ -97,7 +97,7 @@ public class Prometheus extends Divinity{
     }
 
     /***
-     * Method used to build
+     * Method used to apply the build
      * @param direction the direction of the wanted build
      */
     @Override
