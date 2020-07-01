@@ -106,7 +106,7 @@ public class DirectionManagement {
 
     /***
      * check if the coordinate is legit
-     * @param finalCoord the coordinate
+     * @param finalCoord the coordinate (must be beetween 0 and 4)
      * @return true if the coordinate is legit
      */
     public static Boolean checkCoordinate(Integer finalCoord){
