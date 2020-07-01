@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.server.model;
 
 /***
  * Stores a move direction and level difference
+ * A move is identified by one of eight possible direction and a differential change in level
  */
 public class Move {
     private Direction direction;
@@ -9,8 +10,8 @@ public class Move {
 
     /***
      * Move constructor method
-     * @param direction direction of the movement
-     * @param level the level value of the building i am reaching
+     * @param direction direction of the movement, one of the eight direction of Direction class
+     * @param level the difference in number of levels covered by the move
      */
     public Move(Direction direction, Integer level) {
         this.direction = direction;
@@ -18,7 +19,7 @@ public class Move {
     }
 
     /***
-     * Returns level difference in the move
+     * Returns level difference in the move, ranges from -3 to 3
      * @return the level difference
      */
     public Integer getLevel(){
@@ -26,8 +27,8 @@ public class Move {
     }
 
     /***
-     * Returns the direction
-     * @return direction
+     * Returns the direction of the movement
+     * @return one of the possible 8 directions (ref Direction class)
      */
     public Direction getDirection() {
         return direction;

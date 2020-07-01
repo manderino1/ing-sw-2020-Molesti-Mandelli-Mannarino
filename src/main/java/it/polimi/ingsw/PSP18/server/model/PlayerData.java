@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 /***
  * Stores the data of the player and its state
+ * A player has an unique id, color and a divinity assigned
  */
 public class PlayerData {
     private String playerID;
@@ -20,9 +21,9 @@ public class PlayerData {
 
     /***
      * PlayerDatq constructor method
-     * @param playerID the id of the player
-     * @param playerColor the color of the player
-     * @param playOrder player turn order
+     * @param playerID the id of the player, is unique in the match
+     * @param playerColor the color of the player, is unique in the match
+     * @param playOrder player turn order, assigned by connection order, unique
      */
     public PlayerData(String playerID, Color playerColor, Integer playOrder) {
         this.playerID = playerID;
@@ -31,15 +32,15 @@ public class PlayerData {
     }
 
     /***
-     * Returns playerID value
-     * @return playerID
+     * Returns playerID value, unique
+     * @return player name
      */
     public String getPlayerID() {
         return playerID;
     }
 
     /***
-     * Returns player color
+     * Returns player color, RED, GREEN or BLUE
      * @return player color
      */
     public Color getPlayerColor() {
@@ -47,7 +48,7 @@ public class PlayerData {
     }
 
     /***
-     * Returns player turn order
+     * Returns player turn order, maximum is number of players - 1
      * @return player order
      */
     public Integer getPlayOrder() {
@@ -55,7 +56,7 @@ public class PlayerData {
     }
 
     /***
-     * Returns player last move
+     * Returns player last move, contains direction and level differential of the move
      * @return last move
      */
     public Move getLastMove() {
@@ -63,7 +64,7 @@ public class PlayerData {
     }
 
     /***
-     * Sets player move as last move
+     * Sets player move as last move and notify the observers of the change for updating graphic
      * @param lastMove direction and level of the move
      */
     public void setLastMove(Move lastMove) {
@@ -81,7 +82,7 @@ public class PlayerData {
     }
 
     /***
-     * Set the player divinity
+     * Set the player divinity, has to be one of the divinities implemented into the game
      * @param divinity the name of the divinity to be set
      */
     public void setDivinity(String divinity) {
@@ -106,7 +107,7 @@ public class PlayerData {
     }
 
     /***
-     * Set the new player color on backup restore
+     * Set the new player color on backup restore (only for backup)
      * @param playerColor restore the new player backup
      */
     public void setPlayerColor(Color playerColor) {
@@ -114,7 +115,7 @@ public class PlayerData {
     }
 
     /***
-     * Set the new play order on backup restore
+     * Set the new play order on backup restore (only for backup)
      * @param playOrder restore the new play order
      */
     public void setPlayOrder(Integer playOrder) {
@@ -139,7 +140,7 @@ public class PlayerData {
     }
 
     /***
-     * Notifies the observers
+     * Notifies the observers when a change in the model happens
      */
     public void notifyObservers() {
         for(PlayerDataObserver observer : observers) {
