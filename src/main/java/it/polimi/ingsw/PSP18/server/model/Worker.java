@@ -10,9 +10,10 @@ public class Worker {
 
     /***
      * Worker constructor method
+     * Sets initial coordinates and the id (0 or 1)
      * @param x x worker coordinate
      * @param y y worker coordinate
-     * @param id id of the player
+     * @param id id of the worker (0 or 1)
      * @param playerColor red, green or blue
      */
     public Worker(Integer x, Integer y, Integer id, Color playerColor) {
@@ -57,8 +58,8 @@ public class Worker {
     }
 
     /***
-     * Returns the playerData of the player
-     * @return the player data reference
+     * Returns the color of the player
+     * @return the player color (red, green or blue)
      */
     public Color getPlayerColor() {
         return playerColor;

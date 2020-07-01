@@ -128,7 +128,7 @@ public class SocketThread extends Thread {
     }
 
     /**
-     * Sends a message through the socket
+     * Sends a message through the socket, testing only
      * @param message the message to send
      */
     private void send(String message) {

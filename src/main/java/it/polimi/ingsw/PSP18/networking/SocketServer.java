@@ -36,7 +36,7 @@ public class SocketServer extends Thread {
 
     /***
      * A debug constructor with random port between 49152 and 65535
-     * Used for tests
+     * Used for tests for exploiting address already in use exception
      * @param manager the match manager reference
      * @param debug if true the port is random
      */

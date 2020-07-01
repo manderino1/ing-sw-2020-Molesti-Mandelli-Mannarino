@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 /***
  * This is the class that contains all the methods to manage the game map
+ * A map is a 5x5 array of cells and stores the last action information for updating gui and differential update
  */
 public class GameMap {
     private Cell[][] mapCells = new Cell[5][5];
@@ -35,7 +36,7 @@ public class GameMap {
     }
 
     /***
-     * Get a chosen cell from the game map matrix
+     * Get a chosen cell from the game map matrix (matrix is 5x5)
      * @param x the x coordinate of the cell
      * @param y the y coordinate of the cell
      * @return the chosen map cell
@@ -45,7 +46,7 @@ public class GameMap {
     }
 
     /***
-     * Set new parameters of a cell into the game matrix
+     * Set new parameters of a cell into the game matrix and updates the last action information
      * @param x the x coordinate of the cell to modify
      * @param y the y coordinate of the cell to modify
      * @param building the reference to the building in the cell, 0 if ground
@@ -141,7 +142,7 @@ public class GameMap {
     }
 
     /***
-     * True if the last action is a build
+     * True if the last action is a build, if false is a move
      * @return true if last action is a build
      */
     public boolean isLastActionIsBuild() {
