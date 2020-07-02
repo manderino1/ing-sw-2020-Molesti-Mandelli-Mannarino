@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.server.model;
 
 /***
  * This is the class that contains all the methods to manage the map's cells
+ * Every cell is identified by a building level (ranging from 0 to 3), a worker reference and a flag if a dome is present
  */
 public class Cell {
     private Integer building;
@@ -9,7 +10,7 @@ public class Cell {
     private Boolean dome;
 
     /***
-     * constructor of the class, initialize building to O, worker to null and dome to null
+     * Constructor of the class, initialize building to O, worker to null and dome to null
      */
     public Cell() {
         this.building = 0;
@@ -18,7 +19,7 @@ public class Cell {
     }
 
     /***
-     * returns the level of the building in the cell
+     * Returns the level of the building in the cell, ranges from 0 to 3
      * @return The level of the building
      */
     public Integer getBuilding() {
@@ -26,7 +27,7 @@ public class Cell {
     }
 
     /***
-     * sets the level of the building in the cell
+     * Sets the level of the building in the cell, ranges from 0 to 3
      * @param building The level of the building
      */
     public void setBuilding(Integer building) {
@@ -34,7 +35,7 @@ public class Cell {
     }
 
     /***
-     * retunrs the worker in the cell, returns null if there is no worker in the cell
+     * returns the worker in the cell, returns null if there is no worker in the cell
      * @return The worker in the cell
      */
     public Worker getWorker() {
@@ -42,7 +43,7 @@ public class Cell {
     }
 
     /***
-     * sets the worker in the cell
+     * sets the worker in the cell, set at null if the cell is free
      * @param worker The worker player
      */
     public void setWorker(Worker worker) {
@@ -50,7 +51,7 @@ public class Cell {
     }
 
     /***
-     * returns if there is a dome in the cell
+     * returns true if there is a dome in the cell
      * @return Value that shows if there is a dome in the cell
      */
     public Boolean getDome() {

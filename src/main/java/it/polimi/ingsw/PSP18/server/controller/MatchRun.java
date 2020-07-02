@@ -25,7 +25,7 @@ public class MatchRun {
 
     /***
      * MatchRun constructor, initializes all the attributes used during a game game
-     * @param matchSocket for obtaining info about sockets and players connected to the match
+     * @param matchSocket the object dealing with the socket interface
      */
     public MatchRun(MatchSocket matchSocket){
         gameMap = new GameMap();

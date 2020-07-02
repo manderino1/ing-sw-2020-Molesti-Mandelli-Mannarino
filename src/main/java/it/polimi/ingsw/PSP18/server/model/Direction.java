@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP18.server.model;
 
 /***
  * This is the class that contains all the possible moves directions
+ * Every direction has a string that represents its value for cli management
  */
 public enum Direction {
     LEFT("LEFT"),

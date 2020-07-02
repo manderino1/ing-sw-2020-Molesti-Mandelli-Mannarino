@@ -79,6 +79,9 @@ public class BackupManager {
         return true;
     }
 
+    /***
+     * method that restore the interrupted game if a backup file was found by backupCheck
+     */
     public void backupRestore() {
         try {
             String fileName = "Backups/match_";

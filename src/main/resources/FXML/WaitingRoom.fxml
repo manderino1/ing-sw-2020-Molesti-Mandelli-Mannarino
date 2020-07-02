@@ -162,7 +162,7 @@
             <Image url="@../2DGraphics/frame_yellow.png" />
          </image>
       </ImageView>
-      <Text layoutX="213.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connected Players:" translateY="-4.0" wrappingWidth="190.7666015625">
+      <Text layoutX="213.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connected Players:" translateY="-4.0" wrappingWidth="230.0">
          <font>
             <Font size="22.0" />
          </font>

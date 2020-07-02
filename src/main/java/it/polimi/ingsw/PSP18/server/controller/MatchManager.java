@@ -25,6 +25,7 @@ public class MatchManager {
 
     /***
      * Constructor that launches the server on a random port
+     * @param debug true if debug mode is active, randomize port
      */
     public MatchManager(boolean debug) {
         SocketServer socketServer;

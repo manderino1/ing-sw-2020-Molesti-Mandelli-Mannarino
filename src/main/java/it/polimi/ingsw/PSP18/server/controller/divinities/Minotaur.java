@@ -24,7 +24,8 @@ public class Minotaur extends Divinity{
     }
 
     /***
-     * function checks the possible moves
+     * Method that checks the possible moves
+     * Minotaur can push, in the direction he is moving, other player's workers
      * @param oldX the starting x coordinate
      * @param oldY the starting y coordinate
      * @param raiseForbidden true if the raise is forbidden for athena power
