@@ -30,12 +30,19 @@ public class TurnManagerAthena extends TurnManager {
      */
     @Override
     public void manageTurn(){
+        boolean found = false;
         for(PlayerManager player : matchSocket.getPlayerManagers()) {
             if(player.getDivinityName().equals("Athena")) { // Update Athena movement
                 if(player.getPlayerData().getLastMove() != null) {
                     bool = (player.getPlayerData().getLastMove().getLevel() == 1);
                 }
+                found = true;
             }
+        }
+
+        // If athena has lost (not in the game anymore), set boolean to false
+        if(!found) {
+            bool = false;
         }
 
         if(matchSocket.getPlayerManagers().get(indexCurrentPlayer).getDivinityName().equals("Athena")) { // Athena can go up
